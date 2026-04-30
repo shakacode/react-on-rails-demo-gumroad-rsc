@@ -3,8 +3,10 @@
 module DashboardComparisonTiming
   extend ActiveSupport::Concern
 
-  included do
-    after_action :write_dashboard_comparison_server_timing
+  class_methods do
+    def write_dashboard_comparison_server_timing_after_action(**options)
+      after_action :write_dashboard_comparison_server_timing, **options
+    end
   end
 
   private
@@ -21,9 +23,9 @@ module DashboardComparisonTiming
     end
 
     def write_dashboard_comparison_server_timing
-      return if dashboard_comparison_timing_metrics.blank?
+      return if @dashboard_comparison_timing_metrics.blank?
 
-      serialized_metrics = dashboard_comparison_timing_metrics.map do |metric|
+      serialized_metrics = @dashboard_comparison_timing_metrics.map do |metric|
         "#{metric[:name]};dur=#{format('%.2f', metric[:duration_ms])}"
       end.join(", ")
 

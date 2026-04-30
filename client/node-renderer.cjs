@@ -4,12 +4,21 @@ const { reactOnRailsProNodeRenderer, parseWorkersCount } = require("react-on-rai
 const { env } = process;
 const configuredWorkersCount =
   parseWorkersCount(env.RENDERER_WORKERS_COUNT) ?? parseWorkersCount(env.NODE_RENDERER_CONCURRENCY);
+const localRendererEnvironments = new Set(["development", "test"]);
+const runtimeEnvironments = [env.RAILS_ENV, env.NODE_ENV].filter(Boolean);
+const allowDefaultPassword =
+  runtimeEnvironments.length === 0 || runtimeEnvironments.every((value) => localRendererEnvironments.has(value));
+const rendererPassword = env.RENDERER_PASSWORD || (allowDefaultPassword ? "devPassword" : undefined);
+
+if (!rendererPassword) {
+  throw new Error("RENDERER_PASSWORD must be set outside development and test.");
+}
 
 const config = {
   serverBundleCachePath: path.resolve(__dirname, "../.node-renderer-bundles"),
   port: Number(env.RENDERER_PORT) || 3800,
   logLevel: env.RENDERER_LOG_LEVEL || "info",
-  password: env.RENDERER_PASSWORD || "devPassword",
+  password: rendererPassword,
   workersCount: configuredWorkersCount ?? 3,
   supportModules: true,
   additionalContext: { URL, AbortController },

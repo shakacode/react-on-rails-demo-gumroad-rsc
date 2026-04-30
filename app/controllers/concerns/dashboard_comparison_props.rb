@@ -2,7 +2,6 @@
 
 module DashboardComparisonProps
   extend ActiveSupport::Concern
-  include DashboardComparisonTiming
 
   private
     def dashboard_comparison_props
