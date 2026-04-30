@@ -46,11 +46,11 @@ What is not yet proven:
 
 Measured with:
 
-- production-built Shakapacker/Rspack assets: `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
-- production-built RSC demo bundles: `RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- production-built Shakapacker/Rspack assets: `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- production-built RSC demo bundles: `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
 - local Docker-backed services with Elasticsearch indexes recreated via `DevTools.delete_all_indices_and_reindex_all`
 - Rails running without `bin/shakapacker-dev-server`
-- standalone React on Rails Pro Node renderer with `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
+- standalone React on Rails Pro Node renderer with `RENDERER_PASSWORD=benchmarkRendererPassword`, `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
 - matching `Chrome 147` and `ChromeDriver 147`
 - `8` alternating cycles with one explicit warmup request per measured run
 

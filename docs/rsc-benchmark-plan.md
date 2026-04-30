@@ -93,10 +93,10 @@ The local development benchmark is useful for direction, but it is not enough fo
 
 The first production-like local pass removed the dev-server as a confounder:
 
-- build Shakapacker assets with `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
-- build the standalone RSC demo bundles with `RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- build Shakapacker assets with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- build the standalone RSC demo bundles with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
 - run Rails against compiled packs instead of the Shakapacker dev server
-- run the Node renderer as a dedicated process with an explicit `RENDERER_PORT`, `RENDERER_WORKERS_COUNT`, and `RENDERER_LOG_LEVEL`
+- run the Node renderer as a dedicated process with an explicit `RENDERER_PASSWORD`, `RENDERER_PORT`, `RENDERER_WORKERS_COUNT`, and `RENDERER_LOG_LEVEL`
 - keep Chrome and ChromeDriver on the same major version and use `--require-driver-match`
 - use the alternating comparison runner instead of grouped batches
 

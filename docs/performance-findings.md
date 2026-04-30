@@ -412,10 +412,10 @@ Date captured: `2026-04-30 UTC`
 
 What changed in this follow-up:
 
-- built Shakapacker/Rspack assets with `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
-- built the standalone RSC demo bundles with `RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- built Shakapacker/Rspack assets with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- built the standalone RSC demo bundles with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
 - ran Rails without the Shakapacker dev server
-- ran the React on Rails Pro Node renderer as a dedicated process with `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
+- ran the React on Rails Pro Node renderer as a dedicated process with `RENDERER_PASSWORD=benchmarkRendererPassword`, `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
 - initialized fresh local Elasticsearch indexes with `DevTools.delete_all_indices_and_reindex_all`
 - kept the matching `Chrome 147` and `ChromeDriver 147` pair
 - completed an `8`-cycle alternating run by recovering the last two samples with `--reuse-existing` after a late Selenium `Net::ReadTimeout`

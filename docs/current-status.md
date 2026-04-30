@@ -113,8 +113,8 @@ Current local state:
 - gems are installed
 - Rails boots locally on port `3000`
 - the Rspack-backed Shakapacker dev server boots locally on port `3035`, and the same setup now works on an overridden clean port such as `3036`
-- production-built Shakapacker/Rspack assets build locally with `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
-- production-built RSC demo bundles build locally with `RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- production-built Shakapacker/Rspack assets build locally with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- production-built RSC demo bundles build locally with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
 - `bin/dev` now boots the standalone React on Rails Pro Node Renderer on port `3800`
 - local nginx now boots once `helperai.dev` cert files exist
 
@@ -138,7 +138,7 @@ That means the repository is now ready for comparison work on this machine.
 
 - Development build: `RAILS_ENV=development NODE_ENV=development bin/shakapacker --mode development`
   Result: successful Rspack build for both the main app bundles and widget bundles
-- Production build: `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- Production build: `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
   Result: successful Rspack build with asset-size warnings but no compilation failures
 - Dev server: `RAILS_ENV=development NODE_ENV=development bin/shakapacker-dev-server`
   Result: boots successfully on `https://gumroad.dev:3035/`
