@@ -28,6 +28,9 @@ PRIMARY_COMPARISON_METRICS = {
   lcpStartTime: %i[lcp startTime],
   htmlTransferBytes: %i[navigation encodedBodySize],
   jsRequestCount: %i[packs jsCount],
+  rscPayloadDurationMs: %i[rscPayload durationMs],
+  rscPayloadResponseEndMs: %i[rscPayload responseEndMs],
+  rscPayloadTransferBytes: %i[rscPayload transferSize],
   actionTotalMs: [:serverTiming, "action_total", :durationMs],
   comparePropsMs: [:serverTiming, "compare_props", :durationMs],
   compareCreatorHomeMs: [:serverTiming, "compare_creator_home", :durationMs],
@@ -233,8 +236,8 @@ def build_comparison_summary(paths, path_summaries)
     candidates: paths.drop(1).map do |candidate_path|
       {
         candidatePath: candidate_path,
-        primaryMetricDeltas: PRIMARY_COMPARISON_STATISTICS.each_with_object({}) do |statistic, summary|
-          summary[statistic] = summarize_primary_deltas(
+        primaryMetricDeltas: PRIMARY_COMPARISON_STATISTICS.index_with do |statistic|
+          summarize_primary_deltas(
             path_summaries,
             baseline_path,
             candidate_path,
@@ -281,7 +284,7 @@ def main
   measure_script_path = File.expand_path("measure_dashboard.rb", __dir__)
   cycle_orders = build_cycle_orders(options[:paths], options[:cycles])
 
-  path_samples = options[:paths].each_with_object({}) { |path, memo| memo[path] = [] }
+  path_samples = options[:paths].index_with { [] }
   ordered_measurements = []
   browser = nil
   environment = nil

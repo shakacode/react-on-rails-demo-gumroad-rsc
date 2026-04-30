@@ -6,6 +6,7 @@ require "cgi"
 require "net/http"
 require "optparse"
 require "openssl"
+require "active_support/core_ext/enumerable"
 require "selenium-webdriver"
 require "time"
 require "uri"
@@ -91,7 +92,7 @@ def parse_set_cookie(header, request_uri)
 
     case normalized_key
     when "domain"
-      cookie[:domain] = raw_value.to_s.sub(/\A\./, "")
+      cookie[:domain] = raw_value.to_s.delete_prefix(".")
     when "path"
       cookie[:path] = raw_value
     when "secure"
@@ -117,12 +118,13 @@ end
 def cookie_header(cookies, request_uri)
   cookies
     .values
-    .select do |cookie|
-      domain_matches?(request_uri.host, cookie[:domain]) &&
-        request_uri.path.start_with?(cookie[:path]) &&
-        (!cookie[:secure] || request_uri.scheme == "https")
+    .filter_map do |cookie|
+      next unless domain_matches?(request_uri.host, cookie[:domain]) &&
+                  request_uri.path.start_with?(cookie[:path]) &&
+                  (!cookie[:secure] || request_uri.scheme == "https")
+
+      "#{cookie[:name]}=#{cookie[:value]}"
     end
-    .map { |cookie| "#{cookie[:name]}=#{cookie[:value]}" }
     .join("; ")
 end
 
@@ -326,12 +328,31 @@ def page_metrics(driver)
     const htmlBytes = document.documentElement?.outerHTML?.length ?? null;
     const bodyTextBytes = document.body?.innerText?.length ?? null;
 
+    const serverTiming = (entry) => Array.from(entry.serverTiming || []).map((timing) => ({
+      name: timing.name,
+      duration: timing.duration,
+      description: timing.description || null
+    }));
+
     const summarizeResources = (entries) => ({
       count: entries.length,
       transferSize: entries.reduce((sum, entry) => sum + (entry.transferSize || 0), 0),
       encodedBodySize: entries.reduce((sum, entry) => sum + (entry.encodedBodySize || 0), 0),
       decodedBodySize: entries.reduce((sum, entry) => sum + (entry.decodedBodySize || 0), 0)
     });
+
+    const resourceDetails = (entries) => entries.map((entry) => ({
+      name: entry.name,
+      initiatorType: entry.initiatorType || null,
+      startTime: entry.startTime,
+      responseStart: entry.responseStart,
+      responseEnd: entry.responseEnd,
+      duration: entry.duration,
+      transferSize: entry.transferSize || 0,
+      encodedBodySize: entry.encodedBodySize || 0,
+      decodedBodySize: entry.decodedBodySize || 0,
+      serverTiming: serverTiming(entry)
+    }));
 
     const largestResources = [...packsResources]
       .sort((left, right) => (right.transferSize || 0) - (left.transferSize || 0))
@@ -361,11 +382,7 @@ def page_metrics(driver)
         transferSize: navigation.transferSize || 0,
         encodedBodySize: navigation.encodedBodySize || 0,
         decodedBodySize: navigation.decodedBodySize || 0,
-        serverTiming: Array.from(navigation.serverTiming || []).map((entry) => ({
-          name: entry.name,
-          duration: entry.duration,
-          description: entry.description || null
-        }))
+        serverTiming: serverTiming(navigation)
       } : null,
       lcp: window.__codexLcp,
       packs: {
@@ -374,7 +391,10 @@ def page_metrics(driver)
         css: summarizeResources(cssResources),
         largest: largestResources
       },
-      rscPayload: summarizeResources(rscPayloadResources)
+      rscPayload: {
+        ...summarizeResources(rscPayloadResources),
+        resources: resourceDetails(rscPayloadResources)
+      }
     };
   JS
 end
@@ -547,9 +567,32 @@ def collect_server_timing_entries(runs)
   [durations_by_name, descriptions_by_name]
 end
 
-def summarize_server_timing_averages(runs)
-  durations_by_name, descriptions_by_name = collect_server_timing_entries(runs)
+def resource_entries(runs, group)
+  runs.flat_map { |run| Array(run.dig(group, "resources")) }
+end
 
+def resource_values(runs, group, key)
+  resource_entries(runs, group).map { |resource| resource[key] || resource[key.to_s] }
+end
+
+def collect_resource_server_timing_entries(runs, group)
+  durations_by_name = Hash.new { |hash, key| hash[key] = [] }
+  descriptions_by_name = {}
+
+  resource_entries(runs, group).each do |resource|
+    Array(resource["serverTiming"]).each do |entry|
+      name = entry["name"].to_s
+      next if name.empty?
+
+      durations_by_name[name] << entry["duration"]
+      descriptions_by_name[name] ||= entry["description"]
+    end
+  end
+
+  [durations_by_name, descriptions_by_name]
+end
+
+def summarize_timing_averages(durations_by_name, descriptions_by_name)
   durations_by_name.keys.sort.each_with_object({}) do |name, summary|
     summary[name] = {
       durationMs: average(durations_by_name[name]),
@@ -559,7 +602,25 @@ def summarize_server_timing_averages(runs)
   end
 end
 
+def summarize_timing_distributions(durations_by_name, descriptions_by_name)
+  durations_by_name.keys.sort.each_with_object({}) do |name, summary|
+    summary[name] = {
+      stats: descriptive_stats(durations_by_name[name]),
+    }
+    description = descriptions_by_name[name]
+    summary[name][:description] = description unless description.to_s.empty?
+  end
+end
+
+def summarize_server_timing_averages(runs)
+  durations_by_name, descriptions_by_name = collect_server_timing_entries(runs)
+
+  summarize_timing_averages(durations_by_name, descriptions_by_name)
+end
+
 def summarize_runs(runs)
+  rsc_payload_durations_by_name, rsc_payload_descriptions_by_name = collect_resource_server_timing_entries(runs, "rscPayload")
+
   {
     navigation: {
       domContentLoadedMs: average(runs.map { |run| run.dig("navigation", "domContentLoadedMs") }),
@@ -591,13 +652,18 @@ def summarize_runs(runs)
       transferSize: average(runs.map { |run| run.dig("rscPayload", "transferSize") }),
       encodedBodySize: average(runs.map { |run| run.dig("rscPayload", "encodedBodySize") }),
       decodedBodySize: average(runs.map { |run| run.dig("rscPayload", "decodedBodySize") }),
-      count: average(runs.map { |run| run.dig("rscPayload", "count") })
+      count: average(runs.map { |run| run.dig("rscPayload", "count") }),
+      durationMs: average(resource_values(runs, "rscPayload", "duration")),
+      responseStartMs: average(resource_values(runs, "rscPayload", "responseStart")),
+      responseEndMs: average(resource_values(runs, "rscPayload", "responseEnd")),
+      serverTiming: summarize_timing_averages(rsc_payload_durations_by_name, rsc_payload_descriptions_by_name)
     }
   }
 end
 
 def summarize_run_distributions(runs)
   durations_by_name, descriptions_by_name = collect_server_timing_entries(runs)
+  rsc_payload_durations_by_name, rsc_payload_descriptions_by_name = collect_resource_server_timing_entries(runs, "rscPayload")
 
   {
     navigation: {
@@ -625,18 +691,16 @@ def summarize_run_distributions(runs)
       jsCount: descriptive_stats(runs.map { |run| run.dig("packs", "js", "count") }),
       cssCount: descriptive_stats(runs.map { |run| run.dig("packs", "css", "count") })
     },
-    serverTiming: durations_by_name.keys.sort.each_with_object({}) do |name, summary|
-      summary[name] = {
-        stats: descriptive_stats(durations_by_name[name]),
-      }
-      description = descriptions_by_name[name]
-      summary[name][:description] = description unless description.to_s.empty?
-    end,
+    serverTiming: summarize_timing_distributions(durations_by_name, descriptions_by_name),
     rscPayload: {
       transferSize: descriptive_stats(runs.map { |run| run.dig("rscPayload", "transferSize") }),
       encodedBodySize: descriptive_stats(runs.map { |run| run.dig("rscPayload", "encodedBodySize") }),
       decodedBodySize: descriptive_stats(runs.map { |run| run.dig("rscPayload", "decodedBodySize") }),
-      count: descriptive_stats(runs.map { |run| run.dig("rscPayload", "count") })
+      count: descriptive_stats(runs.map { |run| run.dig("rscPayload", "count") }),
+      durationMs: descriptive_stats(resource_values(runs, "rscPayload", "duration")),
+      responseStartMs: descriptive_stats(resource_values(runs, "rscPayload", "responseStart")),
+      responseEndMs: descriptive_stats(resource_values(runs, "rscPayload", "responseEnd")),
+      serverTiming: summarize_timing_distributions(rsc_payload_durations_by_name, rsc_payload_descriptions_by_name)
     }
   }
 end
@@ -659,7 +723,7 @@ def main
   )
   warm_target_route(
     target_url: target_url,
-    cookies: cookies.each_with_object({}) { |cookie, memo| memo["#{cookie[:domain]}:#{cookie[:name]}"] = cookie },
+    cookies: cookies.index_by { |cookie| "#{cookie[:domain]}:#{cookie[:name]}" },
     requests: options[:server_warmup_requests]
   )
 

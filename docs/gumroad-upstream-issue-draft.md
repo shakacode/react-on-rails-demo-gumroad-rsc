@@ -21,33 +21,36 @@ The current best candidate is the reduced dashboard comparison:
 I put together a public experiment repo that tracks Gumroad and compares a matched Inertia control against a bounded React on Rails Pro + React 19 + RSC implementation on one reduced dashboard surface:
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
-- Comparison docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/benchmark-headline-metrics/docs/performance-findings.md
+- Comparison docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/performance-findings.md
 
 The goal is not to argue for a broad rewrite.
 The goal is to determine whether there are specific read-heavy surfaces where a server-component-oriented approach can produce enough user-visible benefit to justify the extra complexity.
 
 ## What the current experiment shows
 
-On the matched `/dashboard/inertia_demo` versus `/dashboard/rsc_demo` comparison under the balanced alternating benchmark:
+On the matched `/dashboard/inertia_demo` versus `/dashboard/rsc_demo` comparison under the production-like balanced alternating benchmark:
 
-- Inertia navigation duration: `568.47ms`
-- RSC navigation duration: `501.53ms`
-- Inertia LCP: `602.00ms`
-- RSC LCP: `525.00ms`
-- Inertia responseEnd: `423.23ms`
-- RSC responseEnd: `441.65ms`
-- Inertia `action_total`: `250.50ms`
-- RSC `action_total`: `278.32ms`
+- Inertia median navigation duration: `775.40ms`
+- RSC median navigation duration: `607.15ms`
+- Inertia median LCP: `794.00ms`
+- RSC median LCP: `634.00ms`
+- Inertia median responseEnd: `644.80ms`
+- RSC median responseEnd: `588.80ms`
+- Inertia median `action_total`: `346.87ms`
+- RSC median `action_total`: `339.20ms`
+- Inertia p95 responseEnd: `730.62ms`
+- RSC p95 responseEnd: `768.25ms`
 
 So the current result is:
 
 - the bounded RSC route is faster on total navigation duration
 - the bounded RSC route is faster on LCP
+- the bounded RSC route is faster on median responseEnd in the production-like local pass
 - the bounded RSC route reduces page-specific JS requests from `6` to `1`
-- the Inertia control is still faster on server `responseEnd` and controller `action_total`
+- the Inertia control is still faster on p95 responseEnd
 
 That means this is not yet a universal performance win.
-It is a narrow, measurable tradeoff with an early user-visible upside.
+It is a narrow, measurable tradeoff with a user-visible upside and one clear tail-latency caution.
 
 ## Why this may be worth reviewing
 
@@ -60,7 +63,7 @@ It is a narrow, measurable tradeoff with an early user-visible upside.
 
 - that the full Gumroad dashboard is already faster under RSC
 - that RSC is a better fit for every Inertia page
-- that the current result is production-like enough to justify adoption by itself
+- that the current local result is enough to justify adoption by itself without a deployed repeat
 
 ## What I want feedback on
 
@@ -70,9 +73,9 @@ It is a narrow, measurable tradeoff with an early user-visible upside.
 
 ## Links
 
-- Current status: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/benchmark-headline-metrics/docs/current-status.md
-- Performance findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/benchmark-headline-metrics/docs/performance-findings.md
-- Positioning notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/benchmark-headline-metrics/docs/positioning-notes.md
+- Current status: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/current-status.md
+- Performance findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/performance-findings.md
+- Positioning notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/positioning-notes.md
 ```
 
 ## If converted into an upstream PR
@@ -99,8 +102,8 @@ Recommended PR summary:
 
 ## What would make the upstream case stronger
 
-- production-like measurements instead of local-development measurements
-- a smaller or eliminated `responseEnd` penalty on the RSC route
+- a deployed repeat of the production-like local measurements
+- a smaller or eliminated p95 `responseEnd` penalty on the RSC route
 - a cleaner explanation of where the remaining server cost comes from
 - one short screen recording showing the side-by-side difference
 - a clear statement of where Inertia still wins

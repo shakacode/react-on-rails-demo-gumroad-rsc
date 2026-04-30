@@ -42,28 +42,28 @@ The goal is not to argue that every Inertia page should be replaced. The goal is
 - `Shakapacker 10 + Rspack` is viable on this codebase and materially faster for local builds.
 - The demo assets are route-scoped, so ordinary Inertia pages do not pay for the experiment's extra JS or CSS.
 - A bounded `React on Rails Pro + RSC` dashboard slice can beat a matched `Inertia` control on navigation duration and `LCP` under a stricter alternating benchmark that balances route order.
-- The current tradeoff is still real: under that balanced run, the `RSC` route is modestly slower on `responseEnd` and route-level controller timing.
+- The latest production-like compiled-asset pass keeps that advantage and improves median `responseEnd`, while `p95 responseEnd` still needs follow-up.
 - Route-scoped `Server-Timing` and an alternating comparison runner now make that tradeoff measurable instead of anecdotal.
 - The custom Webpack and Rspack config now honors `SHAKAPACKER_DEV_SERVER_*` overrides the same way Ruby/Shakapacker does, so local verification can move off `3035` cleanly when another repo is already using it.
 - GitHub-hosted demo validation now includes a real browser smoke pass for both comparison routes, not just build and controller-spec checks.
 
-Latest balanced alternating local result on the reduced dashboard surface:
+Latest production-like alternating local result on the reduced dashboard surface:
 
-- Inertia navigation duration: `457.16ms`
-- RSC navigation duration: `402.29ms`
-- Inertia `LCP`: `501.00ms`
-- RSC `LCP`: `421.00ms`
-- Inertia `responseEnd`: `320.70ms`
-- RSC `responseEnd`: `335.96ms`
-- Inertia `action_total`: `163.10ms`
-- RSC `action_total`: `169.74ms`
+- Inertia median navigation duration: `775.40ms`
+- RSC median navigation duration: `607.15ms`
+- Inertia median `LCP`: `794.00ms`
+- RSC median `LCP`: `634.00ms`
+- Inertia median `responseEnd`: `644.80ms`
+- RSC median `responseEnd`: `588.80ms`
+- Inertia median `action_total`: `346.87ms`
+- RSC median `action_total`: `339.20ms`
 
-This alternating run is the stricter method because it rotates route order by cycle instead of relying on separate batches, and this pass was rerun after fixing a local asset-proxy mismatch caused by another repo already listening on port `3035`.
-It keeps the user-visible win on a longer `8`-cycle clean-port run while leaving only a modest server-side tradeoff instead of the larger gap seen in the first corrected rerun.
-The earlier mixed-port 8-cycle clean-driver repeat is still useful as a diagnostic, but this corrected clean-port pass is the safer headline.
+This pass built `RAILS_ENV=production NODE_ENV=production` Shakapacker/Rspack assets, built the standalone RSC demo bundles, ran Rails without the Shakapacker dev server, and used a dedicated React on Rails Pro Node renderer with matching `Chrome 147` and `ChromeDriver 147`.
+It rotates route order by cycle instead of relying on separate batches.
+The main caution is that `p95 responseEnd` still favored Inertia by `5.2%`, and the current RSC route does not expose a separate browser `/rsc_payload/` resource, so those payload resource fields are empty for this implementation.
 
 This is enough for a stronger positioning story.
-It is still not enough for an upstream migration pitch or a production-performance claim.
+It is still not enough for a production-performance claim without a deployed repeat and renderer-internal profiling.
 
 ### Demo surface
 
@@ -103,6 +103,12 @@ These screenshots were captured from a signed-in local session on this branch.
 5. For the stricter benchmark method, run:
    `ruby scripts/perf/compare_dashboard_routes.rb --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /dashboard/inertia_demo --path /dashboard/rsc_demo --label dashboard-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
    For the longer headline-style local repeat, use the same command with `--cycles 8`.
+
+For the production-like local pass, first build compiled assets and initialize local Elasticsearch:
+`RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+`RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+`DISABLE_SPRING=1 OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES bin/rails runner 'DevTools.delete_all_indices_and_reindex_all'`
+Then run Rails without `bin/shakapacker-dev-server`, start `RENDERER_PORT=3800 RENDERER_WORKERS_COUNT=2 RENDERER_LOG_LEVEL=warn node client/node-renderer.cjs`, and run the same comparison command with `--cycles 8`.
 
 If a long comparison run is interrupted after it writes per-run JSON files, rerun the same command with `--reuse-existing` to emit the final comparison summary without discarding completed samples.
 

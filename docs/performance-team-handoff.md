@@ -28,19 +28,62 @@ What is already true:
 
 - the RSC route wins on total navigation duration
 - the RSC route wins on `LCP`
-- the corrected clean-port alternating local benchmark still has the RSC route ahead on total navigation duration and `LCP`
+- the production-like compiled-asset alternating local benchmark has the RSC route ahead on median navigation duration, median `LCP`, and median `responseEnd`
 - the RSC route reduces page-specific JS requests from `6` to `1` in the latest balanced pass
 - the demo JS and CSS are route-scoped, so unrelated pages are not paying for the experiment
 - the raw RSC HTML transfer is now close to the Inertia control after the response-end pass
 
 What is not yet proven:
 
-- the strongest result is still a local-development measurement
+- the strongest result is still a local measurement, not a deployed production measurement
 - one earlier headline run used a mismatched local Chrome and chromedriver pair, and the later matched-driver repeat exposed a development-asset outlier on one RSC run
 - measurement order affects cache state enough that grouped batches can overstate the gap
-- the corrected alternating run still shows a modest server-side tradeoff for the RSC route
+- `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
+- the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
 
-## Latest balanced alternating local result
+## Latest production-like alternating local result
+
+Measured with:
+
+- production-built Shakapacker/Rspack assets: `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- production-built RSC demo bundles: `RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- local Docker-backed services with Elasticsearch indexes recreated via `DevTools.delete_all_indices_and_reindex_all`
+- Rails running without `bin/shakapacker-dev-server`
+- standalone React on Rails Pro Node renderer with `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
+- matching `Chrome 147` and `ChromeDriver 147`
+- `8` alternating cycles with one explicit warmup request per measured run
+
+The first long run wrote `14` of `16` samples and then hit a Selenium `Net::ReadTimeout` while loading the RSC route. The comparison was completed with `--reuse-existing`, which reused the completed JSON files and measured the two missing samples.
+
+Artifacts:
+
+- comparison JSON: `output/playwright/dashboard-perf/production-like-alternating-8-reindexed-comparison.json`
+- run directory: `output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs`
+
+### Browser metrics
+
+| Metric                    | Inertia demo |   RSC demo |     Delta |
+| ------------------------- | -----------: | ---------: | --------: |
+| Median navigation duration |   `775.40ms` | `607.15ms` |  `-21.7%` |
+| Median response end        |   `644.80ms` | `588.80ms` |   `-8.7%` |
+| Median LCP                 |   `794.00ms` | `634.00ms` |  `-20.2%` |
+| Median HTML transfer       | `14,223` B   | `12,373` B |  `-13.0%` |
+| JS request count           |          `6` |        `1` |  `-83.3%` |
+| p95 response end           |   `730.62ms` | `768.25ms` |   `+5.2%` |
+
+### Route-scoped server timings
+
+| Metric                           | Inertia demo |   RSC demo |     Delta |
+| -------------------------------- | -----------: | ---------: | --------: |
+| Median controller `action_total` |   `346.87ms` | `339.20ms` |   `-2.2%` |
+| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |   `-5.5%` |
+| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |   `-1.4%` |
+| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` |  `-12.8%` |
+| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |   `+8.3%` |
+
+This is the strongest local evidence so far. It keeps the user-visible RSC win after removing the Shakapacker dev server as a confounder and makes the remaining caution precise: tail response timing still needs profiling.
+
+## Previous clean-port development result
 
 Measured with:
 
@@ -148,7 +191,7 @@ What is not yet heavily leveraged:
 - nested async server-component trees
 - aggressive Suspense segmentation for meaningful partial streaming
 - deeper per-section server data fetching co-located with server components
-- production-mode renderer tuning and production-like profiling
+- deployed renderer tuning and production-grade profiling
 - targeted renderer instrumentation inside the React on Rails Pro streaming path
 
 ## Are we heavily leveraging RSC?
@@ -175,6 +218,8 @@ If the performance team wants the next round to be high signal, focus here:
 
 2. Instrument the React on Rails Pro renderer and streaming path.
    We now have route-scoped Rails timing, but not renderer-internal timing.
+   The benchmark harness now also records `/rsc_payload/` resource duration, response start/end, transfer sizes, and resource-level `Server-Timing` when exposed by the browser.
+   That does not replace renderer-internal profiling, but it gives the performance team a cleaner handoff artifact for separating document navigation cost from the RSC payload path.
 
 3. Test whether finer-grained Suspense boundaries improve time-to-first-meaningful HTML without regressing final paint.
 
