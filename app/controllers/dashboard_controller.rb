@@ -5,6 +5,7 @@ class DashboardController < Sellers::BaseController
   include DashboardComparisonProps
 
   before_action :check_payment_details, only: [:index, :inertia_demo]
+  after_action :write_dashboard_comparison_server_timing, only: :inertia_demo
 
   layout "inertia", only: [:index, :inertia_demo]
 

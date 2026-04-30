@@ -3,10 +3,6 @@
 module DashboardComparisonTiming
   extend ActiveSupport::Concern
 
-  included do
-    after_action :write_dashboard_comparison_server_timing
-  end
-
   private
     def with_dashboard_comparison_timing(metric_name)
       started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)

@@ -5,6 +5,7 @@ class DashboardRscDemoController < Sellers::BaseController
   include DashboardComparisonProps
 
   before_action :check_payment_details, only: :index
+  after_action :write_dashboard_comparison_server_timing, only: :index
   helper_method :content_security_policy_nonce
 
   def index
