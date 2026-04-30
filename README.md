@@ -94,6 +94,7 @@ These screenshots were captured from a signed-in local session on this branch.
    `bundle exec rails s -b 0.0.0.0 -p 3000`
    `npm run setup && ./bin/shakapacker-dev-server`
    `node client/node-renderer.cjs`
+   The Node renderer uses the local `devPassword` fallback only in `development` and `test`; set `RENDERER_PASSWORD` for production-like or hosted runs.
    If port `3035` is already occupied by another local repo, start both Rails and the dev server with the same override, for example:
    `SHAKAPACKER_DEV_SERVER_PORT=3036 bundle exec rails s -b 0.0.0.0 -p 3000`
    `SHAKAPACKER_DEV_SERVER_PORT=3036 npm run setup && ./bin/shakapacker-dev-server`

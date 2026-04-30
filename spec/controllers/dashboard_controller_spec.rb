@@ -39,6 +39,7 @@ describe DashboardController, type: :controller, inertia: true do
 
         expect(response.body).to include("data-page")
         expect(inertia).to render_component("Dashboard/Index")
+        expect(response.headers["Server-Timing"]).to be_nil
 
         expect_dashboard_data_in_inertia_response(
           has_sale: false,
