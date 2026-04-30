@@ -297,7 +297,7 @@ export default function DashboardComparisonPage({
             <h2>Recent activity</h2>
             <p>{copy.activityDescription}</p>
           </header>
-          <ActivitySection items={activityItems} locale={locale} timeZone={seller_time_zone} />
+          <ActivitySection items={activityItems} locale={locale} timeZone={seller_time_zone ?? null} />
         </section>
       </div>
     </DashboardRscDemoShell>
