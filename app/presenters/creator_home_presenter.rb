@@ -164,7 +164,7 @@ class CreatorHomePresenter
           "type" => item.fetch("type"),
           "timestamp" => item.fetch("timestamp"),
           "details" => if item["type"] == "new_sale"
-                         details.slice("displayed_price_cents", "displayed_price_currency_type", "product_name", "product_unique_permalink")
+                         details.slice("price_cents", "displayed_price_cents", "displayed_price_currency_type", "product_name", "product_unique_permalink")
                        else
                          details.slice("email", "name")
                        end
