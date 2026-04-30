@@ -164,7 +164,7 @@ class CreatorHomePresenter
           "type" => item.fetch("type"),
           "timestamp" => item.fetch("timestamp"),
           "details" => if item["type"] == "new_sale"
-                         details.slice("price_cents", "product_name", "product_unique_permalink")
+                         details.slice("displayed_price_cents", "displayed_price_currency_type", "product_name", "product_unique_permalink")
                        else
                          details.slice("email", "name")
                        end
@@ -177,7 +177,9 @@ class CreatorHomePresenter
     #   "type" => String ("new_sale"),
     #   "timestamp" => String (iso8601 UTC, example: "2022-05-16T01:01:01Z"),
     #   "details" => {
-    #     "price_cents" => Integer,
+    #     "price_cents" => Integer (USD),
+    #     "displayed_price_cents" => Integer,
+    #     "displayed_price_currency_type" => String,
     #     "email" => String,
     #     "full_name" => Nullable String,
     #     "product_name" => String,
@@ -192,6 +194,8 @@ class CreatorHomePresenter
           "timestamp" => sale.created_at.iso8601,
           "details" => {
             "price_cents" => sale.price_cents,
+            "displayed_price_cents" => sale.displayed_price_cents,
+            "displayed_price_currency_type" => sale.displayed_price_currency_type.to_s,
             "email" => sale.email,
             "full_name" => sale.full_name,
             "product_name" => sale.link.name,
