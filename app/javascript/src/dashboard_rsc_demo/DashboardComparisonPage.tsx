@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { formatPriceCentsWithCurrencySymbol } from "$app/utils/currency";
+import { type CurrencyCode, currencyCodeList, formatPriceCentsWithCurrencySymbol } from "$app/utils/currency";
 
 import DashboardRscDemoShell from "./ror_components/DashboardRscDemoShell";
 
@@ -28,6 +28,8 @@ type CreatorHomeActivityItemProps = {
   details: {
     email?: string | null;
     name?: string | null;
+    displayed_price_cents?: number;
+    displayed_price_currency_type?: string;
     price_cents?: number;
     product_name?: string;
     product_unique_permalink?: string;
@@ -56,8 +58,16 @@ type Props = DashboardComparisonPageProps & {
   variant: DashboardComparisonVariant;
 };
 
-const formatCurrency = (amountCents: number) =>
-  formatPriceCentsWithCurrencySymbol("usd", amountCents, { symbolFormat: "short", noCentsIfWhole: true });
+const normalizeCurrencyCode = (currencyCode?: string | null): CurrencyCode => {
+  const normalized = currencyCode?.toLowerCase() as CurrencyCode | undefined;
+  return normalized && currencyCodeList.includes(normalized) ? normalized : "usd";
+};
+
+const formatCurrency = (amountCents: number, currencyCode?: string | null) =>
+  formatPriceCentsWithCurrencySymbol(normalizeCurrencyCode(currencyCode), amountCents, {
+    symbolFormat: "short",
+    noCentsIfWhole: true,
+  });
 
 const formatCompactNumber = (value: number, locale: string) =>
   value.toLocaleString(locale, { notation: "compact", maximumFractionDigits: 1 });
@@ -178,7 +188,10 @@ const ActivitySection = ({
                   <a href={Routes.edit_link_path({ id: details.product_unique_permalink || "" })}>
                     {details.product_name}
                   </a>{" "}
-                  for {formatCurrency(details.price_cents || 0)}
+                  for {formatCurrency(
+                    details.displayed_price_cents ?? details.price_cents ?? 0,
+                    details.displayed_price_currency_type,
+                  )}
                 </>
               ) : (
                 <>
