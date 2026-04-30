@@ -241,6 +241,8 @@ describe CreatorHomePresenter do
             "timestamp" => "2022-05-16T22:00:00Z",
             "details" => {
               "price_cents" => sales.second_to_last.price_cents,
+              "displayed_price_cents" => sales.second_to_last.displayed_price_cents,
+              "displayed_price_currency_type" => sales.second_to_last.displayed_price_currency_type.to_s,
               "email" => sales.second_to_last.email,
               "full_name" => nil,
               "product_name" => sales.second_to_last.link.name,
@@ -393,14 +395,16 @@ describe CreatorHomePresenter do
       )
     end
 
-    it "omits empty optional demo fields" do
+    it "omits empty optional demo collections and keeps false flags" do
       expect(presenter.creator_home_rsc_demo_props).to eq(
         balances: {
           balance: "$100",
           last_seven_days_sales_total: "$50",
           last_28_days_sales_total: "$150",
           total: "$500",
-        }
+        },
+        show_1099_download_notice: false,
+        tax_center_enabled: false
       )
     end
 

@@ -25,8 +25,6 @@ const mode = isProduction ? "production" : "development";
 const widgetRoot = path.join(sourcePath, "widget");
 const excludedMainEntries = new Set([
   "dashboard_rsc_demo",
-  "server-bundle",
-  "rsc-bundle",
   "dashboard_rsc_demo_server_entry",
 ]);
 const transpileNodeModulesPackages = [`${path.sep}node_modules${path.sep}ts-safe-cast${path.sep}`];
