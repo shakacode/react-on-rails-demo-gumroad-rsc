@@ -240,7 +240,8 @@ describe CreatorHomePresenter do
             "type" => "new_sale",
             "timestamp" => "2022-05-16T22:00:00Z",
             "details" => {
-              "price_cents" => sales.second_to_last.price_cents,
+              "price_cents" => sales.second_to_last.displayed_price_cents,
+              "currency_code" => sales.second_to_last.displayed_price_currency_type.to_s,
               "email" => sales.second_to_last.email,
               "full_name" => nil,
               "product_name" => sales.second_to_last.link.name,
@@ -256,6 +257,26 @@ describe CreatorHomePresenter do
             }
           }
         ]
+      )
+    end
+
+    it "includes sale activity prices in the purchase currency", :sidekiq_inline, :elasticsearch_wait_for_refresh do
+      product = create(:product, user: seller, price_currency_type: "gbp")
+      purchase = create(:purchase, link: product, price_cents: 650, displayed_price_cents: 500, displayed_price_currency_type: "gbp")
+
+      expect(presenter.creator_home_props[:activity_items]).to include(
+        {
+          "type" => "new_sale",
+          "timestamp" => purchase.created_at.iso8601,
+          "details" => {
+            "price_cents" => 500,
+            "currency_code" => "gbp",
+            "email" => purchase.email,
+            "full_name" => nil,
+            "product_name" => product.name,
+            "product_unique_permalink" => product.unique_permalink
+          }
+        }
       )
     end
 
@@ -404,6 +425,26 @@ describe CreatorHomePresenter do
       )
     end
 
+    it "includes purchase currency for demo activity sale prices", :sidekiq_inline, :elasticsearch_wait_for_refresh do
+      product = create(:product, user: seller, price_currency_type: "gbp")
+      purchase = create(:purchase, link: product, price_cents: 600, displayed_price_cents: 500, displayed_price_currency_type: "gbp")
+
+      expect(presenter.creator_home_rsc_demo_props[:activity_items]).to eq(
+        [
+          {
+            "type" => "new_sale",
+            "timestamp" => purchase.created_at.iso8601,
+            "details" => {
+              "price_cents" => 500,
+              "currency_code" => "gbp",
+              "product_name" => product.name,
+              "product_unique_permalink" => product.unique_permalink,
+            }
+          }
+        ]
+      )
+    end
+
     it "keeps non-empty optional demo fields" do
       sale = {
         "id" => "demo-product",
@@ -420,6 +461,7 @@ describe CreatorHomePresenter do
         "timestamp" => "2022-05-16T22:00:00Z",
         "details" => {
           "price_cents" => 400,
+          "currency_code" => "usd",
           "product_name" => "Demo product",
           "product_unique_permalink" => "demo-product",
         }

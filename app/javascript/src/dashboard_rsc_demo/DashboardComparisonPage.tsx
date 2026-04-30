@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { formatPriceCentsWithCurrencySymbol } from "$app/utils/currency";
+import { type CurrencyCode, formatPriceCentsWithCurrencySymbol } from "$app/utils/currency";
 
 import DashboardRscDemoShell from "./ror_components/DashboardRscDemoShell";
 
@@ -28,6 +28,7 @@ type CreatorHomeActivityItemProps = {
   details: {
     email?: string | null;
     name?: string | null;
+    currency_code?: CurrencyCode;
     price_cents?: number;
     product_name?: string;
     product_unique_permalink?: string;
@@ -56,8 +57,8 @@ type Props = DashboardComparisonPageProps & {
   variant: DashboardComparisonVariant;
 };
 
-const formatCurrency = (amountCents: number) =>
-  formatPriceCentsWithCurrencySymbol("usd", amountCents, { symbolFormat: "short", noCentsIfWhole: true });
+const formatCurrency = (amountCents: number, currencyCode: CurrencyCode = "usd") =>
+  formatPriceCentsWithCurrencySymbol(currencyCode, amountCents, { symbolFormat: "short", noCentsIfWhole: true });
 
 const formatCompactNumber = (value: number, locale: string) =>
   value.toLocaleString(locale, { notation: "compact", maximumFractionDigits: 1 });
@@ -178,7 +179,7 @@ const ActivitySection = ({
                   <a href={Routes.edit_link_path({ id: details.product_unique_permalink || "" })}>
                     {details.product_name}
                   </a>{" "}
-                  for {formatCurrency(details.price_cents || 0)}
+                  for {formatCurrency(details.price_cents || 0, details.currency_code)}
                 </>
               ) : (
                 <>
