@@ -2,9 +2,11 @@
 
 class DashboardController < Sellers::BaseController
   include ActionView::Helpers::NumberHelper, CurrencyHelper
+  include DashboardComparisonTiming
   include DashboardComparisonProps
 
   before_action :check_payment_details, only: [:index, :inertia_demo]
+  write_dashboard_comparison_server_timing_after_action only: :inertia_demo
 
   layout "inertia", only: [:index, :inertia_demo]
 

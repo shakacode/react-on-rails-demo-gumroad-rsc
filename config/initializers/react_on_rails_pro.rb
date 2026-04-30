@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
+renderer_password = ENV["RENDERER_PASSWORD"].presence
+if renderer_password.blank?
+  unless Rails.env.development? || Rails.env.test?
+    raise "RENDERER_PASSWORD must be set outside development and test."
+  end
+
+  renderer_password = "devPassword"
+end
+
 ReactOnRailsPro.configure do |config|
   config.server_renderer = "NodeRenderer"
   config.renderer_url = ENV.fetch("REACT_RENDERER_URL", "http://localhost:3800")
-  config.renderer_password = ENV.fetch("RENDERER_PASSWORD", "devPassword")
+  config.renderer_password = renderer_password
   config.ssr_timeout = 5
   config.renderer_request_retry_limit = 1
   config.renderer_use_fallback_exec_js = Rails.env.development?

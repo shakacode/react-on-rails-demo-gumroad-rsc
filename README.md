@@ -93,6 +93,7 @@ These screenshots were captured from a signed-in local session on this branch.
    `bundle exec rails s -b 0.0.0.0 -p 3000`
    `npm run setup && ./bin/shakapacker-dev-server`
    `node client/node-renderer.cjs`
+   The Node renderer uses the local `devPassword` fallback only in `development` and `test`; set `RENDERER_PASSWORD` for production-like or hosted runs.
 4. Open the two demo routes and compare:
    `/dashboard/inertia_demo`
    `/dashboard/rsc_demo`
