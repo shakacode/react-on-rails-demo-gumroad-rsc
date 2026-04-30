@@ -46,8 +46,8 @@ class CreatorHomePresenter
       sales: demo_sales.presence,
       activity_items: demo_activity_items.presence,
       stripe_verification_message: stripe_verification_message,
-      show_1099_download_notice: tax_forms.fetch(:show_1099_download_notice).presence,
-      tax_center_enabled: tax_forms.fetch(:tax_center_enabled).presence
+      show_1099_download_notice: tax_forms.fetch(:show_1099_download_notice),
+      tax_center_enabled: tax_forms.fetch(:tax_center_enabled)
     }.compact
   end
 
@@ -109,9 +109,11 @@ class CreatorHomePresenter
     end
 
     def demo_sales
-      top_sales.filter do |product|
-        product.values_at("sales", "revenue", "visits", "today", "last_7", "last_30").any?(&:nonzero?)
-      end.map { |product| product.except("thumbnail") }
+      top_sales.filter_map do |product|
+        next unless product.values_at("sales", "revenue", "visits", "today", "last_7", "last_30").any?(&:nonzero?)
+
+        product.except("thumbnail")
+      end
     end
 
     def creator_home_analytics
@@ -162,10 +164,10 @@ class CreatorHomePresenter
           "type" => item.fetch("type"),
           "timestamp" => item.fetch("timestamp"),
           "details" => if item["type"] == "new_sale"
-            details.slice("price_cents", "product_name", "product_unique_permalink")
-          else
-            details.slice("email", "name")
-          end
+                         details.slice("price_cents", "product_name", "product_unique_permalink")
+                       else
+                         details.slice("email", "name")
+                       end
         }
       end
     end
