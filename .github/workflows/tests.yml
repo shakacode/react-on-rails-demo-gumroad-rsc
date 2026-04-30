@@ -123,7 +123,7 @@ jobs:
           done
 
           FIXTURE_CID=""
-          for attempt in $(seq 1 60); do
+          for _ in $(seq 1 60); do
             FIXTURE_CID=$(docker compose -f docker/docker-compose-local.yml ps -aq copyfixturefiles)
             [ -n "$FIXTURE_CID" ] && break
             sleep 2
@@ -175,22 +175,32 @@ jobs:
           RAILS_ENV: test
         run: npm run build:rsc-demo
 
-      - name: Start React on Rails node renderer
+      - name: Run demo browser smoke specs
         if: ${{ steps.demo_targets.outputs.has_system_specs == 'true' }}
         env:
+          IN_DOCKER: "true"
           RAILS_ENV: test
           RENDERER_LOG_LEVEL: warn
+          RENDERER_WORKERS_COUNT: "0"
         run: |
+          set -euo pipefail
+
           mkdir -p tmp
           node client/node-renderer.cjs > tmp/node-renderer.log 2>&1 &
-          echo $! > tmp/node-renderer.pid
+          renderer_pid=$!
+          echo "$renderer_pid" > tmp/node-renderer.pid
 
-          for attempt in $(seq 1 60); do
+          cleanup_renderer() {
+            kill "$renderer_pid" 2>/dev/null || true
+          }
+          trap cleanup_renderer EXIT
+
+          for _ in $(seq 1 60); do
             if ruby -rsocket -e 'TCPSocket.new("127.0.0.1", 3800).close'; then
-              exit 0
+              break
             fi
 
-            if ! kill -0 "$(cat tmp/node-renderer.pid)" 2>/dev/null; then
+            if ! kill -0 "$renderer_pid" 2>/dev/null; then
               echo "React on Rails node renderer exited early" >&2
               cat tmp/node-renderer.log >&2 || true
               exit 1
@@ -199,16 +209,13 @@ jobs:
             sleep 1
           done
 
-          echo "Timed out waiting for React on Rails node renderer" >&2
-          cat tmp/node-renderer.log >&2 || true
-          exit 1
+          ruby -rsocket -e 'TCPSocket.new("127.0.0.1", 3800).close' || {
+            echo "Timed out waiting for React on Rails node renderer" >&2
+            cat tmp/node-renderer.log >&2 || true
+            exit 1
+          }
 
-      - name: Run demo browser smoke specs
-        if: ${{ steps.demo_targets.outputs.has_system_specs == 'true' }}
-        env:
-          IN_DOCKER: "true"
-          RAILS_ENV: test
-        run: bundle exec rspec ${{ steps.demo_targets.outputs.system_specs }}
+          bundle exec rspec ${{ steps.demo_targets.outputs.system_specs }}
 
       - name: Clean up
         if: always()
