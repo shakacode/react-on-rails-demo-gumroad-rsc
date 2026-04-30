@@ -13,6 +13,7 @@ This repository has moved past pure planning, through the Rspack migration branc
 - repo: [shakacode/react-on-rails-demo-gumroad-rsc](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc)
 - consolidated demo PR: [react-on-rails-demo-gumroad-rsc#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11)
 - follow-up PR: [react-on-rails-demo-gumroad-rsc#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10)
+- production-like benchmark PR: [react-on-rails-demo-gumroad-rsc#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12)
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
 

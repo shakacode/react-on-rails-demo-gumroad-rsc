@@ -36,6 +36,7 @@ The goal is not to argue that every Inertia page should be replaced. The goal is
 - [Benchmark and positioning issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
 - [Consolidated demo PR #11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11)
 - [Follow-up PR #10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) for Shakapacker dev-server environment overrides
+- [Production-like benchmark PR #12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12)
 
 ### What this repo currently proves
 

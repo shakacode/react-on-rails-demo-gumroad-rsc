@@ -21,6 +21,7 @@ The current best candidate is the reduced dashboard comparison:
 I put together a public experiment repo that tracks Gumroad and compares a matched Inertia control against a bounded React on Rails Pro + React 19 + RSC implementation on one reduced dashboard surface:
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
+- Production-like benchmark PR: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12
 - Comparison docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/performance-findings.md
 
 The goal is not to argue for a broad rewrite.

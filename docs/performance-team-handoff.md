@@ -17,6 +17,7 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 - repo: [shakacode/react-on-rails-demo-gumroad-rsc](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc)
 - consolidated demo PR: [react-on-rails-demo-gumroad-rsc#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11)
 - follow-up PR: [react-on-rails-demo-gumroad-rsc#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10)
+- production-like benchmark PR: [react-on-rails-demo-gumroad-rsc#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12)
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
@@ -266,7 +267,7 @@ The heavier internal Gumroad matrix still exists for the original codebase shape
 
 ## Current sharing status
 
-The repo is public, the consolidated demo PR is open, and the React on Rails issues are available as team-facing discussion hubs.
+The repo is public, the consolidated demo PR is open, the production-like benchmark PR is open, and the React on Rails issues are available as team-facing discussion hubs.
 
 The earlier stacked PRs were closed unmerged after consolidation into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11). Treat [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11) as the parent review branch and [#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) as its current child follow-up.
 
