@@ -205,11 +205,11 @@ const baseOutput = {
 };
 
 const mainEntry = {};
-for (const file of fs.readdirSync(context)) {
-  if (file.startsWith(".")) continue;
-  const entryName = path.parse(file).name;
+for (const entry of fs.readdirSync(context, { withFileTypes: true })) {
+  if (!entry.isFile() || entry.name.startsWith(".")) continue;
+  const entryName = path.parse(entry.name).name;
   if (excludedMainEntries.has(entryName)) continue;
-  (mainEntry[entryName] ??= []).push(`./${file}`);
+  (mainEntry[entryName] ??= []).push(`./${entry.name}`);
 }
 
 const mainConfig = {
