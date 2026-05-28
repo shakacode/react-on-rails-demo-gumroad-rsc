@@ -24,6 +24,10 @@ See [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md) for the working p
 See [docs/positioning-notes.md](docs/positioning-notes.md) for the product, messaging, and adjacent-idea notes this experiment should help answer.
 See [docs/current-status.md](docs/current-status.md) for the current state of the demo, readiness, and next-step checklist.
 
+## Related
+
+For a head-to-head baseline, see the [React on Rails Starter TanStack](https://github.com/shakacode/react-on-rails-starter-tanstack): the 2026 TanStack-first starter built on the same React on Rails Pro stack this demo benchmarks against Inertia.
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
