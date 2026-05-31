@@ -51,9 +51,9 @@ spec:
       cpu: 300m
       memory: 512Mi
       image: mongo:3.6.16
-      command: mongod
       args:
         - --smallfiles
+        - --bind_ip_all
       env:
         - name: MONGO_INITDB_ROOT_USERNAME
           value: "cpln://secret/{{APP_NAME}}-mongo.username"

@@ -36,6 +36,19 @@ The workflow creates:
 react-on-rails-demo-gumroad-rsc-review-pr-<PR number>
 ```
 
+Review apps share one prefix-level secret dictionary because
+`.controlplane/controlplane.yml` uses `match_if_app_name_starts_with` for PR
+apps:
+
+```text
+react-on-rails-demo-gumroad-rsc-review-pr-secrets
+```
+
+Populate that dictionary before expecting release jobs to boot. The required
+keys are the same runtime keys listed in the staging section below. If a release
+runner reports `couldn't find key DEVISE_SECRET_KEY`, the GitHub/Control Plane
+token path worked, but this app secret dictionary is still missing values.
+
 Use the review URL to verify:
 
 - `/`
@@ -73,6 +86,11 @@ Then set runtime secrets in Control Plane:
 
 Replace the generated MySQL and Mongo placeholder passwords before sharing the
 staging URL outside the team.
+
+The Mongo template intentionally does not set `command: mongod`. Keep the
+official Docker entrypoint and pass flags such as `--bind_ip_all` through
+`args`; otherwise Mongo starts without entrypoint initialization and binds only
+inside the container.
 
 ## Why this is not the full Gumroad deployment
 

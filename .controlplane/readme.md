@@ -66,6 +66,17 @@ The app secret dictionary must provide:
 - `RENDERER_PASSWORD`
 - `REACT_ON_RAILS_PRO_LICENSE`
 
+For review apps, `cpflow` uses the shared review-app prefix when resolving
+`{{APP_SECRETS}}`. That means every PR app named
+`react-on-rails-demo-gumroad-rsc-review-pr-<PR number>` reads from:
+
+```text
+react-on-rails-demo-gumroad-rsc-review-pr-secrets
+```
+
+If the release runner fails with `couldn't find key DEVISE_SECRET_KEY`, the
+review secret exists but has not been populated with the app keys above.
+
 Generate values with:
 
 ```sh
@@ -82,6 +93,11 @@ The MySQL and Mongo templates create separate app-scoped dictionaries:
 
 Replace their placeholder passwords in Control Plane before using the app for
 serious review or staging testing.
+
+The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
+through `args` only; setting `command: mongod` bypasses entrypoint
+initialization, leaves the root-user secret unused, and binds Mongo to localhost
+inside the container instead of the GVC network.
 
 ## Bootstrap
 
