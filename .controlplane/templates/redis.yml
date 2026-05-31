@@ -1,0 +1,25 @@
+kind: workload
+name: redis
+spec:
+  type: standard
+  containers:
+    - name: redis
+      cpu: 100m
+      memory: 128Mi
+      image: redis:7.0.7
+      args:
+        - redis-server
+        - --appendonly
+        - "yes"
+      ports:
+        - number: 6379
+          protocol: tcp
+  defaultOptions:
+    autoscaling:
+      metric: disabled
+      minScale: 1
+      maxScale: 1
+    capacityAI: false
+  firewallConfig:
+    internal:
+      inboundAllowType: same-gvc

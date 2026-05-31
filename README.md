@@ -123,6 +123,7 @@ If you want the measured benchmark artifacts instead of a visual spot check, sta
 - [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
 - [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md)
 - [docs/positioning-notes.md](docs/positioning-notes.md)
+- [docs/control-plane-deployment.md](docs/control-plane-deployment.md)
 - [docs/gumroad-upstream-issue-draft.md](docs/gumroad-upstream-issue-draft.md)
 - [docs/youtube-demo-script.md](docs/youtube-demo-script.md)
 

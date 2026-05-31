@@ -1,0 +1,20 @@
+name: Deploy Staging to Control Plane
+
+run-name: Deploy Control Plane staging app
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-staging:
+    uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-staging.yml@v5.0.4
+    with:
+      staging_app_branch_default: "main"
+    secrets:
+      CPLN_TOKEN_STAGING: ${{ secrets.CPLN_TOKEN_STAGING }}
+      DOCKER_BUILD_SSH_KEY: ${{ secrets.DOCKER_BUILD_SSH_KEY }}

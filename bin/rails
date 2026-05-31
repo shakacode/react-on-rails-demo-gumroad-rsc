@@ -3,6 +3,10 @@ load File.expand_path("spring", __dir__)
 
 APP_PATH = File.expand_path('../config/application', __dir__)
 require 'bundler/setup'
-require 'dotenv/load'
+begin
+  require 'dotenv/load'
+rescue LoadError
+  raise unless %w[production staging].include?(ENV["RAILS_ENV"] || ENV["RACK_ENV"])
+end
 require_relative '../config/boot'
 require 'rails/commands'

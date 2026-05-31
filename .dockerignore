@@ -1,6 +1,7 @@
 .bundle
 .DS_Store
 .git
+node_modules/
 vendor/cache/
 vendor/bundle/
 tmp/
@@ -8,5 +9,9 @@ log/
 ci_scripts/
 .githooks/
 docker/tmp/
+.node-renderer-bundles/
+public/packs/
+public/packs-test/
+ssr-generated/
 .env
 .env.*.local

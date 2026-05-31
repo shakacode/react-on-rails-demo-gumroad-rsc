@@ -1,0 +1,91 @@
+kind: volumeset
+name: "{{APP_NAME}}-mongo-vs"
+description: "{{APP_NAME}}-mongo-vs"
+spec:
+  autoscaling:
+    maxCapacity: 1000
+    minFreePercentage: 1
+    scalingFactor: 1.1
+  fileSystemType: ext4
+  initialCapacity: 10
+  performanceClass: general-purpose-ssd
+  snapshots:
+    createFinalSnapshot: true
+    retentionDuration: 7d
+
+---
+kind: secret
+name: "{{APP_NAME}}-mongo"
+type: dictionary
+data:
+  username: gumroad
+  password: replace-with-real-mongo-password
+
+---
+kind: identity
+name: "{{APP_NAME}}-mongo-identity"
+description: "{{APP_NAME}}-mongo-identity"
+
+---
+kind: policy
+name: "{{APP_NAME}}-mongo-access"
+description: "{{APP_NAME}}-mongo-access"
+bindings:
+  - permissions:
+      - reveal
+    principalLinks:
+      - "//gvc/{{APP_NAME}}/identity/{{APP_NAME}}-mongo-identity"
+      - "{{APP_IDENTITY_LINK}}"
+targetKind: secret
+targetLinks:
+  - "//secret/{{APP_NAME}}-mongo"
+
+---
+kind: workload
+name: mongo
+description: mongo
+spec:
+  type: stateful
+  containers:
+    - name: mongo
+      cpu: 300m
+      memory: 512Mi
+      image: mongo:3.6.16
+      command: mongod
+      args:
+        - --smallfiles
+      env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          value: "cpln://secret/{{APP_NAME}}-mongo.username"
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          value: "cpln://secret/{{APP_NAME}}-mongo.password"
+      ports:
+        - number: 27017
+          protocol: tcp
+      volumes:
+        - uri: "cpln://volumeset/{{APP_NAME}}-mongo-vs"
+          path: /data/db
+      inheritEnv: false
+      livenessProbe:
+        tcpSocket:
+          port: 27017
+        failureThreshold: 3
+      readinessProbe:
+        tcpSocket:
+          port: 27017
+        failureThreshold: 3
+  identityLink: "//identity/{{APP_NAME}}-mongo-identity"
+  defaultOptions:
+    capacityAI: false
+    autoscaling:
+      metric: disabled
+      minScale: 1
+      maxScale: 1
+    timeoutSeconds: 120
+  firewallConfig:
+    external:
+      inboundAllowCIDR: []
+      outboundAllowCIDR:
+        - 0.0.0.0/0
+    internal:
+      inboundAllowType: same-gvc

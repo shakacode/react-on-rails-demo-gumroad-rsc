@@ -1,0 +1,13 @@
+name: Show Review App Commands on PR Open
+
+on:
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  show-help:
+    uses: shakacode/control-plane-flow/.github/workflows/cpflow-review-app-help.yml@v5.0.4
