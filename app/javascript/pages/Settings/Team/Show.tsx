@@ -24,7 +24,7 @@ import { Button } from "$app/components/Button";
 import { useCurrentSeller } from "$app/components/CurrentSeller";
 import { LoadingSpinner } from "$app/components/LoadingSpinner";
 import { Modal } from "$app/components/Modal";
-import { Option, Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Layout as SettingsLayout } from "$app/components/Settings/Layout";
 import { Alert } from "$app/components/ui/Alert";
@@ -181,7 +181,7 @@ const AddTeamMembersSection = ({
             isClearable={false}
             placeholder="Choose a role"
             value={options.find((o) => o.id === teamInvitation.role) ?? null}
-            onChange={(evt) => {
+            onChange={(evt: Option | null) => {
               if (evt !== null) {
                 updateTeamInvitation({ role: evt.id });
                 clearError("role");
@@ -337,7 +337,7 @@ const TeamMembersSection = ({
                   <Select
                     instanceId={memberInfo.id}
                     options={memberInfo.options}
-                    onChange={(newOption) => {
+                    onChange={(newOption: Option | null) => {
                       if (newOption !== null) {
                         void handleOptionChange({ memberInfo, selectedOption: newOption.id });
                       }

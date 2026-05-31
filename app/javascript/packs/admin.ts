@@ -3,7 +3,7 @@ import React, { createElement } from "react";
 import { createRoot } from "react-dom/client";
 
 import AdminAppWrapper, { GlobalProps } from "../inertia/admin_app_wrapper";
-import { PageComponent, resolvePageComponent } from "../inertia/resolve_page_component.ts";
+import { PageComponent, resolvePageComponent } from "../inertia/resolve_page_component";
 import Layout from "../layouts/Admin";
 
 const AdminLayout = (page: React.ReactNode) => React.createElement(Layout, { children: page });

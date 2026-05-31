@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { Taxonomy } from "$app/utils/discover";
 
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { Fieldset, FieldsetDescription, FieldsetTitle } from "$app/components/ui/Fieldset";
 import { Label } from "$app/components/ui/Label";
 
@@ -35,7 +35,7 @@ export const TaxonomyEditor = ({
         inputId={uid}
         placeholder="Begin typing to select a category"
         options={options}
-        onChange={(taxonomy) => onChange(taxonomy?.id ?? null)}
+        onChange={(taxonomy: Option | null) => onChange(taxonomy?.id ?? null)}
         isMulti={false}
         isClearable
         value={options.find(({ id }) => id === taxonomyId) ?? null}

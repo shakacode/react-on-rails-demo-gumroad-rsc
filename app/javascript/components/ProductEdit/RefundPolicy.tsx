@@ -7,7 +7,7 @@ import { Button } from "$app/components/Button";
 import { Dropdown } from "$app/components/Dropdown";
 import { Modal } from "$app/components/Modal";
 import { Popover, PopoverClose, PopoverContent, PopoverTrigger } from "$app/components/Popover";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { Details, DetailsToggle } from "$app/components/ui/Details";
 import { Fieldset, FieldsetTitle } from "$app/components/ui/Fieldset";
 import { Label } from "$app/components/ui/Label";
@@ -72,7 +72,7 @@ export const RefundPolicySelector = ({
                       options={refundPolicies.map(({ id, product_name: label }) => ({ id, label }))}
                       isMulti={false}
                       placeholder="Select a product"
-                      onChange={(option) => setSelectedRefundPolicyId(option?.id ?? null)}
+                      onChange={(option: Option | null) => setSelectedRefundPolicyId(option?.id ?? null)}
                     />
                     <PopoverClose asChild>
                       <Button

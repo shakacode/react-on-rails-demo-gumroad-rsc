@@ -13,7 +13,7 @@ import { CheckoutPreview } from "$app/components/CheckoutDashboard/CheckoutPrevi
 import { Layout, Page } from "$app/components/CheckoutDashboard/Layout";
 import { useLoggedInUser } from "$app/components/LoggedInUser";
 import { WithPreviewSidebar } from "$app/components/PreviewSidebar";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { TypeSafeOptionSelect } from "$app/components/TypeSafeOptionSelect";
 import { Card, CardContent } from "$app/components/ui/Card";
@@ -250,7 +250,7 @@ const FormPage = ({
                           aria-invalid={invalidFields.has(`custom_fields.${field.key}.products`)}
                           isMulti
                           isClearable
-                          onChange={(items) =>
+                          onChange={(items: readonly Option[]) =>
                             updateCustomField(i, { global: false, products: items.map(({ id }) => id) })
                           }
                         />
