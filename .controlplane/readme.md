@@ -17,6 +17,12 @@ Elasticsearch workloads. This is enough to boot the bounded comparison routes
 and seed the public demo account, but it is not Gumroad's full production
 infrastructure.
 
+Control Plane sets `SESSION_COOKIE_DOMAIN=""` so review and staging apps use
+host-only session cookies on their `*.cpln.app` hostnames. Without that
+override, Gumroad's staging branch deployment logic pins session cookies to
+`.staging.gumroad.com`, which prevents sign-in from persisting on Control Plane
+URLs.
+
 ## GitHub repository settings
 
 For review apps, GitHub needs one repository secret:

@@ -14,7 +14,12 @@ session_cookie_name =
     base_cookie_name
   when :staging
     if ENV["BRANCH_DEPLOYMENT"].present?
-      domain = ".#{DOMAIN}"
+      domain =
+        if ENV.key?("SESSION_COOKIE_DOMAIN")
+          ENV["SESSION_COOKIE_DOMAIN"].presence
+        else
+          ".#{DOMAIN}"
+        end
       "#{base_cookie_name}_#{Digest::SHA256.hexdigest(DOMAIN)[0..31]}"
     else
       "#{base_cookie_name}_staging"

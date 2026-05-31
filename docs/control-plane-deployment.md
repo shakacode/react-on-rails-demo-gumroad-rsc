@@ -17,6 +17,11 @@ Control Plane sets `ASSET_HOST=""` and `RAILS_SERVE_STATIC_FILES=true` so the
 deployed app serves the built packs from the image instead of using Gumroad's
 production or staging asset hosts.
 
+It also sets `SESSION_COOKIE_DOMAIN=""` so Rails emits host-only session
+cookies for the Control Plane hostname. That matters because Gumroad's normal
+staging branch deployment path pins cookies to `.staging.gumroad.com`, which is
+wrong for review/staging apps served from `*.cpln.app`.
+
 ## Review app workflow
 
 Comment this on a PR:
