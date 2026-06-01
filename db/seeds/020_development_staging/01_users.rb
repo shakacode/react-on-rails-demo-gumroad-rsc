@@ -1,5 +1,12 @@
 # frozen_string_literal: true
 
+def ensure_seed_user_external_id!(user)
+  return if user.external_id.present?
+
+  user.save_external_id
+  user.save!(validate: false)
+end
+
 seller = User.find_by(email: "seller@gumroad.com")
 if seller.blank?
   seller = User.new
@@ -27,11 +34,15 @@ if seller.blank?
   seller.password = "password"
   seller.save!(validate: false)
 end
+ensure_seed_user_external_id!(seller)
 
 TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).each do |role|
   email = "seller+#{role}@gumroad.com"
   user = User.find_by(email:)
-  next if user.present?
+  if user.present?
+    ensure_seed_user_external_id!(user)
+    next
+  end
 
   user = User.create!(
     email:,
@@ -45,6 +56,7 @@ TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).each do |role|
   # Skip validations to set a pwned but easy password
   user.password = "password"
   user.save!(validate: false)
+  ensure_seed_user_external_id!(user)
 
   user.create_owner_membership_if_needed!
   user.user_memberships.create!(user:, seller:, role:)
