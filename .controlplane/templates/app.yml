@@ -30,6 +30,10 @@ spec:
       value: "cpln://secret/{{APP_SECRETS}}.STRONGBOX_GENERAL"
     - name: STRONGBOX_GENERAL_PASSWORD
       value: "cpln://secret/{{APP_SECRETS}}.STRONGBOX_GENERAL_PASSWORD"
+    - name: OBFUSCATE_IDS_CIPHER_KEY
+      value: "cpln://secret/{{APP_SECRETS}}.OBFUSCATE_IDS_CIPHER_KEY"
+    - name: OBFUSCATE_IDS_NUMERIC_CIPHER_KEY
+      value: "cpln://secret/{{APP_SECRETS}}.OBFUSCATE_IDS_NUMERIC_CIPHER_KEY"
     - name: DATABASE_HOST
       value: "mysql.{{APP_NAME}}.cpln.local"
     - name: DATABASE_PORT

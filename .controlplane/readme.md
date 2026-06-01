@@ -69,6 +69,8 @@ The app secret dictionary must provide:
 - `DEVISE_SECRET_KEY`
 - `STRONGBOX_GENERAL`
 - `STRONGBOX_GENERAL_PASSWORD`
+- `OBFUSCATE_IDS_CIPHER_KEY`
+- `OBFUSCATE_IDS_NUMERIC_CIPHER_KEY`
 - `RENDERER_PASSWORD`
 - `REACT_ON_RAILS_PRO_LICENSE`
 
@@ -88,6 +90,8 @@ Generate values with:
 ```sh
 openssl rand -hex 64 # SECRET_KEY_BASE
 openssl rand -hex 64 # DEVISE_SECRET_KEY
+openssl rand -hex 64 # OBFUSCATE_IDS_CIPHER_KEY
+openssl rand -hex 8  # OBFUSCATE_IDS_NUMERIC_CIPHER_KEY, then convert to a positive integer if desired.
 openssl rand -hex 32 # RENDERER_PASSWORD
 openssl genrsa 2048 # STRONGBOX_GENERAL; STRONGBOX_GENERAL_PASSWORD can be blank for an unencrypted key.
 ```

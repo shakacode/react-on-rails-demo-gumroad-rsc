@@ -87,8 +87,13 @@ Then set runtime secrets in Control Plane:
 - `DEVISE_SECRET_KEY`
 - `STRONGBOX_GENERAL`
 - `STRONGBOX_GENERAL_PASSWORD`
+- `OBFUSCATE_IDS_CIPHER_KEY`
+- `OBFUSCATE_IDS_NUMERIC_CIPHER_KEY`
 - `RENDERER_PASSWORD`
 - `REACT_ON_RAILS_PRO_LICENSE`
+
+Use `openssl rand -hex 64` for the long secret values and a positive integer
+for `OBFUSCATE_IDS_NUMERIC_CIPHER_KEY`.
 
 Replace the generated MySQL and Mongo placeholder passwords before sharing the
 staging URL outside the team.
