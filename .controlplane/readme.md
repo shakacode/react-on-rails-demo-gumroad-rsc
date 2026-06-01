@@ -23,6 +23,12 @@ override, Gumroad's staging branch deployment logic pins session cookies to
 `.staging.gumroad.com`, which prevents sign-in from persisting on Control Plane
 URLs.
 
+After a review or staging app exists, set `CUSTOM_DOMAIN` on the GVC to the
+Rails workload host, for example `rails-<gvc-alias>.cpln.app`. Gumroad's
+top-level routes are guarded by `GumroadDomainConstraint`, so the app will boot
+but return Rails 404 pages on the Control Plane hostname until `CUSTOM_DOMAIN`
+matches the workload URL and the Rails/renderer workloads are restarted.
+
 ## GitHub repository settings
 
 For review apps, GitHub needs one repository secret:
@@ -98,6 +104,11 @@ The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
 through `args` only; setting `command: mongod` bypasses entrypoint
 initialization, leaves the root-user secret unused, and binds Mongo to localhost
 inside the container instead of the GVC network.
+
+Branch deployments intentionally allow login without a configured
+`RECAPTCHA_LOGIN_SITE_KEY`. This keeps review and demo apps usable without a
+Google reCAPTCHA project while preserving reCAPTCHA enforcement for non-branch
+deployments.
 
 ## Bootstrap
 

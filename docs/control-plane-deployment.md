@@ -49,6 +49,12 @@ keys are the same runtime keys listed in the staging section below. If a release
 runner reports `couldn't find key DEVISE_SECRET_KEY`, the GitHub/Control Plane
 token path worked, but this app secret dictionary is still missing values.
 
+After the app exists, set `CUSTOM_DOMAIN` on the review GVC to the Rails
+workload host, for example `rails-<gvc-alias>.cpln.app`, then restart `rails`
+and `renderer`. The deploy can be green without this, but Gumroad's routes are
+guarded by `GumroadDomainConstraint` and will return a Rails 404 on unknown
+hosts.
+
 Use the review URL to verify:
 
 - `/`
@@ -91,6 +97,10 @@ The Mongo template intentionally does not set `command: mongod`. Keep the
 official Docker entrypoint and pass flags such as `--bind_ip_all` through
 `args`; otherwise Mongo starts without entrypoint initialization and binds only
 inside the container.
+
+Branch deployments allow login when `RECAPTCHA_LOGIN_SITE_KEY` is blank. That
+is deliberate for review/staging demos, where requiring a Google reCAPTCHA
+project would add setup friction unrelated to the RSC comparison.
 
 ## Why this is not the full Gumroad deployment
 

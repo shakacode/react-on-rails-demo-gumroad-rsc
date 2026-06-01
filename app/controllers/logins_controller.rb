@@ -27,7 +27,7 @@ class LoginsController < Devise::SessionsController
 
   def create
     site_key = GlobalConfig.get("RECAPTCHA_LOGIN_SITE_KEY")
-    if !(Rails.env.development? && site_key.blank?) && !valid_recaptcha_response?(site_key: site_key)
+    if recaptcha_required?(site_key) && !valid_recaptcha_response?(site_key: site_key)
       return redirect_with_login_error("Sorry, we could not verify the CAPTCHA. Please try again.")
     end
 
@@ -67,5 +67,11 @@ class LoginsController < Devise::SessionsController
 
     def redirect_with_login_error(message)
       redirect_to login_path, warning: message, status: :see_other
+    end
+
+    def recaptcha_required?(site_key)
+      return false if site_key.blank? && (Rails.env.development? || ENV["BRANCH_DEPLOYMENT"].present?)
+
+      true
     end
 end

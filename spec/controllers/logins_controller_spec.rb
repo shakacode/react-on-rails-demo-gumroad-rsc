@@ -176,6 +176,21 @@ describe LoginsController, type: :controller, inertia: true do
       expect(controller.user_signed_in?).to be(true)
     end
 
+    it "logs in a user when reCAPTCHA site key is not set for a branch deployment" do
+      original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+      ENV["BRANCH_DEPLOYMENT"] = "true"
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("staging"))
+      allow(GlobalConfig).to receive(:get).with("RECAPTCHA_LOGIN_SITE_KEY").and_return(nil)
+      expect(controller).not_to receive(:valid_recaptcha_response?)
+
+      post :create, params: { user: { login_identifier: @user.email, password: "password" } }
+
+      expect(response).to redirect_to(dashboard_path)
+      expect(controller.user_signed_in?).to be(true)
+    ensure
+      ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+    end
+
     it "does not log in a user when reCAPTCHA site key is not set in production environment" do
       allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
       allow(GlobalConfig).to receive(:get).with("RECAPTCHA_LOGIN_SITE_KEY").and_return(nil)
