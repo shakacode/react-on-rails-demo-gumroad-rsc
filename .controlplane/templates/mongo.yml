@@ -3,7 +3,7 @@ name: "{{APP_NAME}}-mongo-vs"
 description: "{{APP_NAME}}-mongo-vs"
 spec:
   autoscaling:
-    maxCapacity: 1000
+    maxCapacity: 20
     minFreePercentage: 1
     scalingFactor: 1.1
   fileSystemType: ext4
