@@ -73,11 +73,27 @@ The repo currently exposes two comparison routes that use the same reduced selle
 - `https://gumroad.dev/dashboard/inertia_demo`
 - `https://gumroad.dev/dashboard/rsc_demo`
 
+Hosted Control Plane staging for the current PR stack:
+
+- `https://rails-d98bp9qhcc8be.cpln.app/dashboard/inertia_demo`
+- `https://rails-d98bp9qhcc8be.cpln.app/dashboard/rsc_demo`
+
+The PR #17 review app is also available while that PR remains open:
+
+- `https://rails-d7fsgnq0evscp.cpln.app/dashboard/inertia_demo`
+- `https://rails-d7fsgnq0evscp.cpln.app/dashboard/rsc_demo`
+
 Login credentials for local verification:
 
 - email: `seller@gumroad.com`
 - password: `password`
 - two-factor code: `000000`
+
+Login credentials for hosted staging/review verification:
+
+- email: `seller+admin@gumroad.com`
+- password: `password`
+- two-factor code, when prompted: `000000`
 
 ### Verified screenshots
 
@@ -123,6 +139,7 @@ If you want the measured benchmark artifacts instead of a visual spot check, sta
 - [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
 - [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md)
 - [docs/positioning-notes.md](docs/positioning-notes.md)
+- [docs/control-plane-deployment.md](docs/control-plane-deployment.md)
 - [docs/gumroad-upstream-issue-draft.md](docs/gumroad-upstream-issue-draft.md)
 - [docs/youtube-demo-script.md](docs/youtube-demo-script.md)
 

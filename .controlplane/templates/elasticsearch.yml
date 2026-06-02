@@ -1,0 +1,27 @@
+kind: workload
+name: elasticsearch
+spec:
+  type: standard
+  containers:
+    - name: elasticsearch
+      cpu: 500m
+      memory: 1Gi
+      image: elasticsearch:7.9.3
+      env:
+        - name: ES_JAVA_OPTS
+          value: "-Xms512m -Xmx512m"
+        - name: discovery.type
+          value: single-node
+      ports:
+        - number: 9200
+          protocol: http
+  defaultOptions:
+    autoscaling:
+      metric: disabled
+      minScale: 1
+      maxScale: 1
+    capacityAI: false
+    timeoutSeconds: 120
+  firewallConfig:
+    internal:
+      inboundAllowType: same-gvc

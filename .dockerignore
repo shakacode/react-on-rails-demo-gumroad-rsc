@@ -1,6 +1,7 @@
 .bundle
 .DS_Store
 .git
+node_modules/
 vendor/cache/
 vendor/bundle/
 tmp/
@@ -8,5 +9,17 @@ log/
 ci_scripts/
 .githooks/
 docker/tmp/
-.env
-.env.*.local
+.node-renderer-bundles/
+public/packs/
+public/packs-test/
+ssr-generated/
+.env*
+!.env.example
+!.env*.example
+*.key
+*.pem
+*.p12
+*.pfx
+config/master.key
+config/credentials/*.key
+config/credentials/**/*.key

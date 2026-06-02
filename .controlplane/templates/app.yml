@@ -1,0 +1,96 @@
+kind: gvc
+name: "{{APP_NAME}}"
+spec:
+  env:
+    - name: RAILS_ENV
+      value: staging
+    - name: RACK_ENV
+      value: staging
+    - name: NODE_ENV
+      value: production
+    - name: RAILS_LOG_TO_STDOUT
+      value: "true"
+    - name: RAILS_SERVE_STATIC_FILES
+      value: "true"
+    - name: ASSET_HOST
+      value: ""
+    - name: BRANCH_DEPLOYMENT
+      value: "true"
+    - name: SESSION_COOKIE_DOMAIN
+      value: ""
+    - name: BRANCH
+      value: "{{APP_NAME}}"
+    - name: REVISION
+      value: "{{APP_NAME}}"
+    # Review apps run pull request code. Values mounted through cpln://secret
+    # become readable by that code after the workload starts, so shared review
+    # secrets must contain only demo-safe values.
+    - name: SECRET_KEY_BASE
+      value: "cpln://secret/{{APP_SECRETS}}.SECRET_KEY_BASE"
+    - name: DEVISE_SECRET_KEY
+      value: "cpln://secret/{{APP_SECRETS}}.DEVISE_SECRET_KEY"
+    - name: STRONGBOX_GENERAL
+      value: "cpln://secret/{{APP_SECRETS}}.STRONGBOX_GENERAL"
+    - name: STRONGBOX_GENERAL_PASSWORD
+      value: "cpln://secret/{{APP_SECRETS}}.STRONGBOX_GENERAL_PASSWORD"
+    - name: OBFUSCATE_IDS_CIPHER_KEY
+      value: "cpln://secret/{{APP_SECRETS}}.OBFUSCATE_IDS_CIPHER_KEY"
+    - name: OBFUSCATE_IDS_NUMERIC_CIPHER_KEY
+      value: "cpln://secret/{{APP_SECRETS}}.OBFUSCATE_IDS_NUMERIC_CIPHER_KEY"
+    - name: DATABASE_HOST
+      value: "mysql.{{APP_NAME}}.cpln.local"
+    - name: DATABASE_PORT
+      value: "3306"
+    - name: DATABASE_NAME
+      value: "gumroad_demo"
+    - name: DATABASE_USERNAME
+      value: "cpln://secret/{{APP_NAME}}-mysql.username"
+    - name: DATABASE_PASSWORD
+      value: "cpln://secret/{{APP_NAME}}-mysql.password"
+    - name: MONGO_DATABASE_URL
+      value: "mongo.{{APP_NAME}}.cpln.local:27017"
+    - name: MONGO_DATABASE_NAME
+      value: "gumroad_log_demo"
+    - name: MONGO_DATABASE_USERNAME
+      value: "cpln://secret/{{APP_NAME}}-mongo.username"
+    - name: MONGO_DATABASE_PASSWORD
+      value: "cpln://secret/{{APP_NAME}}-mongo.password"
+    - name: MONGO_AUTH_SOURCE
+      value: admin
+    - name: REDIS_HOST
+      value: "redis.{{APP_NAME}}.cpln.local:6379/0"
+    - name: SIDEKIQ_REDIS_HOST
+      value: "redis.{{APP_NAME}}.cpln.local:6379/1"
+    - name: RPUSH_REDIS_HOST
+      value: "redis.{{APP_NAME}}.cpln.local:6379/2"
+    - name: RACK_ATTACK_REDIS_HOST
+      value: "redis.{{APP_NAME}}.cpln.local:6379/3"
+    - name: ANYCABLE_REDIS_URL
+      value: "redis://redis.{{APP_NAME}}.cpln.local:6379/5"
+    - name: MEMCACHE_SERVERS
+      value: "memcached.{{APP_NAME}}.cpln.local:11211"
+    - name: ELASTICSEARCH_HOST
+      value: "http://elasticsearch.{{APP_NAME}}.cpln.local:9200"
+    - name: AWS_ACCESS_KEY_ID
+      value: demo-access-key
+    - name: AWS_SECRET_ACCESS_KEY
+      value: demo-secret-key
+    - name: AWS_DEFAULT_REGION
+      value: us-east-1
+    - name: REACT_RENDERER_URL
+      value: "http://renderer.{{APP_NAME}}.cpln.local:3800"
+    - name: RENDERER_HOST
+      value: 0.0.0.0
+    - name: RENDERER_PORT
+      value: "3800"
+    - name: RENDERER_LOG_LEVEL
+      value: info
+    - name: RENDERER_WORKERS_COUNT
+      value: "2"
+    - name: RENDERER_PASSWORD
+      value: "cpln://secret/{{APP_SECRETS}}.RENDERER_PASSWORD"
+    - name: REACT_ON_RAILS_PRO_LICENSE
+      value: "cpln://secret/{{APP_SECRETS}}.REACT_ON_RAILS_PRO_LICENSE"
+  staticPlacement:
+    locationLinks:
+      - "{{APP_LOCATION_LINK}}"

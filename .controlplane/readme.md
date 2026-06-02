@@ -1,0 +1,215 @@
+# Control Plane deployment
+
+This repo uses `cpflow` for a Heroku Flow style demo deployment:
+
+- review apps for pull requests
+- staging deploys from `main`
+- manual promotion from staging to production
+- nightly cleanup for stale review apps
+
+The app runs these image-backed workloads:
+
+- `rails`: public web workload for the Gumroad RSC comparison routes
+- `renderer`: React on Rails Pro Node renderer on cleartext HTTP/2 port `3800`
+
+The demo also provisions app-local MySQL, Mongo, Redis, Memcached, and
+Elasticsearch workloads. This is enough to boot the bounded comparison routes
+and seed the public demo account, but it is not Gumroad's full production
+infrastructure.
+
+Control Plane sets `SESSION_COOKIE_DOMAIN=""` so review and staging apps use
+host-only session cookies on their `*.cpln.app` hostnames. Without that
+override, Gumroad's staging branch deployment logic pins session cookies to
+`.staging.gumroad.com`, which prevents sign-in from persisting on Control Plane
+URLs.
+
+Branch deployments accept the Control Plane Rails workload hostname directly
+when it matches `rails-*.cpln.app`. This keeps fresh review and staging apps
+usable without a manual `CUSTOM_DOMAIN` GVC update.
+
+## GitHub repository settings
+
+For review apps, GitHub needs one repository secret:
+
+| Secret | Notes |
+| --- | --- |
+| `CPLN_TOKEN_STAGING` | Control Plane service-account token for `shakacode-open-source-examples-staging`. |
+
+No repository variables are required for the normal review-app path. The
+workflow infers the staging org and review-app prefix from
+`.controlplane/controlplane.yml`.
+Review-app deployment is intentionally limited to same-repository pull
+requests; fork PRs are skipped so untrusted code is never built with repository
+deployment secrets.
+
+Use a staging/review `CPLN_TOKEN_STAGING` that cannot access production Control
+Plane resources. If a forked change needs a review app, first move the reviewed
+change to a trusted branch in this repository.
+
+For staging deploys from `main`, configure:
+
+| Secret or variable | Value |
+| --- | --- |
+| `CPLN_TOKEN_STAGING` | Same staging Control Plane token used by review apps. |
+| `CPLN_ORG_STAGING` | `shakacode-open-source-examples-staging` |
+| `STAGING_APP_NAME` | `react-on-rails-demo-gumroad-rsc-staging` |
+
+For production promotion later, configure a protected GitHub Environment named
+`production`:
+
+| Secret or variable | Value |
+| --- | --- |
+| `CPLN_TOKEN_PRODUCTION` | Environment secret on `production`, not a repository secret. |
+| `CPLN_ORG_PRODUCTION` | Environment variable on `production`: `shakacode-open-source-examples-production` |
+| `PRODUCTION_APP_NAME` | Environment variable on `production`: `react-on-rails-demo-gumroad-rsc-production` |
+| `RECAPTCHA_LOGIN_SITE_KEY` | Control Plane production GVC env var or production app secret value exposed as env. |
+| `ENTERPRISE_RECAPTCHA_API_KEY` | Control Plane production GVC env var or production app secret value exposed as env. |
+
+Protect the `production` environment with required reviewers and prevent
+self-review.
+
+## Control Plane runtime secrets
+
+The app secret dictionary must provide:
+
+- `SECRET_KEY_BASE`
+- `DEVISE_SECRET_KEY`
+- `STRONGBOX_GENERAL`
+- `STRONGBOX_GENERAL_PASSWORD`
+- `OBFUSCATE_IDS_CIPHER_KEY`
+- `OBFUSCATE_IDS_NUMERIC_CIPHER_KEY`
+- `RENDERER_PASSWORD`
+- `REACT_ON_RAILS_PRO_LICENSE`
+
+For review apps, `cpflow` uses the shared review-app prefix when resolving
+`{{APP_SECRETS}}`. That means every PR app named
+`react-on-rails-demo-gumroad-rsc-review-pr-<PR number>` reads from:
+
+```text
+react-on-rails-demo-gumroad-rsc-review-pr-secrets
+```
+
+If the release runner fails with `couldn't find key DEVISE_SECRET_KEY`, the
+review secret exists but has not been populated with the app keys above.
+
+Review apps run pull request code. Values mounted through `cpln://secret/...`
+can be read by that code after the workload starts, so keep the shared review
+secret dictionary limited to demo-safe values: no production Gumroad keys, no
+customer data, and a Pro license value that is acceptable for review-app
+exposure.
+
+Generate values with:
+
+```sh
+openssl rand -hex 64 # SECRET_KEY_BASE
+openssl rand -hex 64 # DEVISE_SECRET_KEY
+openssl rand -hex 64 # OBFUSCATE_IDS_CIPHER_KEY
+openssl rand -hex 8  # OBFUSCATE_IDS_NUMERIC_CIPHER_KEY, then convert to a positive integer if desired.
+openssl rand -hex 32 # RENDERER_PASSWORD
+openssl genrsa 2048 # STRONGBOX_GENERAL; STRONGBOX_GENERAL_PASSWORD can be blank for an unencrypted key.
+```
+
+The review, staging, and production workflows run
+`bin/prepare-control-plane-db-secrets` before deploying. That script creates
+separate app-scoped dictionaries with random passwords if they do not already
+exist:
+
+- `<app-name>-mysql`
+- `<app-name>-mongo`
+
+Existing DB secrets are left unchanged because MySQL and Mongo consume their
+initialization passwords only on an empty data volume. Do not boot a new
+stateful app with manually-created placeholder database passwords; create real
+secret values before first workload start. The prep script fails if it detects
+the old public placeholder values so the app can be reset or rotated explicitly.
+
+The MySQL and Mongo volume templates disable final snapshots on delete. This
+keeps PR review-app churn from retaining seed-only demo database snapshots and
+keeps Control Plane costs predictable. The demo data is recreated by the seed
+path, so deleted review, staging, or production demo databases are not treated
+as durable customer data.
+
+The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
+through `args` only; setting `command: mongod` bypasses entrypoint
+initialization, leaves the root-user secret unused, and binds Mongo to localhost
+inside the container instead of the GVC network.
+
+Non-production branch deployments intentionally allow login without a configured
+`RECAPTCHA_LOGIN_SITE_KEY`. This keeps review and staging demo apps usable
+without a Google reCAPTCHA project while preserving reCAPTCHA enforcement for
+the Control Plane production demo app. Production release fails early unless
+`RECAPTCHA_LOGIN_SITE_KEY` and `ENTERPRISE_RECAPTCHA_API_KEY` are configured.
+
+## Bootstrap
+
+Bootstrap persistent staging once before relying on merge-to-main deploys:
+
+```sh
+cpflow setup-app -a react-on-rails-demo-gumroad-rsc-staging --org shakacode-open-source-examples-staging --skip-post-creation-hook
+```
+
+Use `--skip-post-creation-hook` for first bootstrap because no app image exists
+yet. Database preparation runs from `.controlplane/release_script.sh` after the
+Docker image is built.
+
+For a public demo account, set this GVC env var before deploying:
+
+```text
+ALLOW_DEMO_SEED=true
+```
+
+The seeded account is:
+
+```text
+seller@gumroad.com / password
+```
+
+## Review app smoke test
+
+After `CPLN_TOKEN_STAGING` is configured, create or update a review app by
+commenting on a PR:
+
+```text
++review-app-deploy
+```
+
+The review app name follows:
+
+```text
+react-on-rails-demo-gumroad-rsc-review-pr-<PR number>
+```
+
+Smoke these paths after the workflow comments with the review URL:
+
+```sh
+curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/
+curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/dashboard/inertia_demo
+curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/dashboard/rsc_demo
+```
+
+The dashboard routes require a signed-in seller in a browser for full visual QA.
+Use `seller@gumroad.com / password` when `ALLOW_DEMO_SEED=true`.
+
+## Validation
+
+Run:
+
+```sh
+bin/test-cpflow-github-flow
+docker build -f .controlplane/Dockerfile -t gumroad-rsc-cpflow-smoke .
+```
+
+The wrappers currently point at:
+
+```yaml
+uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@v5.0.4
+```
+
+To update only the pinned reusable-workflow ref:
+
+```sh
+bin/pin-cpflow-github-ref v5.0.4
+```
+
+If the renderer workload is changed, confirm it still exposes port `3800` as
+`http2`; React on Rails Pro's Node renderer speaks cleartext HTTP/2.
