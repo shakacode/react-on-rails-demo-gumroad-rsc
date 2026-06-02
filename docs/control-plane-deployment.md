@@ -69,6 +69,10 @@ The dashboard comparison requires sign-in. When `ALLOW_DEMO_SEED=true`, use:
 seller@gumroad.com / password
 ```
 
+That public demo seed disables 2FA for the seeded demo accounts and removes
+internal-admin access from `seller@gumroad.com`. Local development keeps the
+normal internal-admin/2FA behavior documented in `docs/users.md`.
+
 Review and staging demo apps allow login without `RECAPTCHA_LOGIN_SITE_KEY` so
 the public demo does not need a Google reCAPTCHA project. The Control Plane
 production demo app does not inherit that bypass; production release fails

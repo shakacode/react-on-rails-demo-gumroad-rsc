@@ -7,11 +7,24 @@ def ensure_seed_user_external_id!(user)
   user.save!(validate: false)
 end
 
+def public_demo_seed?
+  ENV["ALLOW_DEMO_SEED"] == "true"
+end
+
 def ensure_seed_user_password_login!(user)
+  return unless public_demo_seed?
   return unless user.two_factor_authentication_enabled?
 
   user.two_factor_authentication_enabled = false
   user.save!(validate: false)
+end
+
+def ensure_seed_seller_public_demo_permissions!(seller)
+  return unless public_demo_seed?
+  return unless seller.is_team_member?
+
+  seller.is_team_member = false
+  seller.save!(validate: false)
 end
 
 seller = User.find_by(email: "seller@gumroad.com")
@@ -21,9 +34,9 @@ if seller.blank?
   seller.name = "Seller"
   seller.username = "seller"
   seller.confirmed_at = Time.current
-  seller.is_team_member = true
+  seller.is_team_member = !public_demo_seed?
   seller.user_risk_state = "compliant"
-  seller.skip_enabling_two_factor_authentication = true
+  seller.skip_enabling_two_factor_authentication = public_demo_seed?
   seller.password = SecureRandom.hex(24)
 
   # Make seller eligible for service products
@@ -43,6 +56,7 @@ if seller.blank?
   seller.save!(validate: false)
 end
 ensure_seed_user_external_id!(seller)
+ensure_seed_seller_public_demo_permissions!(seller)
 ensure_seed_user_password_login!(seller)
 
 TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).each do |role|
@@ -60,7 +74,7 @@ TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).each do |role|
   user.username = "#{role}forseller"
   user.confirmed_at = Time.current
   user.user_risk_state = "compliant"
-  user.skip_enabling_two_factor_authentication = true
+  user.skip_enabling_two_factor_authentication = public_demo_seed?
   user.password = SecureRandom.hex(24)
   user.save!
 
