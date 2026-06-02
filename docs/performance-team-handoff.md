@@ -214,8 +214,8 @@ It does **not** yet prove the full upside of RSC as an architecture.
 
 If the performance team wants the next round to be high signal, focus here:
 
-1. Re-run the comparison in a production-like mode with a dedicated renderer and a fixed Chrome/chromedriver pair.
-   The latest result is strong, but it is still local-development and sensitive to dev-asset timing noise.
+1. Repeat the comparison against the deployed review/staging app once the Control Plane environment is stable.
+   The production-like local rerun is complete and is now the strongest local evidence; the next question is whether the RSC advantage holds with deployed network, container, and renderer behavior.
 
 2. Instrument the React on Rails Pro renderer and streaming path.
    We now have route-scoped Rails timing, but not renderer-internal timing.
@@ -264,6 +264,8 @@ The heavier internal Gumroad matrix still exists for the original codebase shape
 - instrumented Inertia rerun JSON: `output/playwright/dashboard-perf/inertia-demo-server-timing-3-post-rsc-dashboard-inertia-demo-metrics.json`
 - instrumented RSC JSON: `output/playwright/dashboard-perf/rsc-demo-server-timing-3-dashboard-rsc-demo-metrics.json`
 - clean-driver repeat comparison JSON: `output/playwright/dashboard-perf/dashboard-demo-alternating-8-clean-driver-comparison.json`
+- tracked production-like comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
+- tracked production-like raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
 
 ## Current sharing status
 

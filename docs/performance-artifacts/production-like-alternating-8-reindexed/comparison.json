@@ -1,0 +1,3358 @@
+{
+  "label": "production-like-alternating-8-reindexed",
+  "method": "alternating_cycles",
+  "cycles": 8,
+  "paths": [
+    "/dashboard/inertia_demo",
+    "/dashboard/rsc_demo"
+  ],
+  "baseUrl": "https://gumroad.dev",
+  "measureBaseUrl": "https://gumroad.dev",
+  "serverWarmupRequestsPerRun": 1,
+  "reuseExisting": true,
+  "requireDriverMatch": true,
+  "environment": {
+    "measuredAt": "2026-04-29T23:12:58-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.43.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "147.0.7727.117",
+    "platformName": "mac",
+    "chromeDriverVersion": "147.0.7727.117",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.0.0 Safari/537.36"
+  },
+  "cycleOrders": [
+    [
+      "/dashboard/inertia_demo",
+      "/dashboard/rsc_demo"
+    ],
+    [
+      "/dashboard/rsc_demo",
+      "/dashboard/inertia_demo"
+    ],
+    [
+      "/dashboard/inertia_demo",
+      "/dashboard/rsc_demo"
+    ],
+    [
+      "/dashboard/rsc_demo",
+      "/dashboard/inertia_demo"
+    ],
+    [
+      "/dashboard/inertia_demo",
+      "/dashboard/rsc_demo"
+    ],
+    [
+      "/dashboard/rsc_demo",
+      "/dashboard/inertia_demo"
+    ],
+    [
+      "/dashboard/inertia_demo",
+      "/dashboard/rsc_demo"
+    ],
+    [
+      "/dashboard/rsc_demo",
+      "/dashboard/inertia_demo"
+    ]
+  ],
+  "orderedMeasurements": [
+    {
+      "cycle": 1,
+      "positionInCycle": 1,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle1-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle1-position1-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 1,
+      "positionInCycle": 2,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle1-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle1-position2-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 2,
+      "positionInCycle": 1,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle2-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle2-position1-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 2,
+      "positionInCycle": 2,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle2-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle2-position2-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 3,
+      "positionInCycle": 1,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle3-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle3-position1-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 3,
+      "positionInCycle": 2,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle3-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle3-position2-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 4,
+      "positionInCycle": 1,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle4-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle4-position1-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 4,
+      "positionInCycle": 2,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle4-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle4-position2-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 5,
+      "positionInCycle": 1,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle5-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle5-position1-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 5,
+      "positionInCycle": 2,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle5-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle5-position2-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 6,
+      "positionInCycle": 1,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle6-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle6-position1-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 6,
+      "positionInCycle": 2,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle6-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle6-position2-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 7,
+      "positionInCycle": 1,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle7-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle7-position1-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 7,
+      "positionInCycle": 2,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle7-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle7-position2-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": true
+    },
+    {
+      "cycle": 8,
+      "positionInCycle": 1,
+      "path": "/dashboard/rsc_demo",
+      "label": "production-like-alternating-8-reindexed-cycle8-position1",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle8-position1-dashboard-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 8,
+      "positionInCycle": 2,
+      "path": "/dashboard/inertia_demo",
+      "label": "production-like-alternating-8-reindexed-cycle8-position2",
+      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle8-position2-dashboard-inertia-demo-metrics.json",
+      "reusedExisting": false
+    }
+  ],
+  "pathSummaries": {
+    "/dashboard/inertia_demo": {
+      "count": 8,
+      "averages": {
+        "navigation": {
+          "domContentLoadedMs": 678.59,
+          "loadEventMs": 760.01,
+          "responseEndMs": 618.13,
+          "durationMs": 760.01,
+          "transferSize": 14527.75,
+          "encodedBodySize": 14227.75,
+          "decodedBodySize": 14227.75
+        },
+        "lcp": {
+          "startTime": 781.5,
+          "size": 32400.0
+        },
+        "inertiaDataPageBytes": 5789.0,
+        "htmlBytes": 375451.25,
+        "bodyTextBytes": 865.0,
+        "packs": {
+          "transferSize": 3587.0,
+          "encodedBodySize": 3287.0,
+          "decodedBodySize": 10947.0,
+          "jsTransferSize": 3587.0,
+          "cssTransferSize": 0.0,
+          "jsCount": 6.0,
+          "cssCount": 2.0
+        },
+        "serverTiming": {
+          "action_total": {
+            "durationMs": 336.56
+          },
+          "cache_generate.active_support": {
+            "durationMs": 0.62
+          },
+          "cache_read.active_support": {
+            "durationMs": 0.02
+          },
+          "compare_context": {
+            "durationMs": 25.14
+          },
+          "compare_creator_home": {
+            "durationMs": 275.64
+          },
+          "compare_props": {
+            "durationMs": 300.79
+          },
+          "feature_operation.flipper": {
+            "durationMs": 4.0
+          },
+          "instantiation.active_record": {
+            "durationMs": 1.73
+          },
+          "large_seller": {
+            "durationMs": 4.82
+          },
+          "process_action.action_controller": {
+            "durationMs": 339.88
+          },
+          "render_dispatch": {
+            "durationMs": 30.88
+          },
+          "render_layout.action_view": {
+            "durationMs": 17.67
+          },
+          "render_partial.action_view": {
+            "durationMs": 7.28
+          },
+          "render_template.action_view": {
+            "durationMs": 0.59
+          },
+          "sql.active_record": {
+            "durationMs": 130.37
+          },
+          "start_processing.action_controller": {
+            "durationMs": 0.03
+          }
+        },
+        "rscPayload": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "count": 0.0,
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "distributions": {
+        "navigation": {
+          "domContentLoadedMs": {
+            "count": 8,
+            "min": 519.7,
+            "median": 703.05,
+            "p95": 805.72,
+            "max": 822.1,
+            "stddev": 105.13
+          },
+          "loadEventMs": {
+            "count": 8,
+            "min": 580.6,
+            "median": 775.4,
+            "p95": 898.68,
+            "max": 920.8,
+            "stddev": 113.21
+          },
+          "responseEndMs": {
+            "count": 8,
+            "min": 466.3,
+            "median": 644.8,
+            "p95": 730.62,
+            "max": 739.4,
+            "stddev": 98.51
+          },
+          "durationMs": {
+            "count": 8,
+            "min": 580.6,
+            "median": 775.4,
+            "p95": 898.68,
+            "max": 920.8,
+            "stddev": 113.21
+          },
+          "transferSize": {
+            "count": 8,
+            "min": 14521.0,
+            "median": 14523.0,
+            "p95": 14544.0,
+            "max": 14544.0,
+            "stddev": 9.42
+          },
+          "encodedBodySize": {
+            "count": 8,
+            "min": 14221.0,
+            "median": 14223.0,
+            "p95": 14244.0,
+            "max": 14244.0,
+            "stddev": 9.42
+          },
+          "decodedBodySize": {
+            "count": 8,
+            "min": 14221.0,
+            "median": 14223.0,
+            "p95": 14244.0,
+            "max": 14244.0,
+            "stddev": 9.42
+          }
+        },
+        "lcp": {
+          "startTime": {
+            "count": 8,
+            "min": 604.0,
+            "median": 794.0,
+            "p95": 923.0,
+            "max": 944.0,
+            "stddev": 113.51
+          },
+          "size": {
+            "count": 8,
+            "min": 32400.0,
+            "median": 32400.0,
+            "p95": 32400.0,
+            "max": 32400.0,
+            "stddev": 0.0
+          }
+        },
+        "inertiaDataPageBytes": {
+          "count": 8,
+          "min": 5789.0,
+          "median": 5789.0,
+          "p95": 5789.0,
+          "max": 5789.0,
+          "stddev": 0.0
+        },
+        "htmlBytes": {
+          "count": 8,
+          "min": 372353.0,
+          "median": 372750.0,
+          "p95": 385361.3,
+          "max": 388925.0,
+          "stddev": 5472.08
+        },
+        "bodyTextBytes": {
+          "count": 8,
+          "min": 865.0,
+          "median": 865.0,
+          "p95": 865.0,
+          "max": 865.0,
+          "stddev": 0.0
+        },
+        "packs": {
+          "transferSize": {
+            "count": 8,
+            "min": 3587.0,
+            "median": 3587.0,
+            "p95": 3587.0,
+            "max": 3587.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 8,
+            "min": 3287.0,
+            "median": 3287.0,
+            "p95": 3287.0,
+            "max": 3287.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 8,
+            "min": 10947.0,
+            "median": 10947.0,
+            "p95": 10947.0,
+            "max": 10947.0,
+            "stddev": 0.0
+          },
+          "jsTransferSize": {
+            "count": 8,
+            "min": 3587.0,
+            "median": 3587.0,
+            "p95": 3587.0,
+            "max": 3587.0,
+            "stddev": 0.0
+          },
+          "cssTransferSize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsCount": {
+            "count": 8,
+            "min": 6.0,
+            "median": 6.0,
+            "p95": 6.0,
+            "max": 6.0,
+            "stddev": 0.0
+          },
+          "cssCount": {
+            "count": 8,
+            "min": 2.0,
+            "median": 2.0,
+            "p95": 2.0,
+            "max": 2.0,
+            "stddev": 0.0
+          }
+        },
+        "serverTiming": {
+          "action_total": {
+            "stats": {
+              "count": 8,
+              "min": 237.8,
+              "median": 346.87,
+              "p95": 442.37,
+              "max": 476.77,
+              "stddev": 74.63
+            }
+          },
+          "cache_generate.active_support": {
+            "stats": {
+              "count": 8,
+              "min": 0.35,
+              "median": 0.58,
+              "p95": 0.9,
+              "max": 0.92,
+              "stddev": 0.21
+            }
+          },
+          "cache_read.active_support": {
+            "stats": {
+              "count": 8,
+              "min": 0.01,
+              "median": 0.02,
+              "p95": 0.03,
+              "max": 0.03,
+              "stddev": 0.01
+            }
+          },
+          "compare_context": {
+            "stats": {
+              "count": 8,
+              "min": 18.19,
+              "median": 26.17,
+              "p95": 29.65,
+              "max": 30.62,
+              "stddev": 3.98
+            }
+          },
+          "compare_creator_home": {
+            "stats": {
+              "count": 8,
+              "min": 190.42,
+              "median": 285.03,
+              "p95": 365.2,
+              "max": 393.28,
+              "stddev": 62.5
+            }
+          },
+          "compare_props": {
+            "stats": {
+              "count": 8,
+              "min": 210.01,
+              "median": 311.5,
+              "p95": 392.05,
+              "max": 421.16,
+              "stddev": 65.33
+            }
+          },
+          "feature_operation.flipper": {
+            "stats": {
+              "count": 8,
+              "min": 3.27,
+              "median": 3.86,
+              "p95": 4.8,
+              "max": 4.87,
+              "stddev": 0.61
+            }
+          },
+          "instantiation.active_record": {
+            "stats": {
+              "count": 8,
+              "min": 1.08,
+              "median": 1.92,
+              "p95": 2.21,
+              "max": 2.27,
+              "stddev": 0.43
+            }
+          },
+          "large_seller": {
+            "stats": {
+              "count": 8,
+              "min": 2.85,
+              "median": 4.88,
+              "p95": 5.86,
+              "max": 5.91,
+              "stddev": 0.92
+            }
+          },
+          "process_action.action_controller": {
+            "stats": {
+              "count": 8,
+              "min": 240.19,
+              "median": 350.2,
+              "p95": 446.96,
+              "max": 481.79,
+              "stddev": 75.37
+            }
+          },
+          "render_dispatch": {
+            "stats": {
+              "count": 8,
+              "min": 20.23,
+              "median": 30.01,
+              "p95": 45.03,
+              "max": 50.08,
+              "stddev": 9.27
+            }
+          },
+          "render_layout.action_view": {
+            "stats": {
+              "count": 8,
+              "min": 11.45,
+              "median": 17.01,
+              "p95": 26.84,
+              "max": 30.16,
+              "stddev": 5.88
+            }
+          },
+          "render_partial.action_view": {
+            "stats": {
+              "count": 8,
+              "min": 4.21,
+              "median": 6.99,
+              "p95": 11.05,
+              "max": 12.2,
+              "stddev": 2.42
+            }
+          },
+          "render_template.action_view": {
+            "stats": {
+              "count": 8,
+              "min": 0.28,
+              "median": 0.5,
+              "p95": 0.98,
+              "max": 1.01,
+              "stddev": 0.25
+            }
+          },
+          "sql.active_record": {
+            "stats": {
+              "count": 8,
+              "min": 104.35,
+              "median": 130.74,
+              "p95": 151.58,
+              "max": 152.37,
+              "stddev": 17.76
+            }
+          },
+          "start_processing.action_controller": {
+            "stats": {
+              "count": 8,
+              "min": 0.02,
+              "median": 0.03,
+              "p95": 0.04,
+              "max": 0.04,
+              "stddev": 0.01
+            }
+          }
+        },
+        "rscPayload": {
+          "transferSize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "count": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "byExecutionPosition": {
+        "1": {
+          "count": 4,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 686.98,
+              "loadEventMs": 763.05,
+              "responseEndMs": 624.28,
+              "durationMs": 763.05,
+              "transferSize": 14527.75,
+              "encodedBodySize": 14227.75,
+              "decodedBodySize": 14227.75
+            },
+            "lcp": {
+              "startTime": 784.0,
+              "size": 32400.0
+            },
+            "inertiaDataPageBytes": 5789.0,
+            "htmlBytes": 374206.0,
+            "bodyTextBytes": 865.0,
+            "packs": {
+              "transferSize": 3587.0,
+              "encodedBodySize": 3287.0,
+              "decodedBodySize": 10947.0,
+              "jsTransferSize": 3587.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 6.0,
+              "cssCount": 2.0
+            },
+            "serverTiming": {
+              "action_total": {
+                "durationMs": 352.08
+              },
+              "cache_generate.active_support": {
+                "durationMs": 0.63
+              },
+              "cache_read.active_support": {
+                "durationMs": 0.02
+              },
+              "compare_context": {
+                "durationMs": 25.09
+              },
+              "compare_creator_home": {
+                "durationMs": 288.44
+              },
+              "compare_props": {
+                "durationMs": 313.54
+              },
+              "feature_operation.flipper": {
+                "durationMs": 4.1
+              },
+              "instantiation.active_record": {
+                "durationMs": 1.8
+              },
+              "large_seller": {
+                "durationMs": 4.8
+              },
+              "process_action.action_controller": {
+                "durationMs": 355.6
+              },
+              "render_dispatch": {
+                "durationMs": 33.67
+              },
+              "render_layout.action_view": {
+                "durationMs": 19.59
+              },
+              "render_partial.action_view": {
+                "durationMs": 8.51
+              },
+              "render_template.action_view": {
+                "durationMs": 0.68
+              },
+              "sql.active_record": {
+                "durationMs": 130.01
+              },
+              "start_processing.action_controller": {
+                "durationMs": 0.03
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 4,
+                "min": 519.7,
+                "median": 703.05,
+                "p95": 809.25,
+                "max": 822.1,
+                "stddev": 110.66
+              },
+              "loadEventMs": {
+                "count": 4,
+                "min": 580.6,
+                "median": 775.4,
+                "p95": 905.07,
+                "max": 920.8,
+                "stddev": 124.26
+              },
+              "responseEndMs": {
+                "count": 4,
+                "min": 468.1,
+                "median": 644.8,
+                "p95": 729.95,
+                "max": 739.4,
+                "stddev": 100.6
+              },
+              "durationMs": {
+                "count": 4,
+                "min": 580.6,
+                "median": 775.4,
+                "p95": 905.07,
+                "max": 920.8,
+                "stddev": 124.26
+              },
+              "transferSize": {
+                "count": 4,
+                "min": 14521.0,
+                "median": 14523.0,
+                "p95": 14540.85,
+                "max": 14544.0,
+                "stddev": 9.42
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 14221.0,
+                "median": 14223.0,
+                "p95": 14240.85,
+                "max": 14244.0,
+                "stddev": 9.42
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 14221.0,
+                "median": 14223.0,
+                "p95": 14240.85,
+                "max": 14244.0,
+                "stddev": 9.42
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 4,
+                "min": 604.0,
+                "median": 794.0,
+                "p95": 927.8,
+                "max": 944.0,
+                "stddev": 124.23
+              },
+              "size": {
+                "count": 4,
+                "min": 32400.0,
+                "median": 32400.0,
+                "p95": 32400.0,
+                "max": 32400.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": {
+              "count": 4,
+              "min": 5789.0,
+              "median": 5789.0,
+              "p95": 5789.0,
+              "max": 5789.0,
+              "stddev": 0.0
+            },
+            "htmlBytes": {
+              "count": 4,
+              "min": 372353.0,
+              "median": 372864.0,
+              "p95": 377890.4,
+              "max": 378743.0,
+              "stddev": 2631.35
+            },
+            "bodyTextBytes": {
+              "count": 4,
+              "min": 865.0,
+              "median": 865.0,
+              "p95": 865.0,
+              "max": 865.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 4,
+                "min": 3587.0,
+                "median": 3587.0,
+                "p95": 3587.0,
+                "max": 3587.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 3287.0,
+                "median": 3287.0,
+                "p95": 3287.0,
+                "max": 3287.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 10947.0,
+                "median": 10947.0,
+                "p95": 10947.0,
+                "max": 10947.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 4,
+                "min": 3587.0,
+                "median": 3587.0,
+                "p95": 3587.0,
+                "max": 3587.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 4,
+                "min": 6.0,
+                "median": 6.0,
+                "p95": 6.0,
+                "max": 6.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 4,
+                "min": 2.0,
+                "median": 2.0,
+                "p95": 2.0,
+                "max": 2.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "action_total": {
+                "stats": {
+                  "count": 4,
+                  "min": 237.8,
+                  "median": 346.87,
+                  "p95": 460.24,
+                  "max": 476.77,
+                  "stddev": 85.79
+                }
+              },
+              "cache_generate.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.38,
+                  "median": 0.64,
+                  "p95": 0.84,
+                  "max": 0.85,
+                  "stddev": 0.21
+                }
+              },
+              "cache_read.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.02,
+                  "median": 0.02,
+                  "p95": 0.03,
+                  "max": 0.03,
+                  "stddev": 0.0
+                }
+              },
+              "compare_context": {
+                "stats": {
+                  "count": 4,
+                  "min": 19.58,
+                  "median": 26.46,
+                  "p95": 27.82,
+                  "max": 27.86,
+                  "stddev": 3.33
+                }
+              },
+              "compare_creator_home": {
+                "stats": {
+                  "count": 4,
+                  "min": 190.42,
+                  "median": 285.03,
+                  "p95": 379.09,
+                  "max": 393.28,
+                  "stddev": 72.45
+                }
+              },
+              "compare_props": {
+                "stats": {
+                  "count": 4,
+                  "min": 210.01,
+                  "median": 311.5,
+                  "p95": 406.93,
+                  "max": 421.16,
+                  "stddev": 75.41
+                }
+              },
+              "feature_operation.flipper": {
+                "stats": {
+                  "count": 4,
+                  "min": 3.27,
+                  "median": 4.13,
+                  "p95": 4.83,
+                  "max": 4.87,
+                  "stddev": 0.67
+                }
+              },
+              "instantiation.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 1.08,
+                  "median": 1.92,
+                  "p95": 2.23,
+                  "max": 2.27,
+                  "stddev": 0.44
+                }
+              },
+              "large_seller": {
+                "stats": {
+                  "count": 4,
+                  "min": 4.28,
+                  "median": 4.73,
+                  "p95": 5.4,
+                  "max": 5.47,
+                  "stddev": 0.46
+                }
+              },
+              "process_action.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 240.19,
+                  "median": 350.2,
+                  "p95": 465.06,
+                  "max": 481.79,
+                  "stddev": 86.75
+                }
+              },
+              "render_dispatch": {
+                "stats": {
+                  "count": 4,
+                  "min": 23.47,
+                  "median": 30.57,
+                  "p95": 47.86,
+                  "max": 50.08,
+                  "stddev": 10.45
+                }
+              },
+              "render_layout.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 12.53,
+                  "median": 17.83,
+                  "p95": 28.74,
+                  "max": 30.16,
+                  "stddev": 6.78
+                }
+              },
+              "render_partial.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 6.41,
+                  "median": 7.72,
+                  "p95": 11.71,
+                  "max": 12.2,
+                  "stddev": 2.36
+                }
+              },
+              "render_template.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.28,
+                  "median": 0.72,
+                  "p95": 1.0,
+                  "max": 1.01,
+                  "stddev": 0.3
+                }
+              },
+              "sql.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 106.19,
+                  "median": 130.74,
+                  "p95": 150.15,
+                  "max": 152.37,
+                  "stddev": 17.05
+                }
+              },
+              "start_processing.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.02,
+                  "median": 0.03,
+                  "p95": 0.04,
+                  "max": 0.04,
+                  "stddev": 0.01
+                }
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        },
+        "2": {
+          "count": 4,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 670.2,
+              "loadEventMs": 756.97,
+              "responseEndMs": 611.97,
+              "durationMs": 756.97,
+              "transferSize": 14527.75,
+              "encodedBodySize": 14227.75,
+              "decodedBodySize": 14227.75
+            },
+            "lcp": {
+              "startTime": 779.0,
+              "size": 32400.0
+            },
+            "inertiaDataPageBytes": 5789.0,
+            "htmlBytes": 376696.5,
+            "bodyTextBytes": 865.0,
+            "packs": {
+              "transferSize": 3587.0,
+              "encodedBodySize": 3287.0,
+              "decodedBodySize": 10947.0,
+              "jsTransferSize": 3587.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 6.0,
+              "cssCount": 2.0
+            },
+            "serverTiming": {
+              "action_total": {
+                "durationMs": 321.04
+              },
+              "cache_generate.active_support": {
+                "durationMs": 0.61
+              },
+              "cache_read.active_support": {
+                "durationMs": 0.02
+              },
+              "compare_context": {
+                "durationMs": 25.19
+              },
+              "compare_creator_home": {
+                "durationMs": 262.83
+              },
+              "compare_props": {
+                "durationMs": 288.03
+              },
+              "feature_operation.flipper": {
+                "durationMs": 3.9
+              },
+              "instantiation.active_record": {
+                "durationMs": 1.66
+              },
+              "large_seller": {
+                "durationMs": 4.83
+              },
+              "process_action.action_controller": {
+                "durationMs": 324.17
+              },
+              "render_dispatch": {
+                "durationMs": 28.1
+              },
+              "render_layout.action_view": {
+                "durationMs": 15.75
+              },
+              "render_partial.action_view": {
+                "durationMs": 6.04
+              },
+              "render_template.action_view": {
+                "durationMs": 0.49
+              },
+              "sql.active_record": {
+                "durationMs": 130.73
+              },
+              "start_processing.action_controller": {
+                "durationMs": 0.03
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 4,
+                "min": 523.8,
+                "median": 690.85,
+                "p95": 770.53,
+                "max": 775.3,
+                "stddev": 98.58
+              },
+              "loadEventMs": {
+                "count": 4,
+                "min": 618.2,
+                "median": 776.05,
+                "p95": 856.28,
+                "max": 857.6,
+                "stddev": 100.87
+              },
+              "responseEndMs": {
+                "count": 4,
+                "min": 466.3,
+                "median": 633.65,
+                "p95": 709.1,
+                "max": 714.3,
+                "stddev": 95.99
+              },
+              "durationMs": {
+                "count": 4,
+                "min": 618.2,
+                "median": 776.05,
+                "p95": 856.28,
+                "max": 857.6,
+                "stddev": 100.87
+              },
+              "transferSize": {
+                "count": 4,
+                "min": 14521.0,
+                "median": 14523.0,
+                "p95": 14540.85,
+                "max": 14544.0,
+                "stddev": 9.42
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 14221.0,
+                "median": 14223.0,
+                "p95": 14240.85,
+                "max": 14244.0,
+                "stddev": 9.42
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 14221.0,
+                "median": 14223.0,
+                "p95": 14240.85,
+                "max": 14244.0,
+                "stddev": 9.42
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 4,
+                "min": 640.0,
+                "median": 796.0,
+                "p95": 881.6,
+                "max": 884.0,
+                "stddev": 101.6
+              },
+              "size": {
+                "count": 4,
+                "min": 32400.0,
+                "median": 32400.0,
+                "p95": 32400.0,
+                "max": 32400.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": {
+              "count": 4,
+              "min": 5789.0,
+              "median": 5789.0,
+              "p95": 5789.0,
+              "max": 5789.0,
+              "stddev": 0.0
+            },
+            "htmlBytes": {
+              "count": 4,
+              "min": 372511.0,
+              "median": 372675.0,
+              "p95": 386510.9,
+              "max": 388925.0,
+              "stddev": 7061.31
+            },
+            "bodyTextBytes": {
+              "count": 4,
+              "min": 865.0,
+              "median": 865.0,
+              "p95": 865.0,
+              "max": 865.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 4,
+                "min": 3587.0,
+                "median": 3587.0,
+                "p95": 3587.0,
+                "max": 3587.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 3287.0,
+                "median": 3287.0,
+                "p95": 3287.0,
+                "max": 3287.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 10947.0,
+                "median": 10947.0,
+                "p95": 10947.0,
+                "max": 10947.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 4,
+                "min": 3587.0,
+                "median": 3587.0,
+                "p95": 3587.0,
+                "max": 3587.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 4,
+                "min": 6.0,
+                "median": 6.0,
+                "p95": 6.0,
+                "max": 6.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 4,
+                "min": 2.0,
+                "median": 2.0,
+                "p95": 2.0,
+                "max": 2.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "action_total": {
+                "stats": {
+                  "count": 4,
+                  "min": 251.61,
+                  "median": 327.03,
+                  "p95": 378.27,
+                  "max": 378.49,
+                  "stddev": 57.43
+                }
+              },
+              "cache_generate.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.35,
+                  "median": 0.58,
+                  "p95": 0.88,
+                  "max": 0.92,
+                  "stddev": 0.21
+                }
+              },
+              "cache_read.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.01,
+                  "median": 0.02,
+                  "p95": 0.03,
+                  "max": 0.03,
+                  "stddev": 0.01
+                }
+              },
+              "compare_context": {
+                "stats": {
+                  "count": 4,
+                  "min": 18.19,
+                  "median": 25.98,
+                  "p95": 30.08,
+                  "max": 30.62,
+                  "stddev": 4.53
+                }
+              },
+              "compare_creator_home": {
+                "stats": {
+                  "count": 4,
+                  "min": 208.15,
+                  "median": 265.06,
+                  "p95": 312.06,
+                  "max": 313.06,
+                  "stddev": 47.29
+                }
+              },
+              "compare_props": {
+                "stats": {
+                  "count": 4,
+                  "min": 226.35,
+                  "median": 293.9,
+                  "p95": 337.84,
+                  "max": 337.98,
+                  "stddev": 50.23
+                }
+              },
+              "feature_operation.flipper": {
+                "stats": {
+                  "count": 4,
+                  "min": 3.33,
+                  "median": 3.8,
+                  "p95": 4.59,
+                  "max": 4.68,
+                  "stddev": 0.53
+                }
+              },
+              "instantiation.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 1.22,
+                  "median": 1.66,
+                  "p95": 2.1,
+                  "max": 2.11,
+                  "stddev": 0.42
+                }
+              },
+              "large_seller": {
+                "stats": {
+                  "count": 4,
+                  "min": 2.85,
+                  "median": 5.28,
+                  "p95": 5.89,
+                  "max": 5.91,
+                  "stddev": 1.22
+                }
+              },
+              "process_action.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 253.66,
+                  "median": 330.37,
+                  "p95": 381.95,
+                  "max": 382.28,
+                  "stddev": 57.8
+                }
+              },
+              "render_dispatch": {
+                "stats": {
+                  "count": 4,
+                  "min": 20.23,
+                  "median": 28.26,
+                  "p95": 35.42,
+                  "max": 35.64,
+                  "stddev": 6.86
+                }
+              },
+              "render_layout.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 11.45,
+                  "median": 15.59,
+                  "p95": 20.18,
+                  "max": 20.38,
+                  "stddev": 3.99
+                }
+              },
+              "render_partial.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 4.21,
+                  "median": 5.92,
+                  "p95": 8.01,
+                  "max": 8.11,
+                  "stddev": 1.77
+                }
+              },
+              "render_template.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.37,
+                  "median": 0.45,
+                  "p95": 0.65,
+                  "max": 0.68,
+                  "stddev": 0.12
+                }
+              },
+              "sql.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 104.35,
+                  "median": 134.24,
+                  "p95": 149.45,
+                  "max": 150.11,
+                  "stddev": 18.44
+                }
+              },
+              "start_processing.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.02,
+                  "median": 0.04,
+                  "p95": 0.04,
+                  "max": 0.04,
+                  "stddev": 0.01
+                }
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        }
+      },
+      "slowestPackResources": [
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle1-position1",
+          "cycle": 1,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/inertia_demo",
+          "name": "https://app.gumroad.dev/packs/js/base-878a9dc178ea84d7.js",
+          "durationMs": 47.899999998509884,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle1-position1",
+          "cycle": 1,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/inertia_demo",
+          "name": "https://app.gumroad.dev/packs/css/design-c9ba3f28.css",
+          "durationMs": 47,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle1-position1",
+          "cycle": 1,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/inertia_demo",
+          "name": "https://app.gumroad.dev/packs/js/2166-71c47d0df814a1f0.js",
+          "durationMs": 45.099999994039536,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle1-position1",
+          "cycle": 1,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/inertia_demo",
+          "name": "https://app.gumroad.dev/packs/css/dashboard_rsc_demo_styles-880be2f7.css",
+          "durationMs": 38.399999998509884,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle1-position1",
+          "cycle": 1,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/inertia_demo",
+          "name": "https://app.gumroad.dev/packs/js/3627-dafe3f7c0b8f0047.js",
+          "durationMs": 36.5,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        }
+      ]
+    },
+    "/dashboard/rsc_demo": {
+      "count": 8,
+      "averages": {
+        "navigation": {
+          "domContentLoadedMs": 619.15,
+          "loadEventMs": 619.21,
+          "responseEndMs": 598.65,
+          "durationMs": 619.21,
+          "transferSize": 12673.0,
+          "encodedBodySize": 12373.0,
+          "decodedBodySize": 12373.0
+        },
+        "lcp": {
+          "startTime": 643.5,
+          "size": 12765.0
+        },
+        "inertiaDataPageBytes": null,
+        "htmlBytes": 12216.0,
+        "bodyTextBytes": 734.0,
+        "packs": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "jsTransferSize": 0.0,
+          "cssTransferSize": 0.0,
+          "jsCount": 1.0,
+          "cssCount": 2.0
+        },
+        "serverTiming": {
+          "action_total": {
+            "durationMs": 328.06
+          },
+          "cache_generate.active_support": {
+            "durationMs": 0.59
+          },
+          "cache_read.active_support": {
+            "durationMs": 0.03
+          },
+          "cache_write.active_support": {
+            "durationMs": 0.15
+          },
+          "compare_context": {
+            "durationMs": 23.8
+          },
+          "compare_creator_home": {
+            "durationMs": 265.08
+          },
+          "compare_props": {
+            "durationMs": 288.89
+          },
+          "feature_operation.flipper": {
+            "durationMs": 6.78
+          },
+          "instantiation.active_record": {
+            "durationMs": 1.27
+          },
+          "large_seller": {
+            "durationMs": 12.68
+          },
+          "process_action.action_controller": {
+            "durationMs": 331.03
+          },
+          "render_dispatch": {
+            "durationMs": 26.44
+          },
+          "render_layout.action_view": {
+            "durationMs": 25.86
+          },
+          "render_partial.action_view": {
+            "durationMs": 3.32
+          },
+          "render_template.action_view": {
+            "durationMs": 10.01
+          },
+          "sql.active_record": {
+            "durationMs": 131.39
+          },
+          "start_processing.action_controller": {
+            "durationMs": 0.03
+          }
+        },
+        "rscPayload": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "count": 0.0,
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "distributions": {
+        "navigation": {
+          "domContentLoadedMs": {
+            "count": 8,
+            "min": 472.3,
+            "median": 607.1,
+            "p95": 789.27,
+            "max": 800.4,
+            "stddev": 130.43
+          },
+          "loadEventMs": {
+            "count": 8,
+            "min": 472.4,
+            "median": 607.15,
+            "p95": 789.37,
+            "max": 800.5,
+            "stddev": 130.43
+          },
+          "responseEndMs": {
+            "count": 8,
+            "min": 452.3,
+            "median": 588.8,
+            "p95": 768.25,
+            "max": 779.8,
+            "stddev": 129.85
+          },
+          "durationMs": {
+            "count": 8,
+            "min": 472.4,
+            "median": 607.15,
+            "p95": 789.37,
+            "max": 800.5,
+            "stddev": 130.43
+          },
+          "transferSize": {
+            "count": 8,
+            "min": 12673.0,
+            "median": 12673.0,
+            "p95": 12673.0,
+            "max": 12673.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 8,
+            "min": 12373.0,
+            "median": 12373.0,
+            "p95": 12373.0,
+            "max": 12373.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 8,
+            "min": 12373.0,
+            "median": 12373.0,
+            "p95": 12373.0,
+            "max": 12373.0,
+            "stddev": 0.0
+          }
+        },
+        "lcp": {
+          "startTime": {
+            "count": 8,
+            "min": 496.0,
+            "median": 634.0,
+            "p95": 810.2,
+            "max": 820.0,
+            "stddev": 129.33
+          },
+          "size": {
+            "count": 8,
+            "min": 12765.0,
+            "median": 12765.0,
+            "p95": 12765.0,
+            "max": 12765.0,
+            "stddev": 0.0
+          }
+        },
+        "inertiaDataPageBytes": null,
+        "htmlBytes": {
+          "count": 8,
+          "min": 12216.0,
+          "median": 12216.0,
+          "p95": 12216.0,
+          "max": 12216.0,
+          "stddev": 0.0
+        },
+        "bodyTextBytes": {
+          "count": 8,
+          "min": 734.0,
+          "median": 734.0,
+          "p95": 734.0,
+          "max": 734.0,
+          "stddev": 0.0
+        },
+        "packs": {
+          "transferSize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsTransferSize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "cssTransferSize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsCount": {
+            "count": 8,
+            "min": 1.0,
+            "median": 1.0,
+            "p95": 1.0,
+            "max": 1.0,
+            "stddev": 0.0
+          },
+          "cssCount": {
+            "count": 8,
+            "min": 2.0,
+            "median": 2.0,
+            "p95": 2.0,
+            "max": 2.0,
+            "stddev": 0.0
+          }
+        },
+        "serverTiming": {
+          "action_total": {
+            "stats": {
+              "count": 8,
+              "min": 235.85,
+              "median": 339.2,
+              "p95": 415.94,
+              "max": 428.84,
+              "stddev": 65.96
+            }
+          },
+          "cache_generate.active_support": {
+            "stats": {
+              "count": 8,
+              "min": 0.36,
+              "median": 0.54,
+              "p95": 0.89,
+              "max": 0.91,
+              "stddev": 0.19
+            }
+          },
+          "cache_read.active_support": {
+            "stats": {
+              "count": 8,
+              "min": 0.02,
+              "median": 0.03,
+              "p95": 0.05,
+              "max": 0.05,
+              "stddev": 0.01
+            }
+          },
+          "cache_write.active_support": {
+            "stats": {
+              "count": 8,
+              "min": 0.12,
+              "median": 0.13,
+              "p95": 0.23,
+              "max": 0.27,
+              "stddev": 0.05
+            }
+          },
+          "compare_context": {
+            "stats": {
+              "count": 8,
+              "min": 17.44,
+              "median": 19.7,
+              "p95": 35.1,
+              "max": 37.05,
+              "stddev": 7.3
+            }
+          },
+          "compare_creator_home": {
+            "stats": {
+              "count": 8,
+              "min": 186.57,
+              "median": 276.85,
+              "p95": 324.5,
+              "max": 326.99,
+              "stddev": 51.21
+            }
+          },
+          "compare_props": {
+            "stats": {
+              "count": 8,
+              "min": 207.03,
+              "median": 294.38,
+              "p95": 356.96,
+              "max": 356.97,
+              "stddev": 56.6
+            }
+          },
+          "feature_operation.flipper": {
+            "stats": {
+              "count": 8,
+              "min": 5.18,
+              "median": 6.96,
+              "p95": 8.77,
+              "max": 9.42,
+              "stddev": 1.39
+            }
+          },
+          "instantiation.active_record": {
+            "stats": {
+              "count": 8,
+              "min": 0.8,
+              "median": 1.09,
+              "p95": 1.73,
+              "max": 1.76,
+              "stddev": 0.34
+            }
+          },
+          "large_seller": {
+            "stats": {
+              "count": 8,
+              "min": 2.57,
+              "median": 4.92,
+              "p95": 37.68,
+              "max": 38.04,
+              "stddev": 14.39
+            }
+          },
+          "process_action.action_controller": {
+            "stats": {
+              "count": 8,
+              "min": 238.09,
+              "median": 341.86,
+              "p95": 419.45,
+              "max": 432.09,
+              "stddev": 66.39
+            }
+          },
+          "render_dispatch": {
+            "stats": {
+              "count": 8,
+              "min": 21.41,
+              "median": 26.18,
+              "p95": 32.43,
+              "max": 33.77,
+              "stddev": 3.91
+            }
+          },
+          "render_layout.action_view": {
+            "stats": {
+              "count": 8,
+              "min": 20.9,
+              "median": 25.54,
+              "p95": 31.72,
+              "max": 33.05,
+              "stddev": 3.83
+            }
+          },
+          "render_partial.action_view": {
+            "stats": {
+              "count": 8,
+              "min": 2.32,
+              "median": 2.72,
+              "p95": 5.35,
+              "max": 5.66,
+              "stddev": 1.15
+            }
+          },
+          "render_template.action_view": {
+            "stats": {
+              "count": 8,
+              "min": 8.55,
+              "median": 10.14,
+              "p95": 11.18,
+              "max": 11.24,
+              "stddev": 1.09
+            }
+          },
+          "sql.active_record": {
+            "stats": {
+              "count": 8,
+              "min": 92.57,
+              "median": 128.87,
+              "p95": 164.19,
+              "max": 169.82,
+              "stddev": 23.3
+            }
+          },
+          "start_processing.action_controller": {
+            "stats": {
+              "count": 8,
+              "min": 0.02,
+              "median": 0.02,
+              "p95": 0.05,
+              "max": 0.05,
+              "stddev": 0.01
+            }
+          }
+        },
+        "rscPayload": {
+          "transferSize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "count": {
+            "count": 8,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "byExecutionPosition": {
+        "1": {
+          "count": 4,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 570.25,
+              "loadEventMs": 570.3,
+              "responseEndMs": 549.1,
+              "durationMs": 570.3,
+              "transferSize": 12673.0,
+              "encodedBodySize": 12373.0,
+              "decodedBodySize": 12373.0
+            },
+            "lcp": {
+              "startTime": 596.0,
+              "size": 12765.0
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": 12216.0,
+            "bodyTextBytes": 734.0,
+            "packs": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "jsTransferSize": 0.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 1.0,
+              "cssCount": 2.0
+            },
+            "serverTiming": {
+              "action_total": {
+                "durationMs": 313.08
+              },
+              "cache_generate.active_support": {
+                "durationMs": 0.53
+              },
+              "cache_read.active_support": {
+                "durationMs": 0.03
+              },
+              "cache_write.active_support": {
+                "durationMs": 0.13
+              },
+              "compare_context": {
+                "durationMs": 23.47
+              },
+              "compare_creator_home": {
+                "durationMs": 243.13
+              },
+              "compare_props": {
+                "durationMs": 266.61
+              },
+              "feature_operation.flipper": {
+                "durationMs": 6.35
+              },
+              "instantiation.active_record": {
+                "durationMs": 1.17
+              },
+              "large_seller": {
+                "durationMs": 20.28
+              },
+              "process_action.action_controller": {
+                "durationMs": 315.91
+              },
+              "render_dispatch": {
+                "durationMs": 26.14
+              },
+              "render_layout.action_view": {
+                "durationMs": 25.58
+              },
+              "render_partial.action_view": {
+                "durationMs": 3.89
+              },
+              "render_template.action_view": {
+                "durationMs": 9.37
+              },
+              "sql.active_record": {
+                "durationMs": 122.91
+              },
+              "start_processing.action_controller": {
+                "durationMs": 0.03
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 4,
+                "min": 472.3,
+                "median": 530.55,
+                "p95": 723.15,
+                "max": 747.6,
+                "stddev": 111.85
+              },
+              "loadEventMs": {
+                "count": 4,
+                "min": 472.4,
+                "median": 530.6,
+                "p95": 723.15,
+                "max": 747.6,
+                "stddev": 111.81
+              },
+              "responseEndMs": {
+                "count": 4,
+                "min": 452.3,
+                "median": 510.0,
+                "p95": 700.28,
+                "max": 724.1,
+                "stddev": 110.87
+              },
+              "durationMs": {
+                "count": 4,
+                "min": 472.4,
+                "median": 530.6,
+                "p95": 723.15,
+                "max": 747.6,
+                "stddev": 111.81
+              },
+              "transferSize": {
+                "count": 4,
+                "min": 12673.0,
+                "median": 12673.0,
+                "p95": 12673.0,
+                "max": 12673.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 12373.0,
+                "median": 12373.0,
+                "p95": 12373.0,
+                "max": 12373.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 12373.0,
+                "median": 12373.0,
+                "p95": 12373.0,
+                "max": 12373.0,
+                "stddev": 0.0
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 4,
+                "min": 500.0,
+                "median": 556.0,
+                "p95": 748.0,
+                "max": 772.0,
+                "stddev": 111.43
+              },
+              "size": {
+                "count": 4,
+                "min": 12765.0,
+                "median": 12765.0,
+                "p95": 12765.0,
+                "max": 12765.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": {
+              "count": 4,
+              "min": 12216.0,
+              "median": 12216.0,
+              "p95": 12216.0,
+              "max": 12216.0,
+              "stddev": 0.0
+            },
+            "bodyTextBytes": {
+              "count": 4,
+              "min": 734.0,
+              "median": 734.0,
+              "p95": 734.0,
+              "max": 734.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 4,
+                "min": 1.0,
+                "median": 1.0,
+                "p95": 1.0,
+                "max": 1.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 4,
+                "min": 2.0,
+                "median": 2.0,
+                "p95": 2.0,
+                "max": 2.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "action_total": {
+                "stats": {
+                  "count": 4,
+                  "min": 235.85,
+                  "median": 293.82,
+                  "p95": 414.83,
+                  "max": 428.84,
+                  "stddev": 76.77
+                }
+              },
+              "cache_generate.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.36,
+                  "median": 0.54,
+                  "p95": 0.65,
+                  "max": 0.66,
+                  "stddev": 0.11
+                }
+              },
+              "cache_read.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.02,
+                  "median": 0.03,
+                  "p95": 0.04,
+                  "max": 0.04,
+                  "stddev": 0.01
+                }
+              },
+              "cache_write.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.12,
+                  "median": 0.12,
+                  "p95": 0.15,
+                  "max": 0.15,
+                  "stddev": 0.01
+                }
+              },
+              "compare_context": {
+                "stats": {
+                  "count": 4,
+                  "min": 17.45,
+                  "median": 19.7,
+                  "p95": 34.56,
+                  "max": 37.05,
+                  "stddev": 7.91
+                }
+              },
+              "compare_creator_home": {
+                "stats": {
+                  "count": 4,
+                  "min": 186.57,
+                  "median": 233.04,
+                  "p95": 310.82,
+                  "max": 319.87,
+                  "stddev": 51.72
+                }
+              },
+              "compare_props": {
+                "stats": {
+                  "count": 4,
+                  "min": 207.03,
+                  "median": 251.24,
+                  "p95": 344.95,
+                  "max": 356.94,
+                  "stddev": 58.12
+                }
+              },
+              "feature_operation.flipper": {
+                "stats": {
+                  "count": 4,
+                  "min": 5.18,
+                  "median": 6.35,
+                  "p95": 7.51,
+                  "max": 7.51,
+                  "stddev": 1.16
+                }
+              },
+              "instantiation.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.8,
+                  "median": 1.05,
+                  "p95": 1.66,
+                  "max": 1.76,
+                  "stddev": 0.36
+                }
+              },
+              "large_seller": {
+                "stats": {
+                  "count": 4,
+                  "min": 2.57,
+                  "median": 20.24,
+                  "p95": 37.88,
+                  "max": 38.04,
+                  "stddev": 17.25
+                }
+              },
+              "process_action.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 238.09,
+                  "median": 296.72,
+                  "p95": 418.01,
+                  "max": 432.09,
+                  "stddev": 77.03
+                }
+              },
+              "render_dispatch": {
+                "stats": {
+                  "count": 4,
+                  "min": 21.41,
+                  "median": 24.68,
+                  "p95": 32.64,
+                  "max": 33.77,
+                  "stddev": 4.73
+                }
+              },
+              "render_layout.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 20.9,
+                  "median": 24.18,
+                  "p95": 31.93,
+                  "max": 33.05,
+                  "stddev": 4.63
+                }
+              },
+              "render_partial.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 2.43,
+                  "median": 3.74,
+                  "p95": 5.53,
+                  "max": 5.66,
+                  "stddev": 1.36
+                }
+              },
+              "render_template.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 8.55,
+                  "median": 8.93,
+                  "p95": 10.76,
+                  "max": 11.05,
+                  "stddev": 1.0
+                }
+              },
+              "sql.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 92.57,
+                  "median": 122.66,
+                  "p95": 150.39,
+                  "max": 153.74,
+                  "stddev": 22.49
+                }
+              },
+              "start_processing.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.02,
+                  "median": 0.02,
+                  "p95": 0.04,
+                  "max": 0.04,
+                  "stddev": 0.01
+                }
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        },
+        "2": {
+          "count": 4,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 668.05,
+              "loadEventMs": 668.13,
+              "responseEndMs": 648.2,
+              "durationMs": 668.13,
+              "transferSize": 12673.0,
+              "encodedBodySize": 12373.0,
+              "decodedBodySize": 12373.0
+            },
+            "lcp": {
+              "startTime": 691.0,
+              "size": 12765.0
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": 12216.0,
+            "bodyTextBytes": 734.0,
+            "packs": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "jsTransferSize": 0.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 1.0,
+              "cssCount": 2.0
+            },
+            "serverTiming": {
+              "action_total": {
+                "durationMs": 343.04
+              },
+              "cache_generate.active_support": {
+                "durationMs": 0.65
+              },
+              "cache_read.active_support": {
+                "durationMs": 0.04
+              },
+              "cache_write.active_support": {
+                "durationMs": 0.17
+              },
+              "compare_context": {
+                "durationMs": 24.13
+              },
+              "compare_creator_home": {
+                "durationMs": 287.04
+              },
+              "compare_props": {
+                "durationMs": 311.17
+              },
+              "feature_operation.flipper": {
+                "durationMs": 7.22
+              },
+              "instantiation.active_record": {
+                "durationMs": 1.37
+              },
+              "large_seller": {
+                "durationMs": 5.08
+              },
+              "process_action.action_controller": {
+                "durationMs": 346.15
+              },
+              "render_dispatch": {
+                "durationMs": 26.74
+              },
+              "render_layout.action_view": {
+                "durationMs": 26.14
+              },
+              "render_partial.action_view": {
+                "durationMs": 2.75
+              },
+              "render_template.action_view": {
+                "durationMs": 10.65
+              },
+              "sql.active_record": {
+                "durationMs": 139.88
+              },
+              "start_processing.action_controller": {
+                "durationMs": 0.03
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 4,
+                "min": 473.6,
+                "median": 699.1,
+                "p95": 795.63,
+                "max": 800.4,
+                "stddev": 129.34
+              },
+              "loadEventMs": {
+                "count": 4,
+                "min": 473.6,
+                "median": 699.2,
+                "p95": 795.73,
+                "max": 800.5,
+                "stddev": 129.38
+              },
+              "responseEndMs": {
+                "count": 4,
+                "min": 453.9,
+                "median": 679.55,
+                "p95": 774.85,
+                "max": 779.8,
+                "stddev": 128.53
+              },
+              "durationMs": {
+                "count": 4,
+                "min": 473.6,
+                "median": 699.2,
+                "p95": 795.73,
+                "max": 800.5,
+                "stddev": 129.38
+              },
+              "transferSize": {
+                "count": 4,
+                "min": 12673.0,
+                "median": 12673.0,
+                "p95": 12673.0,
+                "max": 12673.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 12373.0,
+                "median": 12373.0,
+                "p95": 12373.0,
+                "max": 12373.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 12373.0,
+                "median": 12373.0,
+                "p95": 12373.0,
+                "max": 12373.0,
+                "stddev": 0.0
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 4,
+                "min": 496.0,
+                "median": 724.0,
+                "p95": 815.8,
+                "max": 820.0,
+                "stddev": 128.54
+              },
+              "size": {
+                "count": 4,
+                "min": 12765.0,
+                "median": 12765.0,
+                "p95": 12765.0,
+                "max": 12765.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": {
+              "count": 4,
+              "min": 12216.0,
+              "median": 12216.0,
+              "p95": 12216.0,
+              "max": 12216.0,
+              "stddev": 0.0
+            },
+            "bodyTextBytes": {
+              "count": 4,
+              "min": 734.0,
+              "median": 734.0,
+              "p95": 734.0,
+              "max": 734.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 4,
+                "min": 1.0,
+                "median": 1.0,
+                "p95": 1.0,
+                "max": 1.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 4,
+                "min": 2.0,
+                "median": 2.0,
+                "p95": 2.0,
+                "max": 2.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "action_total": {
+                "stats": {
+                  "count": 4,
+                  "min": 264.58,
+                  "median": 357.81,
+                  "p95": 389.08,
+                  "max": 391.97,
+                  "stddev": 48.55
+                }
+              },
+              "cache_generate.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.41,
+                  "median": 0.64,
+                  "p95": 0.9,
+                  "max": 0.91,
+                  "stddev": 0.23
+                }
+              },
+              "cache_read.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.03,
+                  "median": 0.04,
+                  "p95": 0.05,
+                  "max": 0.05,
+                  "stddev": 0.01
+                }
+              },
+              "cache_write.active_support": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.12,
+                  "median": 0.14,
+                  "p95": 0.25,
+                  "max": 0.27,
+                  "stddev": 0.06
+                }
+              },
+              "compare_context": {
+                "stats": {
+                  "count": 4,
+                  "min": 17.44,
+                  "median": 23.8,
+                  "p95": 31.25,
+                  "max": 31.48,
+                  "stddev": 6.62
+                }
+              },
+              "compare_creator_home": {
+                "stats": {
+                  "count": 4,
+                  "min": 220.67,
+                  "median": 300.24,
+                  "p95": 323.89,
+                  "max": 326.99,
+                  "stddev": 40.08
+                }
+              },
+              "compare_props": {
+                "stats": {
+                  "count": 4,
+                  "min": 238.12,
+                  "median": 324.79,
+                  "p95": 354.1,
+                  "max": 356.97,
+                  "stddev": 45.13
+                }
+              },
+              "feature_operation.flipper": {
+                "stats": {
+                  "count": 4,
+                  "min": 5.49,
+                  "median": 6.99,
+                  "p95": 9.14,
+                  "max": 9.42,
+                  "stddev": 1.46
+                }
+              },
+              "instantiation.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 1.04,
+                  "median": 1.39,
+                  "p95": 1.66,
+                  "max": 1.66,
+                  "stddev": 0.29
+                }
+              },
+              "large_seller": {
+                "stats": {
+                  "count": 4,
+                  "min": 3.98,
+                  "median": 4.92,
+                  "p95": 6.26,
+                  "max": 6.49,
+                  "stddev": 0.9
+                }
+              },
+              "process_action.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 266.77,
+                  "median": 360.92,
+                  "p95": 393.03,
+                  "max": 395.98,
+                  "stddev": 49.23
+                }
+              },
+              "render_dispatch": {
+                "stats": {
+                  "count": 4,
+                  "min": 22.44,
+                  "median": 27.29,
+                  "p95": 29.71,
+                  "max": 29.93,
+                  "stddev": 2.82
+                }
+              },
+              "render_layout.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 21.94,
+                  "median": 26.68,
+                  "p95": 29.05,
+                  "max": 29.25,
+                  "stddev": 2.78
+                }
+              },
+              "render_partial.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 2.32,
+                  "median": 2.64,
+                  "p95": 3.3,
+                  "max": 3.4,
+                  "stddev": 0.4
+                }
+              },
+              "render_template.action_view": {
+                "stats": {
+                  "count": 4,
+                  "min": 9.37,
+                  "median": 10.99,
+                  "p95": 11.22,
+                  "max": 11.24,
+                  "stddev": 0.75
+                }
+              },
+              "sql.active_record": {
+                "stats": {
+                  "count": 4,
+                  "min": 115.44,
+                  "median": 137.13,
+                  "p95": 166.53,
+                  "max": 169.82,
+                  "stddev": 20.87
+                }
+              },
+              "start_processing.action_controller": {
+                "stats": {
+                  "count": 4,
+                  "min": 0.02,
+                  "median": 0.02,
+                  "p95": 0.05,
+                  "max": 0.05,
+                  "stddev": 0.01
+                }
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 4,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        }
+      },
+      "slowestPackResources": [
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle2-position1",
+          "cycle": 2,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/rsc_demo",
+          "name": "https://app.gumroad.dev/packs/dashboard_rsc_demo.js",
+          "durationMs": 20.400000005960464,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle3-position2",
+          "cycle": 3,
+          "positionInCycle": 2,
+          "requestedPath": "/dashboard/rsc_demo",
+          "name": "https://app.gumroad.dev/packs/dashboard_rsc_demo.js",
+          "durationMs": 18.5,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle7-position2",
+          "cycle": 7,
+          "positionInCycle": 2,
+          "requestedPath": "/dashboard/rsc_demo",
+          "name": "https://app.gumroad.dev/packs/dashboard_rsc_demo.js",
+          "durationMs": 17.599999994039536,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle6-position1",
+          "cycle": 6,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/rsc_demo",
+          "name": "https://app.gumroad.dev/packs/dashboard_rsc_demo.js",
+          "durationMs": 17.400000005960464,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        },
+        {
+          "measurementLabel": "production-like-alternating-8-reindexed-cycle8-position1",
+          "cycle": 8,
+          "positionInCycle": 1,
+          "requestedPath": "/dashboard/rsc_demo",
+          "name": "https://app.gumroad.dev/packs/css/dashboard_rsc_demo_styles-880be2f7.css",
+          "durationMs": 17.299999997019768,
+          "transferSize": 0,
+          "encodedBodySize": 0,
+          "decodedBodySize": 0
+        }
+      ]
+    }
+  },
+  "comparison": {
+    "baselinePath": "/dashboard/inertia_demo",
+    "candidates": [
+      {
+        "candidatePath": "/dashboard/rsc_demo",
+        "primaryMetricDeltas": {
+          "average": {
+            "navigationDurationMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 760.01,
+              "candidateValue": 619.21,
+              "deltaPercent": -18.5
+            },
+            "responseEndMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 618.13,
+              "candidateValue": 598.65,
+              "deltaPercent": -3.2
+            },
+            "lcpStartTime": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 781.5,
+              "candidateValue": 643.5,
+              "deltaPercent": -17.7
+            },
+            "htmlTransferBytes": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 14227.75,
+              "candidateValue": 12373.0,
+              "deltaPercent": -13.0
+            },
+            "jsRequestCount": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 6.0,
+              "candidateValue": 1.0,
+              "deltaPercent": -83.3
+            },
+            "rscPayloadDurationMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadResponseEndMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadTransferBytes": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "actionTotalMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 336.56,
+              "candidateValue": 328.06,
+              "deltaPercent": -2.5
+            },
+            "comparePropsMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 300.79,
+              "candidateValue": 288.89,
+              "deltaPercent": -4.0
+            },
+            "compareCreatorHomeMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 275.64,
+              "candidateValue": 265.08,
+              "deltaPercent": -3.8
+            },
+            "sqlActiveRecordMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 130.37,
+              "candidateValue": 131.39,
+              "deltaPercent": 0.8
+            },
+            "renderDispatchMs": {
+              "statistic": "average",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 30.88,
+              "candidateValue": 26.44,
+              "deltaPercent": -14.4
+            }
+          },
+          "median": {
+            "navigationDurationMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 775.4,
+              "candidateValue": 607.15,
+              "deltaPercent": -21.7
+            },
+            "responseEndMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 644.8,
+              "candidateValue": 588.8,
+              "deltaPercent": -8.7
+            },
+            "lcpStartTime": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 794.0,
+              "candidateValue": 634.0,
+              "deltaPercent": -20.2
+            },
+            "htmlTransferBytes": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 14223.0,
+              "candidateValue": 12373.0,
+              "deltaPercent": -13.0
+            },
+            "jsRequestCount": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 6.0,
+              "candidateValue": 1.0,
+              "deltaPercent": -83.3
+            },
+            "rscPayloadDurationMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadResponseEndMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadTransferBytes": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "actionTotalMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 346.87,
+              "candidateValue": 339.2,
+              "deltaPercent": -2.2
+            },
+            "comparePropsMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 311.5,
+              "candidateValue": 294.38,
+              "deltaPercent": -5.5
+            },
+            "compareCreatorHomeMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 285.03,
+              "candidateValue": 276.85,
+              "deltaPercent": -2.9
+            },
+            "sqlActiveRecordMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 130.74,
+              "candidateValue": 128.87,
+              "deltaPercent": -1.4
+            },
+            "renderDispatchMs": {
+              "statistic": "median",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 30.01,
+              "candidateValue": 26.18,
+              "deltaPercent": -12.8
+            }
+          },
+          "p95": {
+            "navigationDurationMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 898.68,
+              "candidateValue": 789.37,
+              "deltaPercent": -12.2
+            },
+            "responseEndMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 730.62,
+              "candidateValue": 768.25,
+              "deltaPercent": 5.2
+            },
+            "lcpStartTime": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 923.0,
+              "candidateValue": 810.2,
+              "deltaPercent": -12.2
+            },
+            "htmlTransferBytes": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 14244.0,
+              "candidateValue": 12373.0,
+              "deltaPercent": -13.1
+            },
+            "jsRequestCount": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 6.0,
+              "candidateValue": 1.0,
+              "deltaPercent": -83.3
+            },
+            "rscPayloadDurationMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadResponseEndMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadTransferBytes": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "actionTotalMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 442.37,
+              "candidateValue": 415.94,
+              "deltaPercent": -6.0
+            },
+            "comparePropsMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 392.05,
+              "candidateValue": 356.96,
+              "deltaPercent": -9.0
+            },
+            "compareCreatorHomeMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 365.2,
+              "candidateValue": 324.5,
+              "deltaPercent": -11.1
+            },
+            "sqlActiveRecordMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 151.58,
+              "candidateValue": 164.19,
+              "deltaPercent": 8.3
+            },
+            "renderDispatchMs": {
+              "statistic": "p95",
+              "baselinePath": "/dashboard/inertia_demo",
+              "candidatePath": "/dashboard/rsc_demo",
+              "baselineValue": 45.03,
+              "candidateValue": 32.43,
+              "deltaPercent": -28.0
+            }
+          }
+        }
+      }
+    ]
+  }
+}

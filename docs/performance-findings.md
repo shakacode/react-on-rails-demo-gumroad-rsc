@@ -424,8 +424,8 @@ What changed in this follow-up:
 
 Artifacts:
 
-- production-like `8`-cycle comparison JSON: `output/playwright/dashboard-perf/production-like-alternating-8-reindexed-comparison.json`
-- production-like `8`-cycle run directory: `output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs`
+- tracked production-like `8`-cycle comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
+- tracked production-like `8`-cycle raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
 
 ### Browser metrics on the production-like repeat
 
