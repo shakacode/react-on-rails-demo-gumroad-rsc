@@ -1,7 +1,7 @@
 import { Dollar, UserCircle } from "@boxicons/react";
 import * as React from "react";
 
-import { formatPriceCentsWithCurrencySymbol } from "$app/utils/currency";
+import { type CurrencyCode, formatPriceCentsWithCurrencySymbol } from "$app/utils/currency";
 
 import { useLoggedInUser } from "$app/components/LoggedInUser";
 import { Card, CardContent } from "$app/components/ui/Card";
@@ -9,6 +9,7 @@ import { Placeholder } from "$app/components/ui/Placeholder";
 import { useUserAgentInfo } from "$app/components/UserAgent";
 type SaleItemDetails = {
   price_cents: number;
+  currency_code?: CurrencyCode;
   email: string;
   full_name: string | null;
   product_name: string;
@@ -21,12 +22,16 @@ export type ActivityItem =
   | { type: "new_sale"; timestamp: string; details: SaleItemDetails }
   | { type: "follower_added" | "follower_removed"; timestamp: string; details: FollowItemDetails };
 
-const Sale = ({ details: { price_cents, product_name, product_unique_permalink } }: { details: SaleItemDetails }) => (
+const Sale = ({
+  details: { price_cents, currency_code = "usd", product_name, product_unique_permalink },
+}: {
+  details: SaleItemDetails;
+}) => (
   <>
     <Dollar className="size-5 text-green" />
     <span>
       New sale of <a href={Routes.short_link_path({ id: product_unique_permalink })}>{product_name}</a> for{" "}
-      {formatPriceCentsWithCurrencySymbol("usd", price_cents, { symbolFormat: "short", noCentsIfWhole: true })}
+      {formatPriceCentsWithCurrencySymbol(currency_code, price_cents, { symbolFormat: "short", noCentsIfWhole: true })}
     </span>
   </>
 );
