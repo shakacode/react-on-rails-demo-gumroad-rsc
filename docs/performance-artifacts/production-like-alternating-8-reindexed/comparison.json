@@ -65,7 +65,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle1-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle1-position1-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle1-position1-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -73,7 +73,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle1-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle1-position2-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle1-position2-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -81,7 +81,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle2-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle2-position1-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle2-position1-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -89,7 +89,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle2-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle2-position2-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle2-position2-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -97,7 +97,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle3-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle3-position1-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle3-position1-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -105,7 +105,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle3-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle3-position2-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle3-position2-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -113,7 +113,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle4-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle4-position1-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle4-position1-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -121,7 +121,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle4-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle4-position2-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle4-position2-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -129,7 +129,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle5-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle5-position1-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle5-position1-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -137,7 +137,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle5-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle5-position2-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle5-position2-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -145,7 +145,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle6-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle6-position1-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle6-position1-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -153,7 +153,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle6-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle6-position2-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle6-position2-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -161,7 +161,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle7-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle7-position1-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle7-position1-dashboard-inertia-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -169,7 +169,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle7-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle7-position2-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle7-position2-dashboard-rsc-demo-metrics.json",
       "reusedExisting": true
     },
     {
@@ -177,7 +177,7 @@
       "positionInCycle": 1,
       "path": "/dashboard/rsc_demo",
       "label": "production-like-alternating-8-reindexed-cycle8-position1",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle8-position1-dashboard-rsc-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle8-position1-dashboard-rsc-demo-metrics.json",
       "reusedExisting": false
     },
     {
@@ -185,7 +185,7 @@
       "positionInCycle": 2,
       "path": "/dashboard/inertia_demo",
       "label": "production-like-alternating-8-reindexed-cycle8-position2",
-      "summaryPath": "/Users/justin/codex/gumroad-rsc/output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs/production-like-alternating-8-reindexed-cycle8-position2-dashboard-inertia-demo-metrics.json",
+      "summaryPath": "docs/performance-artifacts/production-like-alternating-8-reindexed/runs/production-like-alternating-8-reindexed-cycle8-position2-dashboard-inertia-demo-metrics.json",
       "reusedExisting": false
     }
   ],

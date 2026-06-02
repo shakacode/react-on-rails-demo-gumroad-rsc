@@ -58,8 +58,8 @@ The first long run wrote `14` of `16` samples and then hit a Selenium `Net::Read
 
 Artifacts:
 
-- comparison JSON: `output/playwright/dashboard-perf/production-like-alternating-8-reindexed-comparison.json`
-- run directory: `output/playwright/dashboard-perf/production-like-alternating-8-reindexed-runs`
+- tracked comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
+- tracked raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
 
 ### Browser metrics
 
