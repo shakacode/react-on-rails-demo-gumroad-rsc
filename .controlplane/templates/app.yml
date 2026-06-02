@@ -22,6 +22,9 @@ spec:
       value: "{{APP_NAME}}"
     - name: REVISION
       value: "{{APP_NAME}}"
+    # Review apps run pull request code. Values mounted through cpln://secret
+    # become readable by that code after the workload starts, so shared review
+    # secrets must contain only demo-safe values.
     - name: SECRET_KEY_BASE
       value: "cpln://secret/{{APP_SECRETS}}.SECRET_KEY_BASE"
     - name: DEVISE_SECRET_KEY

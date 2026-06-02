@@ -42,6 +42,10 @@ Review-app deployment is intentionally limited to same-repository pull
 requests; fork PRs are skipped so untrusted code is never built with repository
 deployment secrets.
 
+Use a staging/review `CPLN_TOKEN_STAGING` that cannot access production Control
+Plane resources. If a forked change needs a review app, first move the reviewed
+change to a trusted branch in this repository.
+
 For staging deploys from `main`, configure:
 
 | Secret or variable | Value |
@@ -87,6 +91,12 @@ react-on-rails-demo-gumroad-rsc-review-pr-secrets
 
 If the release runner fails with `couldn't find key DEVISE_SECRET_KEY`, the
 review secret exists but has not been populated with the app keys above.
+
+Review apps run pull request code. Values mounted through `cpln://secret/...`
+can be read by that code after the workload starts, so keep the shared review
+secret dictionary limited to demo-safe values: no production Gumroad keys, no
+customer data, and a Pro license value that is acceptable for review-app
+exposure.
 
 Generate values with:
 
