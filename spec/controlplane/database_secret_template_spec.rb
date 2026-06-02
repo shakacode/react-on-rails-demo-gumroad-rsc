@@ -27,4 +27,16 @@ RSpec.describe "Control Plane database templates" do
       expect(snapshots).not_to have_key("retentionDuration")
     end
   end
+
+  it "keeps demo database volume growth tightly capped" do
+    database_templates.each_value do |documents|
+      volumeset = documents.find { |document| document["kind"] == "volumeset" }
+      spec = volumeset.fetch("spec")
+      autoscaling = spec.fetch("autoscaling")
+
+      expect(spec.fetch("initialCapacity")).to eq(10)
+      expect(autoscaling.fetch("maxCapacity")).to be <= 20
+      expect(autoscaling.fetch("maxCapacity")).to be >= spec.fetch("initialCapacity")
+    end
+  end
 end
