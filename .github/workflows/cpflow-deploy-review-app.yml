@@ -36,6 +36,7 @@ jobs:
       pull-requests: read
     outputs:
       deployable: ${{ steps.validate.outputs.deployable }}
+      app_name: ${{ steps.validate.outputs.app_name }}
     steps:
       - id: validate
         env:
@@ -46,6 +47,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number || github.event.inputs.pr_number }}
         run: |
           set -euo pipefail
+          app_name="react-on-rails-demo-gumroad-rsc-review-pr-${PR_NUMBER}"
+          echo "app_name=${app_name}" >> "$GITHUB_OUTPUT"
 
           if [ "$EVENT_NAME" = "pull_request" ]; then
             resolved_head_repo="$HEAD_REPO"
@@ -60,8 +63,27 @@ jobs:
             echo "::notice::Skipping review-app deploy for fork PR #${PR_NUMBER} from ${resolved_head_repo}."
           fi
 
-  deploy:
+  prepare-control-plane-db-secrets:
     needs: validate-review-app-source
+    if: needs.validate-review-app-source.outputs.deployable == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Control Plane CLI
+        run: npm install -g @controlplane/cli@3.10.2
+      - name: Prepare app database secrets
+        env:
+          CPLN_TOKEN: ${{ secrets.CPLN_TOKEN_STAGING }}
+          CPLN_ORG: shakacode-open-source-examples-staging
+          APP_NAME: ${{ needs.validate-review-app-source.outputs.app_name }}
+        run: bin/prepare-control-plane-db-secrets "$APP_NAME" --org "$CPLN_ORG"
+
+  deploy:
+    needs:
+      - validate-review-app-source
+      - prepare-control-plane-db-secrets
     if: needs.validate-review-app-source.outputs.deployable == 'true'
     uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-review-app.yml@v5.0.4
     secrets:

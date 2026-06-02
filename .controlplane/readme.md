@@ -60,6 +60,8 @@ For production promotion later, configure a protected GitHub Environment named
 | `CPLN_TOKEN_PRODUCTION` | Environment secret on `production`, not a repository secret. |
 | `CPLN_ORG_PRODUCTION` | Environment variable on `production`: `shakacode-open-source-examples-production` |
 | `PRODUCTION_APP_NAME` | Environment variable on `production`: `react-on-rails-demo-gumroad-rsc-production` |
+| `RECAPTCHA_LOGIN_SITE_KEY` | Control Plane production GVC env var or production app secret value exposed as env. |
+| `ENTERPRISE_RECAPTCHA_API_KEY` | Control Plane production GVC env var or production app secret value exposed as env. |
 
 Protect the `production` environment with required reviewers and prevent
 self-review.
@@ -99,13 +101,18 @@ openssl rand -hex 32 # RENDERER_PASSWORD
 openssl genrsa 2048 # STRONGBOX_GENERAL; STRONGBOX_GENERAL_PASSWORD can be blank for an unencrypted key.
 ```
 
-The MySQL and Mongo templates create separate app-scoped dictionaries:
+The review, staging, and production workflows run
+`bin/prepare-control-plane-db-secrets` before deploying. That script creates
+separate app-scoped dictionaries with random passwords if they do not already
+exist:
 
 - `<app-name>-mysql`
 - `<app-name>-mongo`
 
-Replace their placeholder passwords in Control Plane before using the app for
-serious review or staging testing.
+Existing DB secrets are left unchanged because MySQL and Mongo consume their
+initialization passwords only on an empty data volume. Do not boot a new
+stateful app with manually-created placeholder database passwords; create real
+secret values before first workload start.
 
 The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
 through `args` only; setting `command: mongod` bypasses entrypoint
@@ -115,7 +122,8 @@ inside the container instead of the GVC network.
 Non-production branch deployments intentionally allow login without a configured
 `RECAPTCHA_LOGIN_SITE_KEY`. This keeps review and staging demo apps usable
 without a Google reCAPTCHA project while preserving reCAPTCHA enforcement for
-the Control Plane production demo app.
+the Control Plane production demo app. Production release fails early unless
+`RECAPTCHA_LOGIN_SITE_KEY` and `ENTERPRISE_RECAPTCHA_API_KEY` are configured.
 
 ## Bootstrap
 

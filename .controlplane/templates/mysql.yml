@@ -14,16 +14,6 @@ spec:
     retentionDuration: 7d
 
 ---
-kind: secret
-name: "{{APP_NAME}}-mysql"
-type: dictionary
-data:
-  database: gumroad_demo
-  username: gumroad
-  password: replace-with-real-mysql-password
-  root_password: replace-with-real-mysql-root-password
-
----
 kind: identity
 name: "{{APP_NAME}}-mysql-identity"
 description: "{{APP_NAME}}-mysql-identity"

@@ -11,7 +11,23 @@ permissions:
   contents: read
 
 jobs:
+  prepare-control-plane-db-secrets:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Control Plane CLI
+        run: npm install -g @controlplane/cli@3.10.2
+      - name: Prepare app database secrets
+        env:
+          CPLN_TOKEN: ${{ secrets.CPLN_TOKEN_STAGING }}
+          CPLN_ORG: ${{ vars.CPLN_ORG_STAGING || 'shakacode-open-source-examples-staging' }}
+          APP_NAME: ${{ vars.STAGING_APP_NAME || 'react-on-rails-demo-gumroad-rsc-staging' }}
+        run: bin/prepare-control-plane-db-secrets "$APP_NAME" --org "$CPLN_ORG"
+
   deploy-staging:
+    needs: prepare-control-plane-db-secrets
     uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-staging.yml@v5.0.4
     with:
       staging_app_branch_default: "main"

@@ -73,7 +73,9 @@ seller@gumroad.com / password
 
 Review and staging demo apps allow login without `RECAPTCHA_LOGIN_SITE_KEY` so
 the public demo does not need a Google reCAPTCHA project. The Control Plane
-production demo app does not inherit that bypass.
+production demo app does not inherit that bypass; production release fails
+early unless `RECAPTCHA_LOGIN_SITE_KEY` and `ENTERPRISE_RECAPTCHA_API_KEY` are
+configured.
 
 ## Staging workflow
 
@@ -103,8 +105,11 @@ Then set runtime secrets in Control Plane:
 Use `openssl rand -hex 64` for the long secret values and a positive integer
 for `OBFUSCATE_IDS_NUMERIC_CIPHER_KEY`.
 
-Replace the generated MySQL and Mongo placeholder passwords before sharing the
-staging URL outside the team.
+The review, staging, and production workflows run
+`bin/prepare-control-plane-db-secrets` before deploying. That script creates
+`<app-name>-mysql` and `<app-name>-mongo` with random passwords if they do not
+already exist. Existing DB secrets are not rotated because MySQL and Mongo only
+apply initialization passwords on an empty data volume.
 
 The Mongo template intentionally does not set `command: mongod`. Keep the
 official Docker entrypoint and pass flags such as `--bind_ip_all` through

@@ -29,7 +29,9 @@ RSpec.describe "Control Plane release script" do
           "DATABASE_HOST" => "mysql",
           "DATABASE_PORT" => "3306",
           "BRANCH" => "test-app",
+          "ENTERPRISE_RECAPTCHA_API_KEY" => nil,
           "RAILS_CALL_LOG" => calls_path.to_s,
+          "RECAPTCHA_LOGIN_SITE_KEY" => nil,
           "SKIP_CONTROL_PLANE_SERVICE_WAIT" => "true",
         }.merge(env),
         RELEASE_SCRIPT.to_s,
@@ -53,5 +55,24 @@ RSpec.describe "Control Plane release script" do
 
     expect(status).to be_success, stderr
     expect(calls).to eq(["db:prepare", "db:seed"])
+  end
+
+  it "fails production releases when CAPTCHA env is missing" do
+    status, _stdout, stderr, calls = run_release_script("BRANCH" => "react-on-rails-demo-gumroad-rsc-production")
+
+    expect(status).not_to be_success
+    expect(stderr).to include("RECAPTCHA_LOGIN_SITE_KEY must be configured")
+    expect(calls).to be_empty
+  end
+
+  it "runs production releases when CAPTCHA env is configured" do
+    status, _stdout, stderr, calls = run_release_script(
+      "BRANCH" => "react-on-rails-demo-gumroad-rsc-production",
+      "RECAPTCHA_LOGIN_SITE_KEY" => "login-site-key",
+      "ENTERPRISE_RECAPTCHA_API_KEY" => "enterprise-api-key"
+    )
+
+    expect(status).to be_success, stderr
+    expect(calls).to eq(["db:prepare"])
   end
 end

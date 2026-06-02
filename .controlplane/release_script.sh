@@ -31,7 +31,27 @@ wait_for_tcp() {
   error_exit "Timed out waiting for ${name}"
 }
 
+production_app() {
+  case "${CPLN_GVC:-${BRANCH:-}}" in
+    *-production) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+require_env() {
+  name="$1"
+  eval "value=\${${name}:-}"
+  if [ -z "$value" ]; then
+    error_exit "${name} must be configured before promoting the Control Plane production app"
+  fi
+}
+
 log "Running release_script.sh per controlplane.yml"
+
+if production_app; then
+  require_env "RECAPTCHA_LOGIN_SITE_KEY"
+  require_env "ENTERPRISE_RECAPTCHA_API_KEY"
+fi
 
 wait_for_tcp "${DATABASE_HOST}" "${DATABASE_PORT:-3306}" mysql
 wait_for_tcp "redis.${CPLN_GVC:-${BRANCH}}.cpln.local" 6379 redis

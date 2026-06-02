@@ -14,14 +14,6 @@ spec:
     retentionDuration: 7d
 
 ---
-kind: secret
-name: "{{APP_NAME}}-mongo"
-type: dictionary
-data:
-  username: gumroad
-  password: replace-with-real-mongo-password
-
----
 kind: identity
 name: "{{APP_NAME}}-mongo-identity"
 description: "{{APP_NAME}}-mongo-identity"
