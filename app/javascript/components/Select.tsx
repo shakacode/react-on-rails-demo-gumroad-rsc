@@ -12,6 +12,7 @@ import ReactSelect, {
   OptionProps,
   Props as ReactSelectProps,
   SelectInstance,
+  StylesConfig,
 } from "react-select";
 
 import { escapeRegExp } from "$app/utils";
@@ -81,13 +82,31 @@ const SelectInner = <IsMulti extends boolean>(
     }),
     [props.customOption, focusedOptionId],
   );
+  const styles: StylesConfig<Option, IsMulti, GroupBase<Option>> = {
+    clearIndicator: () => ({}),
+    control: () => ({}),
+    dropdownIndicator: () => ({}),
+    indicatorsContainer: () => ({ display: "contents" }),
+    input: (baseCSS) => ({ ...baseCSS, margin: 0, padding: 0, color: undefined }),
+    menu: () => ({}),
+    placeholder: (baseCSS) => ({ ...baseCSS, margin: 0 }),
+    singleValue: (baseCSS) => ({ ...baseCSS, margin: 0, color: undefined }),
+    valueContainer: (baseCSS, styleProps) => ({
+      ...baseCSS,
+      padding: 0,
+      ...(styleProps.selectProps.menuIsOpen ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : {}),
+      ...(Array.isArray(styleProps.selectProps.value) && styleProps.selectProps.value.length > 0
+        ? { margin: "var(--spacer-1) calc(var(--spacer-2) * -1)", gap: "var(--spacer-1) var(--spacer-2)" }
+        : { margin: 0 }),
+    }),
+  };
 
   return (
     <CustomPropsContext.Provider value={customProps}>
       <ReactSelect
         {...props}
         ref={ref}
-        isOptionDisabled={(option) => option.disabled ?? false}
+        isOptionDisabled={(option: Option) => option.disabled ?? false}
         instanceId={props.inputId ?? menuListId}
         className={classNames("relative", "[&_[aria-expanded=true]]:rounded-b-none", props.className)}
         components={{
@@ -101,32 +120,17 @@ const SelectInner = <IsMulti extends boolean>(
           MultiValue,
           Option,
         }}
-        getOptionLabel={(option) => option.label}
-        getOptionValue={(option) => option.id}
+        getOptionLabel={(option: Option) => option.label}
+        getOptionValue={(option: Option) => option.id}
         openMenuOnFocus
         menuIsOpen={isMenuOpen}
         onMenuClose={handleMenuClose}
-        onMenuOpen={() => ((props.allowMenuOpen?.() ?? true) ? handleMenuOpen() : null)}
+        onMenuOpen={() => {
+          if (props.allowMenuOpen?.() ?? true) handleMenuOpen();
+        }}
         filterOption={filterOptionFn}
         formatOptionLabel={formatOptionLabel}
-        styles={{
-          clearIndicator: () => ({}),
-          control: () => ({}),
-          dropdownIndicator: () => ({}),
-          indicatorsContainer: () => ({ display: "contents" }),
-          input: (baseCSS) => ({ ...baseCSS, margin: 0, padding: 0, color: undefined }),
-          menu: () => ({}),
-          placeholder: (baseCSS) => ({ ...baseCSS, margin: 0 }),
-          singleValue: (baseCSS) => ({ ...baseCSS, margin: 0, color: undefined }),
-          valueContainer: (baseCSS, props) => ({
-            ...baseCSS,
-            padding: 0,
-            ...(props.selectProps.menuIsOpen ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : {}),
-            ...(Array.isArray(props.selectProps.value) && props.selectProps.value.length > 0
-              ? { margin: "var(--spacer-1) calc(var(--spacer-2) * -1)", gap: "var(--spacer-1) var(--spacer-2)" }
-              : { margin: 0 }),
-          }),
-        }}
+        styles={styles}
       />
     </CustomPropsContext.Provider>
   );
@@ -142,16 +146,13 @@ export const Select = React.forwardRef(SelectInner) as unknown as <IsMulti exten
 // Regex groupings are important to be kept in sync with `formatOptionLabel` method
 const filterRegex = (query: string) => new RegExp(`(.*?)(${escapeRegExp(query)})(.*)`, "iu");
 
-const filterOptionFn: ReactSelectProps<Option>["filterOption"] = ({ data: { disabled }, label }, query) => {
+const filterOptionFn = ({ data: { disabled }, label }: { data: Option; label: string }, query: string) => {
   if (query.length === 0) return true;
   if (disabled) return false;
   return filterRegex(query).test(label);
 };
 
-const formatOptionLabel: NonNullable<ReactSelectProps<Option>["formatOptionLabel"]> = (
-  { label, isSubOption },
-  { inputValue },
-) => {
+const formatOptionLabel = ({ label, isSubOption }: Option, { inputValue }: { inputValue: string }) => {
   const result = inputValue.length > 0 ? filterRegex(inputValue).exec(label) : null;
 
   if (result) {

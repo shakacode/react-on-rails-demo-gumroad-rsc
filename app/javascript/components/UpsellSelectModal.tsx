@@ -10,7 +10,7 @@ import { DiscountInput, InputtedDiscount } from "$app/components/CheckoutDashboa
 import { Dropdown } from "$app/components/Dropdown";
 import { Modal } from "$app/components/Modal";
 import { RecurrencePriceValue } from "$app/components/ProductEdit/state";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Details, DetailsToggle } from "$app/components/ui/Details";
 import { Fieldset, FieldsetTitle } from "$app/components/ui/Fieldset";
@@ -140,7 +140,7 @@ export const UpsellSelectModal = ({
           inputId="product-select"
           options={productOptions}
           value={selectedProductOption}
-          onChange={(newValue) => {
+          onChange={(newValue: Option | null) => {
             if (newValue && typeof newValue === "object" && "id" in newValue) {
               selectProductOption(newValue);
             } else {

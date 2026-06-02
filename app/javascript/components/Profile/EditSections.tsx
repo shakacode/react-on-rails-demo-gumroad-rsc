@@ -42,7 +42,7 @@ import { Props as ProductProps } from "$app/components/Product";
 import { CardGrid, SORT_BY_LABELS, useSearchReducer } from "$app/components/Product/CardGrid";
 import { WishlistsSectionView } from "$app/components/Profile/EditSections/WishlistsSectionView";
 import { RichTextEditorToolbar, useImageUploadSettings, useRichTextEditor } from "$app/components/RichTextEditor";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Skeleton } from "$app/components/Skeleton";
 import { TypeSafeOptionSelect } from "$app/components/TypeSafeOptionSelect";
@@ -611,7 +611,7 @@ const FeaturedProductSectionView = ({ section }: { section: FeaturedProductSecti
             inputId={uid}
             options={state.products.map(({ id, name }) => ({ id, label: name }))}
             value={product ? { id: product.id, label: product.name } : null}
-            onChange={(option) => updateSection(option ? { featured_product_id: option.id } : {})}
+            onChange={(option: Option | null) => updateSection(option ? { featured_product_id: option.id } : {})}
             placeholder="Search products"
             aria-label="Featured Product"
             isMulti={false}

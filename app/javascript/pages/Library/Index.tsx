@@ -19,7 +19,7 @@ import { Modal } from "$app/components/Modal";
 import { Popover, PopoverContent, PopoverTrigger } from "$app/components/Popover";
 import { AuthorByline } from "$app/components/Product/AuthorByline";
 import { Thumbnail } from "$app/components/Product/Thumbnail";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Alert } from "$app/components/ui/Alert";
 import { CardContent, Card as UICard } from "$app/components/ui/Card";
@@ -489,7 +489,7 @@ export default function LibraryPage() {
                           instanceId={bundlesUid}
                           options={bundles}
                           value={bundles.filter(({ id }) => state.search.bundles.includes(id))}
-                          onChange={(selectedOptions) =>
+                          onChange={(selectedOptions: readonly Option[]) =>
                             dispatch({
                               type: "update-search",
                               search: { bundles: selectedOptions.map(({ id }) => id) },

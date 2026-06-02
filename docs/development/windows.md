@@ -68,13 +68,13 @@ rbenv global 3.4.3
 
 ### Node.js
 
-Install the version specified in `.node-version` (e.g., 20.17.0) using `nvm`:
+Install the version specified in `.node-version` (e.g., 20.19.0) using `nvm`:
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 source ~/.bashrc
-nvm install 20.17.0
-nvm use 20.17.0
+nvm install 20.19.0
+nvm use 20.19.0
 ```
 
 ### Docker

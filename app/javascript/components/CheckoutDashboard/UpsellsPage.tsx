@@ -35,7 +35,7 @@ import { Pagination, PaginationProps } from "$app/components/Pagination";
 import { WithPreviewSidebar } from "$app/components/PreviewSidebar";
 import { applySelection } from "$app/components/Product/ConfigurationSelector";
 import { Search } from "$app/components/Search";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Skeleton } from "$app/components/Skeleton";
 import { Card, CardContent } from "$app/components/ui/Card";
@@ -806,7 +806,7 @@ const Form = ({
                       .filter(({ id }) => id !== offeredProductId.value)
                       .map(({ id, name: label }) => ({ id, label }))}
                     value={selectedOptions.map(({ id, name }) => ({ id, label: name }))}
-                    onChange={(selectedOptions) =>
+                    onChange={(selectedOptions: readonly Option[]) =>
                       setSelectedProductIds({ value: selectedOptions.map(({ id }) => id) })
                     }
                     isDisabled={universal}
@@ -828,7 +828,7 @@ const Form = ({
                     instanceId={`${uid}offeredProduct`}
                     options={offerableProducts.map(({ id, name: label }) => ({ id, label }))}
                     value={offeredOption ? { id: offeredOption.id, label: offeredOption.name } : null}
-                    onChange={(selectedOption) => {
+                    onChange={(selectedOption: Option | null) => {
                       if (selectedOption?.id !== offeredProductId.value) setOfferedVariantId({ value: null });
                       setOfferedProductId({ value: selectedOption?.id ?? null });
                     }}
@@ -847,7 +847,9 @@ const Form = ({
                       instanceId={`${uid}offeredVariant`}
                       options={offeredProduct.options.map(({ id, name }) => ({ label: name, id }))}
                       value={offeredVariant ? { id: offeredVariant.id, label: offeredVariant.name } : null}
-                      onChange={(selectedOption) => setOfferedVariantId({ value: selectedOption?.id ?? null })}
+                      onChange={(selectedOption: Option | null) =>
+                        setOfferedVariantId({ value: selectedOption?.id ?? null })
+                      }
                       isMulti={false}
                       isClearable
                       aria-invalid={offeredVariantId.error}
@@ -885,7 +887,7 @@ const Form = ({
                       .filter(({ has_multiple_versions }) => has_multiple_versions)
                       .map(({ id, name: label }) => ({ id, label }))}
                     value={selectedOption ? { label: selectedOption.name, id: selectedOption.id } : null}
-                    onChange={(newOption) => {
+                    onChange={(newOption: Option | null) => {
                       if (newOption?.id !== selectedProductId.value) setVariants([]);
                       setSelectedProductId({ value: newOption?.id ?? null });
                     }}
@@ -913,7 +915,7 @@ const Form = ({
                             options={selectedProduct.options.flatMap(({ id, name: label }) =>
                               id !== option.id ? { id, label } : [],
                             )}
-                            onChange={(newOption) => setVariant(option.id, newOption?.id ?? null)}
+                            onChange={(newOption: Option | null) => setVariant(option.id, newOption?.id ?? null)}
                             value={selectedOption ? { label: selectedOption.name, id: selectedOption.id } : null}
                             aria-label={`Version to offer for ${option.name}`}
                             isMulti={false}

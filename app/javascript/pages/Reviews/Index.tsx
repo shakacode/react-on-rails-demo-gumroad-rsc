@@ -161,7 +161,9 @@ export default function ReviewsIndex({
                         );
                       }}
                       style={{ display: "grid", gap: "var(--spacer-4)" }}
-                      ref={(el) => (inputRefs.current[purchase.id] = el)}
+                      ref={(el) => {
+                        inputRefs.current[purchase.id] = el;
+                      }}
                     />
                   }
                   key={purchase.id}

@@ -31,7 +31,7 @@ import { Pagination, PaginationProps } from "$app/components/Pagination";
 import { Popover, PopoverContent, PopoverTrigger } from "$app/components/Popover";
 import { PriceInput } from "$app/components/PriceInput";
 import { Search } from "$app/components/Search";
-import { Select, Option } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Skeleton } from "$app/components/Skeleton";
 import { TypeSafeOptionSelect } from "$app/components/TypeSafeOptionSelect";
@@ -974,7 +974,7 @@ const Form = ({
               isMulti
               isClearable
               placeholder="Products to which this discount will apply"
-              onChange={(selectedIds) => {
+              onChange={(selectedIds: readonly Option[]) => {
                 setSelectedProductIds({ value: selectedIds.map(({ id }) => id) });
                 setCurrencyCode(
                   (prevCurrencyCode) =>

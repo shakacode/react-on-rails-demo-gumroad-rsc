@@ -10,7 +10,7 @@ import { AnalyticsLayout } from "$app/components/Analytics/AnalyticsLayout";
 import { Button } from "$app/components/Button";
 import { CopyToClipboard } from "$app/components/CopyToClipboard";
 import { NavigationButtonInertia } from "$app/components/NavigationButton";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Fieldset, FieldsetDescription, FieldsetTitle } from "$app/components/ui/Fieldset";
 import { FormSection } from "$app/components/ui/FormSection";
@@ -313,7 +313,7 @@ export const UtmLinkForm = (pageProps: UtmLinkFormProps | UtmLinkEditProps) => {
               value={destination}
               isMulti={false}
               isDisabled={isEditing}
-              onChange={(option) => {
+              onChange={(option: Option | null) => {
                 const newDest = option ? (context.destination_options.find((o) => o.id === option.id) ?? null) : null;
                 setDestination(newDest);
                 const { target_resource_type, target_resource_id } = computeTargetResource(newDest);
@@ -518,10 +518,10 @@ const UtmFieldSelect = ({
       escapeClearsValue
       options={options}
       value={value ? (options.find((o) => o.id === value) ?? null) : null}
-      onChange={(option) => onChange(option ? option.id : null)}
+      onChange={(option: Option | null) => onChange(option ? option.id : null)}
       inputValue={inputValue ?? ""}
       // Lowercase the value, replace non-alphanumeric characters with dashes, and restrict to 64 characters
-      onInputChange={(value) =>
+      onInputChange={(value: string) =>
         setInputValue(
           value
             .toLocaleLowerCase()

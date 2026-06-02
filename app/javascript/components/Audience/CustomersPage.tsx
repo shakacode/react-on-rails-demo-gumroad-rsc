@@ -20,7 +20,7 @@ import { Pagination, PaginationProps } from "$app/components/Pagination";
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from "$app/components/Popover";
 import { PriceInput } from "$app/components/PriceInput";
 import { Search } from "$app/components/Search";
-import { Select } from "$app/components/Select";
+import { Select, type Option } from "$app/components/Select";
 import { showAlert } from "$app/components/server-components/Alert";
 import { Card, CardContent } from "$app/components/ui/Card";
 import { Fieldset, FieldsetDescription, FieldsetTitle } from "$app/components/ui/Fieldset";
@@ -549,7 +549,7 @@ const ProductSelect = ({
           if (!variant) return [];
           return { id: `${product.id} ${item.id}`, label: `${product.name} - ${variant.name}` };
         })}
-        onChange={(items) =>
+        onChange={(items: readonly Option[]) =>
           setItems(
             items.map((item) => {
               const [productId, variantId] = item.id.split(" ");

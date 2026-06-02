@@ -49,9 +49,9 @@ export const TagInput = ({
       isClearable={false}
       isMulti
       value={selectedTags}
-      onChange={(newValue) => onChangeTagIds(newValue.map((tag) => tag.id))}
+      onChange={(newValue: readonly Option[]) => onChangeTagIds(newValue.map((tag) => tag.id))}
       options={tagList}
-      noOptionsMessage={({ inputValue }) => getNoOptionMessage(inputValue)}
+      noOptionsMessage={({ inputValue }: { inputValue: string }) => getNoOptionMessage(inputValue)}
       placeholder={placeholder}
       allowMenuOpen={() => !maxTags || selectedTags.length < maxTags}
     />
