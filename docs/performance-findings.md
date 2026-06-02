@@ -404,7 +404,9 @@ Artifacts:
 - the server-side tradeoff shrank from the first corrected 4-cycle rerun to a modest gap
 - the earlier mixed-port `8`-cycle repeat is now less useful as a headline than this corrected `8`-cycle result
 
-This is the current headline benchmark for the repo.
+This is the previous clean-port benchmark headline and remains useful as a
+development-mode diagnostic artifact. The production-like compiled-asset repeat
+below supersedes it as the current local headline benchmark for the repo.
 
 ## Production-Like Compiled-Asset 8-Cycle Repeat
 

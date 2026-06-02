@@ -269,7 +269,7 @@ The heavier internal Gumroad matrix still exists for the original codebase shape
 
 The repo is public, the consolidated demo PR is open, the production-like benchmark PR is open, and the React on Rails issues are available as team-facing discussion hubs.
 
-The earlier stacked PRs were closed unmerged after consolidation into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11). Treat [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11) as the parent review branch and [#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) as its current child follow-up.
+The earlier stacked PRs were closed unmerged after consolidation into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11). Treat [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11) as the parent review branch, [#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) as the dev-server override child, and [#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12) as the current production-like benchmark follow-up.
 
 The artifact paths listed above are local benchmark outputs, so they are shareable through a repo checkout and branch work, but not through GitHub artifact hosting.
 The measurement script also now records browser/version provenance and percentile-style summary stats in those JSON outputs so the performance-team handoff is less dependent on ad hoc environment notes.
