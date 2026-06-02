@@ -25,5 +25,21 @@ describe GumroadDomainConstraint do
         expect(described_class.matches?(@non_gumroad_domain_request)).to eq(false)
       end
     end
+
+    context "when requests come from a Control Plane Rails workload host" do
+      before do
+        @original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+        ENV["BRANCH_DEPLOYMENT"] = "true"
+        allow(@non_gumroad_domain_request).to receive(:host).and_return("rails-d7fsgnq0evscp.cpln.app")
+      end
+
+      after do
+        ENV["BRANCH_DEPLOYMENT"] = @original_branch_deployment
+      end
+
+      it "returns true for branch deployments" do
+        expect(described_class.matches?(@non_gumroad_domain_request)).to eq(true)
+      end
+    end
   end
 end

@@ -53,11 +53,9 @@ keys are the same runtime keys listed in the staging section below. If a release
 runner reports `couldn't find key DEVISE_SECRET_KEY`, the GitHub/Control Plane
 token path worked, but this app secret dictionary is still missing values.
 
-After the app exists, set `CUSTOM_DOMAIN` on the review GVC to the Rails
-workload host, for example `rails-<gvc-alias>.cpln.app`, then restart `rails`
-and `renderer`. The deploy can be green without this, but Gumroad's routes are
-guarded by `GumroadDomainConstraint` and will return a Rails 404 on unknown
-hosts.
+Review and staging apps accept the Control Plane Rails workload hostname
+directly when it matches `rails-*.cpln.app`, so fresh apps do not need a manual
+`CUSTOM_DOMAIN` GVC update.
 
 Use the review URL to verify:
 
@@ -109,7 +107,9 @@ The review, staging, and production workflows run
 `bin/prepare-control-plane-db-secrets` before deploying. That script creates
 `<app-name>-mysql` and `<app-name>-mongo` with random passwords if they do not
 already exist. Existing DB secrets are not rotated because MySQL and Mongo only
-apply initialization passwords on an empty data volume.
+apply initialization passwords on an empty data volume. If the script detects
+old public placeholder database passwords, it fails and requires explicit
+rotation or app database reset.
 
 The Mongo template intentionally does not set `command: mongod`. Keep the
 official Docker entrypoint and pass flags such as `--bind_ip_all` through

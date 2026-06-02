@@ -23,11 +23,9 @@ override, Gumroad's staging branch deployment logic pins session cookies to
 `.staging.gumroad.com`, which prevents sign-in from persisting on Control Plane
 URLs.
 
-After a review or staging app exists, set `CUSTOM_DOMAIN` on the GVC to the
-Rails workload host, for example `rails-<gvc-alias>.cpln.app`. Gumroad's
-top-level routes are guarded by `GumroadDomainConstraint`, so the app will boot
-but return Rails 404 pages on the Control Plane hostname until `CUSTOM_DOMAIN`
-matches the workload URL and the Rails/renderer workloads are restarted.
+Branch deployments accept the Control Plane Rails workload hostname directly
+when it matches `rails-*.cpln.app`. This keeps fresh review and staging apps
+usable without a manual `CUSTOM_DOMAIN` GVC update.
 
 ## GitHub repository settings
 
@@ -112,7 +110,8 @@ exist:
 Existing DB secrets are left unchanged because MySQL and Mongo consume their
 initialization passwords only on an empty data volume. Do not boot a new
 stateful app with manually-created placeholder database passwords; create real
-secret values before first workload start.
+secret values before first workload start. The prep script fails if it detects
+the old public placeholder values so the app can be reset or rotated explicitly.
 
 The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
 through `args` only; setting `command: mongod` bypasses entrypoint
