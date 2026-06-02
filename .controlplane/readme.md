@@ -159,11 +159,15 @@ For a public demo account, set this GVC env var before deploying:
 ALLOW_DEMO_SEED=true
 ```
 
-The seeded account is:
+The public seeded account is:
 
 ```text
 seller@gumroad.com / password
 ```
+
+When `ALLOW_DEMO_SEED=true`, the seed disables 2FA for the demo accounts and
+removes internal-admin access from `seller@gumroad.com`. Local development seeds
+keep the normal internal-admin/2FA behavior documented in `docs/users.md`.
 
 ## Review app smoke test
 
@@ -189,7 +193,8 @@ curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/dashboard/rsc_demo
 ```
 
 The dashboard routes require a signed-in seller in a browser for full visual QA.
-Use `seller@gumroad.com / password` when `ALLOW_DEMO_SEED=true`.
+Use `seller@gumroad.com / password` when `ALLOW_DEMO_SEED=true`; that public
+demo seed has no internal-admin access.
 
 ## Validation
 
