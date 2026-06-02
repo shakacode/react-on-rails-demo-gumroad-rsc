@@ -404,7 +404,58 @@ Artifacts:
 - the server-side tradeoff shrank from the first corrected 4-cycle rerun to a modest gap
 - the earlier mixed-port `8`-cycle repeat is now less useful as a headline than this corrected `8`-cycle result
 
-This is the current headline benchmark for the repo.
+This is the previous clean-port benchmark headline and remains useful as a
+development-mode diagnostic artifact. The production-like compiled-asset repeat
+below supersedes it as the current local headline benchmark for the repo.
+
+## Production-Like Compiled-Asset 8-Cycle Repeat
+
+Date captured: `2026-04-30 UTC`
+
+What changed in this follow-up:
+
+- built Shakapacker/Rspack assets with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- built the standalone RSC demo bundles with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- ran Rails without the Shakapacker dev server
+- ran the React on Rails Pro Node renderer as a dedicated process with `RENDERER_PASSWORD=benchmarkRendererPassword`, `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
+- initialized fresh local Elasticsearch indexes with `DevTools.delete_all_indices_and_reindex_all`
+- kept the matching `Chrome 147` and `ChromeDriver 147` pair
+- completed an `8`-cycle alternating run by recovering the last two samples with `--reuse-existing` after a late Selenium `Net::ReadTimeout`
+
+Artifacts:
+
+- tracked production-like `8`-cycle comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
+- tracked production-like `8`-cycle raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
+
+### Browser metrics on the production-like repeat
+
+| Metric                     | Inertia demo |   RSC demo |     Delta |
+| -------------------------- | -----------: | ---------: | --------: |
+| Median navigation duration |   `775.40ms` | `607.15ms` |  `-21.7%` |
+| Median response end        |   `644.80ms` | `588.80ms` |   `-8.7%` |
+| Median LCP                 |   `794.00ms` | `634.00ms` |  `-20.2%` |
+| Median HTML transfer       |   `14,223` B | `12,373` B |  `-13.0%` |
+| JS request count           |          `6` |        `1` |  `-83.3%` |
+| p95 response end           |   `730.62ms` | `768.25ms` |   `+5.2%` |
+
+### Route-scoped server metrics on the production-like repeat
+
+| Metric                           | Inertia demo |   RSC demo |     Delta |
+| -------------------------------- | -----------: | ---------: | --------: |
+| Median controller `action_total` |   `346.87ms` | `339.20ms` |   `-2.2%` |
+| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |   `-5.5%` |
+| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |   `-1.4%` |
+| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` |  `-12.8%` |
+| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |   `+8.3%` |
+
+### Interpretation of the production-like repeat
+
+- the RSC user-visible win survived compiled assets and a dedicated renderer process
+- median server-side route timing is now roughly neutral-to-favorable for the RSC route
+- `p95 responseEnd` is the clearest remaining caution
+- the RSC route currently streams its payload inline, so the benchmark's `/rsc_payload/` browser-resource fields are empty on this implementation
+
+This is now the best local headline benchmark for the repo.
 
 ## Interpretation Of The Alternating Follow-up
 
@@ -412,14 +463,14 @@ At the time of capture, this was the benchmark result to use for review and posi
 
 - The `RSC` route still wins on total navigation duration.
 - The `RSC` route still wins on `LCP`.
-- The `RSC` route no longer wins on `responseEnd` once route order is balanced.
-- The route-scoped timings also stop supporting the stronger claim that the RSC route is currently cheaper server-side.
+- The latest production-like repeat also wins on median `responseEnd`.
+- Tail response timing still needs work because p95 `responseEnd` is modestly worse for the RSC route.
 
 That gives us a cleaner, more defensible story:
 
 - the user-visible win is still real
 - the client-JS reduction is still dramatic
-- the current server-side tradeoff is still real
+- the current server-side tradeoff has narrowed to tail behavior and renderer/SQL profiling details
 - the benchmark method is now strong enough that reviewers can focus on product value instead of measurement discipline
 
 ## What This Means For Positioning
@@ -428,7 +479,7 @@ Today’s credible story is:
 
 - `Shakapacker + Rspack` can deliver immediate build and dev-loop wins for a real Inertia app.
 - `React 19 + Rspack` is technically viable here.
-- `React on Rails Pro + RSC` now has matched-surface evidence of a user-visible win on a stricter alternating benchmark.
+- `React on Rails Pro + RSC` now has matched-surface evidence of a user-visible win on a stricter production-like alternating benchmark.
 
 Today’s non-credible story is:
 
@@ -454,5 +505,5 @@ Keep the branches and claims narrow:
 3. Keep the matched `/dashboard/inertia_demo` and `/dashboard/rsc_demo` pair as the primary performance comparison surface.
 4. Keep using the alternating comparison runner instead of grouped batches for future local claims.
 5. Run headline local comparisons with `--require-driver-match` so mismatched Chrome and chromedriver pairs fail fast instead of silently adding noise.
-6. Repeat the instrumented comparison in a production-like renderer and asset mode before broadening the pitch.
-7. Do not file upstream issues or pitch upstream adoption on runtime-performance grounds until the matched comparison stays favorable after that cleanup.
+6. Repeat the production-like comparison on a stable deployed environment before broadening the pitch.
+7. Add renderer-internal timing or expose a measurable RSC payload resource before making stronger claims about where the remaining tail latency comes from.

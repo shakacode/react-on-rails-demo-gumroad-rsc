@@ -1,0 +1,644 @@
+{
+  "label": "production-like-alternating-8-reindexed-cycle6-position1",
+  "baseUrl": "https://gumroad.dev",
+  "measureBaseUrl": "https://gumroad.dev",
+  "path": "/dashboard/rsc_demo",
+  "targetUrl": "https://gumroad.dev/dashboard/rsc_demo",
+  "headed": false,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 1,
+  "environment": {
+    "measuredAt": "2026-04-29T23:15:32-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.43.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "147.0.7727.117",
+    "platformName": "mac",
+    "chromeDriverVersion": "147.0.7727.117",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 472.3,
+      "loadEventMs": 472.4,
+      "responseEndMs": 452.3,
+      "durationMs": 472.4,
+      "transferSize": 12673.0,
+      "encodedBodySize": 12373.0,
+      "decodedBodySize": 12373.0
+    },
+    "lcp": {
+      "startTime": 500.0,
+      "size": 12765.0
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": 12216.0,
+    "bodyTextBytes": 734.0,
+    "packs": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "jsTransferSize": 0.0,
+      "cssTransferSize": 0.0,
+      "jsCount": 1.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "action_total": {
+        "durationMs": 252.16
+      },
+      "cache_generate.active_support": {
+        "durationMs": 0.66
+      },
+      "cache_read.active_support": {
+        "durationMs": 0.03
+      },
+      "cache_write.active_support": {
+        "durationMs": 0.12
+      },
+      "compare_context": {
+        "durationMs": 18.94
+      },
+      "compare_creator_home": {
+        "durationMs": 206.51
+      },
+      "compare_props": {
+        "durationMs": 225.46
+      },
+      "feature_operation.flipper": {
+        "durationMs": 7.51
+      },
+      "instantiation.active_record": {
+        "durationMs": 0.8
+      },
+      "large_seller": {
+        "durationMs": 3.49
+      },
+      "process_action.action_controller": {
+        "durationMs": 255.22
+      },
+      "render_dispatch": {
+        "durationMs": 23.15
+      },
+      "render_layout.action_view": {
+        "durationMs": 22.75
+      },
+      "render_partial.action_view": {
+        "durationMs": 2.43
+      },
+      "render_template.action_view": {
+        "durationMs": 8.72
+      },
+      "sql.active_record": {
+        "durationMs": 113.91
+      },
+      "start_processing.action_controller": {
+        "durationMs": 0.02
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 472.3,
+        "median": 472.3,
+        "p95": 472.3,
+        "max": 472.3,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 472.4,
+        "median": 472.4,
+        "p95": 472.4,
+        "max": 472.4,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 452.3,
+        "median": 452.3,
+        "p95": 452.3,
+        "max": 452.3,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 472.4,
+        "median": 472.4,
+        "p95": 472.4,
+        "max": 472.4,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 12673.0,
+        "median": 12673.0,
+        "p95": 12673.0,
+        "max": 12673.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 12373.0,
+        "median": 12373.0,
+        "p95": 12373.0,
+        "max": 12373.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 12373.0,
+        "median": 12373.0,
+        "p95": 12373.0,
+        "max": 12373.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 500.0,
+        "median": 500.0,
+        "p95": 500.0,
+        "max": 500.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 12765.0,
+        "median": 12765.0,
+        "p95": 12765.0,
+        "max": 12765.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": {
+      "count": 1,
+      "min": 12216.0,
+      "median": 12216.0,
+      "p95": 12216.0,
+      "max": 12216.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 734.0,
+      "median": 734.0,
+      "p95": 734.0,
+      "max": 734.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 1.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "max": 1.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "action_total": {
+        "stats": {
+          "count": 1,
+          "min": 252.16,
+          "median": 252.16,
+          "p95": 252.16,
+          "max": 252.16,
+          "stddev": 0.0
+        }
+      },
+      "cache_generate.active_support": {
+        "stats": {
+          "count": 1,
+          "min": 0.66,
+          "median": 0.66,
+          "p95": 0.66,
+          "max": 0.66,
+          "stddev": 0.0
+        }
+      },
+      "cache_read.active_support": {
+        "stats": {
+          "count": 1,
+          "min": 0.03,
+          "median": 0.03,
+          "p95": 0.03,
+          "max": 0.03,
+          "stddev": 0.0
+        }
+      },
+      "cache_write.active_support": {
+        "stats": {
+          "count": 1,
+          "min": 0.12,
+          "median": 0.12,
+          "p95": 0.12,
+          "max": 0.12,
+          "stddev": 0.0
+        }
+      },
+      "compare_context": {
+        "stats": {
+          "count": 1,
+          "min": 18.94,
+          "median": 18.94,
+          "p95": 18.94,
+          "max": 18.94,
+          "stddev": 0.0
+        }
+      },
+      "compare_creator_home": {
+        "stats": {
+          "count": 1,
+          "min": 206.51,
+          "median": 206.51,
+          "p95": 206.51,
+          "max": 206.51,
+          "stddev": 0.0
+        }
+      },
+      "compare_props": {
+        "stats": {
+          "count": 1,
+          "min": 225.46,
+          "median": 225.46,
+          "p95": 225.46,
+          "max": 225.46,
+          "stddev": 0.0
+        }
+      },
+      "feature_operation.flipper": {
+        "stats": {
+          "count": 1,
+          "min": 7.51,
+          "median": 7.51,
+          "p95": 7.51,
+          "max": 7.51,
+          "stddev": 0.0
+        }
+      },
+      "instantiation.active_record": {
+        "stats": {
+          "count": 1,
+          "min": 0.8,
+          "median": 0.8,
+          "p95": 0.8,
+          "max": 0.8,
+          "stddev": 0.0
+        }
+      },
+      "large_seller": {
+        "stats": {
+          "count": 1,
+          "min": 3.49,
+          "median": 3.49,
+          "p95": 3.49,
+          "max": 3.49,
+          "stddev": 0.0
+        }
+      },
+      "process_action.action_controller": {
+        "stats": {
+          "count": 1,
+          "min": 255.22,
+          "median": 255.22,
+          "p95": 255.22,
+          "max": 255.22,
+          "stddev": 0.0
+        }
+      },
+      "render_dispatch": {
+        "stats": {
+          "count": 1,
+          "min": 23.15,
+          "median": 23.15,
+          "p95": 23.15,
+          "max": 23.15,
+          "stddev": 0.0
+        }
+      },
+      "render_layout.action_view": {
+        "stats": {
+          "count": 1,
+          "min": 22.75,
+          "median": 22.75,
+          "p95": 22.75,
+          "max": 22.75,
+          "stddev": 0.0
+        }
+      },
+      "render_partial.action_view": {
+        "stats": {
+          "count": 1,
+          "min": 2.43,
+          "median": 2.43,
+          "p95": 2.43,
+          "max": 2.43,
+          "stddev": 0.0
+        }
+      },
+      "render_template.action_view": {
+        "stats": {
+          "count": 1,
+          "min": 8.72,
+          "median": 8.72,
+          "p95": 8.72,
+          "max": 8.72,
+          "stddev": 0.0
+        }
+      },
+      "sql.active_record": {
+        "stats": {
+          "count": 1,
+          "min": 113.91,
+          "median": 113.91,
+          "p95": 113.91,
+          "max": 113.91,
+          "stddev": 0.0
+        }
+      },
+      "start_processing.action_controller": {
+        "stats": {
+          "count": 1,
+          "min": 0.02,
+          "median": 0.02,
+          "p95": 0.02,
+          "max": 0.02,
+          "stddev": 0.0
+        }
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 734,
+      "heading": "Creator home RSC demo",
+      "htmlBytes": 12216,
+      "inertiaDataPageBytes": null,
+      "lcp": {
+        "loadTime": 0,
+        "renderTime": 500,
+        "size": 12765,
+        "startTime": 500,
+        "url": ""
+      },
+      "navigation": {
+        "decodedBodySize": 12373,
+        "domContentLoadedMs": 472.30000000447035,
+        "durationMs": 472.3999999985099,
+        "encodedBodySize": 12373,
+        "loadEventMs": 472.3999999985099,
+        "responseEndMs": 452.30000000447035,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": null,
+            "duration": 3.49,
+            "name": "large_seller"
+          },
+          {
+            "description": null,
+            "duration": 18.94,
+            "name": "compare_context"
+          },
+          {
+            "description": null,
+            "duration": 206.51,
+            "name": "compare_creator_home"
+          },
+          {
+            "description": null,
+            "duration": 225.46,
+            "name": "compare_props"
+          },
+          {
+            "description": null,
+            "duration": 23.15,
+            "name": "render_dispatch"
+          },
+          {
+            "description": null,
+            "duration": 252.16,
+            "name": "action_total"
+          },
+          {
+            "description": null,
+            "duration": 113.91,
+            "name": "sql.active_record"
+          },
+          {
+            "description": null,
+            "duration": 0.8,
+            "name": "instantiation.active_record"
+          },
+          {
+            "description": null,
+            "duration": 0.02,
+            "name": "start_processing.action_controller"
+          },
+          {
+            "description": null,
+            "duration": 0.03,
+            "name": "cache_read.active_support"
+          },
+          {
+            "description": null,
+            "duration": 0.66,
+            "name": "cache_generate.active_support"
+          },
+          {
+            "description": null,
+            "duration": 7.51,
+            "name": "feature_operation.flipper"
+          },
+          {
+            "description": null,
+            "duration": 0.12,
+            "name": "cache_write.active_support"
+          },
+          {
+            "description": null,
+            "duration": 8.72,
+            "name": "render_template.action_view"
+          },
+          {
+            "description": null,
+            "duration": 2.43,
+            "name": "render_partial.action_view"
+          },
+          {
+            "description": null,
+            "duration": 22.75,
+            "name": "render_layout.action_view"
+          },
+          {
+            "description": null,
+            "duration": 255.22,
+            "name": "process_action.action_controller"
+          }
+        ],
+        "transferSize": 12673
+      },
+      "packs": {
+        "all": {
+          "count": 3,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "js": {
+          "count": 1,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "largest": [
+          {
+            "decodedBodySize": 0,
+            "duration": 13,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/css/design-c9ba3f28.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 14,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/css/dashboard_rsc_demo_styles-880be2f7.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 17.400000005960464,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/dashboard_rsc_demo.js",
+            "transferSize": 0
+          }
+        ]
+      },
+      "pageTitle": "Local Gumroad",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-04-30T09:15:31.864Z",
+      "url": "https://gumroad.dev/dashboard/rsc_demo",
+      "run": 1
+    }
+  ]
+}

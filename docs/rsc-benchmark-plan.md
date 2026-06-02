@@ -64,6 +64,8 @@ These help explain the result:
 - count of JS requests
 - serialized page-prop payload size
 - server response end
+- `/rsc_payload/` resource duration, response end, transfer size, and any resource-level `Server-Timing`
+- route-level `Server-Timing` split between Rails/presenter work and renderer dispatch
 
 ## Suggested success bar
 
@@ -84,6 +86,37 @@ The performance result is not enough by itself. Also record:
 - whether the page stops depending on one large `creator_home` client payload
 - whether the implementation isolates client interactivity more cleanly
 - whether the review story looks believable for a bounded upstream discussion
+
+## Production-like follow-up pass
+
+The local development benchmark is useful for direction, but it is not enough for a stronger performance claim.
+
+The first production-like local pass removed the dev-server as a confounder:
+
+- build Shakapacker assets with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- build the standalone RSC demo bundles with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- run Rails against compiled packs instead of the Shakapacker dev server
+- run the Node renderer as a dedicated process with an explicit `RENDERER_PASSWORD`, `RENDERER_PORT`, `RENDERER_WORKERS_COUNT`, and `RENDERER_LOG_LEVEL`
+- keep Chrome and ChromeDriver on the same major version and use `--require-driver-match`
+- use the alternating comparison runner instead of grouped batches
+
+Result from `production-like-alternating-8-reindexed`:
+
+- median navigation: Inertia `775.40ms`, RSC `607.15ms`, `-21.7%`
+- median `LCP`: Inertia `794.00ms`, RSC `634.00ms`, `-20.2%`
+- median `responseEnd`: Inertia `644.80ms`, RSC `588.80ms`, `-8.7%`
+- median `action_total`: Inertia `346.87ms`, RSC `339.20ms`, `-2.2%`
+- JS request count: Inertia `6`, RSC `1`, `-83.3%`
+- p95 `responseEnd`: Inertia `730.62ms`, RSC `768.25ms`, `+5.2%`
+
+The benchmark JSON now records `/rsc_payload/` resource details separately from top-level navigation when the browser sees such a resource:
+
+- aggregate payload transfer, encoded, and decoded bytes
+- payload `duration`, `responseStart`, and `responseEnd`
+- payload resource-level `serverTiming` entries when the browser exposes them
+- primary comparison deltas for payload duration, payload response end, and payload transfer size
+
+The current `/dashboard/rsc_demo` implementation streams the RSC payload inline, so it does not emit a browser resource named `/rsc_payload/` on the initial page load. In this run the new resource timing fields are therefore empty. That is still useful: it tells us the next profiling step should either expose a separate RSC payload resource for measurement or add renderer-internal `Server-Timing` in the React on Rails Pro streaming path.
 
 ## Decision outcomes
 

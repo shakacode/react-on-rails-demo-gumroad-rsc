@@ -1,0 +1,668 @@
+{
+  "label": "production-like-alternating-8-reindexed-cycle5-position1",
+  "baseUrl": "https://gumroad.dev",
+  "measureBaseUrl": "https://gumroad.dev",
+  "path": "/dashboard/inertia_demo",
+  "targetUrl": "https://gumroad.dev/dashboard/inertia_demo",
+  "headed": false,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 1,
+  "environment": {
+    "measuredAt": "2026-04-29T23:15:16-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.43.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "147.0.7727.117",
+    "platformName": "mac",
+    "chromeDriverVersion": "147.0.7727.117",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/147.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 669.7,
+      "loadEventMs": 734.9,
+      "responseEndMs": 613.2,
+      "durationMs": 734.9,
+      "transferSize": 14521.0,
+      "encodedBodySize": 14221.0,
+      "decodedBodySize": 14221.0
+    },
+    "lcp": {
+      "startTime": 752.0,
+      "size": 32400.0
+    },
+    "inertiaDataPageBytes": 5789.0,
+    "htmlBytes": 372669.0,
+    "bodyTextBytes": 865.0,
+    "packs": {
+      "transferSize": 3587.0,
+      "encodedBodySize": 3287.0,
+      "decodedBodySize": 10947.0,
+      "jsTransferSize": 3587.0,
+      "cssTransferSize": 0.0,
+      "jsCount": 6.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "action_total": {
+        "durationMs": 327.15
+      },
+      "cache_generate.active_support": {
+        "durationMs": 0.38
+      },
+      "cache_read.active_support": {
+        "durationMs": 0.02
+      },
+      "compare_context": {
+        "durationMs": 25.31
+      },
+      "compare_creator_home": {
+        "durationMs": 271.41
+      },
+      "compare_props": {
+        "durationMs": 296.73
+      },
+      "feature_operation.flipper": {
+        "durationMs": 3.62
+      },
+      "instantiation.active_record": {
+        "durationMs": 1.84
+      },
+      "large_seller": {
+        "durationMs": 4.48
+      },
+      "process_action.action_controller": {
+        "durationMs": 330.16
+      },
+      "render_dispatch": {
+        "durationMs": 25.87
+      },
+      "render_layout.action_view": {
+        "durationMs": 14.99
+      },
+      "render_partial.action_view": {
+        "durationMs": 6.51
+      },
+      "render_template.action_view": {
+        "durationMs": 1.01
+      },
+      "sql.active_record": {
+        "durationMs": 123.87
+      },
+      "start_processing.action_controller": {
+        "durationMs": 0.04
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 669.7,
+        "median": 669.7,
+        "p95": 669.7,
+        "max": 669.7,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 734.9,
+        "median": 734.9,
+        "p95": 734.9,
+        "max": 734.9,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 613.2,
+        "median": 613.2,
+        "p95": 613.2,
+        "max": 613.2,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 734.9,
+        "median": 734.9,
+        "p95": 734.9,
+        "max": 734.9,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 14521.0,
+        "median": 14521.0,
+        "p95": 14521.0,
+        "max": 14521.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 14221.0,
+        "median": 14221.0,
+        "p95": 14221.0,
+        "max": 14221.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 14221.0,
+        "median": 14221.0,
+        "p95": 14221.0,
+        "max": 14221.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 752.0,
+        "median": 752.0,
+        "p95": 752.0,
+        "max": 752.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 32400.0,
+        "median": 32400.0,
+        "p95": 32400.0,
+        "max": 32400.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": {
+      "count": 1,
+      "min": 5789.0,
+      "median": 5789.0,
+      "p95": 5789.0,
+      "max": 5789.0,
+      "stddev": 0.0
+    },
+    "htmlBytes": {
+      "count": 1,
+      "min": 372669.0,
+      "median": 372669.0,
+      "p95": 372669.0,
+      "max": 372669.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 865.0,
+      "median": 865.0,
+      "p95": 865.0,
+      "max": 865.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 3587.0,
+        "median": 3587.0,
+        "p95": 3587.0,
+        "max": 3587.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 3287.0,
+        "median": 3287.0,
+        "p95": 3287.0,
+        "max": 3287.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 10947.0,
+        "median": 10947.0,
+        "p95": 10947.0,
+        "max": 10947.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 3587.0,
+        "median": 3587.0,
+        "p95": 3587.0,
+        "max": 3587.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 6.0,
+        "median": 6.0,
+        "p95": 6.0,
+        "max": 6.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "action_total": {
+        "stats": {
+          "count": 1,
+          "min": 327.15,
+          "median": 327.15,
+          "p95": 327.15,
+          "max": 327.15,
+          "stddev": 0.0
+        }
+      },
+      "cache_generate.active_support": {
+        "stats": {
+          "count": 1,
+          "min": 0.38,
+          "median": 0.38,
+          "p95": 0.38,
+          "max": 0.38,
+          "stddev": 0.0
+        }
+      },
+      "cache_read.active_support": {
+        "stats": {
+          "count": 1,
+          "min": 0.02,
+          "median": 0.02,
+          "p95": 0.02,
+          "max": 0.02,
+          "stddev": 0.0
+        }
+      },
+      "compare_context": {
+        "stats": {
+          "count": 1,
+          "min": 25.31,
+          "median": 25.31,
+          "p95": 25.31,
+          "max": 25.31,
+          "stddev": 0.0
+        }
+      },
+      "compare_creator_home": {
+        "stats": {
+          "count": 1,
+          "min": 271.41,
+          "median": 271.41,
+          "p95": 271.41,
+          "max": 271.41,
+          "stddev": 0.0
+        }
+      },
+      "compare_props": {
+        "stats": {
+          "count": 1,
+          "min": 296.73,
+          "median": 296.73,
+          "p95": 296.73,
+          "max": 296.73,
+          "stddev": 0.0
+        }
+      },
+      "feature_operation.flipper": {
+        "stats": {
+          "count": 1,
+          "min": 3.62,
+          "median": 3.62,
+          "p95": 3.62,
+          "max": 3.62,
+          "stddev": 0.0
+        }
+      },
+      "instantiation.active_record": {
+        "stats": {
+          "count": 1,
+          "min": 1.84,
+          "median": 1.84,
+          "p95": 1.84,
+          "max": 1.84,
+          "stddev": 0.0
+        }
+      },
+      "large_seller": {
+        "stats": {
+          "count": 1,
+          "min": 4.48,
+          "median": 4.48,
+          "p95": 4.48,
+          "max": 4.48,
+          "stddev": 0.0
+        }
+      },
+      "process_action.action_controller": {
+        "stats": {
+          "count": 1,
+          "min": 330.16,
+          "median": 330.16,
+          "p95": 330.16,
+          "max": 330.16,
+          "stddev": 0.0
+        }
+      },
+      "render_dispatch": {
+        "stats": {
+          "count": 1,
+          "min": 25.87,
+          "median": 25.87,
+          "p95": 25.87,
+          "max": 25.87,
+          "stddev": 0.0
+        }
+      },
+      "render_layout.action_view": {
+        "stats": {
+          "count": 1,
+          "min": 14.99,
+          "median": 14.99,
+          "p95": 14.99,
+          "max": 14.99,
+          "stddev": 0.0
+        }
+      },
+      "render_partial.action_view": {
+        "stats": {
+          "count": 1,
+          "min": 6.51,
+          "median": 6.51,
+          "p95": 6.51,
+          "max": 6.51,
+          "stddev": 0.0
+        }
+      },
+      "render_template.action_view": {
+        "stats": {
+          "count": 1,
+          "min": 1.01,
+          "median": 1.01,
+          "p95": 1.01,
+          "max": 1.01,
+          "stddev": 0.0
+        }
+      },
+      "sql.active_record": {
+        "stats": {
+          "count": 1,
+          "min": 123.87,
+          "median": 123.87,
+          "p95": 123.87,
+          "max": 123.87,
+          "stddev": 0.0
+        }
+      },
+      "start_processing.action_controller": {
+        "stats": {
+          "count": 1,
+          "min": 0.04,
+          "median": 0.04,
+          "p95": 0.04,
+          "max": 0.04,
+          "stddev": 0.0
+        }
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 865,
+      "heading": "Dashboard",
+      "htmlBytes": 372669,
+      "inertiaDataPageBytes": 5789,
+      "lcp": {
+        "loadTime": 734.7000000029802,
+        "renderTime": 752,
+        "size": 32400,
+        "startTime": 752,
+        "url": "https://app.gumroad.dev/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png"
+      },
+      "navigation": {
+        "decodedBodySize": 14221,
+        "domContentLoadedMs": 669.7000000029802,
+        "durationMs": 734.8999999985099,
+        "encodedBodySize": 14221,
+        "loadEventMs": 734.8999999985099,
+        "responseEndMs": 613.2000000029802,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": null,
+            "duration": 4.48,
+            "name": "large_seller"
+          },
+          {
+            "description": null,
+            "duration": 25.31,
+            "name": "compare_context"
+          },
+          {
+            "description": null,
+            "duration": 271.41,
+            "name": "compare_creator_home"
+          },
+          {
+            "description": null,
+            "duration": 296.73,
+            "name": "compare_props"
+          },
+          {
+            "description": null,
+            "duration": 25.87,
+            "name": "render_dispatch"
+          },
+          {
+            "description": null,
+            "duration": 327.15,
+            "name": "action_total"
+          },
+          {
+            "description": null,
+            "duration": 123.87,
+            "name": "sql.active_record"
+          },
+          {
+            "description": null,
+            "duration": 1.84,
+            "name": "instantiation.active_record"
+          },
+          {
+            "description": null,
+            "duration": 0.04,
+            "name": "start_processing.action_controller"
+          },
+          {
+            "description": null,
+            "duration": 0.02,
+            "name": "cache_read.active_support"
+          },
+          {
+            "description": null,
+            "duration": 0.38,
+            "name": "cache_generate.active_support"
+          },
+          {
+            "description": null,
+            "duration": 3.62,
+            "name": "feature_operation.flipper"
+          },
+          {
+            "description": null,
+            "duration": 1.01,
+            "name": "render_template.action_view"
+          },
+          {
+            "description": null,
+            "duration": 6.51,
+            "name": "render_partial.action_view"
+          },
+          {
+            "description": null,
+            "duration": 14.99,
+            "name": "render_layout.action_view"
+          },
+          {
+            "description": null,
+            "duration": 330.16,
+            "name": "process_action.action_controller"
+          }
+        ],
+        "transferSize": 14521
+      },
+      "packs": {
+        "all": {
+          "count": 8,
+          "decodedBodySize": 10947,
+          "encodedBodySize": 3287,
+          "transferSize": 3587
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "js": {
+          "count": 6,
+          "decodedBodySize": 10947,
+          "encodedBodySize": 3287,
+          "transferSize": 3587
+        },
+        "largest": [
+          {
+            "decodedBodySize": 10947,
+            "duration": 11.400000005960464,
+            "encodedBodySize": 3287,
+            "name": "https://gumroad.dev/packs/js/6823-8080d6c4211571c7.chunk.js",
+            "transferSize": 3587
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 26.200000002980232,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/css/dashboard_rsc_demo_styles-880be2f7.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 29,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/css/design-c9ba3f28.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 17.399999998509884,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/js/2166-71c47d0df814a1f0.js",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 20.299999997019768,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/js/3627-dafe3f7c0b8f0047.js",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 16.099999994039536,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/js/webpack-commons-e5f475918eaf521e.js",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 23.799999997019768,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/js/webpack-runtime-24272d0311eb7ea2.js",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 0,
+            "duration": 31.19999999552965,
+            "encodedBodySize": 0,
+            "name": "https://app.gumroad.dev/packs/js/base-878a9dc178ea84d7.js",
+            "transferSize": 0
+          }
+        ]
+      },
+      "pageTitle": "Local Gumroad",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-04-30T09:15:16.674Z",
+      "url": "https://gumroad.dev/dashboard/inertia_demo",
+      "run": 1
+    }
+  ]
+}

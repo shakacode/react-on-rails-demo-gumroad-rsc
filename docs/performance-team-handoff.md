@@ -17,6 +17,7 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 - repo: [shakacode/react-on-rails-demo-gumroad-rsc](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc)
 - consolidated demo PR: [react-on-rails-demo-gumroad-rsc#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11)
 - follow-up PR: [react-on-rails-demo-gumroad-rsc#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10)
+- production-like benchmark PR: [react-on-rails-demo-gumroad-rsc#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12)
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
@@ -28,19 +29,62 @@ What is already true:
 
 - the RSC route wins on total navigation duration
 - the RSC route wins on `LCP`
-- the corrected clean-port alternating local benchmark still has the RSC route ahead on total navigation duration and `LCP`
+- the production-like compiled-asset alternating local benchmark has the RSC route ahead on median navigation duration, median `LCP`, and median `responseEnd`
 - the RSC route reduces page-specific JS requests from `6` to `1` in the latest balanced pass
 - the demo JS and CSS are route-scoped, so unrelated pages are not paying for the experiment
 - the raw RSC HTML transfer is now close to the Inertia control after the response-end pass
 
 What is not yet proven:
 
-- the strongest result is still a local-development measurement
+- the strongest result is still a local measurement, not a deployed production measurement
 - one earlier headline run used a mismatched local Chrome and chromedriver pair, and the later matched-driver repeat exposed a development-asset outlier on one RSC run
 - measurement order affects cache state enough that grouped batches can overstate the gap
-- the corrected alternating run still shows a modest server-side tradeoff for the RSC route
+- `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
+- the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
 
-## Latest balanced alternating local result
+## Latest production-like alternating local result
+
+Measured with:
+
+- production-built Shakapacker/Rspack assets: `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- production-built RSC demo bundles: `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
+- local Docker-backed services with Elasticsearch indexes recreated via `DevTools.delete_all_indices_and_reindex_all`
+- Rails running without `bin/shakapacker-dev-server`
+- standalone React on Rails Pro Node renderer with `RENDERER_PASSWORD=benchmarkRendererPassword`, `RENDERER_PORT=3800`, `RENDERER_WORKERS_COUNT=2`, and `RENDERER_LOG_LEVEL=warn`
+- matching `Chrome 147` and `ChromeDriver 147`
+- `8` alternating cycles with one explicit warmup request per measured run
+
+The first long run wrote `14` of `16` samples and then hit a Selenium `Net::ReadTimeout` while loading the RSC route. The comparison was completed with `--reuse-existing`, which reused the completed JSON files and measured the two missing samples.
+
+Artifacts:
+
+- tracked comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
+- tracked raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
+
+### Browser metrics
+
+| Metric                    | Inertia demo |   RSC demo |     Delta |
+| ------------------------- | -----------: | ---------: | --------: |
+| Median navigation duration |   `775.40ms` | `607.15ms` |  `-21.7%` |
+| Median response end        |   `644.80ms` | `588.80ms` |   `-8.7%` |
+| Median LCP                 |   `794.00ms` | `634.00ms` |  `-20.2%` |
+| Median HTML transfer       | `14,223` B   | `12,373` B |  `-13.0%` |
+| JS request count           |          `6` |        `1` |  `-83.3%` |
+| p95 response end           |   `730.62ms` | `768.25ms` |   `+5.2%` |
+
+### Route-scoped server timings
+
+| Metric                           | Inertia demo |   RSC demo |     Delta |
+| -------------------------------- | -----------: | ---------: | --------: |
+| Median controller `action_total` |   `346.87ms` | `339.20ms` |   `-2.2%` |
+| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |   `-5.5%` |
+| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |   `-1.4%` |
+| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` |  `-12.8%` |
+| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |   `+8.3%` |
+
+This is the strongest local evidence so far. It keeps the user-visible RSC win after removing the Shakapacker dev server as a confounder and makes the remaining caution precise: tail response timing still needs profiling.
+
+## Previous clean-port development result
 
 Measured with:
 
@@ -148,7 +192,7 @@ What is not yet heavily leveraged:
 - nested async server-component trees
 - aggressive Suspense segmentation for meaningful partial streaming
 - deeper per-section server data fetching co-located with server components
-- production-mode renderer tuning and production-like profiling
+- deployed renderer tuning and production-grade profiling
 - targeted renderer instrumentation inside the React on Rails Pro streaming path
 
 ## Are we heavily leveraging RSC?
@@ -170,11 +214,13 @@ It does **not** yet prove the full upside of RSC as an architecture.
 
 If the performance team wants the next round to be high signal, focus here:
 
-1. Re-run the comparison in a production-like mode with a dedicated renderer and a fixed Chrome/chromedriver pair.
-   The latest result is strong, but it is still local-development and sensitive to dev-asset timing noise.
+1. Repeat the comparison against the deployed review/staging app once the Control Plane environment is stable.
+   The production-like local rerun is complete and is now the strongest local evidence; the next question is whether the RSC advantage holds with deployed network, container, and renderer behavior.
 
 2. Instrument the React on Rails Pro renderer and streaming path.
    We now have route-scoped Rails timing, but not renderer-internal timing.
+   The benchmark harness now also records `/rsc_payload/` resource duration, response start/end, transfer sizes, and resource-level `Server-Timing` when exposed by the browser.
+   That does not replace renderer-internal profiling, but it gives the performance team a cleaner handoff artifact for separating document navigation cost from the RSC payload path.
 
 3. Test whether finer-grained Suspense boundaries improve time-to-first-meaningful HTML without regressing final paint.
 
@@ -218,12 +264,14 @@ The heavier internal Gumroad matrix still exists for the original codebase shape
 - instrumented Inertia rerun JSON: `output/playwright/dashboard-perf/inertia-demo-server-timing-3-post-rsc-dashboard-inertia-demo-metrics.json`
 - instrumented RSC JSON: `output/playwright/dashboard-perf/rsc-demo-server-timing-3-dashboard-rsc-demo-metrics.json`
 - clean-driver repeat comparison JSON: `output/playwright/dashboard-perf/dashboard-demo-alternating-8-clean-driver-comparison.json`
+- tracked production-like comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
+- tracked production-like raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
 
 ## Current sharing status
 
-The repo is public, the consolidated demo PR is open, and the React on Rails issues are available as team-facing discussion hubs.
+The repo is public, the consolidated demo PR is open, the production-like benchmark PR is open, and the React on Rails issues are available as team-facing discussion hubs.
 
-The earlier stacked PRs were closed unmerged after consolidation into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11). Treat [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11) as the parent review branch and [#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) as its current child follow-up.
+The earlier stacked PRs were closed unmerged after consolidation into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11). Treat [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11) as the parent review branch, [#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) as the dev-server override child, and [#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12) as the current production-like benchmark follow-up.
 
 The artifact paths listed above are local benchmark outputs, so they are shareable through a repo checkout and branch work, but not through GitHub artifact hosting.
 The measurement script also now records browser/version provenance and percentile-style summary stats in those JSON outputs so the performance-team handoff is less dependent on ad hoc environment notes.

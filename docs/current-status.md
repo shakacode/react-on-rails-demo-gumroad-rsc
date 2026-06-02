@@ -13,6 +13,7 @@ This repository has moved past pure planning, through the Rspack migration branc
 - repo: [shakacode/react-on-rails-demo-gumroad-rsc](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc)
 - consolidated demo PR: [react-on-rails-demo-gumroad-rsc#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11)
 - follow-up PR: [react-on-rails-demo-gumroad-rsc#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10)
+- production-like benchmark PR: [react-on-rails-demo-gumroad-rsc#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12)
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
@@ -36,6 +37,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Added benchmark runner support for `--require-driver-match` and `--reuse-existing` so headline runs fail fast on browser-driver mismatch and long runs can be recovered without remeasuring completed samples
 - Added median and `p95` primary-metric deltas plus slowest-pack-resource summaries to the alternating comparison output so dev-asset outliers are obvious without manual per-run digging
 - Added a shared JS Shakapacker config loader so the custom Webpack and Rspack config honors `SHAKAPACKER_DEV_SERVER_*` overrides the same way Ruby/Shakapacker already does
+- Added `/rsc_payload/` resource timing, transfer-size, and resource-level `Server-Timing` summaries to the benchmark JSON so renderer-adjacent overhead is easier to isolate
 - Installed Ruby gems locally
 - Installed `node_modules` locally
 - Brought up the Docker-backed local services
@@ -69,7 +71,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - the React 19 type fallout has not been cleaned up yet across the app
 - the broad React 19 cleanup still needs its own reviewable branch strategy
 - the full current `/dashboard` route is still too noisy for a fair RSC-versus-Inertia story
-- production-like benchmarking is still missing, and the latest local measurements are sensitive to cache order
+- production-like local benchmarking now exists, but a deployed repeat and renderer-internal profiling are still missing
 - the demo has not yet been reduced to a compelling upstream-review story
 
 ## What "demo ready" means
@@ -91,13 +93,13 @@ Short version:
 
 - Rspack is a strong developer-performance win here
 - no route-level runtime win was expected from the bundler swap by itself
-- the stricter alternating local benchmark still has the `RSC` route ahead on total navigation duration and `LCP`
-- that stricter method keeps `responseEnd` and route-level `action_total` modestly in the Inertia control's favor
+- the stricter production-like alternating local benchmark has the `RSC` route ahead on median navigation duration, median `LCP`, and median `responseEnd`
+- the latest pass still has a caution: `p95 responseEnd` is modestly worse for the `RSC` route
 - route order and warm-state effects are real enough that the alternating runner is now the benchmark method that matters
 
-That means the demo is now real, the user-visible story is still favorable, and the current tradeoff is cleaner to explain.
+That means the demo is now real, the user-visible story is favorable, and the remaining tradeoff is specific enough to hand to performance engineers.
 
-The missing piece is no longer "can this compile?" The missing piece is "does the favorable local result survive production-like measurement discipline and renderer profiling?"
+The missing piece is no longer "can this compile?" or "does it survive a production-like local pass?" The missing piece is "does the favorable local result survive a deployed repeat and renderer profiling?"
 
 The benchmark rubric for that decision now lives in [rsc-benchmark-plan.md](./rsc-benchmark-plan.md).
 
@@ -111,6 +113,8 @@ Current local state:
 - gems are installed
 - Rails boots locally on port `3000`
 - the Rspack-backed Shakapacker dev server boots locally on port `3035`, and the same setup now works on an overridden clean port such as `3036`
+- production-built Shakapacker/Rspack assets build locally with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- production-built RSC demo bundles build locally with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`
 - `bin/dev` now boots the standalone React on Rails Pro Node Renderer on port `3800`
 - local nginx now boots once `helperai.dev` cert files exist
 
@@ -127,13 +131,14 @@ That means the repository is now ready for comparison work on this machine.
 - The fix was to make the custom JS bundler config honor `SHAKAPACKER_DEV_SERVER_PORT`, then restart both Puma and `bin/shakapacker-dev-server` with the same override on a clean port such as `3036`.
 - After that correction, both `/dashboard/inertia_demo` and `/dashboard/rsc_demo` rendered cleanly in a signed-in browser session again.
 - An older mixed-port repeat with matching `Chrome 147` and `ChromeDriver 147` removed the earlier browser-driver mismatch, but one RSC dev-asset load still reported a `~19.3s` zero-transfer CSS duration.
+- Fresh local Docker volumes need Elasticsearch indexes before the dashboard demo routes are stable; run `DISABLE_SPRING=1 OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES bin/rails runner 'DevTools.delete_all_indices_and_reindex_all'` after `bin/rails db:prepare`.
 - The corrected clean-port `8`-cycle repeat on `3036` did not reproduce that outlier, which makes the older run more useful as a diagnostic than as the current headline.
 
 ## Verified implementation state
 
 - Development build: `RAILS_ENV=development NODE_ENV=development bin/shakapacker --mode development`
   Result: successful Rspack build for both the main app bundles and widget bundles
-- Production build: `RAILS_ENV=production NODE_ENV=production bin/shakapacker`
+- Production build: `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
   Result: successful Rspack build with asset-size warnings but no compilation failures
 - Dev server: `RAILS_ENV=development NODE_ENV=development bin/shakapacker-dev-server`
   Result: boots successfully on `https://gumroad.dev:3035/`
@@ -149,7 +154,7 @@ That means the repository is now ready for comparison work on this machine.
 The build path is working and the matched comparison surface is running, but two blockers remain before this is review ready as a persuasive stacked branch:
 
 - React 19 adoption still exposes broad TypeScript cleanup work across the app.
-- The strictest local result is still a development-mode measurement, and the older mixed-port matched-driver repeat exposed a dev-asset timing outlier while renderer-internal profiling is still missing.
+- The strictest local result is now a compiled-asset measurement, but it is still local and renderer-internal profiling is still missing.
 
 Current `npx tsc --noEmit` results still show app-wide errors in categories like:
 
@@ -158,9 +163,9 @@ Current `npx tsc --noEmit` results still show app-wide errors in categories like
 - implicit `any` in callbacks that previously slipped through
 - at least one `isolatedModules`-related type-only import fix
 
-That means the branch has crossed the important threshold of "Rspack migration is viable here" and "a matched React on Rails Pro comparison is feasible here", but it has not yet crossed the threshold of "this is an easy upstream review with a repeatable, production-like runtime-performance story."
+That means the branch has crossed the important threshold of "Rspack migration is viable here" and "a matched React on Rails Pro comparison is feasible here", but it has not yet crossed the threshold of "this is an easy upstream review with deployed, production-grade runtime-performance evidence."
 
-## Latest balanced alternating local comparison result
+## Latest production-like alternating local comparison result
 
 The strictest current local comparison uses `scripts/perf/compare_dashboard_routes.rb`, which rotates route order by cycle instead of relying on separate grouped batches.
 
@@ -168,35 +173,38 @@ Short version:
 
 - the `RSC` demo works end to end under React on Rails Pro
 - the `Inertia` control works end to end on the same reduced data surface
-- the corrected local setup now includes manual browser verification after fixing the asset-proxy mismatch caused by another repo using port `3035`
-- the latest balanced alternating run was captured on that corrected setup with matching `Chrome 147` and `ChromeDriver 147`
-- under that corrected method, the `RSC` route is still faster on total navigation duration and `LCP`
-- under that same method, the Inertia control is still ahead on `responseEnd` and route-level server timing, but only modestly so on the longer clean-port repeat
-- the current story is now favorable on user-visible metrics with a much smaller server-side tradeoff than the earlier mixed-port runs suggested
+- the latest balanced alternating run uses compiled Shakapacker/Rspack assets, compiled RSC demo bundles, no Shakapacker dev server, and a dedicated Node renderer
+- the run used matching `Chrome 147` and `ChromeDriver 147`
+- under that method, the `RSC` route is faster on median navigation duration, median `LCP`, median `responseEnd`, and median route-level `action_total`
+- the main caution is `p95 responseEnd`, where the RSC route is still modestly worse
+- the current story is now favorable enough for performance-team review, but not yet enough for a production-performance claim
 
 Useful numbers:
 
-- alternating Inertia navigation duration: `457.16ms`
-- alternating RSC navigation duration: `402.29ms`
-- alternating Inertia LCP: `501.00ms`
-- alternating RSC LCP: `421.00ms`
-- alternating Inertia response end: `320.70ms`
-- alternating RSC response end: `335.96ms`
-- alternating Inertia `action_total`: `163.10ms`
-- alternating RSC `action_total`: `169.74ms`
-- alternating Inertia `compare_props`: `144.80ms`
-- alternating RSC `compare_props`: `145.49ms`
-- alternating Inertia HTML transfer: `14,332.38` bytes
-- alternating RSC HTML transfer: `15,265.0` bytes
+- median Inertia navigation duration: `775.40ms`
+- median RSC navigation duration: `607.15ms`
+- median Inertia LCP: `794.00ms`
+- median RSC LCP: `634.00ms`
+- median Inertia response end: `644.80ms`
+- median RSC response end: `588.80ms`
+- median Inertia `action_total`: `346.87ms`
+- median RSC `action_total`: `339.20ms`
+- median Inertia `compare_props`: `311.50ms`
+- median RSC `compare_props`: `294.38ms`
+- median Inertia HTML transfer: `14,223` bytes
+- median RSC HTML transfer: `12,373` bytes
+- p95 Inertia response end: `730.62ms`
+- p95 RSC response end: `768.25ms`
 
 So the current conclusion is:
 
 - the comparison surface is real
-- the user-visible win is still real on the matched surface after correcting the local asset-proxy setup
-- the current stricter method shows a real but modest server-side tradeoff on the longer clean-port repeat
+- the user-visible win is still real on the matched surface after moving to compiled assets and a dedicated renderer process
+- the latest stricter method has median navigation, median `LCP`, median `responseEnd`, and median `action_total` in the RSC route's favor
+- the `p95 responseEnd` caution remains, so the performance story should not be oversold
 - measurement order still matters, and the alternating runner remains the defensible local method
-- the older mixed-port 8-cycle repeat is still a useful outlier-detection artifact, but the corrected clean-port 8-cycle run is the better current headline
-- the performance pitch is promising, but not yet ready for upstream review
+- the older dev-server 8-cycle repeats are still useful outlier-detection artifacts, but the compiled-asset 8-cycle run is the better current headline
+- the performance pitch is promising, but it still needs a deployed repeat or renderer-internal profiling before an upstream migration proposal
 
 ## Recommended next step
 
@@ -210,8 +218,9 @@ Recommended order:
 4. Keep `/dashboard/rsc_demo`, but use the alternating runner and route-scoped `Server-Timing` together when making any performance claim.
 5. Keep CI honest with the GitHub-hosted demo validation workflow for this public repo: it validates the Rspack build, the targeted demo controller specs, and the standalone `npm run build:rsc-demo` path.
    It now also boots the Node renderer and runs a headless browser smoke spec for both demo routes.
-6. Re-run the alternating comparison with `--require-driver-match` and a production-like renderer and asset setup.
-7. Only then decide whether a deeper migration story is warranted.
+6. Repeat the production-like alternating comparison on a stable deployed environment, ideally Control Plane, before using the numbers externally.
+7. Add renderer-internal timing or expose a separate `/rsc_payload/` browser resource; the current route streams the RSC payload inline, so the browser resource timing fields stay empty.
+8. Only then decide whether a deeper upstream migration story is warranted.
 
 ## Suggested branch sequence
 
