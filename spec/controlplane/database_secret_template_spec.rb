@@ -35,7 +35,7 @@ RSpec.describe "Control Plane database templates" do
       autoscaling = spec.fetch("autoscaling")
 
       expect(spec.fetch("initialCapacity")).to eq(10)
-      expect(autoscaling.fetch("maxCapacity")).to be <= 20
+      expect(autoscaling.fetch("maxCapacity")).to eq(20)
       expect(autoscaling.fetch("maxCapacity")).to be >= spec.fetch("initialCapacity")
     end
   end

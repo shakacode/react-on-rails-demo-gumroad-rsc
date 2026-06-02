@@ -12,18 +12,18 @@ def public_demo_seed?
 end
 
 def ensure_seed_user_password_login!(user)
-  return unless public_demo_seed?
-  return unless user.two_factor_authentication_enabled?
+  desired_two_factor_state = !public_demo_seed?
+  return if user.two_factor_authentication_enabled? == desired_two_factor_state
 
-  user.two_factor_authentication_enabled = false
+  user.two_factor_authentication_enabled = desired_two_factor_state
   user.save!(validate: false)
 end
 
 def ensure_seed_seller_public_demo_permissions!(seller)
-  return unless public_demo_seed?
-  return unless seller.is_team_member?
+  desired_team_member_state = !public_demo_seed?
+  return if seller.is_team_member? == desired_team_member_state
 
-  seller.is_team_member = false
+  seller.is_team_member = desired_team_member_state
   seller.save!(validate: false)
 end
 

@@ -18,7 +18,7 @@ RSpec.describe "mongoid configuration" do
     YAML.safe_load(ERB.new(Rails.root.join("config/mongoid.yml").read).result)
   end
 
-  it "defaults production auth source to the configured database name" do
+  it "defaults staging and production auth source to the configured database name" do
     with_env(
       "MONGO_DATABASE_URL" => "mongo.example:27017",
       "MONGO_DATABASE_NAME" => "gumroad_log_demo",
@@ -26,11 +26,12 @@ RSpec.describe "mongoid configuration" do
       "MONGO_DATABASE_PASSWORD" => "password",
       "MONGO_AUTH_SOURCE" => nil
     ) do
+      expect(rendered_config.dig("staging", "clients", "default", "options", "auth_source")).to eq("gumroad_log_demo")
       expect(rendered_config.dig("production", "clients", "default", "options", "auth_source")).to eq("gumroad_log_demo")
     end
   end
 
-  it "allows Control Plane to override production auth source" do
+  it "allows Control Plane to override staging and production auth source" do
     with_env(
       "MONGO_DATABASE_URL" => "mongo.example:27017",
       "MONGO_DATABASE_NAME" => "gumroad_log_demo",
@@ -38,6 +39,7 @@ RSpec.describe "mongoid configuration" do
       "MONGO_DATABASE_PASSWORD" => "password",
       "MONGO_AUTH_SOURCE" => "admin"
     ) do
+      expect(rendered_config.dig("staging", "clients", "default", "options", "auth_source")).to eq("admin")
       expect(rendered_config.dig("production", "clients", "default", "options", "auth_source")).to eq("admin")
     end
   end

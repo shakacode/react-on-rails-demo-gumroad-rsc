@@ -20,7 +20,9 @@ RSpec.describe "development/staging user seeds" do
     seller.two_factor_authentication_enabled = true
     seller.save!(validate: false)
 
-    load(seed_file, true)
+    with_env("ALLOW_DEMO_SEED", nil) do
+      load(seed_file, true)
+    end
 
     seller.reload
     expect(seller.external_id).to be_present
@@ -44,5 +46,27 @@ RSpec.describe "development/staging user seeds" do
     expect(demo_users.pluck(:email)).to match_array(expected_emails)
     expect(demo_users.select(&:two_factor_authentication_enabled?)).to be_empty
     expect(seller.is_team_member?).to eq(false)
+  end
+
+  it "reconciles public demo accounts back to local development defaults" do
+    expected_emails = [
+      "seller@gumroad.com",
+      *TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).map { "seller+#{_1}@gumroad.com" }
+    ]
+
+    with_env("ALLOW_DEMO_SEED", "true") do
+      load(seed_file, true)
+    end
+
+    with_env("ALLOW_DEMO_SEED", nil) do
+      load(seed_file, true)
+    end
+
+    demo_users = User.where(email: expected_emails)
+    seller = demo_users.find { _1.email == "seller@gumroad.com" }
+
+    expect(demo_users.pluck(:email)).to match_array(expected_emails)
+    expect(demo_users.all?(&:two_factor_authentication_enabled?)).to eq(true)
+    expect(seller.is_team_member?).to eq(true)
   end
 end
