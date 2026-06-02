@@ -27,7 +27,7 @@ staging:
       options:
         user: <%= ENV.fetch("MONGO_DATABASE_USERNAME") %>
         password: <%= ENV.fetch("MONGO_DATABASE_PASSWORD") %>
-        auth_source: <%= ENV.fetch("MONGO_AUTH_SOURCE", "admin") %>
+        auth_source: <%= ENV.fetch("MONGO_AUTH_SOURCE", ENV.fetch("MONGO_DATABASE_NAME")) %>
         replica_set: <%= ENV["MONGO_REPLICA_SET"] %>
   options:
     use_utc: true
@@ -42,7 +42,7 @@ production:
       options:
         user: <%= ENV.fetch("MONGO_DATABASE_USERNAME") %>
         password: <%= ENV.fetch("MONGO_DATABASE_PASSWORD") %>
-        auth_source: <%= ENV.fetch("MONGO_AUTH_SOURCE", "admin") %>
+        auth_source: <%= ENV.fetch("MONGO_AUTH_SOURCE", ENV.fetch("MONGO_DATABASE_NAME")) %>
         replica_set: <%= ENV["MONGO_REPLICA_SET"] %>
   options:
     use_utc: true

@@ -123,11 +123,12 @@ stateful app with manually-created placeholder database passwords; create real
 secret values before first workload start. The prep script fails if it detects
 the old public placeholder values so the app can be reset or rotated explicitly.
 
-The MySQL and Mongo volume templates disable final snapshots on delete. This
-keeps PR review-app churn from retaining seed-only demo database snapshots and
-keeps Control Plane costs predictable. The demo data is recreated by the seed
-path, so deleted review, staging, or production demo databases are not treated
-as durable customer data.
+The MySQL and Mongo volume templates start at 10 GB, cap autoscaling at 20 GB,
+and disable final snapshots on delete. This keeps PR review-app churn from
+retaining seed-only demo database snapshots, bounds live review-app disk spend,
+and keeps Control Plane costs predictable. The demo data is recreated by the
+seed path, so deleted review, staging, or production demo databases are not
+treated as durable customer data.
 
 The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
 through `args` only; setting `command: mongod` bypasses entrypoint
@@ -158,11 +159,15 @@ For a public demo account, set this GVC env var before deploying:
 ALLOW_DEMO_SEED=true
 ```
 
-The seeded account is:
+The public seeded account is:
 
 ```text
 seller@gumroad.com / password
 ```
+
+When `ALLOW_DEMO_SEED=true`, the seed disables 2FA for the demo accounts and
+removes internal-admin access from `seller@gumroad.com`. Local development seeds
+keep the normal internal-admin/2FA behavior documented in `docs/users.md`.
 
 ## Review app smoke test
 
@@ -188,7 +193,8 @@ curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/dashboard/rsc_demo
 ```
 
 The dashboard routes require a signed-in seller in a browser for full visual QA.
-Use `seller@gumroad.com / password` when `ALLOW_DEMO_SEED=true`.
+Use `seller@gumroad.com / password` when `ALLOW_DEMO_SEED=true`; that public
+demo seed has no internal-admin access.
 
 ## Validation
 

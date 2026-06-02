@@ -3,7 +3,6 @@ ARG RUBY_VERSION=3.4.3
 FROM docker.io/library/node:20.19.0-bullseye-slim AS node
 FROM ruby:${RUBY_VERSION}-slim-bullseye
 
-ARG BUNDLE_GEMS__CONTRIBSYS__COM
 ARG GIT_COMMIT
 
 ENV APP_DIR=/app
@@ -47,9 +46,6 @@ COPY Gemfile Gemfile.lock .ruby-version ./
 
 RUN gem install bundler:$(awk '/BUNDLED WITH/{getline; print}' Gemfile.lock | tr -d " ") && \
     bundle config set without 'development test deployer' && \
-    if [ -z "${BUNDLE_GEMS__CONTRIBSYS__COM:-}" ]; then \
-      unset BUNDLE_GEMS__CONTRIBSYS__COM; \
-    fi && \
     bundle install --jobs=3 --retry=3
 
 COPY package.json package-lock.json .npmrc ./

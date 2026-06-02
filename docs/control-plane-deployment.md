@@ -69,6 +69,10 @@ The dashboard comparison requires sign-in. When `ALLOW_DEMO_SEED=true`, use:
 seller@gumroad.com / password
 ```
 
+That public demo seed disables 2FA for the seeded demo accounts and removes
+internal-admin access from `seller@gumroad.com`. Local development keeps the
+normal internal-admin/2FA behavior documented in `docs/users.md`.
+
 Review and staging demo apps allow login without `RECAPTCHA_LOGIN_SITE_KEY` so
 the public demo does not need a Google reCAPTCHA project. The Control Plane
 production demo app does not inherit that bypass; production release fails
@@ -111,10 +115,11 @@ apply initialization passwords on an empty data volume. If the script detects
 old public placeholder database passwords, it fails and requires explicit
 rotation or app database reset.
 
-MySQL and Mongo final snapshots are disabled for this demo deployment. Review
-apps can be deleted frequently, and the database contents are seed-recreatable,
-so retaining final snapshots would add storage cost without protecting
-customer data.
+MySQL and Mongo volumes start at 10 GB, cap autoscaling at 20 GB, and disable
+final snapshots for this demo deployment. Review apps can be deleted
+frequently, and the database contents are seed-recreatable, so retaining final
+snapshots or allowing large live volume growth would add storage cost without
+protecting customer data.
 
 The Mongo template intentionally does not set `command: mongod`. Keep the
 official Docker entrypoint and pass flags such as `--bind_ip_all` through
