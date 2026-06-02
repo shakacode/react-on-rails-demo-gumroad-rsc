@@ -178,7 +178,9 @@ describe LoginsController, type: :controller, inertia: true do
 
     it "logs in a user when reCAPTCHA site key is not set for a branch deployment" do
       original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+      original_branch = ENV["BRANCH"]
       ENV["BRANCH_DEPLOYMENT"] = "true"
+      ENV["BRANCH"] = "react-on-rails-demo-gumroad-rsc-staging"
       allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("staging"))
       allow(GlobalConfig).to receive(:get).with("RECAPTCHA_LOGIN_SITE_KEY").and_return(nil)
       expect(controller).not_to receive(:valid_recaptcha_response?)
@@ -189,6 +191,25 @@ describe LoginsController, type: :controller, inertia: true do
       expect(controller.user_signed_in?).to be(true)
     ensure
       ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+      ENV["BRANCH"] = original_branch
+    end
+
+    it "does not skip reCAPTCHA for the Control Plane production demo app" do
+      original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+      original_branch = ENV["BRANCH"]
+      ENV["BRANCH_DEPLOYMENT"] = "true"
+      ENV["BRANCH"] = "react-on-rails-demo-gumroad-rsc-production"
+      allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("staging"))
+      allow(GlobalConfig).to receive(:get).with("RECAPTCHA_LOGIN_SITE_KEY").and_return(nil)
+      allow(controller).to receive(:valid_recaptcha_response?).and_return(false)
+
+      post :create, params: { user: { login_identifier: @user.email, password: "password" } }
+
+      expect(response).to redirect_to(login_path)
+      expect(controller.user_signed_in?).to be(false)
+    ensure
+      ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+      ENV["BRANCH"] = original_branch
     end
 
     it "does not log in a user when reCAPTCHA site key is not set in production environment" do

@@ -70,8 +70,19 @@ class LoginsController < Devise::SessionsController
     end
 
     def recaptcha_required?(site_key)
-      return false if site_key.blank? && (Rails.env.development? || ENV["BRANCH_DEPLOYMENT"].present?)
+      return false if site_key.blank? && (Rails.env.development? || demo_login_captcha_bypass?)
 
       true
+    end
+
+    def demo_login_captcha_bypass?
+      return true if ENV["DEMO_LOGIN_CAPTCHA_BYPASS"] == "true"
+      return false unless Rails.env.staging? && ENV["BRANCH_DEPLOYMENT"] == "true"
+
+      !control_plane_production_app?
+    end
+
+    def control_plane_production_app?
+      [ENV["CPLN_GVC"], ENV["BRANCH"], ENV["REVISION"]].compact.any? { _1.end_with?("-production") }
     end
 end

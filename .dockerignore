@@ -13,5 +13,9 @@ docker/tmp/
 public/packs/
 public/packs-test/
 ssr-generated/
-.env
-.env.*.local
+.env*
+!.env.example
+!.env*.example
+config/master.key
+config/credentials/*.key
+config/credentials/**/*.key

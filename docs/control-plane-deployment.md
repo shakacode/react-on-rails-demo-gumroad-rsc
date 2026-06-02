@@ -30,6 +30,10 @@ Comment this on a PR:
 +review-app-deploy
 ```
 
+The workflow only deploys review apps for same-repository PRs. Fork PRs are
+skipped because review-app deployment passes repository deployment secrets to
+the reusable Control Plane workflow.
+
 The workflow creates:
 
 ```text
@@ -66,6 +70,10 @@ The dashboard comparison requires sign-in. When `ALLOW_DEMO_SEED=true`, use:
 ```text
 seller@gumroad.com / password
 ```
+
+Review and staging demo apps allow login without `RECAPTCHA_LOGIN_SITE_KEY` so
+the public demo does not need a Google reCAPTCHA project. The Control Plane
+production demo app does not inherit that bypass.
 
 ## Staging workflow
 

@@ -40,6 +40,9 @@ For review apps, GitHub needs one repository secret:
 No repository variables are required for the normal review-app path. The
 workflow infers the staging org and review-app prefix from
 `.controlplane/controlplane.yml`.
+Review-app deployment is intentionally limited to same-repository pull
+requests; fork PRs are skipped so untrusted code is never built with repository
+deployment secrets.
 
 For staging deploys from `main`, configure:
 
@@ -109,10 +112,10 @@ through `args` only; setting `command: mongod` bypasses entrypoint
 initialization, leaves the root-user secret unused, and binds Mongo to localhost
 inside the container instead of the GVC network.
 
-Branch deployments intentionally allow login without a configured
-`RECAPTCHA_LOGIN_SITE_KEY`. This keeps review and demo apps usable without a
-Google reCAPTCHA project while preserving reCAPTCHA enforcement for non-branch
-deployments.
+Non-production branch deployments intentionally allow login without a configured
+`RECAPTCHA_LOGIN_SITE_KEY`. This keeps review and staging demo apps usable
+without a Google reCAPTCHA project while preserving reCAPTCHA enforcement for
+the Control Plane production demo app.
 
 ## Bootstrap
 

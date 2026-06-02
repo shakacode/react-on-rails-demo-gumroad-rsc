@@ -21,7 +21,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  deploy:
+  validate-review-app-source:
     if: |
       (github.event_name == 'pull_request' &&
        github.event.pull_request.head.repo.full_name == github.repository) ||
@@ -30,6 +30,39 @@ jobs:
        github.event.issue.pull_request &&
        contains(fromJson('["+review-app-deploy","+review-app-deploy\n","+review-app-deploy\r\n"]'), github.event.comment.body) &&
        contains(fromJson('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      deployable: ${{ steps.validate.outputs.deployable }}
+    steps:
+      - id: validate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name || '' }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number || github.event.inputs.pr_number }}
+        run: |
+          set -euo pipefail
+
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            resolved_head_repo="$HEAD_REPO"
+          else
+            resolved_head_repo="$(gh pr view "$PR_NUMBER" --json headRepository --jq '.headRepository.nameWithOwner')"
+          fi
+
+          if [ "$resolved_head_repo" = "$GH_REPO" ]; then
+            echo "deployable=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deployable=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Skipping review-app deploy for fork PR #${PR_NUMBER} from ${resolved_head_repo}."
+          fi
+
+  deploy:
+    needs: validate-review-app-source
+    if: needs.validate-review-app-source.outputs.deployable == 'true'
     uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-review-app.yml@v5.0.4
     secrets:
       CPLN_TOKEN_STAGING: ${{ secrets.CPLN_TOKEN_STAGING }}
