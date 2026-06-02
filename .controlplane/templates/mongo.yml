@@ -10,8 +10,7 @@ spec:
   initialCapacity: 10
   performanceClass: general-purpose-ssd
   snapshots:
-    createFinalSnapshot: true
-    retentionDuration: 7d
+    createFinalSnapshot: false
 
 ---
 kind: identity

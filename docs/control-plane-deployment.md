@@ -111,6 +111,11 @@ apply initialization passwords on an empty data volume. If the script detects
 old public placeholder database passwords, it fails and requires explicit
 rotation or app database reset.
 
+MySQL and Mongo final snapshots are disabled for this demo deployment. Review
+apps can be deleted frequently, and the database contents are seed-recreatable,
+so retaining final snapshots would add storage cost without protecting
+customer data.
+
 The Mongo template intentionally does not set `command: mongod`. Keep the
 official Docker entrypoint and pass flags such as `--bind_ip_all` through
 `args`; otherwise Mongo starts without entrypoint initialization and binds only

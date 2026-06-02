@@ -123,6 +123,12 @@ stateful app with manually-created placeholder database passwords; create real
 secret values before first workload start. The prep script fails if it detects
 the old public placeholder values so the app can be reset or rotated explicitly.
 
+The MySQL and Mongo volume templates disable final snapshots on delete. This
+keeps PR review-app churn from retaining seed-only demo database snapshots and
+keeps Control Plane costs predictable. The demo data is recreated by the seed
+path, so deleted review, staging, or production demo databases are not treated
+as durable customer data.
+
 The Mongo workload must keep the official Docker entrypoint. Pass Mongo flags
 through `args` only; setting `command: mongod` bypasses entrypoint
 initialization, leaves the root-user secret unused, and binds Mongo to localhost

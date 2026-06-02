@@ -16,6 +16,10 @@ ssr-generated/
 .env*
 !.env.example
 !.env*.example
+*.key
+*.pem
+*.p12
+*.pfx
 config/master.key
 config/credentials/*.key
 config/credentials/**/*.key
