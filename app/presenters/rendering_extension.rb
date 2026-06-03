@@ -36,9 +36,7 @@ module RenderingExtension
 
   private
     def branch_app_host(request)
-      return unless ENV["BRANCH_DEPLOYMENT"].present?
-
-      request.host if GumroadDomainConstraint::CONTROL_PLANE_RAILS_HOST.match?(request.host)
+      request.host if GumroadDomainConstraint.control_plane_branch_host?(request.host)
     end
 
     def logged_in_user_props(pundit_user, is_impersonating:)

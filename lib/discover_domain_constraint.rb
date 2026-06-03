@@ -10,12 +10,14 @@ class DiscoverDomainConstraint
   end
 
   def self.control_plane_branch_host?(host)
-    ENV["BRANCH_DEPLOYMENT"].present? && GumroadDomainConstraint::CONTROL_PLANE_RAILS_HOST.match?(host)
+    GumroadDomainConstraint.control_plane_branch_host?(host)
   end
 
   def self.control_plane_branch_discover_request?(request)
     return false unless control_plane_branch_host?(request.host)
 
+    # Keep this to explicit Discover entrypoints so branch app roots still match
+    # GumroadDomainConstraint and render the normal app shell.
     [
       "/discover",
       "/discover/categories",

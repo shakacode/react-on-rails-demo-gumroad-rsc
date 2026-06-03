@@ -10,5 +10,4 @@ class GumroadDomainConstraint
   def self.control_plane_branch_host?(host)
     ENV["BRANCH_DEPLOYMENT"].present? && CONTROL_PLANE_RAILS_HOST.match?(host)
   end
-  private_class_method :control_plane_branch_host?
 end
