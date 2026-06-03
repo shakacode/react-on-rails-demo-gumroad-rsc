@@ -199,6 +199,22 @@ describe ApplicationController do
       expect(subject.default_url_options({})[:protocol]).to match(/^http/)
       expect(subject.default_url_options[:protocol]).to match(/^http/)
     end
+
+    it "uses DOMAIN for canonical discover hosts" do
+      request.host = VALID_DISCOVER_REQUEST_HOST
+
+      expect(subject.default_url_options[:host]).to eq(DOMAIN)
+    end
+
+    it "uses the request host for Control Plane branch deployment hosts" do
+      original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+      ENV["BRANCH_DEPLOYMENT"] = "true"
+      request.host = "rails-d98bp9qhcc8be.cpln.app"
+
+      expect(subject.default_url_options[:host]).to eq("rails-d98bp9qhcc8be.cpln.app")
+    ensure
+      ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+    end
   end
 
   describe "is_bot?" do

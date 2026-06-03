@@ -60,7 +60,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_url_options(options = {})
-    if DiscoverDomainConstraint.matches?(request)
+    if DiscoverDomainConstraint.canonical_discover_host?(request.host)
       options.merge(host: DOMAIN, protocol: PROTOCOL)
     else
       options.merge(host: request.host, protocol: PROTOCOL)

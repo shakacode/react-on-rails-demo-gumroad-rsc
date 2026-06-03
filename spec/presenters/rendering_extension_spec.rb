@@ -44,6 +44,29 @@ describe "RenderingExtension" do
       end
     end
 
+    context "when rendering a Control Plane branch deployment" do
+      let(:user) { nil }
+      let(:seller) { nil }
+
+      before do
+        stubbed_view_context.request.host = "rails-d98bp9qhcc8be.cpln.app"
+        @original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+        ENV["BRANCH_DEPLOYMENT"] = "true"
+      end
+
+      after do
+        ENV["BRANCH_DEPLOYMENT"] = @original_branch_deployment
+      end
+
+      it "uses the request host for same-origin app navigation" do
+        expect(custom_context[:domain_settings]).to include(
+          app_domain: "rails-d98bp9qhcc8be.cpln.app",
+          root_domain: ROOT_DOMAIN,
+          discover_domain: "rails-d98bp9qhcc8be.cpln.app",
+        )
+      end
+    end
+
     context "when user is logged in" do
       context "with admin role for seller" do
         let(:seller) { create(:named_seller) }

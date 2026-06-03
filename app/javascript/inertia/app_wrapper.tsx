@@ -1,5 +1,7 @@
 import React from "react";
 
+import { configure as configureRoutes } from "$app/utils/routes";
+
 import { DesignContextProvider, DesignSettings } from "$app/components/DesignSettings";
 import { DomainSettingsProvider } from "$app/components/DomainSettings";
 import { FeatureFlags, FeatureFlagsProvider } from "$app/components/FeatureFlags";
@@ -26,6 +28,15 @@ type GlobalProps = {
 };
 
 export default function AppWrapper({ children, global }: { children: React.ReactNode; global: GlobalProps }) {
+  if (typeof window !== "undefined") {
+    configureRoutes({
+      default_url_options: {
+        protocol: global.domain_settings.scheme,
+        host: global.domain_settings.app_domain,
+      },
+    });
+  }
+
   return (
     <DesignContextProvider value={global.design_settings}>
       <DomainSettingsProvider
