@@ -1,6 +1,10 @@
 name: Show Review App Commands on PR Open
 
 on:
+  # pull_request_target is intentional: it has write permission to comment on PRs from
+  # forks, where `pull_request` would be read-only. This is safe because no PR code is
+  # checked out — the job only calls the upstream reusable workflow with a hardcoded
+  # message.
   pull_request_target:
     types: [opened]
 
@@ -10,4 +14,8 @@ permissions:
 
 jobs:
   show-help:
-    uses: shakacode/control-plane-flow/.github/workflows/cpflow-review-app-help.yml@v5.0.4
+    # This is intentionally unconditional: committing this wrapper opts the repo in
+    # to PR-open help. Remove it, or uncomment and adapt this guard, if forks or
+    # clones should stay quiet until Control Plane is configured:
+    #   if: vars.REVIEW_APP_PREFIX != '' || vars.CPLN_ORG_STAGING != ''
+    uses: shakacode/control-plane-flow/.github/workflows/cpflow-review-app-help.yml@v5.1.0
