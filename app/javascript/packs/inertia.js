@@ -3,6 +3,7 @@ import { createElement } from "react";
 import { createRoot } from "react-dom/client";
 
 import AppWrapper from "../inertia/app_wrapper.tsx";
+import { configureClientRoutes } from "../inertia/configure_client_routes.ts";
 import Layout, { PublicLayout, LoggedInUserLayout } from "../inertia/layout.tsx";
 import { resolvePageComponent } from "../inertia/resolve_page_component.ts";
 
@@ -84,6 +85,7 @@ createInertiaApp({
     if (!el) return;
 
     const global = props.initialPage.props;
+    configureClientRoutes(global.domain_settings);
 
     const root = createRoot(el);
     root.render(createElement(AppWrapper, { global }, createElement(App, props)));

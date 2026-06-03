@@ -3,6 +3,7 @@ import React, { createElement } from "react";
 import { createRoot } from "react-dom/client";
 
 import AdminAppWrapper, { GlobalProps } from "../inertia/admin_app_wrapper";
+import { configureClientRoutes } from "../inertia/configure_client_routes";
 import { PageComponent, resolvePageComponent } from "../inertia/resolve_page_component";
 import Layout from "../layouts/Admin";
 
@@ -20,6 +21,7 @@ void createInertiaApp<GlobalProps>({
     }),
   setup({ el, App, props }) {
     const global = props.initialPage.props;
+    configureClientRoutes(global.domain_settings);
 
     const root = createRoot(el);
     root.render(createElement(AdminAppWrapper, { global, children: createElement(App, props) }));

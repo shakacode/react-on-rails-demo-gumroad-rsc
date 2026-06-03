@@ -5,25 +5,47 @@ require "spec_helper"
 describe DiscoverDomainConstraint do
   describe ".matches?" do
     before do
-      @discover_domain_request = double("request")
-      allow(@discover_domain_request).to receive(:host).and_return("discover.gumroad.com")
-
-      @non_discover_domain_request = double("request")
-      allow(@non_discover_domain_request).to receive(:host).and_return("gumroad.com")
-
-      stub_const("VALID_DISCOVER_REQUEST_HOST", "discover.gumroad.com")
+      @original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+      stub_const("VALID_DISCOVER_REQUEST_HOST", "staging.gumroad.com")
     end
 
-    context "when requests come from valid discover domain" do
-      it "returns true" do
-        expect(described_class.matches?(@discover_domain_request)).to eq(true)
-      end
+    after do
+      ENV["BRANCH_DEPLOYMENT"] = @original_branch_deployment
     end
 
-    context "when requests come from non-discover domain" do
-      it "returns false" do
-        expect(described_class.matches?(@non_discover_domain_request)).to eq(false)
-      end
+    it "returns true for the discover host" do
+      request = double("request", host: "staging.gumroad.com", path: "/")
+
+      expect(described_class.matches?(request)).to eq(true)
+    end
+
+    it "returns true for Control Plane branch deployment discover paths" do
+      ENV["BRANCH_DEPLOYMENT"] = "true"
+      request = double("request", host: "rails-d98bp9qhcc8be.cpln.app", path: "/discover")
+
+      expect(described_class.matches?(request)).to eq(true)
+    end
+
+    it "returns true for Control Plane branch deployment taxonomy paths" do
+      ENV["BRANCH_DEPLOYMENT"] = "true"
+      request = double("request", host: "rails-d98bp9qhcc8be.cpln.app", path: "/3d")
+      allow(DiscoverTaxonomyConstraint).to receive(:matches?).with(request).and_return(true)
+
+      expect(described_class.matches?(request)).to eq(true)
+    end
+
+    it "returns false for the Control Plane branch root path" do
+      ENV["BRANCH_DEPLOYMENT"] = "true"
+      request = double("request", host: "rails-d98bp9qhcc8be.cpln.app", path: "/")
+
+      expect(described_class.matches?(request)).to eq(false)
+    end
+
+    it "returns false for Control Plane hosts outside branch deployments" do
+      ENV["BRANCH_DEPLOYMENT"] = nil
+      request = double("request", host: "rails-d98bp9qhcc8be.cpln.app", path: "/discover")
+
+      expect(described_class.matches?(request)).to eq(false)
     end
   end
 end

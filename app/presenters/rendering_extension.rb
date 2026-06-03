@@ -5,14 +5,18 @@ module RenderingExtension
 
   def custom_context(view_context)
     pundit_user = view_context.pundit_user
+    branch_host = branch_app_host(view_context.request)
+    app_host = branch_host || DOMAIN
+    discover_host = branch_host || DISCOVER_DOMAIN
+
     {
       design_settings: { font: { name: "ABC Favorit", url: view_context.font_url("ABCFavorit-Regular.woff2") } },
       domain_settings: {
         scheme: PROTOCOL,
-        app_domain: DOMAIN,
+        app_domain: app_host,
         root_domain: ROOT_DOMAIN,
         short_domain: SHORT_DOMAIN,
-        discover_domain: DISCOVER_DOMAIN,
+        discover_domain: discover_host,
         third_party_analytics_domain: THIRD_PARTY_ANALYTICS_DOMAIN,
         api_domain: API_DOMAIN,
       },
@@ -31,6 +35,10 @@ module RenderingExtension
   end
 
   private
+    def branch_app_host(request)
+      request.host if GumroadDomainConstraint.control_plane_branch_host?(request.host)
+    end
+
     def logged_in_user_props(pundit_user, is_impersonating:)
       user = pundit_user.user
       return nil unless user
