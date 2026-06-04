@@ -19,19 +19,20 @@
 >
 > 1. Can this codebase move cleanly from Webpack to `Shakapacker + Rspack`?
 > 2. What real React 19 adoption fallout appears on a non-trivial Rails app?
-> 3. Can a bounded `React on Rails Pro + RSC` slice beat a matched `Inertia` control enough to justify the extra complexity?
+> 3. Can a bounded `React on Rails Pro + RSC` public product slice beat a matched `Inertia` control enough to justify the extra complexity on SEO and conversion-sensitive pages?
 
 ## Public Experiment Repo
 
 This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused experiment for comparing the current Inertia-based implementation against a React on Rails Pro + React 19 + RSC implementation on carefully chosen surfaces.
 
-The goal is not to argue that every Inertia page should be replaced. The goal is to determine whether a narrower set of pages can benefit enough from React 19, React on Rails Pro, and React Server Components to justify a deeper proposal later.
+The goal is not to argue that every Inertia page should be replaced. The goal is to determine whether public, buyer-facing pages can benefit enough from React 19, React on Rails Pro, and React Server Components to justify a deeper proposal later.
 
 ### Start here
 
 - [docs/current-status.md](docs/current-status.md)
 - [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
 - [docs/performance-findings.md](docs/performance-findings.md)
+- [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - [React on Rails issue #3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - [Benchmark and positioning issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
 - [Consolidated demo PR #11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11)
@@ -43,6 +44,7 @@ The goal is not to argue that every Inertia page should be replaced. The goal is
 - `Shakapacker 10 + Rspack` is viable on this codebase and materially faster for local builds.
 - The demo assets are route-scoped, so ordinary Inertia pages do not pay for the experiment's extra JS or CSS.
 - A bounded `React on Rails Pro + RSC` dashboard slice can beat a matched `Inertia` control on navigation duration and `LCP` under a stricter alternating benchmark that balances route order.
+- The dashboard routes are technical proofs, not the main value proof. The public product route pair now focuses the next benchmark on initial HTML, metadata, client JS cost, SEO, and conversion-sensitive loading behavior.
 - The latest production-like compiled-asset pass keeps that advantage and improves median `responseEnd`, while `p95 responseEnd` still needs follow-up.
 - Route-scoped `Server-Timing` and an alternating comparison runner now make that tradeoff measurable instead of anecdotal.
 - The custom Webpack and Rspack config now honors `SHAKAPACKER_DEV_SERVER_*` overrides the same way Ruby/Shakapacker does, so local verification can move off `3035` cleanly when another repo is already using it.
@@ -63,12 +65,19 @@ This pass built `RAILS_ENV=production NODE_ENV=production` Shakapacker/Rspack as
 It rotates route order by cycle instead of relying on separate batches.
 The main caution is that `p95 responseEnd` still favored Inertia by `5.2%`, and the current RSC route does not expose a separate browser `/rsc_payload/` resource, so those payload resource fields are empty for this implementation.
 
-This is enough for a stronger positioning story.
-It is still not enough for a production-performance claim without a deployed repeat and renderer-internal profiling.
+This is enough for a stronger technical positioning story.
+It is still not enough for a public product-page value claim without a logged-out route pair, deployed repeat, SEO checks, and renderer-internal profiling.
 
 ### Demo surface
 
-The repo currently exposes two comparison routes that use the same reduced seller-data surface:
+The implemented public product comparison route pair is:
+
+- `https://gumroad.dev/public_product/inertia_demo`
+- `https://gumroad.dev/public_product/rsc_demo`
+
+Both routes render the seeded public `demo` product and link back to the current Gumroad product page at `https://gumroad.dev/l/demo`.
+
+The repo also exposes two dashboard comparison routes that use the same reduced seller-data surface. These are technical proofs for RSC integration and measurement, not the main SEO or conversion proof:
 
 - `https://gumroad.dev/dashboard/inertia_demo`
 - `https://gumroad.dev/dashboard/rsc_demo`
@@ -97,7 +106,7 @@ Login credentials for hosted staging/review verification:
 
 ### Verified screenshots
 
-These screenshots were captured from a signed-in local session on this branch.
+These dashboard technical-proof screenshots were captured from a signed-in local session on this branch.
 
 | Inertia control                               | React on Rails Pro + RSC              |
 | --------------------------------------------- | ------------------------------------- |
@@ -116,10 +125,14 @@ These screenshots were captured from a signed-in local session on this branch.
    `SHAKAPACKER_DEV_SERVER_PORT=3036 bundle exec rails s -b 0.0.0.0 -p 3000`
    `SHAKAPACKER_DEV_SERVER_PORT=3036 npm run setup && ./bin/shakapacker-dev-server`
 4. Open the two demo routes and compare:
+   `/public_product/inertia_demo`
+   `/public_product/rsc_demo`
+   The dashboard technical proof routes remain available, but they are not the SEO/conversion proof:
    `/dashboard/inertia_demo`
    `/dashboard/rsc_demo`
 5. For the stricter benchmark method, run:
-   `ruby scripts/perf/compare_dashboard_routes.rb --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /dashboard/inertia_demo --path /dashboard/rsc_demo --label dashboard-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
+   `ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
+   Use `/dashboard/inertia_demo` and `/dashboard/rsc_demo` with a dashboard-specific label only when benchmarking the technical proof.
    For the longer headline-style local repeat, use the same command with `--cycles 8`.
 
 For the production-like local pass, first build compiled assets and initialize local Elasticsearch:
@@ -135,6 +148,7 @@ If you want the measured benchmark artifacts instead of a visual spot check, sta
 ### Shareable docs
 
 - [docs/current-status.md](docs/current-status.md)
+- [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - [docs/performance-findings.md](docs/performance-findings.md)
 - [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
 - [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md)

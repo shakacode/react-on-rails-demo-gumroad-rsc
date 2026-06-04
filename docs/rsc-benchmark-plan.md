@@ -1,27 +1,31 @@
-# Dashboard RSC Benchmark Plan
+# Public Product RSC Benchmark Plan
 
 ## Goal
 
-Decide whether a `React on Rails Pro + React 19 + RSC` dashboard is worth the extra complexity compared with the current `Inertia` dashboard.
+Decide whether a `React on Rails Pro + React 19 + RSC` public product page is worth the extra complexity compared with a matched `Inertia` public product page.
 
 The question is not whether `Rspack` is faster to build with. That is already established.
 
-The question is whether `RSC` can make the page itself better enough to matter.
+The question is whether `RSC` can make the logged-out, buyer-facing page better enough to matter for SEO, initial rendering, and conversion-sensitive loading behavior.
 
 ## Apples-to-apples rule
 
-Compare the same route:
+Compare the same public product-like surface:
 
-- baseline: current `Inertia` dashboard
-- candidate: `React on Rails Pro + RSC` dashboard
+- baseline: `Inertia` control at `/public_product/inertia_demo`
+- candidate: `React on Rails Pro + RSC` at `/public_product/rsc_demo`
 
 Keep these constant where possible:
 
 - same local database
-- same logged-in seller
+- same product-like data
 - same Docker-backed services
 - same nginx and browser setup
 - same measurement harness
+
+Run the harness in public mode:
+
+`ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
 
 ## What should change in the candidate
 
@@ -29,32 +33,36 @@ The candidate should be narrow.
 
 Target changes:
 
-- keep the dashboard page intent and UI broadly the same
+- keep the public product page intent and UI broadly the same
 - replace the Inertia route with a React on Rails Pro route for this page only
-- use `RSC` for read-heavy sections
+- use `RSC` for product facts, description, media framing, creator context, and other read-heavy sections
 - keep only truly interactive pieces as client components
 
 ## First candidate sections
 
 Bias toward sections that are mostly display and data shaping:
 
-- best-selling products table
-- activity feed
-- tax form and verification messages
-- checklist container, with client-only controls if needed
+- product title, description, and media
+- creator and social-proof context
+- price, availability, and purchase framing
+- SEO-relevant metadata and canonical URL
+- related static trust or policy content
 
 Avoid spending the first pass on sections that are already cheap:
 
-- simple stats cards
+- admin-only controls
+- dashboard-only state
+- seller management flows
 
 ## Primary metrics
 
 These are the metrics that matter for the first decision:
 
-- total dashboard JS transferred
-- largest dashboard JS chunk
-- dashboard LCP
-- total dashboard navigation duration
+- initial product HTML and metadata completeness
+- total public product JS transferred
+- largest public product JS chunk
+- public product `LCP`
+- total public product navigation duration
 
 ## Secondary metrics
 
@@ -63,16 +71,18 @@ These help explain the result:
 - HTML document size
 - count of JS requests
 - serialized page-prop payload size
+- crawlable title, description, canonical URL, and product content
 - server response end
 - `/rsc_payload/` resource duration, response end, transfer size, and any resource-level `Server-Timing`
 - route-level `Server-Timing` split between Rails/presenter work and renderer dispatch
 
 ## Suggested success bar
 
-The first `RSC` demo should be considered a meaningful performance win only if it can show something like:
+The first public `RSC` demo should be considered a meaningful performance win only if it can show something like:
 
-- at least `20%` less dashboard JS transferred
+- at least `20%` less public product JS transferred
 - at least `10%` smaller largest client chunk
+- equal or better SEO-relevant initial HTML and metadata
 - equal or better `LCP`
 - no meaningful regression in total navigation duration
 
@@ -83,15 +93,26 @@ If the page gets only marginally better while becoming much more complex, that i
 The performance result is not enough by itself. Also record:
 
 - whether the server/client boundary is easier to reason about
-- whether the page stops depending on one large `creator_home` client payload
+- whether the page avoids sending product content as one large client-only payload
 - whether the implementation isolates client interactivity more cleanly
 - whether the review story looks believable for a bounded upstream discussion
+
+## Dashboard technical proof
+
+The existing dashboard pair remains useful:
+
+- `/dashboard/inertia_demo`
+- `/dashboard/rsc_demo`
+
+Use it to validate integration, asset isolation, React on Rails Pro renderer boot, and benchmark harness behavior. Do not use it as the main SEO or conversion proof.
 
 ## Production-like follow-up pass
 
 The local development benchmark is useful for direction, but it is not enough for a stronger performance claim.
 
-The first production-like local pass removed the dev-server as a confounder:
+The first production-like local pass was measured on the dashboard technical-proof pair. Treat it as benchmark-method history and integration evidence, not as the public product-page result.
+
+That pass removed the dev-server as a confounder:
 
 - build Shakapacker assets with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`
 - build the standalone RSC demo bundles with `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production npm run build:rsc-demo`

@@ -2,9 +2,9 @@
 
 ## Short answer
 
-The demo pair is implemented, measurable, and now useful for positioning.
+The public product demo pair is implemented and locally browser-smoke validated.
 
-It is **not** ready for an upstream pitch yet, but it is no longer just a compile-and-run experiment.
+The dashboard demo pair remains useful as a technical proof, but it is **not** the main value proof for issue #24.
 
 This repository has moved past pure planning, through the Rspack migration branch, and into a matched Inertia-versus-React on Rails Pro comparison surface.
 
@@ -26,8 +26,12 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Preserved `upstream` so the experiment stays grounded in the real app
 - Documented the comparison plan in [rsc-comparison-plan.md](./rsc-comparison-plan.md)
 - Documented the runtime pass/fail rubric in [rsc-benchmark-plan.md](./rsc-benchmark-plan.md)
+- Documented the public product proof target in [public-product-rsc-demo.md](./public-product-rsc-demo.md)
 - Documented positioning, adjacent ideas, and IP guardrails in [positioning-notes.md](./positioning-notes.md)
 - Added a single performance handoff doc for review circulation in [performance-team-handoff.md](./performance-team-handoff.md)
+- Added a logged-out public product comparison route pair at `/public_product/inertia_demo` and `/public_product/rsc_demo`
+- Added `--public` / `--skip-login` benchmark support so the public route pair can be measured without dashboard authentication
+- Added controller and browser smoke coverage for the public product comparison routes
 - Selected `Dashboard` as the first comparison surface
 - Documented the first implementation-facing brief in [dashboard-experiment-brief.md](./dashboard-experiment-brief.md)
 - Documented measured results in [performance-findings.md](./performance-findings.md)
@@ -71,7 +75,8 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - the React 19 type fallout has not been cleaned up yet across the app
 - the broad React 19 cleanup still needs its own reviewable branch strategy
 - the full current `/dashboard` route is still too noisy for a fair RSC-versus-Inertia story
-- production-like local benchmarking now exists, but a deployed repeat and renderer-internal profiling are still missing
+- the public product route pair still needs a production-like local benchmark and deployed repeat before making a performance claim
+- renderer-internal profiling is still missing
 - the demo has not yet been reduced to a compelling upstream-review story
 
 ## What "demo ready" means
@@ -96,8 +101,10 @@ Short version:
 - the stricter production-like alternating local benchmark has the `RSC` route ahead on median navigation duration, median `LCP`, and median `responseEnd`
 - the latest pass still has a caution: `p95 responseEnd` is modestly worse for the `RSC` route
 - route order and warm-state effects are real enough that the alternating runner is now the benchmark method that matters
+- these dashboard findings prove integration and measurement discipline, not SEO or conversion value
+- the public product pair is now the route pair that should carry the next SEO/conversion benchmark
 
-That means the demo is now real, the user-visible story is favorable, and the remaining tradeoff is specific enough to hand to performance engineers.
+That means the dashboard demo is real, the user-visible dashboard story is favorable, and the public product route pair is ready for focused benchmarking.
 
 The missing piece is no longer "can this compile?" or "does it survive a production-like local pass?" The missing piece is "does the favorable local result survive a deployed repeat and renderer profiling?"
 
@@ -214,13 +221,14 @@ Recommended order:
 
 1. Preserve this branch as the "Shakapacker 10 plus Rspack viability" branch.
 2. Decide whether React 19 type cleanup belongs in the same branch or in a follow-up stacked branch.
-3. Treat `/dashboard/inertia_demo` as the primary Inertia control, not the full dashboard.
-4. Keep `/dashboard/rsc_demo`, but use the alternating runner and route-scoped `Server-Timing` together when making any performance claim.
-5. Keep CI honest with the GitHub-hosted demo validation workflow for this public repo: it validates the Rspack build, the targeted demo controller specs, and the standalone `npm run build:rsc-demo` path.
+3. Benchmark `/public_product/inertia_demo` versus `/public_product/rsc_demo` with `--public` in production-like local and deployed review/staging environments.
+4. Treat `/dashboard/inertia_demo` and `/dashboard/rsc_demo` as technical proof routes, not the main product value proof.
+5. Use the alternating runner, route-scoped `Server-Timing`, SEO checks, and public-page payload measurements together when making any performance claim.
+6. Keep CI honest with the GitHub-hosted demo validation workflow for this public repo: it validates the Rspack build, the targeted demo controller specs, and the standalone `npm run build:rsc-demo` path.
    It now also boots the Node renderer and runs a headless browser smoke spec for both demo routes.
-6. Repeat the production-like alternating comparison on a stable deployed environment, ideally Control Plane, before using the numbers externally.
-7. Add renderer-internal timing or expose a separate `/rsc_payload/` browser resource; the current route streams the RSC payload inline, so the browser resource timing fields stay empty.
-8. Only then decide whether a deeper upstream migration story is warranted.
+7. Repeat the production-like alternating comparison on a stable deployed environment, ideally Control Plane, before using the numbers externally.
+8. Add renderer-internal timing or expose a separate `/rsc_payload/` browser resource; the current route streams the RSC payload inline, so the browser resource timing fields stay empty.
+9. Only then decide whether a deeper upstream migration story is warranted.
 
 ## Suggested branch sequence
 

@@ -124,6 +124,14 @@
   @include font-size(5);
 }
 
+.dd-eyebrow {
+  margin-bottom: spacer(1);
+  color: rgb(var(--color) / 0.65);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .dd-actions {
   display: grid;
   gap: spacer(2);
@@ -257,6 +265,12 @@
 
 .dd-copy strong {
   font-weight: 600;
+}
+
+.dd-rich-text {
+  display: grid;
+  gap: spacer(3);
+  line-height: 1.5;
 }
 
 .dd-stamp {

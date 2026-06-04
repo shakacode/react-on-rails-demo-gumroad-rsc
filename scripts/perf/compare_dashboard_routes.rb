@@ -18,6 +18,7 @@ COMPARE_DEFAULTS = {
   server_warmup_requests: 1,
   timeout: DEFAULTS[:timeout],
   headed: false,
+  public: false,
   require_driver_match: false,
   reuse_existing: false
 }.freeze
@@ -34,6 +35,7 @@ PRIMARY_COMPARISON_METRICS = {
   actionTotalMs: [:serverTiming, "action_total", :durationMs],
   comparePropsMs: [:serverTiming, "compare_props", :durationMs],
   compareCreatorHomeMs: [:serverTiming, "compare_creator_home", :durationMs],
+  compareProductMs: [:serverTiming, "compare_product", :durationMs],
   sqlActiveRecordMs: [:serverTiming, "sql.active_record", :durationMs],
   renderDispatchMs: [:serverTiming, "render_dispatch", :durationMs]
 }.freeze
@@ -57,6 +59,8 @@ def parse_compare_options
     parser.on("--server-warmup-requests N", Integer) { |value| options[:server_warmup_requests] = value }
     parser.on("--timeout SECONDS", Integer) { |value| options[:timeout] = value }
     parser.on("--headed") { options[:headed] = true }
+    parser.on("--public", "Measure without login or cookies") { options[:public] = true }
+    parser.on("--skip-login", "Alias for --public") { options[:public] = true }
     parser.on("--require-driver-match") { options[:require_driver_match] = true }
     parser.on("--reuse-existing") { options[:reuse_existing] = true }
   end.parse!
@@ -91,8 +95,6 @@ def measurement_command(measure_script_path:, options:, path:, run_label:, outpu
     measure_script_path,
     "--base-url", options[:base_url],
     "--path", path,
-    "--email", options[:email],
-    "--password", options[:password],
     "--output-dir", output_dir,
     "--label", run_label,
     "--runs", "1",
@@ -101,8 +103,10 @@ def measurement_command(measure_script_path:, options:, path:, run_label:, outpu
     "--skip-screenshot"
   ]
 
+  command.concat(["--email", options[:email], "--password", options[:password]]) unless options[:public]
   command.concat(["--measure-base-url", options[:measure_base_url]]) if options[:measure_base_url]
   command << "--headed" if options[:headed]
+  command << "--public" if options[:public]
   command << "--require-driver-match" if options[:require_driver_match]
   command
 end
@@ -325,6 +329,7 @@ def main
     measureBaseUrl: options[:measure_base_url] || options[:base_url],
     serverWarmupRequestsPerRun: options[:server_warmup_requests],
     reuseExisting: options[:reuse_existing],
+    public: options[:public],
     requireDriverMatch: options[:require_driver_match],
     environment:,
     browser:,

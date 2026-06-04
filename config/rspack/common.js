@@ -26,6 +26,7 @@ const widgetRoot = path.join(sourcePath, "widget");
 const excludedMainEntries = new Set([
   "dashboard_rsc_demo",
   "dashboard_rsc_demo_server_entry",
+  "public_product_rsc_demo",
 ]);
 const transpileNodeModulesPackages = [`${path.sep}node_modules${path.sep}ts-safe-cast${path.sep}`];
 const shouldExcludeFromTranspile = (resourcePath) =>

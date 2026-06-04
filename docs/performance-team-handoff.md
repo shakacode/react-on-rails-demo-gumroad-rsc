@@ -2,12 +2,21 @@
 
 ## What this is
 
-This repo contains a constrained comparison between:
+This repo contains a constrained dashboard comparison between:
 
 - `Inertia` control route: `/dashboard/inertia_demo`
 - `React on Rails Pro + RSC` route: `/dashboard/rsc_demo`
 
 Both routes use the same reduced creator-home presenter surface and the same outer `inertia` layout.
+
+This dashboard pair is a technical proof for integration, asset isolation, and benchmark discipline. It is not the main value proof for SEO or conversion.
+
+The implemented public product value-proof pair is:
+
+- `Inertia` control route: `/public_product/inertia_demo`
+- `React on Rails Pro + RSC` route: `/public_product/rsc_demo`
+
+Use `--public` with the benchmark runner for this pair so measurements avoid login and dashboard cookies.
 
 The goal is not to prove that "RSC is always faster."
 The goal is to measure whether a bounded RSC surface can produce a meaningful user-visible win that justifies the added complexity.
@@ -23,7 +32,7 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 
 ## Current conclusion
 
-The current RSC implementation is **promising but not fully optimized**.
+The current dashboard RSC implementation is **promising but not fully optimized**.
 
 What is already true:
 
@@ -33,6 +42,7 @@ What is already true:
 - the RSC route reduces page-specific JS requests from `6` to `1` in the latest balanced pass
 - the demo JS and CSS are route-scoped, so unrelated pages are not paying for the experiment
 - the raw RSC HTML transfer is now close to the Inertia control after the response-end pass
+- the dashboard result is useful for proving the stack, but the public product route must carry the SEO and conversion story
 
 What is not yet proven:
 
@@ -41,6 +51,7 @@ What is not yet proven:
 - measurement order affects cache state enough that grouped batches can overstate the gap
 - `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
 - the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
+- the logged-out product route has not yet supplied production-like local or deployed benchmark evidence
 
 ## Latest production-like alternating local result
 
@@ -233,6 +244,7 @@ If the performance team wants the next round to be high signal, focus here:
 Start here:
 
 - [current-status.md](./current-status.md)
+- [public-product-rsc-demo.md](./public-product-rsc-demo.md)
 - [performance-findings.md](./performance-findings.md)
 - [rsc-benchmark-plan.md](./rsc-benchmark-plan.md)
 - [rsc-comparison-plan.md](./rsc-comparison-plan.md)
