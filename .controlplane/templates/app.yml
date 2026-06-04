@@ -16,8 +16,6 @@ spec:
       value: ""
     - name: BRANCH_DEPLOYMENT
       value: "true"
-    - name: ALLOW_DEMO_SEED
-      value: "true"
     - name: SESSION_COOKIE_DOMAIN
       value: ""
     - name: BRANCH

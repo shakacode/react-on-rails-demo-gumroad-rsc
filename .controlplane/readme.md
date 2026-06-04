@@ -153,11 +153,16 @@ Use `--skip-post-creation-hook` for first bootstrap because no app image exists
 yet. Database preparation runs from `.controlplane/release_script.sh` after the
 Docker image is built.
 
-Review and staging apps set this GVC env var from the app template:
+Review and staging apps scope this env var to the release script from
+`.controlplane/controlplane.yml`:
 
 ```text
 ALLOW_DEMO_SEED=true
 ```
+
+The flag is intentionally not in `.controlplane/templates/app.yml`; that shared
+GVC template can be applied to production, and staging-to-production promotion
+checks fail when staging has persistent env vars that production does not.
 
 The public seeded account is:
 
@@ -193,8 +198,8 @@ curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/dashboard/rsc_demo
 ```
 
 The dashboard routes require a signed-in seller in a browser for full visual QA.
-Use `seller@gumroad.com / password` when `ALLOW_DEMO_SEED=true`; that public
-demo seed has no internal-admin access.
+Use `seller@gumroad.com / password` on review and staging; that public demo seed
+has no internal-admin access.
 
 ## Validation
 
