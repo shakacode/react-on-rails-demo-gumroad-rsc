@@ -63,15 +63,19 @@ Use the review URL to verify:
 - `/dashboard/inertia_demo`
 - `/dashboard/rsc_demo`
 
-The dashboard comparison requires sign-in. When `ALLOW_DEMO_SEED=true`, use:
+The dashboard comparison requires sign-in. Review and staging release phases set
+`ALLOW_DEMO_SEED=true` from `.controlplane/controlplane.yml`, so use:
 
 ```text
 seller@gumroad.com / password
 ```
 
-That public demo seed disables 2FA for the seeded demo accounts and removes
-internal-admin access from `seller@gumroad.com`. Local development keeps the
-normal internal-admin/2FA behavior documented in `docs/users.md`.
+The public demo seed disables 2FA for the seeded demo accounts and removes
+internal-admin access from `seller@gumroad.com`. The flag is not persisted in the
+shared Control Plane app template because that template can be applied to
+production and production promotion checks staging/prod env parity. Local
+development keeps the normal internal-admin/2FA behavior documented in
+`docs/users.md`.
 
 Review and staging demo apps allow login without `RECAPTCHA_LOGIN_SITE_KEY` so
 the public demo does not need a Google reCAPTCHA project. The Control Plane

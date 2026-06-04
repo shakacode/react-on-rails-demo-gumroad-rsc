@@ -47,10 +47,12 @@ aliases:
 apps:
   react-on-rails-demo-gumroad-rsc-staging:
     <<: *common
+    release_script: ALLOW_DEMO_SEED=true .controlplane/release_script.sh
 
   react-on-rails-demo-gumroad-rsc-review-pr:
     <<: *common
     match_if_app_name_starts_with: true
+    release_script: ALLOW_DEMO_SEED=true .controlplane/release_script.sh
 
   react-on-rails-demo-gumroad-rsc-production:
     <<: *production

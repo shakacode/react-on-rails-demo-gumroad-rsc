@@ -6,7 +6,7 @@ require "pathname"
 USAGE = <<~USAGE
   Usage: bin/pin-cpflow-github-ref [--allow-moving-ref] <control-plane-flow-ref>
 
-  Use a release tag for normal operation, e.g. v5.1.0.
+  Use a release tag for normal operation, e.g. v5.1.1.
   Use a full 40-character commit SHA for temporary unreleased upstream testing.
   This updates generated reusable-workflow `uses:` refs plus the production
   workflow's pinned control-plane-flow checkout and setup validation ref.

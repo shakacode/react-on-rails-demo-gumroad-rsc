@@ -196,6 +196,41 @@ require_step_run(
 puts "Gumroad database secret prep guards are present"
 RUBY
 
+echo "==> check Control Plane demo seed scoping"
+ruby <<'RUBY'
+require "yaml"
+
+app_template = YAML.load_file(".controlplane/templates/app.yml", aliases: true)
+template_env_names = Array(app_template.dig("spec", "env")).map { |env| env["name"] }
+
+if template_env_names.include?("ALLOW_DEMO_SEED")
+  abort ".controlplane/templates/app.yml must not set ALLOW_DEMO_SEED; the shared app template can be applied to production."
+end
+
+controlplane_config = YAML.load_file(".controlplane/controlplane.yml", aliases: true)
+apps = controlplane_config.fetch("apps")
+review_app = apps.fetch("react-on-rails-demo-gumroad-rsc-review-pr")
+staging_app = apps.fetch("react-on-rails-demo-gumroad-rsc-staging")
+production_app = apps.fetch("react-on-rails-demo-gumroad-rsc-production")
+
+{
+  "react-on-rails-demo-gumroad-rsc-review-pr" => review_app,
+  "react-on-rails-demo-gumroad-rsc-staging" => staging_app,
+}.each do |app_name, app_config|
+  release_script = app_config["release_script"].to_s
+  next if release_script.include?("ALLOW_DEMO_SEED=true")
+
+  abort "#{app_name} release_script must set ALLOW_DEMO_SEED=true for public demo seeds"
+end
+
+production_release_script = production_app["release_script"].to_s
+if production_release_script.include?("ALLOW_DEMO_SEED")
+  abort "production release_script must not set ALLOW_DEMO_SEED"
+end
+
+puts "Control Plane demo seed scoping is production-safe"
+RUBY
+
 echo "==> actionlint"
 actionlint \
   -ignore "SC2129" \
