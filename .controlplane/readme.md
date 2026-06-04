@@ -153,7 +153,7 @@ Use `--skip-post-creation-hook` for first bootstrap because no app image exists
 yet. Database preparation runs from `.controlplane/release_script.sh` after the
 Docker image is built.
 
-For a public demo account, set this GVC env var before deploying:
+Review and staging apps set this GVC env var from the app template:
 
 ```text
 ALLOW_DEMO_SEED=true
