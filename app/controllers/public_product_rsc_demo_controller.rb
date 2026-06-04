@@ -5,6 +5,8 @@ class PublicProductRscDemoController < ApplicationController
   include DashboardComparisonTiming
   include PageMeta::Product
 
+  PUBLIC_DEMO_SELLER_EMAIL = "seller@gumroad.com"
+
   before_action :set_public_demo_product
   before_action :prepare_public_product_page
   write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo]
@@ -51,7 +53,11 @@ class PublicProductRscDemoController < ApplicationController
     end
 
     def public_demo_products
-      Link.alive.not_draft.order(created_at: :asc, id: :asc)
+      Link.alive.not_draft
+        .joins(:user)
+        .merge(User.alive)
+        .where(users: { email: PUBLIC_DEMO_SELLER_EMAIL })
+        .order(created_at: :asc, id: :asc)
     end
 
     def prepare_public_product_page

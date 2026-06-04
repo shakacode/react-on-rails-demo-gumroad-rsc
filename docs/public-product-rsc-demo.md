@@ -11,6 +11,13 @@ Implemented route pair:
 
 Both routes render the same seeded public product content without requiring login.
 
+The route intentionally selects the `demo` product owned by the seeded
+`seller@gumroad.com` account and requires that product to be alive and
+non-draft. If that seeded product is unavailable, the comparison routes 404
+instead of silently falling back to another seller's permalink. Product
+descriptions are passed through Gumroad's existing `Link#html_safe_description`
+sanitizer before the React component renders the HTML string.
+
 ## Why this page matters
 
 Dashboard routes are useful technical proofs, but they are not the strongest product proof.

@@ -25,7 +25,7 @@ class PublicProductRscDemoPresenter
         permalink: product_props[:permalink],
         seller: seller_props(product_props[:seller]),
         summary: product_props[:summary],
-        description_html: product_props[:description_html],
+        description_html: sanitized_description_html,
         price_cents: product_props[:price_cents],
         currency_code: product_props[:currency_code],
         ratings: product_props[:ratings],
@@ -58,5 +58,11 @@ class PublicProductRscDemoPresenter
       Array(public_files).map do |public_file|
         public_file.slice(:name, :description, :extension, :filetype)
       end
+    end
+
+    def sanitized_description_html
+      # `Link#html_safe_description` applies the same Loofah scrubber used by the
+      # current public product page before React renders the HTML string.
+      product.html_safe_description
     end
 end

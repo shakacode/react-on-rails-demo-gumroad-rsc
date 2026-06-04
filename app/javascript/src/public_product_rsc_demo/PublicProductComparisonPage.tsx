@@ -114,10 +114,11 @@ const ProductNav = ({
 };
 
 const TrustSignals = ({ locale, product }: { locale: string; product: PublicProductProps }) => {
-  const formattedRating =
-    product.ratings?.average && product.ratings?.count
-      ? `${product.ratings.average.toLocaleString(locale, { maximumFractionDigits: 1 })} from ${product.ratings.count.toLocaleString(locale)} reviews`
-      : "Product facts rendered in initial HTML";
+  const hasReviewSignal =
+    product.ratings?.average != null && product.ratings.count != null && product.ratings.count > 0;
+  const formattedRating = hasReviewSignal
+    ? `${product.ratings.average.toLocaleString(locale, { maximumFractionDigits: 1 })} from ${product.ratings.count.toLocaleString(locale)} reviews`
+    : "Product facts rendered in initial HTML";
   const attributes =
     product.attributes?.filter((attribute) => hasText(attribute.name) || hasText(attribute.value)) ?? [];
   const publicFiles = product.public_files?.filter((file) => hasText(file.name) || hasText(file.filetype)) ?? [];

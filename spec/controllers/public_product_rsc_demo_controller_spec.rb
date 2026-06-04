@@ -6,7 +6,7 @@ require "inertia_rails/rspec"
 describe PublicProductRscDemoController, type: :controller, inertia: true do
   render_views
 
-  let(:seller) { create(:named_seller, name: "Public Creator") }
+  let(:seller) { create(:named_seller, email: PublicProductRscDemoController::PUBLIC_DEMO_SELLER_EMAIL, name: "Public Creator") }
   let!(:product) do
     create(
       :product,
@@ -39,6 +39,15 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
     end
 
     it "keeps product content in the initial HTML payload for crawlers and no-JS checks" do
+      product.update!(
+        description: <<~HTML.squish
+          <p>Buyer-facing product story for the public route.</p>
+          <img src="https://example.test/cover.png" onerror="alert('xss')">
+          <a href="javascript:alert('xss')">Unsafe link</a>
+          <script>alert('xss')</script>
+        HTML
+      )
+
       get :inertia_demo
 
       data_page_match = response.body.match(/data-page="([^"]*)"/)
@@ -50,6 +59,9 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(product_props.fetch("name")).to eq("Public RSC widget")
       expect(product_props.fetch("seller").fetch("name")).to eq("Public Creator")
       expect(product_props.fetch("description_html")).to include("Buyer-facing product story")
+      expect(product_props.fetch("description_html")).not_to include("onerror")
+      expect(product_props.fetch("description_html")).not_to include("javascript:")
+      expect(product_props.fetch("description_html")).not_to include("<script")
       expect(product_props.fetch("price_cents")).to eq(1900)
       expect(response.body).to include("product:retailer_item_id")
       expect(response.body).to include("og:title")
@@ -58,6 +70,18 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
     it "does not expose an unavailable demo product to logged-out visitors" do
       product.update!(draft: true)
+
+      expect { get :inertia_demo }.to raise_error(ActionController::RoutingError, "Not Found")
+    end
+
+    it "does not expose a disabled demo product to logged-out visitors" do
+      product.update!(purchase_disabled_at: Time.current)
+
+      expect { get :inertia_demo }.to raise_error(ActionController::RoutingError, "Not Found")
+    end
+
+    it "only serves the seeded public demo seller product" do
+      seller.update_columns(email: "other-seller@example.com")
 
       expect { get :inertia_demo }.to raise_error(ActionController::RoutingError, "Not Found")
     end

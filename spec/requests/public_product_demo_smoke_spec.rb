@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe "Public product RSC demo routes", type: :system, js: true do
-  let(:seller) { create(:named_seller, name: "Public Creator") }
+  let(:seller) { create(:named_seller, email: PublicProductRscDemoController::PUBLIC_DEMO_SELLER_EMAIL, name: "Public Creator") }
   let!(:product) do
     create(
       :product,
