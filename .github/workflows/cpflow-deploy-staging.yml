@@ -32,7 +32,7 @@ jobs:
 
   deploy-staging:
     needs: prepare-control-plane-db-secrets
-    uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-staging.yml@v5.1.0
+    uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-staging.yml@v5.1.1
     with:
       staging_app_branch_default: "main"
     secrets:
