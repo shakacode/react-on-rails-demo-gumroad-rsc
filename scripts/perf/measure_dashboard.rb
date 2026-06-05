@@ -24,6 +24,7 @@ DEFAULTS = {
   timeout: 30,
   headed: false,
   skip_screenshot: false,
+  public: false,
   require_driver_match: false
 }.freeze
 
@@ -45,6 +46,8 @@ def parse_options
     parser.on("--timeout SECONDS", Integer) { |value| options[:timeout] = value }
     parser.on("--headed") { options[:headed] = true }
     parser.on("--skip-screenshot") { options[:skip_screenshot] = true }
+    parser.on("--public", "Measure without login or cookies") { options[:public] = true }
+    parser.on("--skip-login", "Alias for --public") { options[:public] = true }
     parser.on("--require-driver-match") { options[:require_driver_match] = true }
   end.parse!
 
@@ -716,11 +719,15 @@ def main
   measure_base_url = options[:measure_base_url] || options[:base_url]
   target_url = page_url(measure_base_url, options[:path])
   target_slug = path_slug(options[:path])
-  cookies = authenticated_cookies(
-    base_url: options[:base_url],
-    email: options[:email],
-    password: options[:password]
-  )
+  cookies = if options[:public]
+    []
+  else
+    authenticated_cookies(
+      base_url: options[:base_url],
+      email: options[:email],
+      password: options[:password]
+    )
+  end
   warm_target_route(
     target_url: target_url,
     cookies: cookies.index_by { |cookie| "#{cookie[:domain]}:#{cookie[:name]}" },
@@ -736,8 +743,12 @@ def main
     begin
       add_lcp_observer(driver)
       driver.navigate.to(measure_base_url)
-      cookies.each { |cookie| driver.manage.add_cookie(cookie_attributes(cookie)) }
-      driver.navigate.refresh
+      if options[:public]
+        driver.manage.delete_all_cookies
+      else
+        cookies.each { |cookie| driver.manage.add_cookie(cookie_attributes(cookie)) }
+        driver.navigate.refresh
+      end
 
       driver.navigate.to(target_url)
       wait_for_page_load(driver, timeout: options[:timeout])
@@ -767,6 +778,7 @@ def main
     path: options[:path],
     targetUrl: target_url,
     headed: options[:headed],
+    public: options[:public],
     requireDriverMatch: options[:require_driver_match],
     runs: options[:runs],
     serverWarmupRequests: options[:server_warmup_requests],

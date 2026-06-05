@@ -9,7 +9,7 @@ Build a credible comparison between:
 
 The comparison should answer one question clearly:
 
-Would React on Rails Pro be meaningfully better for a specific class of Gumroad pages?
+Would React on Rails Pro be meaningfully better for public, buyer-facing Gumroad pages where initial rendering quality can affect SEO and conversion?
 
 ## Non-goals
 
@@ -25,13 +25,14 @@ React on Rails Pro is most likely to be competitive on pages that are:
 - highly interactive
 - already naturally componentized in React
 - good candidates for React 19 features and server/client composition
+- public enough that initial HTML, metadata, and client JavaScript cost affect discovery or conversion
 
 Important distinction:
 
 - `Rspack` is the build-time and developer-experience lever
 - `RSC` is the route-runtime lever
 
-It is less likely to be competitive on simple CRUD-style Rails pages where Inertia already fits well.
+It is less likely to be competitive on simple CRUD-style Rails pages where Inertia already fits well, or on logged-in administrative pages where SEO is irrelevant.
 
 ## Success Criteria
 
@@ -43,7 +44,12 @@ The experiment is successful only if it produces evidence in at least one of the
 - easier reuse of React code between server and client concerns
 - materially better developer ergonomics for complex UI work
 
-For the first `Dashboard` comparison, page-level performance should be judged only after the separate `React on Rails Pro + RSC` branch exists. The current `Rspack` branch is setup and baseline work, not the final runtime test.
+The existing `Dashboard` comparison is a useful technical proof that the stack can run, isolate assets, and be measured inside Gumroad. It should not be treated as the main value proof because logged-in dashboard pages do not test SEO, share previews, or buyer conversion.
+
+The main product proof is now the public product-like route pair:
+
+- `Inertia` control: `/public_product/inertia_demo`
+- `React on Rails Pro + RSC` demo: `/public_product/rsc_demo`
 
 The experiment fails if the React on Rails Pro path mostly adds complexity without a measurable payoff.
 
@@ -75,16 +81,16 @@ The experiment fails if the React on Rails Pro path mostly adds complexity witho
 
 ## Recommended First Target
 
-The first target has now been selected: `Dashboard`.
+The first technical target was `Dashboard`.
 
-Start with `Dashboard`, then revisit `Products/Edit` later if we want a second comparison focused on client-heavy editing workflows.
+The next value target should be a logged-out public product page.
 
 Reasoning:
 
 - `Products/Edit` is the strongest test of complex client-side React workflows.
 - `Dashboard` is the stronger test for streaming, server/client composition, and RSC-style data boundaries.
 
-Because this repository is explicitly centered on React 19 and RSC, `Dashboard` is the better first proof target.
+Because this repository is explicitly centered on React 19 and RSC, `Dashboard` was a practical first proof target. Because the business case is SEO and conversion, the public product page is the better proof-of-value target.
 
 ## Branch Strategy
 
@@ -104,6 +110,6 @@ Do not take this upstream unless the experiment can show:
 - objective wins or a very strong qualitative improvement
 - acceptable maintenance overhead
 
-For the first runtime pitch, "objective wins" should mean that the `React on Rails Pro + RSC` route beats the current Inertia route on at least client JS cost and one user-facing load metric.
+For the first runtime pitch, "objective wins" should mean that the `React on Rails Pro + RSC` public product route beats the matched Inertia public product route on client JS cost, initial product HTML or metadata quality, and at least one user-facing load metric.
 
 Without that, this should remain a ShakaCode experiment repo rather than an upstream proposal.

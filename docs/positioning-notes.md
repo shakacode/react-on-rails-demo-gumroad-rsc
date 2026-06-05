@@ -34,6 +34,7 @@ If we ignore these strengths, any comparison will sound ideological instead of p
 - A more natural home for React 19 features and RSC-style composition.
 - Better reuse of React code across server and client boundaries.
 - Better fit for pages that are effectively React applications, not just server-driven pages with some interactivity.
+- Better fit for public pages where initial HTML, metadata, and reduced client JavaScript can affect SEO and conversion.
 
 ## Messaging Hypothesis
 
@@ -43,7 +44,7 @@ The likely winning message is not:
 
 The better message is closer to:
 
-- "Inertia is excellent for many Rails pages, but some product surfaces cross the line into full React application territory. That is where React on Rails Pro can justify itself."
+- "Inertia is excellent for many Rails pages, but some public product surfaces need stronger initial rendering, metadata, and client/server composition. That is where React on Rails Pro can justify itself."
 
 ## What this experiment should produce
 
@@ -221,7 +222,8 @@ For now, the best path is:
 - document where Inertia wins
 - document where React on Rails Pro wins
 - treat the current Inertia plus Rspack branch as enabling infrastructure, not the runtime pitch
-- use the matched `/dashboard/inertia_demo` versus `/dashboard/rsc_demo` pair as the primary comparison surface
+- use the matched `/dashboard/inertia_demo` versus `/dashboard/rsc_demo` pair as a technical proof surface
+- use `/public_product/inertia_demo` versus `/public_product/rsc_demo` as the main SEO and conversion-sensitive value proof, then benchmark it with `--public`
 - treat the current production-like balanced alternating result as promising but still local:
 - the matched RSC route wins on median `LCP`, total navigation duration, and `responseEnd`
 - the matched RSC route also cuts page-specific JS requests from `6` to `1`

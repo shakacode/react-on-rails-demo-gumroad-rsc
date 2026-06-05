@@ -56,7 +56,7 @@ jobs:
         id: demo_targets
         run: |
           controller_spec_files=()
-          for file in spec/controllers/dashboard_controller_spec.rb spec/controllers/dashboard_rsc_demo_controller_spec.rb; do
+          for file in spec/controllers/dashboard_controller_spec.rb spec/controllers/dashboard_rsc_demo_controller_spec.rb spec/controllers/public_product_rsc_demo_controller_spec.rb; do
             if [ -f "$file" ]; then
               controller_spec_files+=("$file")
             fi
@@ -70,7 +70,7 @@ jobs:
           fi
 
           system_spec_files=()
-          for file in spec/requests/dashboard_demo_smoke_spec.rb; do
+          for file in spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb; do
             if [ -f "$file" ]; then
               system_spec_files+=("$file")
             fi

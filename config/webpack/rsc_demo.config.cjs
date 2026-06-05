@@ -15,10 +15,10 @@ const buildEnvironment = (() => {
 const publicOutputDirectory = buildEnvironment === "test" ? "public/packs-test" : "public/packs";
 const publicOutputPath = path.join(rootPath, publicOutputDirectory);
 const mode = buildEnvironment === "production" ? "production" : "development";
-const rscClientReferencesDirectory = path.relative(
-  packsPath,
-  path.join(sourcePath, "src/dashboard_rsc_demo/ror_components"),
-);
+const rscClientReferencesDirectories = [
+  "src/dashboard_rsc_demo/ror_components",
+  "src/public_product_rsc_demo/ror_components",
+].map((directory) => path.relative(packsPath, path.join(sourcePath, directory)));
 
 const baseResolve = {
   extensions: [".js", ".mjs", ".ts", ".tsx", ".json"],
@@ -87,13 +87,11 @@ const basePlugins = (ssr) => [
 
 const rscWebpackPluginOptions = (isServer) => ({
   isServer,
-  clientReferences: [
-    {
-      directory: rscClientReferencesDirectory,
-      recursive: true,
-      include: /\.(js|ts|jsx|tsx)$/u,
-    },
-  ],
+  clientReferences: rscClientReferencesDirectories.map((directory) => ({
+    directory,
+    recursive: true,
+    include: /\.(js|ts|jsx|tsx)$/u,
+  })),
 });
 
 const clientConfig = {
@@ -103,6 +101,7 @@ const clientConfig = {
   context: packsPath,
   entry: {
     dashboard_rsc_demo: "./dashboard_rsc_demo.tsx",
+    public_product_rsc_demo: "./public_product_rsc_demo.tsx",
   },
   resolve: baseResolve,
   module: {
