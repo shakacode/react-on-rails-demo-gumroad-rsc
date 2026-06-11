@@ -167,7 +167,7 @@ gem "sass-rails", "~> 6.0"
 gem "secure_headers", "~> 6.5"
 gem "selenium-webdriver", "~> 4.35"
 gem "sendgrid-ruby", "~> 6.6"
-gem "shakapacker", "~> 10.0"
+gem "shakapacker", "~> 10.1"
 gem "sidekiq-cron", "~> 1.9"
 gem "suo", "~> 0.4"
 gem "sidekiq", "~> 7.2"
@@ -198,4 +198,4 @@ group :development do
   gem "bullet"
 end
 
-gem "react_on_rails_pro", "= 16.6.0"
+gem "react_on_rails_pro", "= 17.0.0.rc.2"
