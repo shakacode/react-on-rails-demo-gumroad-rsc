@@ -828,14 +828,14 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
-    react_on_rails (17.0.0.rc.2)
+    react_on_rails (17.0.0.rc.3)
       addressable
       connection_pool
       execjs (~> 2.5)
       rails (>= 5.2)
       rainbow (~> 3.0)
       shakapacker (>= 6.0)
-    react_on_rails_pro (17.0.0.rc.2)
+    react_on_rails_pro (17.0.0.rc.3)
       addressable
       async (>= 2.29)
       async-http (~> 0.95)
@@ -843,7 +843,7 @@ GEM
       io-endpoint (~> 0.17.0)
       jwt (>= 2.5, < 4)
       rainbow
-      react_on_rails (= 17.0.0.rc.2)
+      react_on_rails (= 17.0.0.rc.3)
     redcarpet (3.6.0)
     redis (5.2.0)
       redis-client (>= 0.22.0)
@@ -1261,7 +1261,7 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0)
   rake (= 13.2.1)
   ratelimit (~> 1.0)
-  react_on_rails_pro (= 17.0.0.rc.2)
+  react_on_rails_pro (= 17.0.0.rc.3)
   redcarpet (~> 3.5)
   redis (~> 5.0)
   redis-namespace (~> 1.10)
