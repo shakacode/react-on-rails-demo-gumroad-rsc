@@ -81,6 +81,16 @@ The app secret dictionary must provide:
 - `RENDERER_PASSWORD`
 - `REACT_ON_RAILS_PRO_LICENSE`
 
+Optional staging-only diagnostics:
+
+- `DEMO_DIAGNOSTICS_TOKEN`
+
+Set `DEMO_DIAGNOSTICS_TOKEN` only while investigating live demo stability. When
+present, `/healthcheck/active_record_pool` returns sanitized Puma-thread,
+runtime-env, and Active Record pool stats for requests that provide the matching
+`X-Demo-Diagnostics-Token` header. When absent or mismatched, the endpoint
+returns `404`.
+
 For review apps, `cpflow` uses the shared review-app prefix when resolving
 `{{APP_SECRETS}}`. That means every PR app named
 `react-on-rails-demo-gumroad-rsc-review-pr-<PR number>` reads from:
@@ -152,6 +162,18 @@ cpflow setup-app -a react-on-rails-demo-gumroad-rsc-staging --org shakacode-open
 Use `--skip-post-creation-hook` for first bootstrap because no app image exists
 yet. Database preparation runs from `.controlplane/release_script.sh` after the
 Docker image is built.
+
+Existing persistent apps do not automatically receive template/runtime config
+changes from normal image deploys. After changing `.controlplane/templates/*`,
+apply those templates explicitly, for example:
+
+```sh
+cpflow apply-template app rails renderer -a react-on-rails-demo-gumroad-rsc-staging --org shakacode-open-source-examples-staging
+```
+
+Use this after runtime defaults such as `capacityAI`, `RAILS_MAX_THREADS`,
+`DB_POOL_SIZE`, or `PUMA_WORKER_PROCESSES` change; otherwise the repository can
+look correct while the live app keeps old Control Plane settings.
 
 Review and staging apps scope this env var to the release script from
 `.controlplane/controlplane.yml`:

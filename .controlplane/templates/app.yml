@@ -12,6 +12,12 @@ spec:
       value: "true"
     - name: RAILS_SERVE_STATIC_FILES
       value: "true"
+    - name: RAILS_MAX_THREADS
+      value: "5"
+    - name: DB_POOL_SIZE
+      value: "10"
+    - name: PUMA_WORKER_PROCESSES
+      value: "1"
     - name: ASSET_HOST
       value: ""
     - name: BRANCH_DEPLOYMENT
