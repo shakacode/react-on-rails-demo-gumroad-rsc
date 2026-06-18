@@ -2,10 +2,12 @@
 
 class DashboardRscDemoController < Sellers::BaseController
   include ReactOnRailsPro::Stream
+  include LiveActiveRecordConnectionCleanup
   include DashboardComparisonTiming
   include DashboardComparisonProps
 
   before_action :check_payment_details, only: :index
+  prepend_around_action :clear_live_active_record_connections, only: :index
   write_dashboard_comparison_server_timing_after_action only: :index
   helper_method :content_security_policy_nonce
 

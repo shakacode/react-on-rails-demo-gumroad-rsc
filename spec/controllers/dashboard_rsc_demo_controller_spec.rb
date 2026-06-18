@@ -21,6 +21,8 @@ describe DashboardRscDemoController, type: :controller do
     end
 
     it "assigns the demo props and streams the RSC template" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
       allow(controller).to receive(:stream_view_containing_react_components) do |**|
         controller.render plain: "streamed"
       end

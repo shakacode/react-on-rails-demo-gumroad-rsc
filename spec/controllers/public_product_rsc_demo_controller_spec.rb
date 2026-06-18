@@ -24,6 +24,9 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
   describe "GET inertia_demo" do
     it "renders the matched public Inertia control without requiring login" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
+
       get :inertia_demo
 
       expect(response).to be_successful
@@ -70,6 +73,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
     it "does not expose an unavailable demo product to logged-out visitors" do
       product.update!(draft: true)
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
 
       expect { get :inertia_demo }.to raise_error(ActionController::RoutingError, "Not Found")
     end
@@ -89,6 +94,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
   describe "GET rsc_demo" do
     it "streams the public RSC route without requiring login" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
       allow(controller).to receive(:stream_view_containing_react_components) do |**|
         controller.render plain: "streamed public product rsc"
       end
