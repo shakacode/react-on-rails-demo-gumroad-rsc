@@ -25,7 +25,7 @@ class HealthcheckController < ActionController::Base
         web_concurrency: ENV["WEB_CONCURRENCY"],
       },
       active_record: ActiveRecord::Base.connection_pool.stat,
-    }
+    }.merge(detailed_active_record_diagnostics)
   end
 
   def sidekiq
@@ -62,5 +62,36 @@ class HealthcheckController < ActionController::Base
         Digest::SHA256.hexdigest(provided_token),
         Digest::SHA256.hexdigest(token)
       )
+    end
+
+    def detailed_active_record_diagnostics
+      return {} unless params[:details] == "true"
+
+      {
+        active_record_connections: ActiveRecord::Base.connection_handler.connection_pool_list.flat_map do |pool|
+          pool.connections.map.with_index do |connection, index|
+            {
+              pool: pool.db_config.name,
+              index:,
+              in_use: connection.in_use?,
+              owner: thread_diagnostics(connection.owner),
+            }
+          end
+        end,
+        thread_backtraces: Thread.list.map { |thread| thread_diagnostics(thread, include_backtrace: true) },
+      }
+    end
+
+    def thread_diagnostics(thread, include_backtrace: false)
+      return if thread.nil?
+
+      {
+        class: thread.class.name,
+        object_id: thread.object_id,
+        alive: thread.respond_to?(:alive?) ? thread.alive? : nil,
+        status: thread.respond_to?(:status) ? thread.status : nil,
+      }.tap do |payload|
+        payload[:backtrace] = Array(thread.backtrace).first(12) if include_backtrace && thread.respond_to?(:backtrace)
+      end
     end
 end

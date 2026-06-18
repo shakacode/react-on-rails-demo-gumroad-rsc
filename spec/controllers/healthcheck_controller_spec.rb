@@ -67,6 +67,20 @@ describe HealthcheckController do
         expect(response.parsed_body["active_record"]).to include("size", "connections", "busy", "dead", "idle", "waiting", "checkout_timeout")
       end
     end
+
+    it "returns detailed connection owner diagnostics only when requested" do
+      with_env("DEMO_DIAGNOSTICS_TOKEN" => "expected-token") do
+        request.headers["X-Demo-Diagnostics-Token"] = "expected-token"
+
+        get :active_record_pool, params: { details: "true" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body["active_record_connections"]).to be_an(Array)
+        expect(response.parsed_body["thread_backtraces"]).to include(
+          a_hash_including("class" => "Thread", "object_id" => a_kind_of(Integer), "backtrace" => a_kind_of(Array))
+        )
+      end
+    end
   end
 
   SIDEKIQ_QUEUE_NAMES = [:critical, :default].freeze
