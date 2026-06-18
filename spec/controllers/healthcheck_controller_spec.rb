@@ -3,12 +3,83 @@
 require "spec_helper"
 
 describe HealthcheckController do
+  def with_env(overrides)
+    original = overrides.keys.index_with { ENV[_1] }
+    overrides.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
+    yield
+  ensure
+    original.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
+  end
+
   describe "GET 'index'" do
     it "returns 'healthcheck' as text" do
       get :index
 
       expect(response.status).to eq(200)
       expect(response.body).to eq("healthcheck")
+    end
+  end
+
+  describe "GET 'active_record_pool'" do
+    it "is unavailable without the diagnostics token env var" do
+      with_env("DEMO_DIAGNOSTICS_TOKEN" => nil) do
+        request.headers["X-Demo-Diagnostics-Token"] = "token"
+
+        get :active_record_pool
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    it "is unavailable when the diagnostics token does not match" do
+      with_env("DEMO_DIAGNOSTICS_TOKEN" => "expected-token") do
+        request.headers["X-Demo-Diagnostics-Token"] = "wrong-token"
+
+        get :active_record_pool
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    it "returns sanitized process and Active Record pool diagnostics for an authorized request" do
+      with_env(
+        "DB_POOL_SIZE" => "10",
+        "DEMO_DIAGNOSTICS_TOKEN" => "expected-token",
+        "PUMA_WORKER_PROCESSES" => "1",
+        "RAILS_MAX_THREADS" => "4",
+        "WEB_CONCURRENCY" => "0",
+      ) do
+        request.headers["X-Demo-Diagnostics-Token"] = "expected-token"
+
+        get :active_record_pool
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body).to include(
+          "active_record",
+          "env" => {
+            "db_pool_size" => "10",
+            "puma_worker_processes" => "1",
+            "rails_max_threads" => "4",
+            "web_concurrency" => "0",
+          },
+          "process" => a_hash_including("pid" => a_kind_of(Integer), "threads" => a_kind_of(Hash)),
+        )
+        expect(response.parsed_body["active_record"]).to include("size", "connections", "busy", "dead", "idle", "waiting", "checkout_timeout")
+      end
+    end
+
+    it "returns detailed connection owner diagnostics only when requested" do
+      with_env("DEMO_DIAGNOSTICS_TOKEN" => "expected-token") do
+        request.headers["X-Demo-Diagnostics-Token"] = "expected-token"
+
+        get :active_record_pool, params: { details: "true" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body["active_record_connections"]).to be_an(Array)
+        expect(response.parsed_body["thread_backtraces"]).to include(
+          a_hash_including("class" => "Thread", "object_id" => a_kind_of(Integer), "backtrace" => a_kind_of(Array))
+        )
+      end
     end
   end
 

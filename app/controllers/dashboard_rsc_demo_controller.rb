@@ -2,10 +2,14 @@
 
 class DashboardRscDemoController < Sellers::BaseController
   include ReactOnRailsPro::Stream
+  include LiveActiveRecordConnectionCleanup
+  include LiveStreamingResponseHeaders
   include DashboardComparisonTiming
   include DashboardComparisonProps
 
   before_action :check_payment_details, only: :index
+  before_action :prepare_live_streaming_response, only: :index
+  prepend_around_action :clear_live_active_record_connections, only: :index
   write_dashboard_comparison_server_timing_after_action only: :index
   helper_method :content_security_policy_nonce
 
@@ -23,6 +27,10 @@ class DashboardRscDemoController < Sellers::BaseController
       @hide_layouts = true
       @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
       @dashboard_rsc_demo_props = dashboard_comparison_props
+      @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
+      # ActionController::Live can keep this action thread open after the response
+      # reaches the client, so release DB connections before entering the stream.
+      release_live_active_record_connections
 
       with_dashboard_comparison_timing("render_dispatch") do
         stream_view_containing_react_components(

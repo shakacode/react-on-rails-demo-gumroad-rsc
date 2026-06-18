@@ -111,6 +111,25 @@ Then set runtime secrets in Control Plane:
 Use `openssl rand -hex 64` for the long secret values and a positive integer
 for `OBFUSCATE_IDS_NUMERIC_CIPHER_KEY`.
 
+Optional staging-only diagnostics:
+
+- `DEMO_DIAGNOSTICS_TOKEN`
+
+Set `DEMO_DIAGNOSTICS_TOKEN` only while debugging live demo stability. When set,
+authorized requests to `/healthcheck/active_record_pool` with the matching
+`X-Demo-Diagnostics-Token` header return sanitized Puma-thread, runtime-env, and
+Active Record pool stats. Without the env var or with the wrong header, the
+endpoint returns `404`.
+
+Normal staging and review deploys update images. Existing persistent apps do
+not automatically receive template/runtime config changes such as `capacityAI`,
+`RAILS_MAX_THREADS`, `DB_POOL_SIZE`, or `PUMA_WORKER_PROCESSES`. After changing
+`.controlplane/templates/*`, explicitly apply the relevant templates:
+
+```sh
+cpflow apply-template app rails renderer -a react-on-rails-demo-gumroad-rsc-staging --org shakacode-open-source-examples-staging
+```
+
 The review, staging, and production workflows run
 `bin/prepare-control-plane-db-secrets` before deploying. That script creates
 `<app-name>-mysql` and `<app-name>-mongo` with random passwords if they do not

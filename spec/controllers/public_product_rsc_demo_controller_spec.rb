@@ -24,6 +24,9 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
   describe "GET inertia_demo" do
     it "renders the matched public Inertia control without requiring login" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
+
       get :inertia_demo
 
       expect(response).to be_successful
@@ -70,6 +73,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
     it "does not expose an unavailable demo product to logged-out visitors" do
       product.update!(draft: true)
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
 
       expect { get :inertia_demo }.to raise_error(ActionController::RoutingError, "Not Found")
     end
@@ -89,6 +94,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
   describe "GET rsc_demo" do
     it "streams the public RSC route without requiring login" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:twice).and_call_original
       allow(controller).to receive(:stream_view_containing_react_components) do |**|
         controller.render plain: "streamed public product rsc"
       end
@@ -104,6 +111,9 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(assigns(:hide_layouts)).to be(true)
       expect(assigns(:public_product_rsc_demo_props).dig(:product, :name)).to eq("Public RSC widget")
       expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :rsc_url)).to eq(public_product_rsc_demo_path)
+      expect(assigns(:precomputed_rendering_context)).to include(:design_settings, :domain_settings, :user_agent_info)
+      expect(response.headers["Last-Modified"]).to be_present
+      expect(response.headers["X-Accel-Buffering"]).to eq("no")
       expect(response.headers["Server-Timing"]).to include("action_total")
       expect(response.headers["Server-Timing"]).to include("compare_product")
       expect(response.headers["Server-Timing"]).to include("render_dispatch")

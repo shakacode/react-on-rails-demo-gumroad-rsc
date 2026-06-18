@@ -17,6 +17,7 @@ end
 
 Rails.application.routes.draw do
   get "/healthcheck" => "healthcheck#index"
+  get "/healthcheck/active_record_pool" => "healthcheck#active_record_pool"
   get "/healthcheck/sidekiq" => "healthcheck#sidekiq"
   get "/healthcheck/paypal_balance" => "healthcheck#paypal_balance"
 

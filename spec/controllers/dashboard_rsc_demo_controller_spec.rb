@@ -21,6 +21,8 @@ describe DashboardRscDemoController, type: :controller do
     end
 
     it "assigns the demo props and streams the RSC template" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:twice).and_call_original
       allow(controller).to receive(:stream_view_containing_react_components) do |**|
         controller.render plain: "streamed"
       end
@@ -36,6 +38,9 @@ describe DashboardRscDemoController, type: :controller do
       expect(assigns(:dashboard_rsc_demo_props).keys).to include(:locale, :seller_display_name, :creator_home)
       expect(assigns(:dashboard_rsc_demo_props)[:seller_display_name]).to eq(seller.name)
       expect(assigns(:dashboard_rsc_demo_props).dig(:creator_home, :balances)).to be_present
+      expect(assigns(:precomputed_rendering_context)).to include(:current_seller, :design_settings, :domain_settings, :logged_in_user)
+      expect(response.headers["Last-Modified"]).to be_present
+      expect(response.headers["X-Accel-Buffering"]).to eq("no")
       expect(response.headers["Server-Timing"]).to include("action_total")
       expect(response.headers["Server-Timing"]).to include("compare_props")
       expect(response.headers["Server-Timing"]).to include("compare_creator_home")

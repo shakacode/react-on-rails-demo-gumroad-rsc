@@ -2,6 +2,8 @@
 
 class PublicProductRscDemoController < ApplicationController
   include ReactOnRailsPro::Stream
+  include LiveActiveRecordConnectionCleanup
+  include LiveStreamingResponseHeaders
   include DashboardComparisonTiming
   include PageMeta::Product
 
@@ -9,6 +11,8 @@ class PublicProductRscDemoController < ApplicationController
 
   before_action :set_public_demo_product
   before_action :prepare_public_product_page
+  before_action :prepare_live_streaming_response, only: :rsc_demo
+  prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo]
   write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo]
   helper_method :content_security_policy_nonce
 
@@ -29,6 +33,10 @@ class PublicProductRscDemoController < ApplicationController
       @hide_layouts = true
       @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
       @public_product_rsc_demo_props = public_product_comparison_props
+      @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
+      # ActionController::Live can keep this action thread open after the response
+      # reaches the client, so release DB connections before entering the stream.
+      release_live_active_record_connections
 
       with_dashboard_comparison_timing("render_dispatch") do
         stream_view_containing_react_components(
