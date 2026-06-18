@@ -94,8 +94,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
   describe "GET rsc_demo" do
     it "streams the public RSC route without requiring login" do
-      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
-      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).twice.and_call_original
       allow(controller).to receive(:stream_view_containing_react_components) do |**|
         controller.render plain: "streamed public product rsc"
       end
