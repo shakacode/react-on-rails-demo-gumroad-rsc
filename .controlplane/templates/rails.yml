@@ -4,13 +4,13 @@ spec:
   type: standard
   containers:
     - name: rails
-      cpu: 1000m
+      cpu: 500m
       env:
         - name: PORT
           value: "3000"
       inheritEnv: true
       image: "{{APP_IMAGE_LINK}}"
-      memory: 2Gi
+      memory: 1Gi
       ports:
         - number: 3000
           protocol: http

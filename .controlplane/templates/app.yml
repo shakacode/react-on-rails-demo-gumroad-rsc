@@ -13,9 +13,9 @@ spec:
     - name: RAILS_SERVE_STATIC_FILES
       value: "true"
     - name: RAILS_MAX_THREADS
-      value: "5"
+      value: "3"
     - name: DB_POOL_SIZE
-      value: "10"
+      value: "5"
     - name: PUMA_WORKER_PROCESSES
       value: "1"
     - name: ASSET_HOST
@@ -92,7 +92,7 @@ spec:
     - name: RENDERER_LOG_LEVEL
       value: info
     - name: RENDERER_WORKERS_COUNT
-      value: "2"
+      value: "1"
     - name: RENDERER_PASSWORD
       value: "cpln://secret/{{APP_SECRETS}}.RENDERER_PASSWORD"
     - name: REACT_ON_RAILS_PRO_LICENSE

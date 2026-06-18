@@ -39,8 +39,8 @@ spec:
   type: stateful
   containers:
     - name: mysql
-      cpu: 500m
-      memory: 1Gi
+      cpu: 250m
+      memory: 768Mi
       image: mysql:8.0.32
       env:
         - name: MYSQL_DATABASE
@@ -72,7 +72,7 @@ spec:
         failureThreshold: 3
   identityLink: "//identity/{{APP_NAME}}-mysql-identity"
   defaultOptions:
-    capacityAI: false
+    capacityAI: true
     autoscaling:
       metric: disabled
       minScale: 1

@@ -4,12 +4,12 @@ spec:
   type: standard
   containers:
     - name: elasticsearch
-      cpu: 500m
-      memory: 1Gi
+      cpu: 250m
+      memory: 512Mi
       image: elasticsearch:7.9.3
       env:
         - name: ES_JAVA_OPTS
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms256m -Xmx256m"
         - name: discovery.type
           value: single-node
       ports:
@@ -20,7 +20,7 @@ spec:
       metric: disabled
       minScale: 1
       maxScale: 1
-    capacityAI: false
+    capacityAI: true
     timeoutSeconds: 120
   firewallConfig:
     internal:

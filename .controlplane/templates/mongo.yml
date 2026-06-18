@@ -67,7 +67,7 @@ spec:
         failureThreshold: 3
   identityLink: "//identity/{{APP_NAME}}-mongo-identity"
   defaultOptions:
-    capacityAI: false
+    capacityAI: true
     autoscaling:
       metric: disabled
       minScale: 1
