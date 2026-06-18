@@ -33,6 +33,7 @@ class PublicProductRscDemoController < ApplicationController
       @hide_layouts = true
       @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
       @public_product_rsc_demo_props = public_product_comparison_props
+      @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
       # ActionController::Live can keep this action thread open after the response
       # reaches the client, so release DB connections before entering the stream.
       release_live_active_record_connections
