@@ -3,6 +3,7 @@
 class PublicProductRscDemoController < ApplicationController
   include ReactOnRailsPro::Stream
   include LiveActiveRecordConnectionCleanup
+  include LiveStreamingResponseHeaders
   include DashboardComparisonTiming
   include PageMeta::Product
 
@@ -10,6 +11,7 @@ class PublicProductRscDemoController < ApplicationController
 
   before_action :set_public_demo_product
   before_action :prepare_public_product_page
+  before_action :prepare_live_streaming_response, only: :rsc_demo
   prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo]
   write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo]
   helper_method :content_security_policy_nonce

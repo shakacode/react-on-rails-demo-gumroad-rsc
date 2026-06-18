@@ -38,6 +38,8 @@ describe DashboardRscDemoController, type: :controller do
       expect(assigns(:dashboard_rsc_demo_props).keys).to include(:locale, :seller_display_name, :creator_home)
       expect(assigns(:dashboard_rsc_demo_props)[:seller_display_name]).to eq(seller.name)
       expect(assigns(:dashboard_rsc_demo_props).dig(:creator_home, :balances)).to be_present
+      expect(response.headers["Last-Modified"]).to be_present
+      expect(response.headers["X-Accel-Buffering"]).to eq("no")
       expect(response.headers["Server-Timing"]).to include("action_total")
       expect(response.headers["Server-Timing"]).to include("compare_props")
       expect(response.headers["Server-Timing"]).to include("compare_creator_home")
