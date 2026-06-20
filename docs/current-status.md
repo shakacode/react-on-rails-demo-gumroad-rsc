@@ -3,6 +3,10 @@
 ## Short answer
 
 The public product demo pair is implemented and locally browser-smoke validated.
+The public demo now has a visible performance lab entry point at `/rsc-demo`
+and `/public_product/performance_demo` so reviewers can see same-origin stream
+timing, response size, and serialized Inertia payload differences before
+digging into DevTools or benchmark artifacts.
 
 The dashboard demo pair remains useful as a technical proof, but it is **not** the main value proof for issue #24.
 

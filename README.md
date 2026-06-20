@@ -66,9 +66,18 @@ It rotates route order by cycle instead of relying on separate batches.
 The main caution is that `p95 responseEnd` still favored Inertia by `5.2%`, and the current RSC route does not expose a separate browser `/rsc_payload/` resource, so those payload resource fields are empty for this implementation.
 
 This is enough for a stronger technical positioning story.
-It is still not enough for a public product-page value claim without a logged-out route pair, deployed repeat, SEO checks, and renderer-internal profiling.
+It is still not enough for a public product-page value claim without a deployed repeat, SEO checks, and renderer-internal profiling.
 
 ### Demo surface
+
+Open the comparison lab first:
+
+- `https://gumroad.dev/rsc-demo`
+- `https://gumroad.dev/public_product/performance_demo`
+
+The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the
+streaming and serialized-payload differences visible immediately, then links to each implementation route for manual
+inspection.
 
 The implemented public product comparison route pair is:
 
@@ -82,15 +91,11 @@ The repo also exposes two dashboard comparison routes that use the same reduced 
 - `https://gumroad.dev/dashboard/inertia_demo`
 - `https://gumroad.dev/dashboard/rsc_demo`
 
-Hosted Control Plane staging for the current PR stack:
+Hosted Control Plane staging:
 
-- `https://rails-d98bp9qhcc8be.cpln.app/dashboard/inertia_demo`
-- `https://rails-d98bp9qhcc8be.cpln.app/dashboard/rsc_demo`
-
-The PR #17 review app is also available while that PR remains open:
-
-- `https://rails-d7fsgnq0evscp.cpln.app/dashboard/inertia_demo`
-- `https://rails-d7fsgnq0evscp.cpln.app/dashboard/rsc_demo`
+- `https://gumroad.reactonrails.com/rsc-demo`
+- `https://gumroad.reactonrails.com/public_product/inertia_demo`
+- `https://gumroad.reactonrails.com/public_product/rsc_demo`
 
 Login credentials for local verification:
 
@@ -124,13 +129,17 @@ These dashboard technical-proof screenshots were captured from a signed-in local
    If port `3035` is already occupied by another local repo, start both Rails and the dev server with the same override, for example:
    `SHAKAPACKER_DEV_SERVER_PORT=3036 bundle exec rails s -b 0.0.0.0 -p 3000`
    `SHAKAPACKER_DEV_SERVER_PORT=3036 npm run setup && ./bin/shakapacker-dev-server`
-4. Open the two demo routes and compare:
+4. Open the performance lab first:
+   `/rsc-demo`
+   The lab auto-loads both matched public routes, shows first streamed bytes, complete response timing, HTML response
+   size, and the serialized Inertia payload size.
+5. Open the two demo routes and compare:
    `/public_product/inertia_demo`
    `/public_product/rsc_demo`
    The dashboard technical proof routes remain available, but they are not the SEO/conversion proof:
    `/dashboard/inertia_demo`
    `/dashboard/rsc_demo`
-5. For the stricter benchmark method, run:
+6. For the stricter benchmark method, run:
    `ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
    Use `/dashboard/inertia_demo` and `/dashboard/rsc_demo` with a dashboard-specific label only when benchmarking the technical proof.
    For the longer headline-style local repeat, use the same command with `--cycles 8`.

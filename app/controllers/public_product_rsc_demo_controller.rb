@@ -10,13 +10,13 @@ class PublicProductRscDemoController < ApplicationController
   PUBLIC_DEMO_SELLER_EMAIL = "seller@gumroad.com"
 
   before_action :set_public_demo_product
-  before_action :prepare_public_product_page
+  before_action :prepare_public_product_page, only: %i[inertia_demo rsc_demo]
   before_action :prepare_live_streaming_response, only: :rsc_demo
   prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo]
   write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo]
   helper_method :content_security_policy_nonce
 
-  layout "inertia", only: :inertia_demo
+  layout "inertia", only: %i[inertia_demo performance_demo]
 
   def inertia_demo
     with_dashboard_comparison_timing("action_total") do
@@ -26,6 +26,17 @@ class PublicProductRscDemoController < ApplicationController
         render inertia: "PublicProduct/InertiaDemo", props: public_product_comparison_props
       end
     end
+  end
+
+  def performance_demo
+    @hide_layouts = true
+    @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+
+    set_meta_tag(title: "Gumroad RSC performance lab")
+    set_meta_tag(
+      name: "description",
+      content: "A logged-out comparison lab for Gumroad's Inertia control and React on Rails Pro + RSC public product routes."
+    )
   end
 
   def rsc_demo
