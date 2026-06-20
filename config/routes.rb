@@ -754,6 +754,8 @@ Rails.application.routes.draw do
     get "/dashboard" => "dashboard#index", as: :dashboard
     get "/dashboard/inertia_demo" => "dashboard#inertia_demo", as: :dashboard_inertia_demo
     get "/dashboard/rsc_demo" => "dashboard_rsc_demo#index", as: :dashboard_rsc_demo
+    get "/rsc-demo" => "public_product_rsc_demo#performance_demo", as: :rsc_performance_demo
+    get "/public_product/performance_demo" => "public_product_rsc_demo#performance_demo", as: :public_product_performance_demo
     get "/public_product/inertia_demo" => "public_product_rsc_demo#inertia_demo", as: :public_product_inertia_demo
     get "/public_product/rsc_demo" => "public_product_rsc_demo#rsc_demo", as: :public_product_rsc_demo
     get "/dashboard/customers_count" => "dashboard#customers_count", as: :dashboard_customers_count

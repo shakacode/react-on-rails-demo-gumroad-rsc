@@ -4,12 +4,16 @@
 
 The next RSC comparison should make the value visible on a logged-out, public, product-like page.
 
-Implemented route pair:
+Implemented routes:
 
+- performance lab: `/rsc-demo` or `/public_product/performance_demo`
 - `Inertia` control: `/public_product/inertia_demo`
 - `React on Rails Pro + RSC` demo: `/public_product/rsc_demo`
 
-Both routes render the same seeded public product content without requiring login.
+The lab and both implementation routes render without requiring login.
+The lab should be opened first because it auto-loads the matched Inertia and
+RSC routes, then shows first streamed bytes, complete response timing, HTML
+response size, and serialized Inertia payload size in the page itself.
 
 The route intentionally selects the `demo` product owned by the seeded
 `seller@gumroad.com` account and requires that product to be alive and
@@ -38,6 +42,7 @@ Keep the routes similar enough that the result is about rendering architecture, 
 
 The comparison should include:
 
+- a visible lab page that explains what difference a reviewer should notice before they open DevTools
 - identical or near-identical product title, description, media, pricing, creator, and call-to-action content
 - SEO-relevant HTML and metadata emitted in the initial document
 - equivalent above-the-fold content and layout

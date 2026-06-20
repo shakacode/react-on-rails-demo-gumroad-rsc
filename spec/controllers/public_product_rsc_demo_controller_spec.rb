@@ -36,6 +36,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(inertia.props.dig(:product, :seller, :name)).to eq("Public Creator")
       expect(inertia.props.dig(:product, :summary)).to eq("A concise public product summary.")
       expect(inertia.props.dig(:comparison, :control_url)).to eq(short_link_path(product))
+      expect(inertia.props.dig(:comparison, :performance_url)).to eq(public_product_performance_demo_path)
       expect(response.headers["Server-Timing"]).to include("action_total")
       expect(response.headers["Server-Timing"]).to include("compare_product")
       expect(response.headers["Server-Timing"]).to include("render_dispatch")
@@ -92,6 +93,22 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
     end
   end
 
+  describe "GET performance_demo" do
+    it "renders a logged-out public performance lab for the matched route pair" do
+      get :performance_demo
+
+      expect(response).to be_successful
+      expect(response).not_to redirect_to(login_path)
+      expect(response.body).to include("Gumroad RSC performance lab")
+      expect(response.body).to include(public_product_inertia_demo_path)
+      expect(response.body).to include(public_product_rsc_demo_path)
+      expect(response.body).to include("Live browser race")
+      expect(response.body).to include("First streamed bytes")
+      expect(response.body).to include("Serialized Inertia payload")
+      expect(assigns(:hide_layouts)).to be(true)
+    end
+  end
+
   describe "GET rsc_demo" do
     it "streams the public RSC route without requiring login" do
       expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
@@ -110,6 +127,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       )
       expect(assigns(:hide_layouts)).to be(true)
       expect(assigns(:public_product_rsc_demo_props).dig(:product, :name)).to eq("Public RSC widget")
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :performance_url)).to eq(public_product_performance_demo_path)
       expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :rsc_url)).to eq(public_product_rsc_demo_path)
       expect(assigns(:precomputed_rendering_context)).to include(:design_settings, :domain_settings, :user_agent_info)
       expect(response.headers["Last-Modified"]).to be_present

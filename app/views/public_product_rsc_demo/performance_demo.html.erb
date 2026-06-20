@@ -1,0 +1,350 @@
+<% content_for :script do %>
+  <script nonce="<%= content_security_policy_nonce %>">
+    (() => {
+      const root = document.querySelector("[data-rsc-performance-lab]");
+      if (!root) return;
+
+      const runButton = root.querySelector("[data-rerun-race]");
+      const runStatus = root.querySelector("[data-run-status]");
+      const summary = root.querySelector("[data-race-summary]");
+      const routes = {
+        inertia: root.getAttribute("data-inertia-url"),
+        rsc: root.getAttribute("data-rsc-url"),
+      };
+
+      const numberFormatter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
+
+      const formatMs = (value) => {
+        if (!Number.isFinite(value)) return "n/a";
+        return `${numberFormatter.format(value)} ms`;
+      };
+
+      const formatBytes = (value) => {
+        if (!Number.isFinite(value)) return "n/a";
+        if (value >= 1024 * 1024) return `${(value / 1024 / 1024).toFixed(2)} MB`;
+        if (value >= 1024) return `${(value / 1024).toFixed(1)} KB`;
+        return `${numberFormatter.format(value)} B`;
+      };
+
+      const setText = (selector, value) => {
+        const element = root.querySelector(selector);
+        if (element) element.textContent = value;
+      };
+
+      const setMetric = (variant, metric, value) => {
+        setText(`[data-metric="${variant}.${metric}"]`, value);
+      };
+
+      const setCardState = (variant, state) => {
+        const card = root.querySelector(`[data-route-card="${variant}"]`);
+        if (card) card.setAttribute("data-state", state);
+      };
+
+      const urlWithCacheBust = (path) => {
+        const url = new URL(path, window.location.href);
+        url.searchParams.set("perf_lab_run", `${Date.now()}-${Math.random().toString(16).slice(2)}`);
+        return url.toString();
+      };
+
+      const htmlDecode = (value) => {
+        const textarea = document.createElement("textarea");
+        textarea.innerHTML = value;
+        return textarea.value;
+      };
+
+      const encodedByteLength = (value) => new TextEncoder().encode(value).byteLength;
+
+      const inertiaPayloadBytes = (html) => {
+        const match = html.match(/data-page="([^"]*)"/);
+        if (!match) return 0;
+        return encodedByteLength(htmlDecode(match[1]));
+      };
+
+      const measureRoute = async (variant, path) => {
+        setCardState(variant, "loading");
+        setMetric(variant, "status", "Loading...");
+        setMetric(variant, "firstChunk", "...");
+        setMetric(variant, "complete", "...");
+        setMetric(variant, "bytes", "...");
+        setMetric(variant, "payload", "...");
+        setMetric(variant, "serverTiming", "Waiting for headers");
+
+        const startedAt = performance.now();
+        const response = await fetch(urlWithCacheBust(path), {
+          cache: "no-store",
+          credentials: "omit",
+          headers: {
+            Accept: "text/html",
+            "X-Gumroad-Rsc-Performance-Lab": "1",
+          },
+        });
+        const headersAt = performance.now();
+        const serverTiming = response.headers.get("Server-Timing") || "No Server-Timing header exposed";
+
+        if (!response.ok) {
+          throw new Error(`${response.status} ${response.statusText || "response error"}`);
+        }
+
+        let firstChunkAt = null;
+        let bytes = 0;
+        let html = "";
+
+        if (response.body?.getReader) {
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+
+            if (firstChunkAt == null) firstChunkAt = performance.now();
+            bytes += value.byteLength;
+            html += decoder.decode(value, { stream: true });
+            setMetric(variant, "bytes", formatBytes(bytes));
+          }
+
+          html += decoder.decode();
+        } else {
+          html = await response.text();
+          bytes = encodedByteLength(html);
+          firstChunkAt = headersAt;
+        }
+
+        const completedAt = performance.now();
+        const payloadBytes = inertiaPayloadBytes(html);
+        const result = {
+          bytes,
+          firstChunkMs: (firstChunkAt || headersAt) - startedAt,
+          headersMs: headersAt - startedAt,
+          inertiaPayloadBytes: payloadBytes,
+          serverTiming,
+          totalMs: completedAt - startedAt,
+        };
+
+        setMetric(variant, "status", "Complete");
+        setMetric(variant, "firstChunk", formatMs(result.firstChunkMs));
+        setMetric(variant, "complete", formatMs(result.totalMs));
+        setMetric(variant, "bytes", formatBytes(result.bytes));
+        setMetric(variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
+        setMetric(variant, "serverTiming", serverTiming);
+        setCardState(variant, "complete");
+
+        return result;
+      };
+
+      const describeResults = (inertia, rsc) => {
+        const completionDelta = inertia.totalMs - rsc.totalMs;
+        const firstChunkDelta = inertia.firstChunkMs - rsc.firstChunkMs;
+        const byteDelta = inertia.bytes - rsc.bytes;
+        const payloadCopy =
+          inertia.inertiaPayloadBytes > 0
+            ? ` The Inertia document included ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document did not expose a data-page payload.`
+            : "";
+        const completionCopy =
+          completionDelta >= 0
+            ? `RSC completed ${formatMs(completionDelta)} faster in this browser fetch.`
+            : `Inertia completed ${formatMs(Math.abs(completionDelta))} faster in this browser fetch.`;
+        const firstChunkCopy =
+          firstChunkDelta >= 0
+            ? ` RSC delivered first streamed bytes ${formatMs(firstChunkDelta)} sooner.`
+            : ` Inertia delivered first bytes ${formatMs(Math.abs(firstChunkDelta))} sooner.`;
+        const byteCopy =
+          byteDelta >= 0
+            ? ` RSC transferred ${formatBytes(byteDelta)} less HTML in this run.`
+            : ` Inertia transferred ${formatBytes(Math.abs(byteDelta))} less HTML in this run.`;
+
+        return `${completionCopy}${firstChunkCopy}${byteCopy}${payloadCopy}`;
+      };
+
+      const runRace = async () => {
+        runButton?.setAttribute("disabled", "disabled");
+        if (runStatus) runStatus.textContent = "Running same-origin stream fetches...";
+        if (summary) summary.textContent = "The lab is loading both routes with cache-busting query strings.";
+
+        const [inertiaResult, rscResult] = await Promise.allSettled([
+          measureRoute("inertia", routes.inertia),
+          measureRoute("rsc", routes.rsc),
+        ]);
+
+        if (inertiaResult.status === "fulfilled" && rscResult.status === "fulfilled") {
+          if (summary) summary.textContent = describeResults(inertiaResult.value, rscResult.value);
+          if (runStatus) runStatus.textContent = "Race complete";
+        } else {
+          for (const [variant, result] of [
+            ["inertia", inertiaResult],
+            ["rsc", rscResult],
+          ]) {
+            if (result.status === "rejected") {
+              setCardState(variant, "error");
+              setMetric(variant, "status", "Failed");
+              setMetric(variant, "serverTiming", result.reason?.message || "Request failed");
+            }
+          }
+          if (summary) summary.textContent = "One route failed to load. Check the renderer, seeded product, and Rails logs, then rerun the race.";
+          if (runStatus) runStatus.textContent = "Race failed";
+        }
+
+        runButton?.removeAttribute("disabled");
+      };
+
+      runButton?.addEventListener("click", runRace);
+      runRace();
+    })();
+  </script>
+<% end %>
+
+<div
+  class="dd dd-performance"
+  data-rsc-performance-lab
+  data-inertia-url="<%= public_product_inertia_demo_path %>"
+  data-rsc-url="<%= public_product_rsc_demo_path %>"
+>
+  <aside class="dd-side">
+    <div class="dd-brand">
+      <a href="<%= rsc_performance_demo_path %>">Gumroad</a>
+      <p>React on Rails Pro + RSC lab</p>
+    </div>
+
+    <nav class="dd-nav" aria-label="Public product performance lab routes">
+      <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
+      <a href="<%= public_product_inertia_demo_path %>">Inertia route</a>
+      <a href="<%= public_product_rsc_demo_path %>">RSC route</a>
+      <a href="<%= short_link_path(@product) %>">Current product page</a>
+    </nav>
+
+    <footer class="dd-meta">
+      <strong><%= @product.name %></strong>
+      <p>Logged-out public product proof</p>
+    </footer>
+  </aside>
+
+  <main class="dd-main">
+    <header class="dd-header dd-hero-grid">
+      <div>
+        <p class="dd-eyebrow">Public product comparison</p>
+        <h1>Gumroad RSC performance lab</h1>
+        <p>
+          This page makes the Inertia versus React on Rails Pro + RSC comparison visible as soon as the demo loads.
+          It runs a same-origin browser fetch against both logged-out product routes and shows stream timing, response
+          size, and serialized payload differences.
+        </p>
+      </div>
+
+      <div class="dd-actions">
+        <a href="<%= public_product_inertia_demo_path %>" class="dd-btn">Open Inertia route</a>
+        <a href="<%= public_product_rsc_demo_path %>" class="dd-btn">Open RSC route</a>
+      </div>
+    </header>
+
+    <div class="dd-body">
+      <p class="dd-note">
+        The point of this demo is not that Rspack changes page runtime performance. The runtime bet is that RSC can
+        reduce client-side work and stream public, SEO-sensitive product content early enough to justify the extra
+        architecture.
+      </p>
+
+      <section class="dd-section">
+        <header>
+          <h2>Live browser race</h2>
+          <p>
+            The lab starts automatically and can be rerun. It measures the HTML stream for the two matched routes, not
+            full page navigation or LCP. Use the benchmark runner for the final performance claim.
+          </p>
+        </header>
+
+        <div class="dd-race-toolbar">
+          <button type="button" class="dd-btn" data-rerun-race>Rerun race</button>
+          <span class="dd-stamp" data-run-status>Waiting to start</span>
+        </div>
+
+        <div class="dd-lab-grid">
+          <article class="dd-race-card" data-route-card="inertia" data-state="idle">
+            <header>
+              <p class="dd-eyebrow">Control</p>
+              <h3>Inertia public product route</h3>
+              <span data-metric="inertia.status">Waiting</span>
+            </header>
+            <dl>
+              <div>
+                <dt>First streamed bytes</dt>
+                <dd data-metric="inertia.firstChunk">...</dd>
+              </div>
+              <div>
+                <dt>Complete response</dt>
+                <dd data-metric="inertia.complete">...</dd>
+              </div>
+              <div>
+                <dt>HTML response size</dt>
+                <dd data-metric="inertia.bytes">...</dd>
+              </div>
+              <div>
+                <dt>Serialized Inertia payload</dt>
+                <dd data-metric="inertia.payload">...</dd>
+              </div>
+            </dl>
+            <p class="dd-server-timing" data-metric="inertia.serverTiming">Waiting for Server-Timing</p>
+          </article>
+
+          <article class="dd-race-card" data-route-card="rsc" data-state="idle">
+            <header>
+              <p class="dd-eyebrow">Candidate</p>
+              <h3>React on Rails Pro + RSC route</h3>
+              <span data-metric="rsc.status">Waiting</span>
+            </header>
+            <dl>
+              <div>
+                <dt>First streamed bytes</dt>
+                <dd data-metric="rsc.firstChunk">...</dd>
+              </div>
+              <div>
+                <dt>Complete response</dt>
+                <dd data-metric="rsc.complete">...</dd>
+              </div>
+              <div>
+                <dt>HTML response size</dt>
+                <dd data-metric="rsc.bytes">...</dd>
+              </div>
+              <div>
+                <dt>Serialized Inertia payload</dt>
+                <dd data-metric="rsc.payload">...</dd>
+              </div>
+            </dl>
+            <p class="dd-server-timing" data-metric="rsc.serverTiming">Waiting for Server-Timing</p>
+          </article>
+        </div>
+
+        <p class="dd-note is-info" data-race-summary>
+          The live race will summarize the current browser run here.
+        </p>
+      </section>
+
+      <section class="dd-section">
+        <header>
+          <h2>What should be obvious</h2>
+          <p>The demo is valuable only if public, buyer-facing pages improve enough to justify the added complexity.</p>
+        </header>
+
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Inertia control:</strong> the page includes a serialized <code>data-page</code> payload that the
+              client runtime uses to render the product experience.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>RSC candidate:</strong> the server component stream can send crawlable product content and
+              conversion context without treating the whole public page as one client-rendered island.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Decision bar:</strong> a Gumroad-facing pitch should focus on public product pages, SEO,
+              conversion-sensitive loading, client JS reduction, and measured LCP/navigation wins.
+            </p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>

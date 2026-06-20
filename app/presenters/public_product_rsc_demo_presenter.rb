@@ -36,6 +36,7 @@ class PublicProductRscDemoPresenter
       }.compact,
       comparison: {
         control_url: short_link_path(product),
+        performance_url: public_product_performance_demo_path,
         inertia_url: public_product_inertia_demo_path,
         rsc_url: public_product_rsc_demo_path,
       }

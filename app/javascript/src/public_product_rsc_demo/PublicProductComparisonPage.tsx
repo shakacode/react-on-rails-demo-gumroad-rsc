@@ -43,6 +43,7 @@ type PublicProductProps = {
 
 type PublicProductComparisonLinks = {
   control_url: string;
+  performance_url: string;
   inertia_url: string;
   rsc_url: string;
 };
@@ -97,6 +98,7 @@ const ProductNav = ({
   currentView: PublicProductComparisonVariant;
 }) => {
   const links = [
+    { href: comparison.performance_url, label: "Performance lab", view: null },
     { href: comparison.control_url, label: "Current product page", view: null },
     { href: comparison.inertia_url, label: "Inertia demo", view: "inertia" },
     { href: comparison.rsc_url, label: "RSC demo", view: "rsc" },
@@ -201,6 +203,9 @@ export default function PublicProductComparisonPage({ comparison, locale, produc
           </div>
 
           <div className="dd-actions">
+            <a href={comparison.performance_url} className="dd-btn">
+              Open performance lab
+            </a>
             <a href={compareHref} className="dd-btn">
               {copy.compareLabel}
             </a>
