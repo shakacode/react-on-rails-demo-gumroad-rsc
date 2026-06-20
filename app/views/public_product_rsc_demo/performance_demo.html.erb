@@ -60,12 +60,47 @@
         return encodedByteLength(htmlDecode(match[1]));
       };
 
+      const routeScriptSources = (html) => {
+        const documentFragment = new DOMParser().parseFromString(html, "text/html");
+        return Array.from(documentFragment.querySelectorAll("script[src]"), (script) =>
+          new URL(script.getAttribute("src"), window.location.href).toString(),
+        );
+      };
+
+      const routeScriptBytes = async (sources) => {
+        const results = await Promise.all(
+          sources.map(async (source) => {
+            try {
+              const sourceUrl = new URL(source, window.location.href);
+              const response = await fetch(sourceUrl.toString(), { cache: "force-cache", credentials: "omit" });
+              if (!response.ok) return { bytes: 0, readable: false };
+
+              return { bytes: (await response.arrayBuffer()).byteLength, readable: true };
+            } catch {
+              return { bytes: 0, readable: false };
+            }
+          }),
+        );
+
+        return {
+          bytes: results.reduce((total, result) => total + result.bytes, 0),
+          readableCount: results.filter((result) => result.readable).length,
+          unreadableCount: results.filter((result) => !result.readable).length,
+        };
+      };
+
+      const formatScriptMetric = ({ bytes, readableCount, unreadableCount }, totalCount) => {
+        const readableCopy = `${formatBytes(bytes)} across ${readableCount}/${totalCount} readable scripts`;
+        return unreadableCount > 0 ? `${readableCopy}; ${unreadableCount} unavailable` : readableCopy;
+      };
+
       const measureRoute = async (variant, path) => {
         setCardState(variant, "loading");
         setMetric(variant, "status", "Loading...");
         setMetric(variant, "firstChunk", "...");
         setMetric(variant, "complete", "...");
         setMetric(variant, "bytes", "...");
+        setMetric(variant, "scripts", "...");
         setMetric(variant, "payload", "...");
         setMetric(variant, "serverTiming", "Waiting for headers");
 
@@ -112,23 +147,41 @@
 
         const completedAt = performance.now();
         const payloadBytes = inertiaPayloadBytes(html);
+        const scriptSources = routeScriptSources(html);
         const result = {
           bytes,
           firstChunkMs: (firstChunkAt || headersAt) - startedAt,
           headersMs: headersAt - startedAt,
           inertiaPayloadBytes: payloadBytes,
+          scriptBytes: 0,
+          scriptCount: scriptSources.length,
+          scriptReadableCount: 0,
+          scriptSources,
+          scriptUnreadableCount: scriptSources.length,
           serverTiming,
           totalMs: completedAt - startedAt,
         };
 
-        setMetric(variant, "status", "Complete");
+        setMetric(variant, "status", "HTML complete");
         setMetric(variant, "firstChunk", formatMs(result.firstChunkMs));
         setMetric(variant, "complete", formatMs(result.totalMs));
         setMetric(variant, "bytes", formatBytes(result.bytes));
+        setMetric(variant, "scripts", "Waiting for route script pass");
         setMetric(variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
         setMetric(variant, "serverTiming", serverTiming);
-        setCardState(variant, "complete");
 
+        return result;
+      };
+
+      const measureRouteScripts = async (variant, result) => {
+        setMetric(variant, "status", "Measuring scripts...");
+        const scriptMetric = await routeScriptBytes(result.scriptSources);
+        result.scriptBytes = scriptMetric.bytes;
+        result.scriptReadableCount = scriptMetric.readableCount;
+        result.scriptUnreadableCount = scriptMetric.unreadableCount;
+        setMetric(variant, "scripts", formatScriptMetric(scriptMetric, result.scriptCount));
+        setMetric(variant, "status", "Complete");
+        setCardState(variant, "complete");
         return result;
       };
 
@@ -136,10 +189,17 @@
         const completionDelta = inertia.totalMs - rsc.totalMs;
         const firstChunkDelta = inertia.firstChunkMs - rsc.firstChunkMs;
         const byteDelta = inertia.bytes - rsc.bytes;
+        const scriptDelta = inertia.scriptBytes - rsc.scriptBytes;
         const payloadCopy =
           inertia.inertiaPayloadBytes > 0
             ? ` The Inertia document included ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document did not expose a data-page payload.`
             : "";
+        const hasUnavailableScripts = inertia.scriptUnreadableCount > 0 || rsc.scriptUnreadableCount > 0;
+        const scriptCopy = hasUnavailableScripts
+          ? ` Readable route JavaScript bytes: Inertia ${formatBytes(inertia.scriptBytes)} (${inertia.scriptReadableCount}/${inertia.scriptCount} scripts), RSC ${formatBytes(rsc.scriptBytes)} (${rsc.scriptReadableCount}/${rsc.scriptCount} scripts).`
+          : scriptDelta >= 0
+            ? ` RSC referenced ${formatBytes(scriptDelta)} less route JavaScript.`
+            : ` Inertia referenced ${formatBytes(Math.abs(scriptDelta))} less route JavaScript.`;
         const completionCopy =
           completionDelta >= 0
             ? `RSC completed ${formatMs(completionDelta)} faster in this browser fetch.`
@@ -153,7 +213,7 @@
             ? ` RSC transferred ${formatBytes(byteDelta)} less HTML in this run.`
             : ` Inertia transferred ${formatBytes(Math.abs(byteDelta))} less HTML in this run.`;
 
-        return `${completionCopy}${firstChunkCopy}${byteCopy}${payloadCopy}`;
+        return `${completionCopy}${firstChunkCopy}${byteCopy}${scriptCopy}${payloadCopy}`;
       };
 
       const runRace = async () => {
@@ -167,9 +227,24 @@
         ]);
 
         if (inertiaResult.status === "fulfilled" && rscResult.status === "fulfilled") {
-          if (summary) summary.textContent = describeResults(inertiaResult.value, rscResult.value);
+          if (runStatus) runStatus.textContent = "Measuring route script bytes...";
+          if (summary) summary.textContent = "HTML race complete. The lab is measuring referenced route scripts now.";
+          const [inertia, rsc] = await Promise.all([
+            measureRouteScripts("inertia", inertiaResult.value),
+            measureRouteScripts("rsc", rscResult.value),
+          ]);
+          if (summary) summary.textContent = describeResults(inertia, rsc);
           if (runStatus) runStatus.textContent = "Race complete";
         } else {
+          await Promise.all(
+            [
+              ["inertia", inertiaResult],
+              ["rsc", rscResult],
+            ]
+              .filter(([, result]) => result.status === "fulfilled")
+              .map(([variant, result]) => measureRouteScripts(variant, result.value)),
+          );
+
           for (const [variant, result] of [
             ["inertia", inertiaResult],
             ["rsc", rscResult],
@@ -278,6 +353,10 @@
                 <dd data-metric="inertia.bytes">...</dd>
               </div>
               <div>
+                <dt>Route script bytes</dt>
+                <dd data-metric="inertia.scripts">...</dd>
+              </div>
+              <div>
                 <dt>Serialized Inertia payload</dt>
                 <dd data-metric="inertia.payload">...</dd>
               </div>
@@ -303,6 +382,10 @@
               <div>
                 <dt>HTML response size</dt>
                 <dd data-metric="rsc.bytes">...</dd>
+              </div>
+              <div>
+                <dt>Route script bytes</dt>
+                <dd data-metric="rsc.scripts">...</dd>
               </div>
               <div>
                 <dt>Serialized Inertia payload</dt>

@@ -104,6 +104,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include(public_product_rsc_demo_path)
       expect(response.body).to include("Live browser race")
       expect(response.body).to include("First streamed bytes")
+      expect(response.body).to include("Route script bytes")
       expect(response.body).to include("Serialized Inertia payload")
       expect(assigns(:hide_layouts)).to be(true)
     end

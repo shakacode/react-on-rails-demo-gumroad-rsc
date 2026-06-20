@@ -76,8 +76,8 @@ Open the comparison lab first:
 - `https://gumroad.dev/public_product/performance_demo`
 
 The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the
-streaming and serialized-payload differences visible immediately, then links to each implementation route for manual
-inspection.
+streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route
+for manual inspection.
 
 The implemented public product comparison route pair is:
 
@@ -132,7 +132,7 @@ These dashboard technical-proof screenshots were captured from a signed-in local
 4. Open the performance lab first:
    `/rsc-demo`
    The lab auto-loads both matched public routes, shows first streamed bytes, complete response timing, HTML response
-   size, and the serialized Inertia payload size.
+   size, route script bytes, and the serialized Inertia payload size.
 5. Open the two demo routes and compare:
    `/public_product/inertia_demo`
    `/public_product/rsc_demo`
