@@ -67,3 +67,4 @@ output/
 ssr-generated/
 .node-renderer-bundles/
 .playwright-cli/
+test-results/

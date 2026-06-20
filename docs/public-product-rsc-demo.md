@@ -13,7 +13,8 @@ Implemented routes:
 The lab and both implementation routes render without requiring login.
 The lab should be opened first because it auto-loads the matched Inertia and
 RSC routes, then shows first streamed bytes, complete response timing, HTML
-response size, and serialized Inertia payload size in the page itself.
+response size, route script bytes, and serialized Inertia payload size in the
+page itself.
 
 The route intentionally selects the `demo` product owned by the seeded
 `seller@gumroad.com` account and requires that product to be alive and

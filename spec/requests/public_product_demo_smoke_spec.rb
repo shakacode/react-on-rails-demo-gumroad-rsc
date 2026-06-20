@@ -27,6 +27,7 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_selector("h1", text: "Gumroad RSC performance lab")
     expect(page).to have_text("Live browser race")
     expect(page).to have_text("First streamed bytes")
+    expect(page).to have_text("Route script bytes")
     expect(page).to have_text("Serialized Inertia payload")
     expect(page).to have_link("Open Inertia route", href: public_product_inertia_demo_path)
     expect(page).to have_link("Open RSC route", href: public_product_rsc_demo_path)
