@@ -2,18 +2,18 @@
 
 ## Goal
 
-Decide whether a `React on Rails Pro + React 19 + RSC` public product page is worth the extra complexity compared with a matched `Inertia` public product page.
+Decide whether a public product page using React Server Components through `react_on_rails`, React on Rails Pro, and React 19 is worth the extra complexity compared with a matched `Inertia` public product page.
 
 The question is not whether `Rspack` is faster to build with. That is already established.
 
-The question is whether `RSC` can make the logged-out, buyer-facing page better enough to matter for SEO, initial rendering, and conversion-sensitive loading behavior.
+The question is whether React Server Components delivered by React on Rails Pro can make the logged-out, buyer-facing page better enough to matter for SEO, initial rendering, and conversion-sensitive loading behavior.
 
 ## Apples-to-apples rule
 
 Compare the same public product-like surface:
 
 - baseline: `Inertia` control at `/public_product/inertia_demo`
-- candidate: `React on Rails Pro + RSC` at `/public_product/rsc_demo`
+- candidate: React Server Components via React on Rails Pro at `/public_product/rsc_demo`
 
 Keep these constant where possible:
 
@@ -35,7 +35,7 @@ Target changes:
 
 - keep the public product page intent and UI broadly the same
 - replace the Inertia route with a React on Rails Pro route for this page only
-- use `RSC` for product facts, description, media framing, creator context, and other read-heavy sections
+- use React Server Components for product facts, description, media framing, creator context, and other read-heavy sections
 - keep only truly interactive pieces as client components
 
 ## First candidate sections

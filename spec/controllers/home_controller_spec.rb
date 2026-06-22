@@ -14,7 +14,7 @@ describe HomeController do
       expect(response.body).to include("Consumer-facing pages are the value proof")
       expect(response.body).to include("Mobile buyer pages")
       expect(response.body).to include("Before: Inertia")
-      expect(response.body).to include("After: React on Rails Pro + RSC")
+      expect(response.body).to include("After: React Server Components")
       expect(response.body).to include(rsc_performance_demo_path)
       expect(response.body).to include(public_product_inertia_demo_path)
       expect(response.body).to include(public_product_rsc_demo_path)

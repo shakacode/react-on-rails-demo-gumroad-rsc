@@ -154,7 +154,7 @@ This is the first evidence that supports a real performance positioning story.
 That means the story is now more precise:
 
 - `Rspack` is the build and dev-loop win.
-- A carefully bounded `React on Rails Pro + RSC` surface can also produce a user-visible page-load win.
+- A carefully bounded React Server Components via React on Rails Pro surface can also produce a user-visible page-load win.
 - The tradeoff is not free, because the server response is still modestly slower than the Inertia control even after the response payload was almost fully normalized.
 
 This is promising, but it is still not enough for an upstream migration pitch by itself.
@@ -429,24 +429,24 @@ Artifacts:
 
 ### Browser metrics on the production-like repeat
 
-| Metric                     | Inertia demo |   RSC demo |     Delta |
-| -------------------------- | -----------: | ---------: | --------: |
-| Median navigation duration |   `775.40ms` | `607.15ms` |  `-21.7%` |
-| Median response end        |   `644.80ms` | `588.80ms` |   `-8.7%` |
-| Median LCP                 |   `794.00ms` | `634.00ms` |  `-20.2%` |
-| Median HTML transfer       |   `14,223` B | `12,373` B |  `-13.0%` |
-| JS request count           |          `6` |        `1` |  `-83.3%` |
-| p95 response end           |   `730.62ms` | `768.25ms` |   `+5.2%` |
+| Metric                     | Inertia demo |   RSC demo |    Delta |
+| -------------------------- | -----------: | ---------: | -------: |
+| Median navigation duration |   `775.40ms` | `607.15ms` | `-21.7%` |
+| Median response end        |   `644.80ms` | `588.80ms` |  `-8.7%` |
+| Median LCP                 |   `794.00ms` | `634.00ms` | `-20.2%` |
+| Median HTML transfer       |   `14,223` B | `12,373` B | `-13.0%` |
+| JS request count           |          `6` |        `1` | `-83.3%` |
+| p95 response end           |   `730.62ms` | `768.25ms` |  `+5.2%` |
 
 ### Route-scoped server metrics on the production-like repeat
 
-| Metric                           | Inertia demo |   RSC demo |     Delta |
-| -------------------------------- | -----------: | ---------: | --------: |
-| Median controller `action_total` |   `346.87ms` | `339.20ms` |   `-2.2%` |
-| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |   `-5.5%` |
-| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |   `-1.4%` |
-| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` |  `-12.8%` |
-| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |   `+8.3%` |
+| Metric                           | Inertia demo |   RSC demo |    Delta |
+| -------------------------------- | -----------: | ---------: | -------: |
+| Median controller `action_total` |   `346.87ms` | `339.20ms` |  `-2.2%` |
+| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |  `-5.5%` |
+| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |  `-1.4%` |
+| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` | `-12.8%` |
+| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |  `+8.3%` |
 
 ### Interpretation of the production-like repeat
 
@@ -479,14 +479,14 @@ Today’s credible story is:
 
 - `Shakapacker + Rspack` can deliver immediate build and dev-loop wins for a real Inertia app.
 - `React 19 + Rspack` is technically viable here.
-- `React on Rails Pro + RSC` now has matched-surface evidence of a user-visible win on a stricter production-like alternating benchmark.
+- React Server Components via React on Rails Pro now has matched-surface evidence of a user-visible win on a stricter production-like alternating benchmark.
 
 Today’s non-credible story is:
 
 - "The full Gumroad dashboard is already faster under the current RSC work."
 - "The server is universally faster with RSC."
 
-The next demo only helps if the matched `React on Rails Pro + RSC` implementation continues to beat the matched Inertia control on metrics that matter:
+The next demo only helps if the matched React Server Components via React on Rails Pro implementation continues to beat the matched Inertia control on metrics that matter:
 
 - equal or better LCP
 - equal or better total navigation duration

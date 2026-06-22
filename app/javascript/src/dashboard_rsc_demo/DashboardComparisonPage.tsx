@@ -209,7 +209,7 @@ const variantCopy = {
   },
   rsc: {
     title: "Creator home RSC demo",
-    subtitle: "React on Rails Pro + RSC demo",
+    subtitle: "React Server Components via React on Rails Pro demo",
     lead: "Same seller data, trimmed to the read-heavy slice where server rendering can win.",
     alert: "Checklist and polling widgets are excluded so this stays a focused RSC route.",
     compareHref: () => Routes.dashboard_inertia_demo_path(),

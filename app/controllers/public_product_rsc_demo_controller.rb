@@ -35,7 +35,7 @@ class PublicProductRscDemoController < ApplicationController
     set_meta_tag(title: "Gumroad RSC performance lab")
     set_meta_tag(
       name: "description",
-      content: "A logged-out comparison lab for Gumroad's Inertia control and React on Rails Pro + RSC public product routes."
+      content: "A logged-out comparison lab for Gumroad's Inertia control and React Server Components via React on Rails Pro public product routes."
     )
   end
 

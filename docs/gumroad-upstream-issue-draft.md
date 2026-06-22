@@ -11,14 +11,14 @@ The right upstream goal is narrow:
 The current best candidate is the reduced dashboard comparison:
 
 - `Inertia` control: `/dashboard/inertia_demo`
-- `React on Rails Pro + RSC` demo: `/dashboard/rsc_demo`
+- React Server Components via React on Rails Pro demo: `/dashboard/rsc_demo`
 
 ## Paste-ready issue draft
 
 ```md
 ## Proposal
 
-I put together a public experiment repo that tracks Gumroad and compares a matched Inertia control against a bounded React on Rails Pro + React 19 + RSC implementation on one reduced dashboard surface:
+I put together a public experiment repo that tracks Gumroad and compares a matched Inertia control against a bounded React Server Components implementation using `react_on_rails`, React on Rails Pro, and React 19 on one reduced dashboard surface:
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
 - Production-like benchmark PR: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12

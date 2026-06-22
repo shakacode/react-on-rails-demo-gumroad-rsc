@@ -5,11 +5,11 @@
 Build a credible comparison between:
 
 - Gumroad as it exists today on Inertia
-- A targeted React on Rails Pro + React 19 + RSC implementation
+- A targeted React Server Components implementation using `react_on_rails`, React on Rails Pro, and React 19
 
 The comparison should answer one question clearly:
 
-Would React on Rails Pro be meaningfully better for public, buyer-facing Gumroad pages where initial rendering quality can affect SEO and conversion?
+Would React Server Components through React on Rails Pro be meaningfully better for public, buyer-facing Gumroad pages where initial rendering quality can affect SEO and conversion?
 
 ## Non-goals
 
@@ -30,7 +30,7 @@ React on Rails Pro is most likely to be competitive on pages that are:
 Important distinction:
 
 - `Rspack` is the build-time and developer-experience lever
-- `RSC` is the route-runtime lever
+- React Server Components through React on Rails Pro are the route-runtime lever
 
 It is less likely to be competitive on simple CRUD-style Rails pages where Inertia already fits well, or on logged-in administrative pages where SEO is irrelevant.
 
@@ -49,7 +49,7 @@ The existing `Dashboard` comparison is a useful technical proof that the stack c
 The main product proof is now the public product-like route pair:
 
 - `Inertia` control: `/public_product/inertia_demo`
-- `React on Rails Pro + RSC` demo: `/public_product/rsc_demo`
+- React Server Components via React on Rails Pro demo: `/public_product/rsc_demo`
 
 The experiment fails if the React on Rails Pro path mostly adds complexity without a measurable payoff.
 
@@ -110,6 +110,6 @@ Do not take this upstream unless the experiment can show:
 - objective wins or a very strong qualitative improvement
 - acceptable maintenance overhead
 
-For the first runtime pitch, "objective wins" should mean that the `React on Rails Pro + RSC` public product route beats the matched Inertia public product route on client JS cost, initial product HTML or metadata quality, and at least one user-facing load metric.
+For the first runtime pitch, "objective wins" should mean that the React Server Components via React on Rails Pro public product route beats the matched Inertia public product route on client JS cost, initial product HTML or metadata quality, and at least one user-facing load metric.
 
 Without that, this should remain a ShakaCode experiment repo rather than an upstream proposal.
