@@ -4,7 +4,7 @@
 
 Show one honest claim:
 
-- a bounded `React on Rails Pro + RSC` surface can beat a matched `Inertia` control on user-visible metrics
+- a bounded React Server Components via React on Rails Pro surface can beat a matched `Inertia` control on user-visible metrics
 
 Do not claim:
 

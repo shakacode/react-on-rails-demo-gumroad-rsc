@@ -8,7 +8,7 @@ Implemented routes:
 
 - performance lab: `/rsc-demo` or `/public_product/performance_demo`
 - `Inertia` control: `/public_product/inertia_demo`
-- `React on Rails Pro + RSC` demo: `/public_product/rsc_demo`
+- React Server Components via React on Rails Pro demo: `/public_product/rsc_demo`
 
 The lab and both implementation routes render without requiring login.
 The lab should be opened first because it auto-loads the matched Inertia and
@@ -35,7 +35,7 @@ A public product page is where rendering quality can affect:
 - conversion-sensitive product storytelling
 - client JavaScript cost before a visitor decides whether to buy
 
-That makes the public product route the better place to compare Gumroad/Inertia-style rendering with React on Rails Pro + RSC.
+That makes the public product route the better place to compare Gumroad/Inertia-style rendering with React Server Components via React on Rails Pro.
 
 ## What to compare
 
@@ -83,6 +83,6 @@ The existing dashboard routes remain useful:
 - `/dashboard/inertia_demo`
 - `/dashboard/rsc_demo`
 
-They prove that the React on Rails Pro + RSC path can run inside this app, use real data, isolate demo assets, and be measured against a matched Inertia control.
+They prove that the React Server Components via React on Rails Pro path can run inside this app, use real data, isolate demo assets, and be measured against a matched Inertia control.
 
 They should not be presented as the main SEO or conversion proof. Logged-in dashboard pages are not crawlable product landing pages, and they do not directly test the buyer-facing path where public rendering matters most.

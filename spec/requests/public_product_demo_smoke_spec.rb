@@ -61,7 +61,7 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_current_path(public_product_rsc_demo_path, ignore_query: true)
     expect(page).not_to have_current_path(login_path, ignore_query: true)
     expect(page).to have_selector("h1", text: "Public RSC widget")
-    expect(page).to have_text("React on Rails Pro + RSC public product demo")
+    expect(page).to have_text("React Server Components via React on Rails Pro public product demo")
     expect(page).to have_text("Buyer-facing product story for the public route.")
     expect(page).to have_text("Public Creator")
     expect(page).to have_text("$19")

@@ -5,7 +5,7 @@
 This repo contains a constrained dashboard comparison between:
 
 - `Inertia` control route: `/dashboard/inertia_demo`
-- `React on Rails Pro + RSC` route: `/dashboard/rsc_demo`
+- React Server Components via React on Rails Pro route: `/dashboard/rsc_demo`
 
 Both routes use the same reduced creator-home presenter surface and the same outer `inertia` layout.
 
@@ -14,7 +14,7 @@ This dashboard pair is a technical proof for integration, asset isolation, and b
 The implemented public product value-proof pair is:
 
 - `Inertia` control route: `/public_product/inertia_demo`
-- `React on Rails Pro + RSC` route: `/public_product/rsc_demo`
+- React Server Components via React on Rails Pro route: `/public_product/rsc_demo`
 
 Use `--public` with the benchmark runner for this pair so measurements avoid login and dashboard cookies.
 
@@ -74,24 +74,24 @@ Artifacts:
 
 ### Browser metrics
 
-| Metric                    | Inertia demo |   RSC demo |     Delta |
-| ------------------------- | -----------: | ---------: | --------: |
-| Median navigation duration |   `775.40ms` | `607.15ms` |  `-21.7%` |
-| Median response end        |   `644.80ms` | `588.80ms` |   `-8.7%` |
-| Median LCP                 |   `794.00ms` | `634.00ms` |  `-20.2%` |
-| Median HTML transfer       | `14,223` B   | `12,373` B |  `-13.0%` |
-| JS request count           |          `6` |        `1` |  `-83.3%` |
-| p95 response end           |   `730.62ms` | `768.25ms` |   `+5.2%` |
+| Metric                     | Inertia demo |   RSC demo |    Delta |
+| -------------------------- | -----------: | ---------: | -------: |
+| Median navigation duration |   `775.40ms` | `607.15ms` | `-21.7%` |
+| Median response end        |   `644.80ms` | `588.80ms` |  `-8.7%` |
+| Median LCP                 |   `794.00ms` | `634.00ms` | `-20.2%` |
+| Median HTML transfer       |   `14,223` B | `12,373` B | `-13.0%` |
+| JS request count           |          `6` |        `1` | `-83.3%` |
+| p95 response end           |   `730.62ms` | `768.25ms` |  `+5.2%` |
 
 ### Route-scoped server timings
 
-| Metric                           | Inertia demo |   RSC demo |     Delta |
-| -------------------------------- | -----------: | ---------: | --------: |
-| Median controller `action_total` |   `346.87ms` | `339.20ms` |   `-2.2%` |
-| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |   `-5.5%` |
-| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |   `-1.4%` |
-| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` |  `-12.8%` |
-| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |   `+8.3%` |
+| Metric                           | Inertia demo |   RSC demo |    Delta |
+| -------------------------------- | -----------: | ---------: | -------: |
+| Median controller `action_total` |   `346.87ms` | `339.20ms` |  `-2.2%` |
+| Median presenter `compare_props` |   `311.50ms` | `294.38ms` |  `-5.5%` |
+| Median `sql.active_record`       |   `130.74ms` | `128.87ms` |  `-1.4%` |
+| Median `render_dispatch`         |    `30.01ms` |  `26.18ms` | `-12.8%` |
+| p95 `sql.active_record`          |   `151.58ms` | `164.19ms` |  `+8.3%` |
 
 This is the strongest local evidence so far. It keeps the user-visible RSC win after removing the Shakapacker dev server as a confounder and makes the remaining caution precise: tail response timing still needs profiling.
 

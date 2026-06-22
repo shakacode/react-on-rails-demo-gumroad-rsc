@@ -73,7 +73,7 @@ const variantCopy = {
     compareLabel: "Open RSC demo",
   },
   rsc: {
-    titleSuffix: "React on Rails Pro + RSC public product demo",
+    titleSuffix: "React Server Components via React on Rails Pro public product demo",
     subtitle: "Public product RSC candidate",
     lead: "Server-rendered product facts, story, and conversion framing before client-side checkout islands.",
     compareLabel: "Open Inertia demo",

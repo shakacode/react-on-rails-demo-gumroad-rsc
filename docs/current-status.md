@@ -11,7 +11,7 @@ digging into DevTools or benchmark artifacts.
 The dashboard demo pair remains useful as a technical proof, but it is **not** the main value proof for issue #24.
 
 This repository has moved past pure planning and into a matched Inertia-versus-React on Rails Pro comparison surface.
-Rspack is supporting build/tooling infrastructure only; the runtime performance premise is React on Rails Pro + RSC on public buyer-facing pages.
+Rspack is supporting build/tooling infrastructure only; the runtime performance premise is React Server Components delivered through `react_on_rails` and React on Rails Pro on public buyer-facing pages.
 
 ## Shareable references
 
@@ -91,7 +91,7 @@ The demo should not be considered upstream-ready until it can show all of the fo
 - one clearly chosen page or flow
 - a matched Inertia implementation running as the control
 - a bounded React on Rails Pro implementation of the same surface
-- enough React 19 or RSC usage to make the comparison meaningful
+- enough React 19 or React Server Components usage through React on Rails Pro to make the comparison meaningful
 - disciplined measurements for loading behavior and developer tradeoffs
 - a short written conclusion that says where Inertia wins and where React on Rails Pro wins
 
@@ -103,8 +103,8 @@ Short version:
 
 - Rspack is a build and developer-experience win, not the route-level runtime performance claim
 - no route-level runtime win was expected from the bundler swap by itself
-- the stricter production-like alternating local benchmark has the `RSC` route ahead on median navigation duration, median `LCP`, and median `responseEnd`
-- the latest pass still has a caution: `p95 responseEnd` is modestly worse for the `RSC` route
+- the stricter production-like alternating local benchmark has the React Server Components route ahead on median navigation duration, median `LCP`, and median `responseEnd`
+- the latest pass still has a caution: `p95 responseEnd` is modestly worse for the React Server Components route
 - route order and warm-state effects are real enough that the alternating runner is now the benchmark method that matters
 - these dashboard findings prove integration and measurement discipline, not SEO or conversion value
 - the public product pair is now the route pair that should carry the next SEO/conversion benchmark

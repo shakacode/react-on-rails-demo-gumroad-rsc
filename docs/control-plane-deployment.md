@@ -157,7 +157,7 @@ project would add setup friction unrelated to the RSC comparison.
 
 Gumroad's production topology includes more infrastructure and operational
 concerns than this experiment needs. For the RSC business case, the important
-question is whether the bounded React on Rails Pro + RSC route can keep beating
+question is whether the bounded React Server Components via React on Rails Pro route can keep beating
 the matched Inertia control in a stable, deployed environment. This scaffold is
 designed to answer that question with the smallest reviewable deployment shape.
 

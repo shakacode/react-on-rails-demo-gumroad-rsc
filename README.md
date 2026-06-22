@@ -17,11 +17,11 @@
 > [!IMPORTANT]
 > This is not Gumroad's canonical repository. It is a public ShakaCode experiment seeded from [`antiwork/gumroad`](https://github.com/antiwork/gumroad) to answer one go/no-go question:
 >
-> Can `React on Rails Pro + React Server Components` make Gumroad's public, buyer-facing pages meaningfully faster than the current `Inertia` implementation, especially on mobile?
+> Can React Server Components delivered through `react_on_rails` and React on Rails Pro make Gumroad's public, buyer-facing pages meaningfully faster than the current `Inertia` implementation, especially on mobile?
 
 ## React on Rails Pro Consumer-Page Performance Experiment
 
-This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused experiment for comparing a current Inertia-style public product page against a `React on Rails Pro + React 19 + RSC` candidate.
+This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused experiment for comparing a current Inertia-style public product page against a React Server Components candidate implemented with `react_on_rails`, React on Rails Pro, and React 19.
 
 The priority is consumer-facing performance: public product pages, mobile buyers, SEO, first meaningful content, conversion, and route-level JavaScript cost. Dashboard pages are useful technical proof that the stack works, but they are not the value proof.
 
@@ -30,7 +30,7 @@ The priority is consumer-facing performance: public product pages, mobile buyers
 - Hosted homepage with an explicit experiment callout: <https://gumroad.reactonrails.com>
 - Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo>
 - Before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
-- After, React on Rails Pro + RSC route: <https://gumroad.reactonrails.com/public_product/rsc_demo>
+- After, React Server Components via React on Rails Pro route: <https://gumroad.reactonrails.com/public_product/rsc_demo>
 - Performance-team handoff: [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
 - Public product demo details: [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - Current findings and benchmark artifacts: [docs/performance-findings.md](docs/performance-findings.md)
@@ -45,28 +45,28 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - The next required claim is mobile performance: ShakaPerf/Lighthouse-style A/B reports must show a meaningful improvement in metrics such as `LCP`, `TBT`, `INP`, and mobile score.
 - If the mobile public-page report is not favorable enough to justify extra architecture complexity, the upstream Gumroad pitch should stop or change scope.
 
-### RSC, not Rspack, is the performance premise
+### React Server Components via React on Rails, not Rspack, is the performance premise
 
 Do not read this demo as "Rspack makes Gumroad pages faster."
 That is not the claim.
 
 - `Rspack` is supporting build infrastructure and a developer-experience improvement.
 - `Shakapacker` is the Rails/Webpack-or-Rspack integration layer that lets the app move modern React assets through Rails cleanly.
-- `React on Rails Pro + RSC` is the runtime architecture being tested for public buyer-page performance.
+- React Server Components delivered through `react_on_rails` and React on Rails Pro are the runtime architecture being tested for public buyer-page performance.
 
-If the consumer-facing page wins, it should be because RSC reduces client JavaScript, serialized payload, hydration work, or mobile render cost enough to matter.
+If the consumer-facing page wins, it should be because React Server Components through React on Rails reduce client JavaScript, serialized payload, hydration work, or mobile render cost enough to matter.
 If the consumer-facing page does not win, faster bundling does not save the migration pitch.
 
 ### Current public buyer-page evidence
 
 Latest hosted lab sample from <https://gumroad.reactonrails.com/rsc-demo>:
 
-| Public product route metric |                     Before: Inertia |  After: React on Rails Pro + RSC | Result                                                                |
-| --------------------------- | ----------------------------------: | -------------------------------: | --------------------------------------------------------------------- |
-| Readable route JavaScript   |                          `880.8 KB` |                       `340.4 KB` | about `61%` less route JS                                             |
-| Serialized page payload     |                  `6.4 KB data-page` |                             none | RSC removes the route-level Inertia payload                           |
-| Login required              |                                  no |                               no | both routes are buyer-visible without auth                            |
-| Product content             | metadata plus serialized page props | streamed in initial RSC document | RSC makes the server-rendered buyer content explicit before hydration |
+| Public product route metric |                     Before: Inertia | After: React Server Components via React on Rails Pro | Result                                                                |
+| --------------------------- | ----------------------------------: | ----------------------------------------------------: | --------------------------------------------------------------------- |
+| Readable route JavaScript   |                          `880.8 KB` |                                            `340.4 KB` | about `61%` less route JS                                             |
+| Serialized page payload     |                  `6.4 KB data-page` |                                                  none | RSC removes the route-level Inertia payload                           |
+| Login required              |                                  no |                                                    no | both routes are buyer-visible without auth                            |
+| Product content             | metadata plus serialized page props |                      streamed in initial RSC document | RSC makes the server-rendered buyer content explicit before hydration |
 
 This is a strong reason to keep testing, but it is not the final upstream claim.
 The final claim needs a ShakaPerf/Lighthouse-style A/B report focused on mobile buyer-page metrics.
@@ -109,7 +109,7 @@ The hosted homepage is intentionally modified from upstream Gumroad so reviewers
 ### What still needs proof before an upstream Gumroad pitch
 
 - Run and publish a mobile ShakaPerf/Lighthouse-style A/B report for `/public_product/inertia_demo` vs `/public_product/rsc_demo`.
-- Use that report to decide whether the performance win is large enough to justify React on Rails Pro + RSC complexity.
+- Use that report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
 - Profile renderer and streaming overhead if `responseEnd`, `TBT`, or tail latency weakens the RSC case.
 - Keep dashboard routes out of the headline story except as technical integration evidence.
 
@@ -137,9 +137,9 @@ The main caution is that `p95 responseEnd` still favored Inertia by `5.2%`, and 
 
 Dashboard screenshots are kept as proof that the stack works against signed-in Gumroad data:
 
-| Inertia dashboard technical proof             | React on Rails Pro + RSC dashboard proof |
-| --------------------------------------------- | ---------------------------------------- |
-| ![Inertia demo](docs/images/inertia-demo.png) | ![RSC demo](docs/images/rsc-demo.png)    |
+| Inertia dashboard technical proof             | React Server Components via React on Rails Pro dashboard proof |
+| --------------------------------------------- | -------------------------------------------------------------- |
+| ![Inertia demo](docs/images/inertia-demo.png) | ![RSC demo](docs/images/rsc-demo.png)                          |
 
 ### Login credentials
 
