@@ -45,6 +45,18 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - The next required claim is mobile performance: ShakaPerf/Lighthouse-style A/B reports must show a meaningful improvement in metrics such as `LCP`, `TBT`, `INP`, and mobile score.
 - If the mobile public-page report is not favorable enough to justify extra architecture complexity, the upstream Gumroad pitch should stop or change scope.
 
+### RSC, not Rspack, is the performance premise
+
+Do not read this demo as "Rspack makes Gumroad pages faster."
+That is not the claim.
+
+- `Rspack` is supporting build infrastructure and a developer-experience improvement.
+- `Shakapacker` is the Rails/Webpack-or-Rspack integration layer that lets the app move modern React assets through Rails cleanly.
+- `React on Rails Pro + RSC` is the runtime architecture being tested for public buyer-page performance.
+
+If the consumer-facing page wins, it should be because RSC reduces client JavaScript, serialized payload, hydration work, or mobile render cost enough to matter.
+If the consumer-facing page does not win, faster bundling does not save the migration pitch.
+
 ### Current public buyer-page evidence
 
 Latest hosted lab sample from <https://gumroad.reactonrails.com/rsc-demo>:
@@ -91,7 +103,6 @@ The hosted homepage is intentionally modified from upstream Gumroad so reviewers
 - The public product comparison route pair is logged out and focused on buyer-facing page behavior, not seller admin UX.
 - The live lab makes route script bytes and serialized payload differences visible immediately.
 - The demo assets are route-scoped, so ordinary Inertia pages do not pay for the experiment's extra JS or CSS.
-- `Shakapacker 10 + Rspack` is viable on this codebase and materially faster for local builds, but this is a developer-experience win, not the buyer-page performance claim.
 - GitHub-hosted demo validation includes browser smoke coverage for the public comparison routes.
 - Route-scoped `Server-Timing` and an alternating comparison runner are available for disciplined A/B benchmarks.
 

@@ -10,7 +10,8 @@ digging into DevTools or benchmark artifacts.
 
 The dashboard demo pair remains useful as a technical proof, but it is **not** the main value proof for issue #24.
 
-This repository has moved past pure planning, through the Rspack migration branch, and into a matched Inertia-versus-React on Rails Pro comparison surface.
+This repository has moved past pure planning and into a matched Inertia-versus-React on Rails Pro comparison surface.
+Rspack is supporting build/tooling infrastructure only; the runtime performance premise is React on Rails Pro + RSC on public buyer-facing pages.
 
 ## Shareable references
 
@@ -100,7 +101,7 @@ The matched comparison measurements now exist, and the latest local pass now inc
 
 Short version:
 
-- Rspack is a strong developer-performance win here
+- Rspack is a build and developer-experience win, not the route-level runtime performance claim
 - no route-level runtime win was expected from the bundler swap by itself
 - the stricter production-like alternating local benchmark has the `RSC` route ahead on median navigation duration, median `LCP`, and median `responseEnd`
 - the latest pass still has a caution: `p95 responseEnd` is modestly worse for the `RSC` route
