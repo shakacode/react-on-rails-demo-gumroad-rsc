@@ -58,7 +58,7 @@ So this is not a universal win, but it is a real user-visible win on a bounded s
 ### Close
 
 ```text
-That makes this interesting for product positioning and maybe for a narrow upstream discussion, but not yet for a broad migration pitch.
+That makes this interesting for product positioning and maybe for a narrow upstream discussion, but not yet for a broad adoption recommendation.
 ```
 
 ## Full version script
@@ -74,7 +74,7 @@ We are trying to identify whether some read-heavy Rails surfaces cross the line 
 
 ```text
 This repo tracks Gumroad and keeps the work stacked:
-baseline docs first, React 19 plus Rspack second, and the React on Rails Pro plus RSC demo third.
+baseline docs first, React 19 plus Rspack second, and the React Server Components via React on Rails Pro demo third.
 That keeps the review surface understandable.
 ```
 
@@ -107,7 +107,7 @@ If we blur those together, we weaken both claims.
 ### 6. Show the docs
 
 ```text
-The repo includes the current status, the detailed performance findings, the performance-team handoff, and the positioning notes.
+The repo includes the current status, the detailed performance findings, the public performance evaluation notes, and the positioning notes.
 So this is not just a demo branch.
 It is meant to help decide what should be positioned, what should be optimized next, and what should never be over-claimed.
 ```

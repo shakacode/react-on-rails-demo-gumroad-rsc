@@ -8,6 +8,6 @@ compiled-asset benchmark described in `docs/performance-findings.md`.
   aggregate comparison.
 
 The same files were originally generated under ignored
-`output/playwright/dashboard-perf/` paths. They are copied here so reviewers can
+`output/playwright/dashboard-perf/` paths. They are copied here so evaluators can
 validate the route order, browser provenance, sample recovery, and percentile
 summary behind the headline benchmark without relying on local untracked output.

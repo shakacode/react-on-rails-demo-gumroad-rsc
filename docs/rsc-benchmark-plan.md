@@ -143,7 +143,7 @@ The current `/dashboard/rsc_demo` implementation streams the RSC payload inline,
 
 If the candidate wins:
 
-- use it as the core case study for React on Rails Pro plus RSC positioning
+- use it as the core case study for React Server Components via React on Rails Pro positioning
 - keep the upstream story narrow and evidence-backed
 
 If the candidate does not win:

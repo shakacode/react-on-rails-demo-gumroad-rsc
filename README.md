@@ -15,13 +15,13 @@
 </p>
 
 > [!IMPORTANT]
-> This is not Gumroad's canonical repository. It is a public ShakaCode experiment seeded from [`antiwork/gumroad`](https://github.com/antiwork/gumroad) to answer one go/no-go question:
+> This is not Gumroad's canonical repository. It is a public ShakaCode demo derived from [`antiwork/gumroad`](https://github.com/antiwork/gumroad) to answer one practical performance question:
 >
 > Can React Server Components delivered through `react_on_rails` and React on Rails Pro make Gumroad's public, buyer-facing pages meaningfully faster than the current `Inertia` implementation, especially on mobile?
 
 ## React on Rails Pro Consumer-Page Performance Experiment
 
-This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused experiment for comparing a current Inertia-style public product page against a React Server Components candidate implemented with `react_on_rails`, React on Rails Pro, and React 19.
+This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused public demo comparing a current Inertia-style public product page against a React Server Components candidate implemented with `react_on_rails`, React on Rails Pro, and React 19.
 
 The priority is consumer-facing performance: public product pages, mobile buyers, SEO, first meaningful content, conversion, and route-level JavaScript cost. Dashboard pages are useful technical proof that the stack works, but they are not the value proof.
 
@@ -31,19 +31,29 @@ The priority is consumer-facing performance: public product pages, mobile buyers
 - Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo>
 - Before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
 - After, React Server Components via React on Rails Pro route: <https://gumroad.reactonrails.com/public_product/rsc_demo>
-- Performance-team handoff: [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
+- React on Rails docs: <https://reactonrails.com/>
+- React on Rails source: <https://github.com/shakacode/react_on_rails>
+- ShakaCode: <https://www.shakacode.com/>
+- Book a ShakaCode consultation: <https://meetings.hubspot.com/justingordon/30-minute-consultation>
+- Performance evaluation notes: [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - Public product demo details: [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - Current findings and benchmark artifacts: [docs/performance-findings.md](docs/performance-findings.md)
 - Benchmark and positioning issue: [React on Rails issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
-### What matters most
+### Who this demo is for
+
+- Teams evaluating `react_on_rails`: inspect how React Server Components can run inside a real Rails app without turning the whole product page into a client-only island.
+- Teams evaluating ShakaCode: use the demo, benchmark method, and tradeoff notes to judge how we approach Rails plus React performance work.
+- Gumroad maintainers: focus on whether the public product page case is compelling enough to justify trying these technologies in Gumroad itself.
+
+### Public evaluation bar
 
 The demo only matters if it proves a meaningful buyer-page advantage.
 
 - The public product page is the primary surface because it is logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The first supported claim is payload reduction: less route JavaScript and no serialized Inertia `data-page` payload on the RSC route.
 - The next required claim is mobile performance: ShakaPerf/Lighthouse-style A/B reports must show a meaningful improvement in metrics such as `LCP`, `TBT`, `INP`, and mobile score.
-- If the mobile public-page report is not favorable enough to justify extra architecture complexity, the upstream Gumroad pitch should stop or change scope.
+- If the mobile public-page report is not favorable enough to justify extra architecture complexity, treat this as an integration demo rather than a Gumroad adoption recommendation.
 
 ### React Server Components via React on Rails, not Rspack, is the performance premise
 
@@ -55,7 +65,7 @@ That is not the claim.
 - React Server Components delivered through `react_on_rails` and React on Rails Pro are the runtime architecture being tested for public buyer-page performance.
 
 If the consumer-facing page wins, it should be because React Server Components through React on Rails reduce client JavaScript, serialized payload, hydration work, or mobile render cost enough to matter.
-If the consumer-facing page does not win, faster bundling does not save the migration pitch.
+If the consumer-facing page does not win, faster bundling does not save the adoption case.
 
 ### Current public buyer-page evidence
 
@@ -73,30 +83,23 @@ The final claim needs a ShakaPerf/Lighthouse-style A/B report focused on mobile 
 
 ### Live demo surface
 
-Open the public comparison lab first:
-
-- `https://gumroad.dev/rsc-demo`
-- `https://gumroad.dev/public_product/performance_demo`
-
-The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the
-streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route
-for manual inspection.
-
-The implemented public product comparison route pair is:
-
-- `https://gumroad.dev/public_product/inertia_demo`
-- `https://gumroad.dev/public_product/rsc_demo`
-
-Both routes render the seeded public `demo` product and link back to the current Gumroad product page at `https://gumroad.dev/l/demo`.
-
-Hosted Control Plane staging:
+Open the hosted public demo first:
 
 - `https://gumroad.reactonrails.com`
 - `https://gumroad.reactonrails.com/rsc-demo`
 - `https://gumroad.reactonrails.com/public_product/inertia_demo`
 - `https://gumroad.reactonrails.com/public_product/rsc_demo`
 
-The hosted homepage is intentionally modified from upstream Gumroad so reviewers immediately see how to run the comparison and why the public product route matters.
+The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see how to run the comparison and why the public product route matters. The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route for manual inspection.
+
+Local equivalents:
+
+- `https://gumroad.dev/rsc-demo`
+- `https://gumroad.dev/public_product/performance_demo`
+- `https://gumroad.dev/public_product/inertia_demo`
+- `https://gumroad.dev/public_product/rsc_demo`
+
+Both product routes render the seeded public `demo` product and link back to the current Gumroad product page at `https://gumroad.dev/l/demo`.
 
 ### What this repo currently proves
 
@@ -106,7 +109,7 @@ The hosted homepage is intentionally modified from upstream Gumroad so reviewers
 - GitHub-hosted demo validation includes browser smoke coverage for the public comparison routes.
 - Route-scoped `Server-Timing` and an alternating comparison runner are available for disciplined A/B benchmarks.
 
-### What still needs proof before an upstream Gumroad pitch
+### Evidence still needed before a Gumroad adoption proposal
 
 - Run and publish a mobile ShakaPerf/Lighthouse-style A/B report for `/public_product/inertia_demo` vs `/public_product/rsc_demo`.
 - Use that report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
@@ -141,7 +144,9 @@ Dashboard screenshots are kept as proof that the stack works against signed-in G
 | --------------------------------------------- | -------------------------------------------------------------- |
 | ![Inertia demo](docs/images/inertia-demo.png) | ![RSC demo](docs/images/rsc-demo.png)                          |
 
-### Login credentials
+### Optional seller login for technical proof routes
+
+The headline public demo does not require a login. Use these credentials only when verifying the older signed-in dashboard technical proof or other seller-only Gumroad flows.
 
 Local verification:
 
@@ -149,7 +154,7 @@ Local verification:
 - password: `password`
 - two-factor code: `000000`
 
-Hosted staging/review verification:
+Hosted demo verification:
 
 - email: `seller+admin@gumroad.com`
 - password: `password`
@@ -192,21 +197,17 @@ If a long comparison run is interrupted after it writes per-run JSON files, reru
 
 If you want the measured benchmark artifacts instead of a visual spot check, start with [docs/performance-findings.md](docs/performance-findings.md).
 
-### Shareable docs
+### Public evaluation docs
 
-- [docs/current-status.md](docs/current-status.md)
 - [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - [docs/performance-findings.md](docs/performance-findings.md)
-- [docs/performance-team-handoff.md](docs/performance-team-handoff.md)
+- [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md)
-- [docs/positioning-notes.md](docs/positioning-notes.md)
 - [docs/control-plane-deployment.md](docs/control-plane-deployment.md)
-- [docs/gumroad-upstream-issue-draft.md](docs/gumroad-upstream-issue-draft.md)
 - [docs/youtube-demo-script.md](docs/youtube-demo-script.md)
 
 See [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md) for the working plan, scope, and success criteria.
-See [docs/positioning-notes.md](docs/positioning-notes.md) for the product, messaging, and adjacent-idea notes this experiment should help answer.
-See [docs/current-status.md](docs/current-status.md) for the current state of the demo, readiness, and next-step checklist.
+See [docs/current-status.md](docs/current-status.md) for engineering status details and remaining measurement work.
 
 ## See also
 
