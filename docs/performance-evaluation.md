@@ -1,4 +1,4 @@
-# RSC Performance Handoff
+# RSC Performance Evaluation
 
 ## What this is
 
@@ -223,7 +223,7 @@ It does **not** yet prove the full upside of RSC as an architecture.
 
 ## Highest-value next optimization targets
 
-If the performance team wants the next round to be high signal, focus here:
+If the next performance review should be high signal, focus here:
 
 1. Repeat the comparison against the deployed review/staging app once the Control Plane environment is stable.
    The production-like local rerun is complete and is now the strongest local evidence; the next question is whether the RSC advantage holds with deployed network, container, and renderer behavior.
@@ -231,7 +231,7 @@ If the performance team wants the next round to be high signal, focus here:
 2. Instrument the React on Rails Pro renderer and streaming path.
    We now have route-scoped Rails timing, but not renderer-internal timing.
    The benchmark harness now also records `/rsc_payload/` resource duration, response start/end, transfer sizes, and resource-level `Server-Timing` when exposed by the browser.
-   That does not replace renderer-internal profiling, but it gives the performance team a cleaner handoff artifact for separating document navigation cost from the RSC payload path.
+   That does not replace renderer-internal profiling, but it gives evaluators a cleaner artifact for separating document navigation cost from the RSC payload path.
 
 3. Test whether finer-grained Suspense boundaries improve time-to-first-meaningful HTML without regressing final paint.
 
@@ -279,13 +279,15 @@ The heavier internal Gumroad matrix still exists for the original codebase shape
 - tracked production-like comparison JSON: `docs/performance-artifacts/production-like-alternating-8-reindexed/comparison.json`
 - tracked production-like raw metrics directory: `docs/performance-artifacts/production-like-alternating-8-reindexed/runs`
 
-## Current sharing status
+## Public sharing status
 
-The repo is public, the consolidated demo PR is open, the production-like benchmark PR is open, and the React on Rails issues are available as team-facing discussion hubs.
+The repo, hosted demo, and evaluation docs are public and can be shared with:
 
-The earlier stacked PRs were closed unmerged after consolidation into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11). Treat [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11) as the parent review branch, [#10](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/10) as the dev-server override child, and [#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12) as the current production-like benchmark follow-up.
+- teams evaluating React on Rails for Rails/React architecture
+- teams evaluating ShakaCode for performance consulting
+- Gumroad maintainers evaluating whether the public product-page case is worth deeper review
 
 The artifact paths listed above are local benchmark outputs, so they are shareable through a repo checkout and branch work, but not through GitHub artifact hosting.
-The measurement script also now records browser/version provenance and percentile-style summary stats in those JSON outputs so the performance-team handoff is less dependent on ad hoc environment notes.
+The measurement script also now records browser/version provenance and percentile-style summary stats in those JSON outputs so the performance evaluation is less dependent on ad hoc environment notes.
 The alternating comparison JSON now also includes average, median, and `p95` primary-metric deltas plus per-path slowest pack resources, so outliers like the `19.3s` cached CSS load are visible without opening every per-run file.
 The earlier 3-run grouped batches are still useful diagnostic artifacts, but the alternating comparison above is the benchmark result that should be circulated because it explicitly balances route order.

@@ -268,6 +268,11 @@
   </script>
 <% end %>
 
+<% react_on_rails_url = "https://reactonrails.com/" %>
+<% react_on_rails_github_url = "https://github.com/shakacode/react_on_rails" %>
+<% shakacode_url = "https://www.shakacode.com/" %>
+<% consultation_url = "https://meetings.hubspot.com/justingordon/30-minute-consultation" %>
+
 <div
   class="dd dd-performance"
   data-rsc-performance-lab
@@ -285,11 +290,15 @@
       <a href="<%= public_product_inertia_demo_path %>">Inertia route</a>
       <a href="<%= public_product_rsc_demo_path %>">RSC route</a>
       <a href="<%= short_link_path(@product) %>">Current product page</a>
+      <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
+      <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
+      <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
     </nav>
 
     <footer class="dd-meta">
       <strong><%= @product.name %></strong>
-      <p>Logged-out public product proof</p>
+      <p>For React on Rails evaluators, ShakaCode prospects, and Gumroad maintainers.</p>
+      <p><a href="<%= consultation_url %>" target="_blank" rel="noopener">Book a ShakaCode consultation</a></p>
     </footer>
   </aside>
 
@@ -308,14 +317,16 @@
       <div class="dd-actions">
         <a href="<%= public_product_inertia_demo_path %>" class="dd-btn">Open Inertia route</a>
         <a href="<%= public_product_rsc_demo_path %>" class="dd-btn">Open RSC route</a>
+        <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener" class="dd-btn">Learn React on Rails</a>
+        <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
     </header>
 
     <div class="dd-body">
       <p class="dd-note">
-        The point of this demo is not that Rspack changes page runtime performance. The runtime bet is that RSC can
-        reduce client-side work and stream public, SEO-sensitive product content early enough to justify the extra
-        architecture.
+        The point of this demo is not that Rspack changes page runtime performance. The runtime question is whether
+        React Server Components via React on Rails Pro can reduce client-side work and stream public,
+        SEO-sensitive product content early enough to justify the extra architecture.
       </p>
 
       <section class="dd-section">
@@ -422,8 +433,20 @@
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>Decision bar:</strong> a Gumroad-facing pitch should focus on public product pages, SEO,
-              conversion-sensitive loading, client JS reduction, and measured LCP/navigation wins.
+              <strong>For Gumroad maintainers:</strong> focus on public product pages, SEO, conversion-sensitive
+              loading, client JS reduction, and measured LCP/navigation wins before considering adoption.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>For teams evaluating React on Rails:</strong> this shows React Server Components running inside a
+              real Rails app, with a matched Inertia control instead of a synthetic benchmark.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>For teams evaluating ShakaCode:</strong> use the lab and benchmark artifacts to judge our Rails
+              plus React performance approach. Then <a href="<%= consultation_url %>" target="_blank" rel="noopener">book a consultation</a> if this resembles a problem in your app.
             </p>
           </article>
         </div>

@@ -31,6 +31,12 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Serialized Inertia payload")
     expect(page).to have_link("Open Inertia route", href: public_product_inertia_demo_path)
     expect(page).to have_link("Open RSC route", href: public_product_rsc_demo_path)
+    expect(page).to have_link("Learn React on Rails", href: "https://reactonrails.com/")
+    expect(page).to have_link("react_on_rails source", href: "https://github.com/shakacode/react_on_rails")
+    expect(page).to have_link("Book a consultation", href: "https://meetings.hubspot.com/justingordon/30-minute-consultation")
+    expect(page).to have_text("For Gumroad maintainers")
+    expect(page).to have_text("For teams evaluating React on Rails")
+    expect(page).to have_text("For teams evaluating ShakaCode")
   end
 
   it "renders the Inertia control while logged out" do

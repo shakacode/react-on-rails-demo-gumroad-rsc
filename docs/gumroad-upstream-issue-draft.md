@@ -4,79 +4,76 @@
 
 The right upstream goal is narrow:
 
-- show one bounded, measurable comparison surface
+- show one bounded, measurable public product-page comparison surface
 - avoid proposing a broad migration
-- ask whether Gumroad would review a focused experiment branch or PR if the performance case becomes stronger
+- ask whether Gumroad would review a focused experiment branch or PR if the public-page performance case becomes stronger
 
-The current best candidate is the reduced dashboard comparison:
+The current best candidate is the logged-out public product comparison:
 
-- `Inertia` control: `/dashboard/inertia_demo`
-- React Server Components via React on Rails Pro demo: `/dashboard/rsc_demo`
+- `Inertia` control: `/public_product/inertia_demo`
+- React Server Components via React on Rails Pro demo: `/public_product/rsc_demo`
 
 ## Paste-ready issue draft
 
 ```md
 ## Proposal
 
-I put together a public experiment repo that tracks Gumroad and compares a matched Inertia control against a bounded React Server Components implementation using `react_on_rails`, React on Rails Pro, and React 19 on one reduced dashboard surface:
+I put together a public experiment repo that tracks Gumroad and compares a matched Inertia control against a bounded React Server Components implementation using `react_on_rails`, React on Rails Pro, and React 19 on a logged-out public product-page surface:
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
-- Production-like benchmark PR: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12
-- Comparison docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/performance-findings.md
+- Live demo: https://gumroad.reactonrails.com/rsc-demo
+- Inertia control: https://gumroad.reactonrails.com/public_product/inertia_demo
+- React Server Components route: https://gumroad.reactonrails.com/public_product/rsc_demo
+- Comparison docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-findings.md
 
 The goal is not to argue for a broad rewrite.
-The goal is to determine whether there are specific read-heavy surfaces where a server-component-oriented approach can produce enough user-visible benefit to justify the extra complexity.
+The goal is to determine whether public, buyer-facing product pages can get enough SEO, conversion, and loading-performance benefit to justify the extra complexity.
 
 ## What the current experiment shows
 
-On the matched `/dashboard/inertia_demo` versus `/dashboard/rsc_demo` comparison under the production-like balanced alternating benchmark:
+On the hosted public product-page lab, the current route-level payload comparison shows:
 
-- Inertia median navigation duration: `775.40ms`
-- RSC median navigation duration: `607.15ms`
-- Inertia median LCP: `794.00ms`
-- RSC median LCP: `634.00ms`
-- Inertia median responseEnd: `644.80ms`
-- RSC median responseEnd: `588.80ms`
-- Inertia median `action_total`: `346.87ms`
-- RSC median `action_total`: `339.20ms`
-- Inertia p95 responseEnd: `730.62ms`
-- RSC p95 responseEnd: `768.25ms`
+- Inertia route readable JavaScript: `880.8 KB`
+- React Server Components route readable JavaScript: `340.4 KB`
+- Inertia serialized `data-page` payload: `6.4 KB`
+- React Server Components serialized `data-page` payload: none
+- both routes are logged out and visible without a demo account
 
-So the current result is:
+So the current result is not yet a final adoption claim. It is a visible reason to keep testing on the page type that matters most for Gumroad:
 
-- the bounded RSC route is faster on total navigation duration
-- the bounded RSC route is faster on LCP
-- the bounded RSC route is faster on median responseEnd in the production-like local pass
-- the bounded RSC route reduces page-specific JS requests from `6` to `1`
-- the Inertia control is still faster on p95 responseEnd
+- public product pages
+- SEO-sensitive initial HTML and metadata
+- conversion-sensitive buyer loading
+- client JavaScript reduction
+- measured mobile `LCP`, `TBT`, `INP`, and navigation wins
 
-That means this is not yet a universal performance win.
-It is a narrow, measurable tradeoff with a user-visible upside and one clear tail-latency caution.
+The dashboard comparison remains useful as a technical proof, but it should not carry the Gumroad value case because logged-in dashboard pages are not the public buyer path.
 
 ## Why this may be worth reviewing
 
-- the comparison uses the same reduced seller-data surface on both routes
-- the RSC route removes the Inertia `data-page` payload for this surface
-- the demo is now real enough to discuss architecture tradeoffs with code and measurements, not just theory
-- the repo also demonstrates that `Shakapacker + Rspack` is viable here and materially faster for local builds
+- the comparison uses a logged-out product route rather than an admin/dashboard route
+- the RSC route removes the Inertia `data-page` payload for this public surface
+- the RSC route materially reduces route JavaScript in the hosted lab sample
+- the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
+- the next measurement step is straightforward: mobile ShakaPerf/Lighthouse-style A/B testing on the public product route pair
 
 ## What I am not claiming
 
 - that the full Gumroad dashboard is already faster under RSC
 - that RSC is a better fit for every Inertia page
-- that the current local result is enough to justify adoption by itself without a deployed repeat
+- that the current payload result is enough to justify adoption by itself without mobile LCP/navigation evidence
 
 ## What I want feedback on
 
-1. Is this narrow comparison surface interesting enough to discuss further?
+1. Is this public product-page comparison surface interesting enough to discuss further?
 2. If yes, would Gumroad prefer that follow-up stay in the public experiment repo, or would a small upstream draft PR for the demo route be more useful?
 3. If a follow-up is worth it, what would be the minimum proof needed to make this more than a curiosity?
 
 ## Links
 
-- Current status: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/current-status.md
-- Performance findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/performance-findings.md
-- Positioning notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/production-like-rsc-profiling/docs/positioning-notes.md
+- Public product demo details: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/public-product-rsc-demo.md
+- Performance findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-findings.md
+- Performance evaluation notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-evaluation.md
 ```
 
 ## If converted into an upstream PR
@@ -85,7 +82,7 @@ The PR should stay even narrower than the issue.
 
 Recommended framing:
 
-- add one comparison surface only
+- add one public product-page comparison surface only
 - keep the current Inertia control route in the same PR
 - keep the RSC route clearly labeled as an experiment
 - do not mix in broad React 19 type cleanup
@@ -93,18 +90,18 @@ Recommended framing:
 
 Recommended PR title:
 
-- `Add a bounded dashboard rendering experiment`
+- `Add a bounded public product-page rendering experiment`
 
 Recommended PR summary:
 
 - add a matched control route and experiment route
-- keep the scope to one reduced creator-home slice
+- keep the scope to one logged-out public product page
 - include measurement docs and explicit caveats
 
 ## What would make the upstream case stronger
 
-- a deployed repeat of the production-like local measurements
-- a smaller or eliminated p95 `responseEnd` penalty on the RSC route
+- a mobile ShakaPerf/Lighthouse-style A/B report for the public product route pair
+- measured `LCP`, `TBT`, `INP`, and navigation wins on the public route
 - a cleaner explanation of where the remaining server cost comes from
 - one short screen recording showing the side-by-side difference
 - a clear statement of where Inertia still wins
@@ -112,6 +109,6 @@ Recommended PR summary:
 ## What would weaken the upstream case
 
 - treating `Rspack` as if it explains the page-level runtime win
-- treating the full dashboard as already solved
+- treating the dashboard proof as the Gumroad value case
 - making architecture claims that outrun the actual measurements
 - proposing multiple migrations at once instead of one comparison surface

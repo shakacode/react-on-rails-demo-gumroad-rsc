@@ -166,7 +166,7 @@ This should happen before adding the separate React on Rails Pro surface, becaus
 
 - can Shakapacker plus Rspack improve this app today without asking Gumroad to leave Inertia?
 
-If that branch stays low-risk, it becomes a much easier review story than opening with a React on Rails migration pitch.
+If that branch stays low-risk, it becomes a much easier review story than opening with a React on Rails adoption proposal.
 
 ## Current branch result
 

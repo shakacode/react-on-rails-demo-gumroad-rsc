@@ -68,7 +68,7 @@ Date captured: `2026-04-12`
 Compared implementations:
 
 - current Inertia plus Rspack dashboard baseline from this repo
-- first isolated React on Rails Pro plus RSC demo at `/dashboard/rsc_demo`
+- first isolated React Server Components via React on Rails Pro demo at `/dashboard/rsc_demo`
 
 Important caveats:
 
@@ -95,7 +95,7 @@ Artifacts:
 
 That first pass proved something important, but not yet the thing we needed most.
 
-- It proved that we can build a bounded React on Rails Pro plus RSC surface against real Gumroad data.
+- It proved that we can build a bounded React Server Components via React on Rails Pro surface against real Gumroad data.
 - It proved that the isolated route can cut shipped client-side JavaScript very aggressively.
 - It did not prove a page-performance win.
 
@@ -108,7 +108,7 @@ Date captured: `2026-04-12`
 Compared implementations:
 
 - warmed matched Inertia control at `/dashboard/inertia_demo`
-- warmed matched React on Rails Pro plus RSC demo at `/dashboard/rsc_demo`
+- warmed matched React Server Components via React on Rails Pro demo at `/dashboard/rsc_demo`
 
 Why this comparison matters more:
 
@@ -157,7 +157,7 @@ That means the story is now more precise:
 - A carefully bounded React Server Components via React on Rails Pro surface can also produce a user-visible page-load win.
 - The tradeoff is not free, because the server response is still modestly slower than the Inertia control even after the response payload was almost fully normalized.
 
-This is promising, but it is still not enough for an upstream migration pitch by itself.
+This is promising, but it is still not enough for an upstream adoption recommendation by itself.
 
 - The win exists on a reduced comparison surface, not on the full dashboard.
 - The measurements are still local-development measurements, not production-like traces.
@@ -471,7 +471,7 @@ That gives us a cleaner, more defensible story:
 - the user-visible win is still real
 - the client-JS reduction is still dramatic
 - the current server-side tradeoff has narrowed to tail behavior and renderer/SQL profiling details
-- the benchmark method is now strong enough that reviewers can focus on product value instead of measurement discipline
+- the benchmark method is now strong enough that evaluators can focus on product value instead of measurement discipline
 
 ## What This Means For Positioning
 
@@ -494,7 +494,7 @@ The next demo only helps if the matched React Server Components via React on Rai
 - fewer client-side requests or bytes for the page
 - with server-response costs that are understandable and defensible
 
-If the RSC demo cannot keep that balance, then it should be positioned as a composition or product-shaping experiment, not a migration pitch.
+If the RSC demo cannot keep that balance, then it should be positioned as a composition or product-shaping experiment, not an adoption recommendation.
 
 ## Recommended Next Step
 

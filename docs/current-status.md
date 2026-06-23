@@ -4,7 +4,7 @@
 
 The public product demo pair is implemented and locally browser-smoke validated.
 The public demo now has a visible performance lab entry point at `/rsc-demo`
-and `/public_product/performance_demo` so reviewers can see same-origin stream
+and `/public_product/performance_demo` so visitors can see same-origin stream
 timing, response size, route script bytes, and serialized Inertia payload differences before
 digging into DevTools or benchmark artifacts.
 
@@ -33,7 +33,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Documented the runtime pass/fail rubric in [rsc-benchmark-plan.md](./rsc-benchmark-plan.md)
 - Documented the public product proof target in [public-product-rsc-demo.md](./public-product-rsc-demo.md)
 - Documented positioning, adjacent ideas, and IP guardrails in [positioning-notes.md](./positioning-notes.md)
-- Added a single performance handoff doc for review circulation in [performance-team-handoff.md](./performance-team-handoff.md)
+- Added public performance evaluation notes in [performance-evaluation.md](./performance-evaluation.md)
 - Added a logged-out public product comparison route pair at `/public_product/inertia_demo` and `/public_product/rsc_demo`
 - Added `--public` / `--skip-login` benchmark support so the public route pair can be measured without dashboard authentication
 - Added controller and browser smoke coverage for the public product comparison routes
@@ -61,7 +61,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Added React on Rails Pro and the Node renderer configuration locally
 - Added a dedicated `/dashboard/rsc_demo` route backed by the existing `CreatorHomePresenter`
 - Added a matching `/dashboard/inertia_demo` route using the same reduced seller-data surface
-- Built a bounded React on Rails Pro plus RSC dashboard surface that reuses real seller data
+- Built a bounded React Server Components via React on Rails Pro dashboard surface that reuses real seller data
 - Built a matched Inertia control surface that shares the same reduced UI intent
 - Isolated the RSC route from the main Inertia `base` pack so the comparison surface is actually separate
 - Kept the demo-only JS and CSS route-scoped so non-demo pages do not download the comparison assets
@@ -75,7 +75,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Re-ran `spec/presenters/product_presenter/product_props_spec.rb` after seeding merchant accounts in test: `26 examples, 0 failures`
 - Re-ran `spec/presenters/creator_home_presenter_spec.rb`: `22 examples, 0 failures`
 
-## What is not done yet
+## Remaining evidence needed
 
 - the React 19 type fallout has not been cleaned up yet across the app
 - the broad React 19 cleanup still needs its own reviewable branch strategy
@@ -84,7 +84,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - renderer-internal profiling is still missing
 - the demo has not yet been reduced to a compelling upstream-review story
 
-## What "demo ready" means
+## What an adoption-ready demo needs
 
 The demo should not be considered upstream-ready until it can show all of the following:
 
@@ -161,9 +161,9 @@ That means the repository is now ready for comparison work on this machine.
 - Manual browser verification: signed-in local session on `https://gumroad.dev/dashboard/inertia_demo` and `https://gumroad.dev/dashboard/rsc_demo`
   Result: both routes render their expected demo headings after the clean-port override fix
 
-## Current blocker for calling the branch "review ready"
+## Current blockers for a persuasive adoption proposal
 
-The build path is working and the matched comparison surface is running, but two blockers remain before this is review ready as a persuasive stacked branch:
+The build path is working and the matched comparison surface is running, but two blockers remain before this is persuasive as an adoption proposal:
 
 - React 19 adoption still exposes broad TypeScript cleanup work across the app.
 - The strictest local result is now a compiled-asset measurement, but it is still local and renderer-internal profiling is still missing.
@@ -189,7 +189,7 @@ Short version:
 - the run used matching `Chrome 147` and `ChromeDriver 147`
 - under that method, the `RSC` route is faster on median navigation duration, median `LCP`, median `responseEnd`, and median route-level `action_total`
 - the main caution is `p95 responseEnd`, where the RSC route is still modestly worse
-- the current story is now favorable enough for performance-team review, but not yet enough for a production-performance claim
+- the current story is now favorable enough for external performance review, but not yet enough for a production-performance claim
 
 Useful numbers:
 
@@ -252,4 +252,4 @@ Recommended order:
 
 ## Decision rule
 
-If the matched React on Rails Pro plus RSC comparison cannot keep the user-visible win while making the server-response tradeoff understandable, then the right output is better positioning insight, not a migration pitch.
+If the matched React Server Components via React on Rails Pro comparison cannot keep the user-visible win while making the server-response tradeoff understandable, then the right output is better positioning insight, not an adoption recommendation.

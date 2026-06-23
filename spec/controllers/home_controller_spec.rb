@@ -15,10 +15,12 @@ describe HomeController do
       expect(response.body).to include("Mobile buyer pages")
       expect(response.body).to include("Before: Inertia")
       expect(response.body).to include("After: React Server Components")
+      expect(response.body).to include("React on Rails")
+      expect(response.body).to include("Book a ShakaCode consultation")
       expect(response.body).to include(rsc_performance_demo_path)
       expect(response.body).to include(public_product_inertia_demo_path)
       expect(response.body).to include(public_product_rsc_demo_path)
-      expect(response.body).to include("docs/performance-team-handoff.md")
+      expect(response.body).to include("docs/performance-evaluation.md")
     end
   end
 
