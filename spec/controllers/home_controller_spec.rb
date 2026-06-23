@@ -21,6 +21,7 @@ describe HomeController do
       expect(response.body).to include(public_product_inertia_demo_path)
       expect(response.body).to include(public_product_rsc_demo_path)
       expect(response.body).to include("docs/performance-evaluation.md")
+      expect(response.body).to include("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc")
     end
   end
 

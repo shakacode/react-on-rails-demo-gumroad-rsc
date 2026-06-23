@@ -2,21 +2,21 @@
 
 ## What this is
 
-This repo contains a constrained dashboard comparison between:
-
-- `Inertia` control route: `/dashboard/inertia_demo`
-- React Server Components via React on Rails Pro route: `/dashboard/rsc_demo`
-
-Both routes use the same reduced creator-home presenter surface and the same outer `inertia` layout.
-
-This dashboard pair is a technical proof for integration, asset isolation, and benchmark discipline. It is not the main value proof for SEO or conversion.
-
-The implemented public product value-proof pair is:
+This repo contains a public product-page comparison between:
 
 - `Inertia` control route: `/public_product/inertia_demo`
 - React Server Components via React on Rails Pro route: `/public_product/rsc_demo`
 
+This is the value-proof surface because it is logged out, SEO-sensitive, conversion-sensitive, and visible without a demo account.
+
 Use `--public` with the benchmark runner for this pair so measurements avoid login and dashboard cookies.
+
+The older dashboard comparison is still useful technical proof:
+
+- `Inertia` control route: `/dashboard/inertia_demo`
+- React Server Components via React on Rails Pro route: `/dashboard/rsc_demo`
+
+That pair uses the same reduced creator-home presenter surface and the same outer `inertia` layout. It proves integration, asset isolation, and benchmark discipline; it is not the main value proof for SEO or conversion.
 
 The goal is not to prove that "RSC is always faster."
 The goal is to measure whether a bounded RSC surface can produce a meaningful user-visible win that justifies the added complexity.
@@ -32,7 +32,22 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 
 ## Current conclusion
 
-The current dashboard RSC implementation is **promising but not fully optimized**.
+The public product-page result is **promising but not yet adoption-proof**.
+
+What is already true:
+
+- the hosted public lab shows a large route JavaScript reduction: `880.8 KB` readable Inertia route scripts vs `340.4 KB` readable RSC route scripts
+- the RSC route removes the route-level serialized Inertia `data-page` payload from the public product page
+- both routes are logged out, so the comparison can be evaluated without a demo account
+- the public product route is the correct surface for SEO, conversion-sensitive loading, and mobile buyer performance
+
+What is not yet proven:
+
+- a deployed mobile ShakaPerf/Lighthouse-style A/B report showing meaningful `LCP`, `TBT`, `INP`, navigation, and mobile-score wins
+- production-grade renderer and streaming-path profiling for the public route
+- that the measured public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad
+
+The dashboard RSC implementation is also **promising but not fully optimized**.
 
 What is already true:
 
@@ -51,7 +66,7 @@ What is not yet proven:
 - measurement order affects cache state enough that grouped batches can overstate the gap
 - `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
 - the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
-- the logged-out product route has not yet supplied production-like local or deployed benchmark evidence
+- the logged-out product route has not yet supplied production-like local or deployed mobile benchmark evidence
 
 ## Latest production-like alternating local result
 
@@ -259,8 +274,8 @@ That validation covers:
 
 - the `Rspack`-backed Shakapacker development build
 - the standalone `npm run build:rsc-demo` bundle path
-- the targeted dashboard demo controller specs
-- a headless browser smoke spec that visits both `/dashboard/inertia_demo` and `/dashboard/rsc_demo`
+- the targeted public product and dashboard demo controller specs
+- headless browser smoke specs that visit both public product comparison routes and both dashboard technical proof routes
 - the React on Rails Pro Node renderer boot path needed for the RSC route
 
 The heavier internal Gumroad matrix still exists for the original codebase shape, but this public repo now has a reviewable CI path that does not depend on the private `ubicloud` runner pool.

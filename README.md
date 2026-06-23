@@ -83,30 +83,23 @@ The final claim needs a ShakaPerf/Lighthouse-style A/B report focused on mobile 
 
 ### Live demo surface
 
-Open the public comparison lab first:
-
-- `https://gumroad.dev/rsc-demo`
-- `https://gumroad.dev/public_product/performance_demo`
-
-The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the
-streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route
-for manual inspection.
-
-The implemented public product comparison route pair is:
-
-- `https://gumroad.dev/public_product/inertia_demo`
-- `https://gumroad.dev/public_product/rsc_demo`
-
-Both routes render the seeded public `demo` product and link back to the current Gumroad product page at `https://gumroad.dev/l/demo`.
-
-Hosted public demo:
+Open the hosted public demo first:
 
 - `https://gumroad.reactonrails.com`
 - `https://gumroad.reactonrails.com/rsc-demo`
 - `https://gumroad.reactonrails.com/public_product/inertia_demo`
 - `https://gumroad.reactonrails.com/public_product/rsc_demo`
 
-The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see how to run the comparison and why the public product route matters.
+The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see how to run the comparison and why the public product route matters. The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route for manual inspection.
+
+Local equivalents:
+
+- `https://gumroad.dev/rsc-demo`
+- `https://gumroad.dev/public_product/performance_demo`
+- `https://gumroad.dev/public_product/inertia_demo`
+- `https://gumroad.dev/public_product/rsc_demo`
+
+Both product routes render the seeded public `demo` product and link back to the current Gumroad product page at `https://gumroad.dev/l/demo`.
 
 ### What this repo currently proves
 
@@ -151,7 +144,9 @@ Dashboard screenshots are kept as proof that the stack works against signed-in G
 | --------------------------------------------- | -------------------------------------------------------------- |
 | ![Inertia demo](docs/images/inertia-demo.png) | ![RSC demo](docs/images/rsc-demo.png)                          |
 
-### Login credentials
+### Optional seller login for technical proof routes
+
+The headline public demo does not require a login. Use these credentials only when verifying the older signed-in dashboard technical proof or other seller-only Gumroad flows.
 
 Local verification:
 
