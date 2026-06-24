@@ -135,9 +135,16 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       )
       expect(assigns(:hide_layouts)).to be(true)
       expect(assigns(:public_product_rsc_demo_props).dig(:product, :name)).to eq("Public RSC widget")
+      expect(assigns(:public_product_rsc_demo_props).dig(:product, :long_url)).to be_nil
+      expect(assigns(:public_product_rsc_demo_props).dig(:product, :purchase_url)).to be_nil
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :home_url)).to eq(root_path)
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :control_url)).to be_nil
       expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :performance_url)).to eq(public_product_performance_demo_path)
       expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :rsc_url)).to eq(public_product_rsc_demo_path)
       expect(assigns(:precomputed_rendering_context)).to include(:design_settings, :domain_settings, :user_agent_info)
+      expect(controller.send(:meta_tags).fetch("canonical")[:href]).to eq(public_product_rsc_demo_url)
+      expect(controller.send(:meta_tags).fetch("meta-property-og-url")[:content]).to eq(public_product_rsc_demo_url)
+      expect(controller.send(:meta_tags)).not_to have_key("structured-data")
       expect(response.headers["Last-Modified"]).to be_present
       expect(response.headers["X-Accel-Buffering"]).to eq("no")
       expect(response.headers["Server-Timing"]).to include("action_total")
