@@ -43,7 +43,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
 
       expect(product_props.fetch("name")).to eq("Creator Analytics Playbook")
       expect(product_props.fetch("seller").fetch("name")).to eq("Northstar Studio")
-      expect(product_props.fetch("description_sections").first.fetch("body")).to include("mostly static")
+      expect(product_props.fetch("description_sections").first.fetch("body")).to include("visible before hydration")
       expect(product_props.fetch("price_cents")).to eq(3900)
       expect(response.body).to include("Creator Analytics Playbook")
       expect(response.body).to include("rel=\"canonical\"")
