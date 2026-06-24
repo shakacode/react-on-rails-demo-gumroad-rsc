@@ -6,7 +6,8 @@ import { Buffer } from "node:buffer";
 const DEFAULT_URLS = ["https://gumroad.com/discover"];
 // Pass an explicit public product URL when checking product-page shape; do not commit scraped creator content.
 
-const urls = process.argv.slice(2);
+const includeSourceUrl = process.argv.includes("--include-source-url");
+const urls = process.argv.slice(2).filter((arg) => arg !== "--include-source-url");
 const targetUrls = urls.length > 0 ? urls : DEFAULT_URLS;
 
 const decodeHtmlAttribute = (value) =>
@@ -58,15 +59,10 @@ for (const url of targetUrls) {
   const html = await response.text();
   const dataPageMatch = html.match(/data-page="([^"]*)"/u);
   const report = {
-    url,
+    source: new URL(url).pathname === "/discover" ? "public Gumroad Discover page" : "public Gumroad product page",
     status: response.status,
     contentType: response.headers.get("content-type"),
     htmlBytes: Buffer.byteLength(html),
-    title:
-      html
-        .match(/<title[^>]*>(.*?)<\/title>/iu)?.[1]
-        ?.replace(/\s+/gu, " ")
-        .trim() ?? null,
     scriptTags: (html.match(/<script\b/gu) || []).length,
     imgTags: (html.match(/<img\b/gu) || []).length,
     hasInertiaDataPage: Boolean(dataPageMatch),
@@ -74,6 +70,8 @@ for (const url of targetUrls) {
     propKeys: [],
     selectedShapes: {},
   };
+
+  if (includeSourceUrl) report.sourceUrl = url;
 
   if (dataPageMatch) {
     const page = JSON.parse(decodeHtmlAttribute(dataPageMatch[1]));

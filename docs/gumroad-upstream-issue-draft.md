@@ -28,7 +28,7 @@ I put together a public experiment repo that tracks Gumroad and compares matched
 - Product React Server Components route: https://gumroad.reactonrails.com/public_product/rsc_demo
 - Discover Inertia control: https://gumroad.reactonrails.com/public_product/discover_inertia_demo
 - Discover React Server Components route: https://gumroad.reactonrails.com/public_product/discover_rsc_demo
-- Comparison docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-findings.md
+- Current PR with result and fixture-provenance docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/45
 
 The goal is not to argue for a broad rewrite.
 The goal is to determine whether public, buyer-facing product and Discover pages can get enough SEO, conversion, browse, and loading-performance benefit to justify the extra complexity.
@@ -42,8 +42,9 @@ The hosted lab now has production-shaped synthetic fixtures for the public pages
 - both route pairs are logged out and visible without a demo account
 - both route pairs use the same fixture data for Inertia and React Server Components
 - the fixtures were shaped from public Gumroad page structure without committing copied creator content
+- the current control route is a custom Inertia benchmark surface, not yet the production `Discover/Index` or `Products/Discover/Show` component migrated one-for-one
 
-So the current result is not yet a final adoption claim. It is a visible reason to keep testing on the page type that matters most for Gumroad:
+The first hosted A/B result is favorable enough to keep testing on the page type that matters most for Gumroad:
 
 - public product pages
 - public Discover pages
@@ -51,7 +52,15 @@ So the current result is not yet a final adoption claim. It is a visible reason 
 - conversion-sensitive buyer loading
 - browse-to-product discovery
 - client JavaScript reduction
-- measured mobile `LCP`, `TBT`, `INP`, and navigation wins
+
+Hosted headless-Chrome results from `2026-06-23 HST` / `2026-06-24 UTC`:
+
+| Public surface | Median nav duration | Median LCP start | JS requests |
+| --- | ---: | ---: | ---: |
+| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` |
+| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` |
+
+This is not the final mobile adoption claim yet. The next proof step should be a mobile-throttled ShakaPerf/Lighthouse repeat with `LCP`, `TBT`, `INP`, and mobile score.
 
 The dashboard comparison remains useful as a technical proof, but it should not carry the Gumroad value case because logged-in dashboard pages are not the public buyer path.
 
@@ -61,12 +70,13 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 - the RSC routes can be benchmarked against matched Inertia controls on the same data
 - the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
 - the next measurement step is straightforward: mobile ShakaPerf/Lighthouse-style A/B testing on both public route pairs
+- the initial hosted browser-navigation result is already large enough to justify that next step
 
 ## What I am not claiming
 
 - that the full Gumroad dashboard is already faster under RSC
 - that RSC is a better fit for every Inertia page
-- that the current payload result is enough to justify adoption by itself without mobile LCP/navigation evidence
+- that the current hosted headless-Chrome result is enough to justify adoption by itself without mobile LCP/TBT/INP evidence
 
 ## What I want feedback on
 
@@ -77,7 +87,8 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 ## Links
 
 - Public product demo details: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/public-product-rsc-demo.md
-- Performance findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-findings.md
+- Public buyer-page performance results and fixture sampling notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/45
+- Historical dashboard/bundler findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-findings.md
 - Performance evaluation notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-evaluation.md
 ```
 

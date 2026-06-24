@@ -11,6 +11,7 @@ Do not claim:
 - a universal RSC win
 - that the full dashboard is already faster
 - that `Rspack` is responsible for the route-level runtime gain
+- that the hosted headless-Chrome result replaces a mobile Lighthouse report
 
 ## Suggested video length
 
@@ -19,46 +20,47 @@ Do not claim:
 
 ## Recording setup
 
-- keep both demo routes logged in before recording
-- have [docs/performance-findings.md](./performance-findings.md) open in another tab
+- open the logged-out public lab at `https://gumroad.reactonrails.com/rsc-demo`
+- have [docs/public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md) open in another tab
 - keep the repo README open in another tab
-- optionally keep the two screenshots visible as a fallback
+- optionally keep the product and Discover route pairs open in separate tabs
 
 ## Short version script
 
 ### Opening
 
 ```text
-This is a Gumroad rendering experiment from ShakaCode.
-The question is simple: can a bounded React on Rails Pro plus React Server Components surface beat a matched Inertia control enough to justify the extra complexity?
+This is a Gumroad public-page rendering experiment from ShakaCode.
+The question is simple: can React on Rails Pro plus React Server Components make buyer-facing product and Discover pages faster than a matched Inertia control enough to justify the extra complexity?
 ```
 
 ### Show the control
 
 ```text
-This route is the control: `/dashboard/inertia_demo`.
-It uses the same reduced seller-data surface as the experiment route.
+This route is the control: `/public_product/discover_inertia_demo`.
+It uses the same synthetic production-shaped Discover fixture as the experiment route.
 ```
 
 ### Show the RSC route
 
 ```text
-This route is the experiment: `/dashboard/rsc_demo`.
-Same basic surface, different rendering model.
+This route is the experiment: `/public_product/discover_rsc_demo`.
+Same public marketplace data, different rendering model.
 ```
 
 ### State the measured result
 
 ```text
-On this matched local comparison, the RSC route is faster on total navigation duration and faster on LCP.
-The Inertia control still wins on server response end.
-So this is not a universal win, but it is a real user-visible win on a bounded surface.
+On the hosted A/B run, the Discover RSC route cuts median navigation duration from about 797ms to 284ms and drops JS requests from 7 to 1.
+The product detail route shows the same shape: about 812ms to 272ms median navigation duration.
+That is not a universal win, but it is a real buyer-page win on bounded public surfaces.
 ```
 
 ### Close
 
 ```text
-That makes this interesting for product positioning and maybe for a narrow upstream discussion, but not yet for a broad adoption recommendation.
+That makes this interesting for product positioning and for a narrow upstream discussion.
+The next honest proof gate is a mobile Lighthouse/ShakaPerf repeat with LCP, TBT, and INP.
 ```
 
 ## Full version script
@@ -73,9 +75,9 @@ We are trying to identify whether some read-heavy Rails surfaces cross the line 
 ### 2. Show the repo
 
 ```text
-This repo tracks Gumroad and keeps the work stacked:
-baseline docs first, React 19 plus Rspack second, and the React Server Components via React on Rails Pro demo third.
-That keeps the review surface understandable.
+This repo tracks Gumroad and keeps the work bounded:
+first a public product page, then a public Discover page, each with a matched Inertia control and React Server Components route.
+That keeps the review surface understandable and focused on buyer-page performance.
 ```
 
 ### 3. Show the two routes
@@ -83,17 +85,15 @@ That keeps the review surface understandable.
 ```text
 Here is the Inertia control route.
 Here is the RSC experiment route.
-Both use the same reduced creator-home slice and the same seller-data surface.
+Both use the same production-shaped synthetic fixture, so we are measuring rendering architecture rather than content differences.
 ```
 
 ### 4. Explain the actual result
 
 ```text
-The matched RSC route wins on total navigation duration and on LCP.
-The matched Inertia route still wins on response end.
-That means the current story is mixed but promising.
-The upside is user-visible.
-The remaining cost is still on the server side.
+Both public RSC routes win hard on median navigation duration and reduce client JavaScript from seven requests to one.
+Product detail improves median LCP from 368ms to 304ms; Discover improves median LCP from 360ms to 322ms.
+The tradeoff is larger HTML transfer because RSC streams rendered content instead of shipping a serialized Inertia payload.
 ```
 
 ### 5. Separate the two stories
@@ -107,7 +107,7 @@ If we blur those together, we weaken both claims.
 ### 6. Show the docs
 
 ```text
-The repo includes the current status, the detailed performance findings, the public performance evaluation notes, and the positioning notes.
+The repo includes the current status, the hosted public buyer-page results, the public performance evaluation notes, and the positioning notes.
 So this is not just a demo branch.
 It is meant to help decide what should be positioned, what should be optimized next, and what should never be over-claimed.
 ```
@@ -115,25 +115,27 @@ It is meant to help decide what should be positioned, what should be optimized n
 ### 7. Close with the honest ask
 
 ```text
-If the next optimization pass keeps the LCP and navigation win while shrinking the response-end gap, this becomes much more compelling.
+If the mobile Lighthouse repeat keeps the navigation and LCP win while TBT and INP also move in the right direction, this becomes a credible Gumroad-facing proposal.
 If not, it is still valuable because it tells us where the tradeoff actually lives.
 ```
 
 ## Shot list
 
-1. README top section with the two screenshots
-2. `/dashboard/inertia_demo`
-3. `/dashboard/rsc_demo`
-4. `docs/performance-findings.md` metrics table
-5. `docs/current-status.md` short answer and current result
-6. optional PR stack view on GitHub
+1. README top section with the hosted public result
+2. `/rsc-demo`
+3. `/public_product/discover_inertia_demo`
+4. `/public_product/discover_rsc_demo`
+5. `docs/public-buyer-page-performance-results.md` metrics table
+6. `docs/current-status.md` short answer and current result
+7. optional PR stack view on GitHub
 
 ## Good phrases to use
 
 - `bounded comparison surface`
 - `matched Inertia control`
-- `user-visible win on LCP`
-- `still slower on responseEnd`
+- `public buyer-page win`
+- `reduced client JavaScript`
+- `mobile proof gate`
 - `promising, not universal`
 
 ## Phrases to avoid

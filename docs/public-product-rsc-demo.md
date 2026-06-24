@@ -23,6 +23,8 @@ public benchmark is stable, logged out, and same-origin. A small shape sampler i
 `Discover/Index` and `Products/Discover/Show` pages to identify field and layout
 shape. The committed fixture does not copy creator text, seller URLs, product
 thumbnails, or real product names.
+See [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) for
+the sanitized shape artifact and the fixture sanitation policy.
 
 ## Why this page matters
 
@@ -61,12 +63,23 @@ The early small product route was useful for validating the rendering path, but
 it was too small to settle whether Gumroad should consider adopting this stack.
 The current comparison uses real-page-shaped synthetic fixtures:
 
-- Discover listing page: a dense grid of product cards, categories, thumbnails, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
-- Product detail page: a public product landing page with realistic media, seller profile data, description length, recommendations, purchase framing, and mobile above-the-fold content
+- Discover listing page: a dense grid of product cards, categories, synthetic cover placeholders, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
+- Product detail page: a public product landing page with synthetic media placeholders, seller profile data, description length, recommendations, purchase framing, and mobile above-the-fold content
 - Matched implementations: one route rendered with the current Inertia approach and one route rendered with React Server Components via React on Rails Pro
-- Same data, same host, same measurement harness, so ShakaPerf results reflect rendering architecture rather than fixture differences
+- Same data, same host, same measurement harness, so benchmark results reflect rendering architecture rather than fixture differences
 
 Public Gumroad pages expose enough metadata, HTML, and Inertia page data to build these fixtures from a small set of public examples. For a public demo repository, prefer curated and sanitized fixture data or production-shaped synthetic data over broad scraping or wholesale copied creator content. Use real Gumroad URLs as external shape references, not as unreviewed committed content or the apples-to-apples A/B baseline.
+
+The current "before" implementation intentionally uses a custom Inertia benchmark
+surface rather than Gumroad's full production `Discover/Index` or
+`Products/Discover/Show` components. That keeps the route pair same-data and
+easy to measure while proving the React on Rails Pro rendering path. It should
+not be overclaimed as a completed production component migration. A stronger
+follow-up is to reuse the existing public Gumroad components with sanitized
+production-shaped props where feasible, then compare those to an RSC equivalent.
+Another stronger follow-up is to add sanitized local image/media fixtures and
+rerun the benchmark, because the current committed route uses synthetic cover
+placeholders rather than real creator media.
 
 To re-sample public page shape without committing scraped content:
 

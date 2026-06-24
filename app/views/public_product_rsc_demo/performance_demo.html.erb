@@ -344,13 +344,59 @@
         and taxonomy props. This repo uses that shape without copying creator content.
       </p>
 
+      <section class="dd-section" id="hosted-headless-chrome-result">
+        <header>
+          <h2>Hosted headless Chrome A/B result</h2>
+          <p>
+            Captured on <code>2026-06-23 HST</code> / <code>2026-06-24 UTC</code> against
+            <code>https://gumroad.reactonrails.com</code> with local headless Chrome 149, 8 alternating cycles,
+            and 2 warmup requests per measured run.
+          </p>
+        </header>
+
+        <div class="dd-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Public surface</th>
+                <th>Median nav duration</th>
+                <th>Median LCP start</th>
+                <th>JS requests</th>
+                <th>Inertia payload</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Product detail</td>
+                <td><code>811.50ms</code> -> <code>272.25ms</code> (<strong>-66.5%</strong>)</td>
+                <td><code>368.00ms</code> -> <code>304.00ms</code> (<strong>-17.4%</strong>)</td>
+                <td><code>7</code> -> <code>1</code> (<strong>-85.7%</strong>)</td>
+                <td><code>12,183 B</code> -> none</td>
+              </tr>
+              <tr>
+                <td>Discover marketplace</td>
+                <td><code>796.95ms</code> -> <code>283.75ms</code> (<strong>-64.4%</strong>)</td>
+                <td><code>360.00ms</code> -> <code>322.00ms</code> (<strong>-10.6%</strong>)</td>
+                <td><code>7</code> -> <code>1</code> (<strong>-85.7%</strong>)</td>
+                <td><code>24,960 B</code> -> none</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="dd-note is-info">
+          This is strong hosted browser-navigation evidence, not the final mobile-throttled Lighthouse claim.
+          RSC sends larger HTML because more rendered content arrives in the document, but it removes the serialized
+          Inertia payload and sharply reduces client JavaScript.
+        </p>
+      </section>
+
       <section class="dd-section">
         <header>
           <h2>What this report is allowed to claim</h2>
           <p>
-            The browser race below is a fast same-origin sanity check. The adoption claim must come from ShakaPerf or
-            Lighthouse-style A/B runs that show mobile LCP, navigation, TBT, INP, client JS, and payload wins on these
-            matched public pages.
+            The hosted headless Chrome A/B run shows a meaningful browser-navigation win on the right public surfaces.
+            A Gumroad adoption proposal still needs a mobile Lighthouse/ShakaPerf repeat with TBT, INP, and mobile score.
           </p>
         </header>
 
@@ -410,13 +456,13 @@
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Product detail pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-detail-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match</code>
+              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/inertia_demo --path /public_product/rsc_demo --label hosted-public-product-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Discover pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label public-discover-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match</code>
+              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label hosted-public-discover-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
             </p>
           </article>
           <article class="dd-row">
@@ -424,6 +470,23 @@
               <strong>External shape reference:</strong>
               <a href="<%= gumroad_discover_reference_url %>" target="_blank" rel="noopener"><%= gumroad_discover_reference_url %></a>
               helps explain why these fixtures are shaped this way, but it should not be treated as the A/B baseline.
+            </p>
+          </article>
+          <article class="dd-row" id="fixture-provenance">
+            <p class="dd-copy">
+              <strong>Fixture provenance:</strong>
+              public page shape sampling observed <code>Discover/Index</code> with a 36-card product grid,
+              8 tag buckets, 8 filetype buckets, and taxonomy navigation, plus
+              <code>Products/Discover/Show</code> with product seller, cover, rating, price, purchase, description,
+              and taxonomy fields. The committed benchmark fixture keeps those field families but uses synthetic names,
+              copy, prices, and cover placeholders instead of creator content, product URLs, seller URLs, or image URLs.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Hosted result docs:</strong>
+              the commands above reproduce the hosted public buyer-page run, while the headline table includes the
+              supporting caveat: this is a headless Chrome navigation result, not the final mobile Lighthouse claim.
             </p>
           </article>
         </div>
