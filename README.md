@@ -99,7 +99,7 @@ Local equivalents:
 - `https://gumroad.dev/public_product/inertia_demo`
 - `https://gumroad.dev/public_product/rsc_demo`
 
-Both product routes render the seeded public `demo` product and link back to the current Gumroad product page at `https://gumroad.dev/l/demo`.
+Both product routes render the seeded public `demo` product and link back to the hosted homepage and lab. They intentionally do not link to `/l/demo` on the hosted custom domain because Gumroad product helpers canonicalize product URLs to seller subdomains, and `*.gumroad.reactonrails.com` is not configured for this demo.
 
 ### What this repo currently proves
 
@@ -112,6 +112,7 @@ Both product routes render the seeded public `demo` product and link back to the
 ### Evidence still needed before a Gumroad adoption proposal
 
 - Run and publish a mobile ShakaPerf/Lighthouse-style A/B report for `/public_product/inertia_demo` vs `/public_product/rsc_demo`.
+- Replace the seeded toy product with production-shaped Discover and product-detail fixtures that match real Gumroad pages closely enough to make the comparison credible.
 - Use that report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
 - Profile renderer and streaming overhead if `responseEnd`, `TBT`, or tail latency weakens the RSC case.
 - Keep dashboard routes out of the headline story except as technical integration evidence.

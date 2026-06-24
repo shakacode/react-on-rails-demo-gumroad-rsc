@@ -35,7 +35,10 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(inertia.props.dig(:product, :name)).to eq("Public RSC widget")
       expect(inertia.props.dig(:product, :seller, :name)).to eq("Public Creator")
       expect(inertia.props.dig(:product, :summary)).to eq("A concise public product summary.")
-      expect(inertia.props.dig(:comparison, :control_url)).to eq(short_link_path(product))
+      expect(inertia.props.dig(:product, :long_url)).to be_nil
+      expect(inertia.props.dig(:product, :purchase_url)).to be_nil
+      expect(inertia.props.dig(:comparison, :home_url)).to eq(root_path)
+      expect(inertia.props.dig(:comparison, :control_url)).to be_nil
       expect(inertia.props.dig(:comparison, :performance_url)).to eq(public_product_performance_demo_path)
       expect(response.headers["Server-Timing"]).to include("action_total")
       expect(response.headers["Server-Timing"]).to include("compare_product")
@@ -70,6 +73,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include("product:retailer_item_id")
       expect(response.body).to include("og:title")
       expect(response.body).to include("rel=\"canonical\"")
+      expect(response.body).to include(public_product_inertia_demo_url)
+      expect(response.body).not_to include(product.long_url)
     end
 
     it "does not expose an unavailable demo product to logged-out visitors" do
@@ -102,10 +107,12 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include("Gumroad RSC performance lab")
       expect(response.body).to include(public_product_inertia_demo_path)
       expect(response.body).to include(public_product_rsc_demo_path)
+      expect(response.body).to include(root_path)
       expect(response.body).to include("Live browser race")
       expect(response.body).to include("First streamed bytes")
       expect(response.body).to include("Route script bytes")
       expect(response.body).to include("Serialized Inertia payload")
+      expect(response.body).not_to include(short_link_path(product))
       expect(assigns(:hide_layouts)).to be(true)
     end
   end

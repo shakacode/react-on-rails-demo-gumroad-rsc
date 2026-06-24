@@ -82,7 +82,18 @@ class PublicProductRscDemoController < ApplicationController
     def prepare_public_product_page
       set_meta_tag(title: @product.name)
       set_product_page_meta(@product)
+      set_public_demo_canonical_meta
       set_meta_tag(tag_name: "style", inner_content: @product.user.seller_profile.custom_styles.to_s, head_key: "custom_styles")
+    end
+
+    def set_public_demo_canonical_meta
+      demo_url = action_name == "rsc_demo" ? public_product_rsc_demo_url : public_product_inertia_demo_url
+
+      remove_meta_tag("canonical")
+      remove_meta_tag("meta-property-og-url")
+      remove_meta_tag("structured-data")
+      set_meta_tag(tag_name: "link", rel: "canonical", href: demo_url, head_key: "canonical")
+      set_meta_tag(property: "og:url", content: demo_url)
     end
 
     def content_security_policy_nonce(_directive = nil)
