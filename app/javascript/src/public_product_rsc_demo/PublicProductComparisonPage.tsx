@@ -8,6 +8,7 @@ type BenchmarkPageKind = "discover" | "product";
 type Seller = {
   avatar_initials: string;
   followers_count?: number;
+  id?: string;
   is_verified?: boolean;
   name: string;
   tagline?: string;
@@ -99,7 +100,6 @@ export type PublicProductComparisonPageProps = {
   comparison: ComparisonLinks;
   discover_page: DiscoverPage | null;
   locale: string;
-  page_kind: BenchmarkPageKind;
   product_page: ProductPage | null;
   source_note: string;
 };

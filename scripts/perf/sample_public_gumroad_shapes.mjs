@@ -3,10 +3,8 @@
 
 import { Buffer } from "node:buffer";
 
-const DEFAULT_URLS = [
-  "https://gumroad.com/discover",
-  "https://allpatriots.gumroad.com/l/tothemoononecount?layout=discover&recommended_by=search",
-];
+const DEFAULT_URLS = ["https://gumroad.com/discover"];
+// Pass an explicit public product URL when checking product-page shape; do not commit scraped creator content.
 
 const urls = process.argv.slice(2);
 const targetUrls = urls.length > 0 ? urls : DEFAULT_URLS;
