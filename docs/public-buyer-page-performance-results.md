@@ -78,7 +78,7 @@ ruby scripts/perf/compare_dashboard_routes.rb \
 
 ## Next Proof Gates
 
-- Repeat as a mobile-throttled Lighthouse/ShakaPerf report with `LCP`, `TBT`, `INP`, total blocking time, and mobile score.
+- Repeat as a mobile-throttled Lighthouse/ShakaPerf report with `LCP`, `TBT`, `INP`, and mobile score.
 - Add renderer-internal timing for the React on Rails Pro streaming path.
 - Repeat after adding a more realistic product-media payload, because images and responsive media are a major public product-page cost.
 - If the mobile run preserves the navigation/LCP/client-JS advantage, convert this into a Gumroad-facing proposal focused on public product and Discover pages.

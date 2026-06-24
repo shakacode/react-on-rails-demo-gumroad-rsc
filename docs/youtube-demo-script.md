@@ -60,7 +60,7 @@ That is not a universal win, but it is a real buyer-page win on bounded public s
 
 ```text
 That makes this interesting for product positioning and for a narrow upstream discussion.
-The next honest proof gate is a mobile Lighthouse/ShakaPerf repeat with TBT and INP.
+The next honest proof gate is a mobile Lighthouse/ShakaPerf repeat with LCP, TBT, and INP.
 ```
 
 ## Full version script
