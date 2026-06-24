@@ -36,6 +36,7 @@ PRIMARY_COMPARISON_METRICS = {
   comparePropsMs: [:serverTiming, "compare_props", :durationMs],
   compareCreatorHomeMs: [:serverTiming, "compare_creator_home", :durationMs],
   compareProductMs: [:serverTiming, "compare_product", :durationMs],
+  compareDiscoverMs: [:serverTiming, "compare_discover", :durationMs],
   sqlActiveRecordMs: [:serverTiming, "sql.active_record", :durationMs],
   renderDispatchMs: [:serverTiming, "render_dispatch", :durationMs]
 }.freeze

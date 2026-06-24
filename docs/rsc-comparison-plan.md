@@ -110,6 +110,6 @@ Do not take this upstream unless the experiment can show:
 - objective wins or a very strong qualitative improvement
 - acceptable maintenance overhead
 
-For the first runtime pitch, "objective wins" should mean that the React Server Components via React on Rails Pro public product route beats the matched Inertia public product route on client JS cost, initial product HTML or metadata quality, and at least one user-facing load metric.
+For the first runtime pitch, "objective wins" should mean that the React Server Components via React on Rails Pro public product and Discover routes beat the matched Inertia routes on client JS cost, initial HTML or metadata quality, and at least one user-facing load metric.
 
 Without that, this should remain a ShakaCode experiment repo rather than an upstream proposal.

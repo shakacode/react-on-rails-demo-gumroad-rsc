@@ -5,18 +5,15 @@ class PublicProductRscDemoController < ApplicationController
   include LiveActiveRecordConnectionCleanup
   include LiveStreamingResponseHeaders
   include DashboardComparisonTiming
-  include PageMeta::Product
 
-  PUBLIC_DEMO_SELLER_EMAIL = "seller@gumroad.com"
-
-  before_action :set_public_demo_product
   before_action :prepare_public_product_page, only: %i[inertia_demo rsc_demo]
-  before_action :prepare_live_streaming_response, only: :rsc_demo
-  prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo]
-  write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo]
+  before_action :prepare_public_discover_page, only: %i[discover_inertia_demo discover_rsc_demo]
+  before_action :prepare_live_streaming_response, only: %i[rsc_demo discover_rsc_demo]
+  prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
+  write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
   helper_method :content_security_policy_nonce
 
-  layout "inertia", only: %i[inertia_demo performance_demo]
+  layout "inertia", only: %i[inertia_demo discover_inertia_demo performance_demo]
 
   def inertia_demo
     with_dashboard_comparison_timing("action_total") do
@@ -24,6 +21,16 @@ class PublicProductRscDemoController < ApplicationController
 
       with_dashboard_comparison_timing("render_dispatch") do
         render inertia: "PublicProduct/InertiaDemo", props: public_product_comparison_props
+      end
+    end
+  end
+
+  def discover_inertia_demo
+    with_dashboard_comparison_timing("action_total") do
+      @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+
+      with_dashboard_comparison_timing("render_dispatch") do
+        render inertia: "PublicProduct/DiscoverInertiaDemo", props: public_discover_comparison_props
       end
     end
   end
@@ -58,37 +65,67 @@ class PublicProductRscDemoController < ApplicationController
     end
   end
 
+  def discover_rsc_demo
+    with_dashboard_comparison_timing("action_total") do
+      @hide_layouts = true
+      @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+      @public_discover_rsc_demo_props = public_discover_comparison_props
+      @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
+      # ActionController::Live can keep this action thread open after the response
+      # reaches the client, so release DB connections before entering the stream.
+      release_live_active_record_connections
+
+      with_dashboard_comparison_timing("render_dispatch") do
+        stream_view_containing_react_components(
+          template: "public_product_rsc_demo/discover_rsc_demo",
+          layout: "inertia"
+        )
+      end
+    end
+  end
+
   private
     def public_product_comparison_props
       with_dashboard_comparison_timing("compare_props") do
         with_dashboard_comparison_timing("compare_product") do
-          PublicProductRscDemoPresenter.new(product: @product, request:, pundit_user:).props
+          public_product_rsc_demo_presenter.product_props
         end
       end
     end
 
-    def set_public_demo_product
-      @product = public_demo_products.find_by(unique_permalink: "demo") || e404
+    def public_discover_comparison_props
+      with_dashboard_comparison_timing("compare_props") do
+        with_dashboard_comparison_timing("compare_discover") do
+          public_product_rsc_demo_presenter.discover_props
+        end
+      end
     end
 
-    def public_demo_products
-      Link.alive.not_draft
-        .joins(:user)
-        .merge(User.alive)
-        .where(users: { email: PUBLIC_DEMO_SELLER_EMAIL })
-        .order(created_at: :asc, id: :asc)
+    def public_product_rsc_demo_presenter
+      @public_product_rsc_demo_presenter ||= PublicProductRscDemoPresenter.new(request:)
     end
 
     def prepare_public_product_page
-      set_meta_tag(title: @product.name)
-      set_product_page_meta(@product)
-      set_public_demo_canonical_meta
-      set_meta_tag(tag_name: "style", inner_content: @product.user.seller_profile.custom_styles.to_s, head_key: "custom_styles")
+      set_meta_tag(title: public_product_rsc_demo_presenter.product_title)
+      set_meta_tag(name: "description", content: public_product_rsc_demo_presenter.product_description)
+      set_meta_tag(property: "og:title", content: public_product_rsc_demo_presenter.product_title)
+      set_meta_tag(property: "og:description", content: public_product_rsc_demo_presenter.product_description)
+      set_public_demo_canonical_meta(
+        demo_url: action_name == "rsc_demo" ? public_product_rsc_demo_url : public_product_inertia_demo_url
+      )
     end
 
-    def set_public_demo_canonical_meta
-      demo_url = action_name == "rsc_demo" ? public_product_rsc_demo_url : public_product_inertia_demo_url
+    def prepare_public_discover_page
+      set_meta_tag(title: public_product_rsc_demo_presenter.discover_title)
+      set_meta_tag(name: "description", content: public_product_rsc_demo_presenter.discover_description)
+      set_meta_tag(property: "og:title", content: public_product_rsc_demo_presenter.discover_title)
+      set_meta_tag(property: "og:description", content: public_product_rsc_demo_presenter.discover_description)
+      set_public_demo_canonical_meta(
+        demo_url: action_name == "discover_rsc_demo" ? public_product_discover_rsc_demo_url : public_product_discover_inertia_demo_url
+      )
+    end
 
+    def set_public_demo_canonical_meta(demo_url:)
       remove_meta_tag("canonical")
       remove_meta_tag("meta-property-og-url")
       remove_meta_tag("structured-data")

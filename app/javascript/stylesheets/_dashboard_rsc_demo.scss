@@ -58,6 +58,8 @@
 .dd-header p,
 .dd-section header p,
 .dd-metrics p,
+.dd-card-body p,
+.dd-panel p,
 .dd-stamp {
   @include font-size(1);
   color: rgb(var(--color) / 0.65);
@@ -247,6 +249,259 @@
 
 .dd-list {
   overflow: hidden;
+}
+
+.dd-fixture-note {
+  margin: spacer(4) spacer(4) 0;
+}
+
+.dd-proof-line {
+  margin-top: spacer(2);
+}
+
+.dd-proof-line strong {
+  font-weight: 600;
+}
+
+.dd-product-hero,
+.dd-discover-hero {
+  display: grid;
+  gap: spacer(4);
+}
+
+.dd-product-hero {
+  @include breakpoint-up(lg) {
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr) minmax(16rem, 0.55fr);
+    align-items: stretch;
+  }
+}
+
+.dd-discover-hero {
+  border: $border-width solid $border-color;
+  border-radius: border-radius(1);
+  padding: spacer(4);
+  background: radial-gradient(circle at 100% 0, rgb(var(--accent) / 0.18), transparent 22rem), rgb(var(--filled));
+
+  @include breakpoint-up(lg) {
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.7fr);
+    align-items: center;
+  }
+}
+
+.dd-discover-hero h2,
+.dd-product-copy h2 {
+  @include font-size(5);
+
+  font-weight: 600;
+  line-height: 1;
+}
+
+.dd-product-copy,
+.dd-product-media,
+.dd-buy-card,
+.dd-panel,
+.dd-product-card {
+  border: $border-width solid $border-color;
+  border-radius: border-radius(1);
+  background: rgb(var(--filled));
+}
+
+.dd-product-copy,
+.dd-buy-card,
+.dd-panel {
+  padding: spacer(4);
+}
+
+.dd-product-copy {
+  display: grid;
+  gap: spacer(3);
+}
+
+.dd-product-copy > p:not(.dd-eyebrow),
+.dd-discover-hero > div > p:not(.dd-eyebrow) {
+  @include font-size(3);
+
+  color: rgb(var(--color) / 0.72);
+}
+
+.dd-product-media,
+.dd-card-cover {
+  background: radial-gradient(circle at 20% 20%, var(--dd-cover-accent), transparent 8rem),
+    linear-gradient(135deg, var(--dd-cover-start), var(--dd-cover-end));
+}
+
+.dd-product-media {
+  display: grid;
+  min-height: 22rem;
+  place-items: center;
+  align-content: center;
+  gap: spacer(3);
+  padding: spacer(4);
+  color: #111;
+  text-align: center;
+}
+
+.dd-product-media span,
+.dd-card-cover span {
+  display: grid;
+  place-items: center;
+  border: $border-width solid #111;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.78);
+  font-weight: 700;
+}
+
+.dd-product-media span {
+  width: 5rem;
+  height: 5rem;
+  @include font-size(5);
+}
+
+.dd-product-media strong {
+  @include font-size(5);
+
+  max-width: 14rem;
+  line-height: 1;
+}
+
+.dd-buy-card {
+  display: flex;
+  flex-direction: column;
+  gap: spacer(3);
+}
+
+.dd-buy-card > strong {
+  @include font-size(5);
+
+  line-height: 1;
+}
+
+.dd-buy-card span {
+  color: rgb(var(--color) / 0.65);
+}
+
+.dd-chip-row,
+.dd-filter-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: spacer(2);
+}
+
+.dd-chip {
+  display: inline-flex;
+  align-items: center;
+  border: $border-width solid $border-color;
+  border-radius: 9999px;
+  padding: spacer(1) spacer(2);
+  background: rgb(var(--filled));
+  color: rgb(var(--color) / 0.72);
+  @include font-size(1);
+}
+
+.dd-two-column,
+.dd-category-grid,
+.dd-card-grid {
+  display: grid;
+  gap: spacer(3);
+}
+
+.dd-two-column {
+  @include breakpoint-up(md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.dd-category-grid {
+  @include breakpoint-up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.dd-panel {
+  display: grid;
+  align-content: start;
+  gap: spacer(2);
+}
+
+.dd-panel h3 {
+  @include font-size(3);
+
+  font-weight: 600;
+}
+
+.dd-card-grid {
+  @include breakpoint-up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @include breakpoint-up(xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.dd-card-grid--dense {
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @include breakpoint-up(xl) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.dd-product-card {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.dd-product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.08);
+}
+
+.dd-card-cover {
+  min-height: 11rem;
+  border-bottom: $border-width solid $border-color;
+}
+
+.dd-card-cover span {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: spacer(3);
+}
+
+.dd-card-body {
+  display: grid;
+  gap: spacer(2);
+  padding: spacer(3);
+}
+
+.dd-card-body h3 {
+  @include font-size(3);
+
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.dd-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: spacer(2);
+}
+
+.dd-card-meta strong {
+  font-weight: 600;
+}
+
+.dd-discover-metrics {
+  grid-template-columns: 1fr;
 }
 
 .dd-lab-grid {

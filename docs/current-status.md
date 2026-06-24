@@ -2,9 +2,9 @@
 
 ## Short answer
 
-The public product demo pair is implemented and locally browser-smoke validated.
-The public demo now has a visible performance lab entry point at `/rsc-demo`
-and `/public_product/performance_demo` so visitors can see same-origin stream
+The production-shaped public product and Discover demo pairs are implemented.
+The public demo has a visible performance lab entry point at `/rsc-demo` and
+`/public_product/performance_demo` so visitors can see same-origin stream
 timing, response size, route script bytes, and serialized Inertia payload differences before
 digging into DevTools or benchmark artifacts.
 
@@ -31,12 +31,12 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Preserved `upstream` so the experiment stays grounded in the real app
 - Documented the comparison plan in [rsc-comparison-plan.md](./rsc-comparison-plan.md)
 - Documented the runtime pass/fail rubric in [rsc-benchmark-plan.md](./rsc-benchmark-plan.md)
-- Documented the public product proof target in [public-product-rsc-demo.md](./public-product-rsc-demo.md)
+- Documented the public product and Discover proof targets in [public-product-rsc-demo.md](./public-product-rsc-demo.md)
 - Documented positioning, adjacent ideas, and IP guardrails in [positioning-notes.md](./positioning-notes.md)
 - Added public performance evaluation notes in [performance-evaluation.md](./performance-evaluation.md)
-- Added a logged-out public product comparison route pair at `/public_product/inertia_demo` and `/public_product/rsc_demo`
+- Added logged-out public product and Discover comparison route pairs at `/public_product/inertia_demo`, `/public_product/rsc_demo`, `/public_product/discover_inertia_demo`, and `/public_product/discover_rsc_demo`
 - Added `--public` / `--skip-login` benchmark support so the public route pair can be measured without dashboard authentication
-- Added controller and browser smoke coverage for the public product comparison routes
+- Added controller and browser smoke coverage for the public comparison routes
 - Selected `Dashboard` as the first comparison surface
 - Documented the first implementation-facing brief in [dashboard-experiment-brief.md](./dashboard-experiment-brief.md)
 - Documented measured results in [performance-findings.md](./performance-findings.md)
@@ -80,7 +80,7 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - the React 19 type fallout has not been cleaned up yet across the app
 - the broad React 19 cleanup still needs its own reviewable branch strategy
 - the full current `/dashboard` route is still too noisy for a fair RSC-versus-Inertia story
-- the public product route pair still needs a production-like local benchmark and deployed repeat before making a performance claim
+- the public product and Discover route pairs still need production-like local benchmarks and deployed repeats before making a performance claim
 - renderer-internal profiling is still missing
 - the demo has not yet been reduced to a compelling upstream-review story
 
@@ -107,9 +107,9 @@ Short version:
 - the latest pass still has a caution: `p95 responseEnd` is modestly worse for the React Server Components route
 - route order and warm-state effects are real enough that the alternating runner is now the benchmark method that matters
 - these dashboard findings prove integration and measurement discipline, not SEO or conversion value
-- the public product pair is now the route pair that should carry the next SEO/conversion benchmark
+- the public product and Discover pairs are now the route pairs that should carry the next SEO/conversion benchmark
 
-That means the dashboard demo is real, the user-visible dashboard story is favorable, and the public product route pair is ready for focused benchmarking.
+That means the dashboard demo is real, the user-visible dashboard story is favorable as integration evidence, and the public product plus Discover route pairs are ready for focused benchmarking.
 
 The missing piece is no longer "can this compile?" or "does it survive a production-like local pass?" The missing piece is "does the favorable local result survive a deployed repeat and renderer profiling?"
 
@@ -226,11 +226,11 @@ Recommended order:
 
 1. Preserve this branch as the "Shakapacker 10 plus Rspack viability" branch.
 2. Decide whether React 19 type cleanup belongs in the same branch or in a follow-up stacked branch.
-3. Benchmark `/public_product/inertia_demo` versus `/public_product/rsc_demo` with `--public` in production-like local and deployed review/staging environments.
+3. Benchmark `/public_product/inertia_demo` versus `/public_product/rsc_demo` and `/public_product/discover_inertia_demo` versus `/public_product/discover_rsc_demo` with `--public` in production-like local and deployed review/staging environments.
 4. Treat `/dashboard/inertia_demo` and `/dashboard/rsc_demo` as technical proof routes, not the main product value proof.
 5. Use the alternating runner, route-scoped `Server-Timing`, SEO checks, and public-page payload measurements together when making any performance claim.
 6. Keep CI honest with the GitHub-hosted demo validation workflow for this public repo: it validates the Rspack build, the targeted demo controller specs, and the standalone `npm run build:rsc-demo` path.
-   It now also boots the Node renderer and runs a headless browser smoke spec for both demo routes.
+   It now also boots the Node renderer and runs a headless browser smoke spec for the public demo routes.
 7. Repeat the production-like alternating comparison on a stable deployed environment, ideally Control Plane, before using the numbers externally.
 8. Add renderer-internal timing or expose a separate `/rsc_payload/` browser resource; the current route streams the RSC payload inline, so the browser resource timing fields stay empty.
 9. Only then decide whether a deeper upstream migration story is warranted.

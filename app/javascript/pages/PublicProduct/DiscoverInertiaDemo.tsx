@@ -5,8 +5,8 @@ import PublicProductComparisonPage, {
   type PublicProductComparisonPageProps,
 } from "$app/src/public_product_rsc_demo/PublicProductComparisonPage";
 
-export default function PublicProductInertiaDemo() {
+export default function PublicProductDiscoverInertiaDemo() {
   const props = usePage<PublicProductComparisonPageProps>().props;
 
-  return <PublicProductComparisonPage {...props} pageKind="product" variant="inertia" />;
+  return <PublicProductComparisonPage {...props} pageKind="discover" variant="inertia" />;
 }

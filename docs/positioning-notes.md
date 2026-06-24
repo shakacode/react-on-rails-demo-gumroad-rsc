@@ -223,11 +223,11 @@ For now, the best path is:
 - document where React on Rails Pro wins
 - treat the current Inertia plus Rspack branch as enabling infrastructure, not the runtime pitch
 - use the matched `/dashboard/inertia_demo` versus `/dashboard/rsc_demo` pair as a technical proof surface
-- use `/public_product/inertia_demo` versus `/public_product/rsc_demo` as the main SEO and conversion-sensitive value proof, then benchmark it with `--public`
-- treat the current production-like balanced alternating result as promising but still local:
-- the matched RSC route wins on median `LCP`, total navigation duration, and `responseEnd`
-- the matched RSC route also cuts page-specific JS requests from `6` to `1`
-- the matched Inertia route still wins on `p95 responseEnd`, so tail behavior needs profiling
+- use the product pair (`/public_product/inertia_demo` versus `/public_product/rsc_demo`) and Discover pair (`/public_product/discover_inertia_demo` versus `/public_product/discover_rsc_demo`) as the main SEO and conversion-sensitive value proof, then benchmark both with `--public`
+- treat the current production-like balanced alternating dashboard result as promising integration evidence, not the public-page claim:
+- the matched dashboard RSC route wins on median `LCP`, total navigation duration, and `responseEnd`
+- the matched dashboard RSC route also cuts page-specific JS requests from `6` to `1`
+- the matched dashboard Inertia route still wins on `p95 responseEnd`, so tail behavior needs profiling
 - note that the RSC payload is streamed inline in this implementation, so browser `/rsc_payload/` resource timing is empty until we expose a separate resource or renderer timing
 - require the next React Server Components via React on Rails Pro pass to repeat the win on a stable deployed environment while narrowing tail latency
 - only then decide whether the next move is docs, a public integration, a private product feature, or an upstream proposal

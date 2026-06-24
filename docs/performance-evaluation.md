@@ -2,14 +2,16 @@
 
 ## What this is
 
-This repo contains a public product-page comparison between:
+This repo contains two production-shaped public buyer-page comparisons:
 
-- `Inertia` control route: `/public_product/inertia_demo`
-- React Server Components via React on Rails Pro route: `/public_product/rsc_demo`
+- product `Inertia` control route: `/public_product/inertia_demo`
+- product React Server Components via React on Rails Pro route: `/public_product/rsc_demo`
+- Discover `Inertia` control route: `/public_product/discover_inertia_demo`
+- Discover React Server Components via React on Rails Pro route: `/public_product/discover_rsc_demo`
 
-This is the value-proof surface because it is logged out, SEO-sensitive, conversion-sensitive, and visible without a demo account.
+These are the value-proof surfaces because they are logged out, SEO-sensitive, conversion-sensitive, mobile-heavy, and visible without a demo account.
 
-Use `--public` with the benchmark runner for this pair so measurements avoid login and dashboard cookies.
+Use `--public` with the benchmark runner for these pairs so measurements avoid login and dashboard cookies.
 
 The older dashboard comparison is still useful technical proof:
 
@@ -32,19 +34,20 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 
 ## Current conclusion
 
-The public product-page result is **promising but not yet adoption-proof**.
+The production-shaped public buyer-page result is **implemented but not yet adoption-proof**.
 
 What is already true:
 
-- the hosted public lab shows a large route JavaScript reduction: `880.8 KB` readable Inertia route scripts vs `340.4 KB` readable RSC route scripts
-- the RSC route removes the route-level serialized Inertia `data-page` payload from the public product page
-- both routes are logged out, so the comparison can be evaluated without a demo account
-- the public product route is the correct surface for SEO, conversion-sensitive loading, and mobile buyer performance
+- product and Discover pages now have matched Inertia and React Server Components via React on Rails Pro routes
+- both route pairs use the same synthetic production-shaped fixture data, host, route-scoped CSS, and measurement harness
+- the fixtures were shaped from public Gumroad `Discover/Index` and `Products/Discover/Show` page structure without committing copied creator content
+- all public comparison routes are logged out, so the comparison can be evaluated without a demo account
+- these public buyer pages are the correct surfaces for SEO, conversion-sensitive loading, client JavaScript cost, and mobile buyer performance
 
 What is not yet proven:
 
-- a deployed mobile ShakaPerf/Lighthouse-style A/B report showing meaningful `LCP`, `TBT`, `INP`, navigation, and mobile-score wins
-- production-grade renderer and streaming-path profiling for the public route
+- deployed mobile ShakaPerf/Lighthouse-style A/B reports for both product and Discover pairs showing meaningful `LCP`, `TBT`, `INP`, navigation, payload, route JavaScript, and mobile-score wins
+- production-grade renderer and streaming-path profiling for the public routes
 - that the measured public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad
 
 The dashboard RSC implementation is also **promising but not fully optimized**.
@@ -57,7 +60,7 @@ What is already true:
 - the RSC route reduces page-specific JS requests from `6` to `1` in the latest balanced pass
 - the demo JS and CSS are route-scoped, so unrelated pages are not paying for the experiment
 - the raw RSC HTML transfer is now close to the Inertia control after the response-end pass
-- the dashboard result is useful for proving the stack, but the public product route must carry the SEO and conversion story
+- the dashboard result is useful for proving the stack, but the public product and Discover routes must carry the SEO and conversion story
 
 What is not yet proven:
 
@@ -66,7 +69,7 @@ What is not yet proven:
 - measurement order affects cache state enough that grouped batches can overstate the gap
 - `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
 - the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
-- the logged-out product route has not yet supplied production-like local or deployed mobile benchmark evidence
+- the new production-shaped product and Discover routes have not yet supplied production-like local or deployed mobile benchmark evidence
 
 ## Latest production-like alternating local result
 
@@ -300,7 +303,7 @@ The repo, hosted demo, and evaluation docs are public and can be shared with:
 
 - teams evaluating React on Rails for Rails/React architecture
 - teams evaluating ShakaCode for performance consulting
-- Gumroad maintainers evaluating whether the public product-page case is worth deeper review
+- Gumroad maintainers evaluating whether the public product and Discover page case is worth deeper review
 
 The artifact paths listed above are local benchmark outputs, so they are shareable through a repo checkout and branch work, but not through GitHub artifact hosting.
 The measurement script also now records browser/version provenance and percentile-style summary stats in those JSON outputs so the performance evaluation is less dependent on ad hoc environment notes.
