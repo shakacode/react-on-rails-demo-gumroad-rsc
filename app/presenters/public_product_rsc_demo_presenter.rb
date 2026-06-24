@@ -47,7 +47,6 @@ class PublicProductRscDemoPresenter
 
       {
         name: seller[:name],
-        profile_url: seller[:profile_url],
         avatar_url: seller[:avatar_url],
         is_verified: seller[:is_verified],
       }.compact

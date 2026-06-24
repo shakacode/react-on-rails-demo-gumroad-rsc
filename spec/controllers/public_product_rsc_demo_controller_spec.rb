@@ -34,6 +34,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(inertia).to render_component("PublicProduct/InertiaDemo")
       expect(inertia.props.dig(:product, :name)).to eq("Public RSC widget")
       expect(inertia.props.dig(:product, :seller, :name)).to eq("Public Creator")
+      expect(inertia.props.dig(:product, :seller, :profile_url)).to be_nil
       expect(inertia.props.dig(:product, :summary)).to eq("A concise public product summary.")
       expect(inertia.props.dig(:product, :long_url)).to be_nil
       expect(inertia.props.dig(:product, :purchase_url)).to be_nil
@@ -135,6 +136,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       )
       expect(assigns(:hide_layouts)).to be(true)
       expect(assigns(:public_product_rsc_demo_props).dig(:product, :name)).to eq("Public RSC widget")
+      expect(assigns(:public_product_rsc_demo_props).dig(:product, :seller, :profile_url)).to be_nil
       expect(assigns(:public_product_rsc_demo_props).dig(:product, :long_url)).to be_nil
       expect(assigns(:public_product_rsc_demo_props).dig(:product, :purchase_url)).to be_nil
       expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :home_url)).to eq(root_path)
