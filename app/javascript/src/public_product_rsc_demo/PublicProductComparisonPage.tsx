@@ -6,7 +6,6 @@ type PublicProductSeller = {
   avatar_url?: string | null;
   is_verified?: boolean;
   name: string;
-  profile_url?: string | null;
 };
 
 type PublicProductAttribute = {
