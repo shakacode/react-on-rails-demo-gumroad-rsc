@@ -32,9 +32,9 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
-## Current conclusion
+## Current Conclusion
 
-The production-shaped public buyer-page result is **implemented but not yet adoption-proof**.
+The production-shaped public buyer-page result is **now directionally favorable on the hosted app**, but it is not yet the final Gumroad adoption proof.
 
 What is already true:
 
@@ -43,12 +43,32 @@ What is already true:
 - the fixtures were shaped from public Gumroad `Discover/Index` and `Products/Discover/Show` page structure without committing copied creator content
 - all public comparison routes are logged out, so the comparison can be evaluated without a demo account
 - these public buyer pages are the correct surfaces for SEO, conversion-sensitive loading, client JavaScript cost, and mobile buyer performance
+- the first hosted headless-Chrome A/B run shows large median navigation wins and a 7-to-1 reduction in JS requests on both public route pairs
 
-What is not yet proven:
+What still needs proof:
 
-- deployed mobile ShakaPerf/Lighthouse-style A/B reports for both product and Discover pairs showing meaningful `LCP`, `TBT`, `INP`, navigation, payload, route JavaScript, and mobile-score wins
+- mobile ShakaPerf/Lighthouse-style A/B reports for both product and Discover pairs showing meaningful `LCP`, `TBT`, `INP`, navigation, payload, route JavaScript, and mobile-score wins
 - production-grade renderer and streaming-path profiling for the public routes
-- that the measured public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad
+- that the measured mobile public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad
+
+## Latest Hosted Public Buyer-Page Result
+
+Captured on `2026-06-23 HST` / `2026-06-24 UTC` against `https://gumroad.reactonrails.com` with local headless Chrome `149`, `8` alternating cycles, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
+
+| Surface | Median nav duration | Median LCP start | JS requests | Serialized Inertia payload |
+| --- | ---: | ---: | ---: | ---: |
+| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` (`-85.7%`) | `12,183 B` -> none |
+| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` (`-85.7%`) | `24,960 B` -> none |
+
+Supporting details are in [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md) and [performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json).
+
+Interpretation:
+
+- the public-page RSC path is now worth continuing because the deployed browser-navigation win is large
+- the strongest win is reduced client work: one route-scoped RSC pack instead of seven JS requests plus an Inertia `data-page` payload
+- RSC increases HTML transfer because it streams rendered content in the document
+- Discover has a small median `responseEnd` regression, so renderer/streaming instrumentation is still required
+- this is a hosted headless desktop run, not yet a mobile-throttled Lighthouse result
 
 The dashboard RSC implementation is also **promising but not fully optimized**.
 
@@ -69,7 +89,7 @@ What is not yet proven:
 - measurement order affects cache state enough that grouped batches can overstate the gap
 - `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
 - the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
-- the new production-shaped product and Discover routes have not yet supplied production-like local or deployed mobile benchmark evidence
+- the new production-shaped product and Discover routes have supplied a deployed headless-browser benchmark, but not yet mobile-throttled benchmark evidence
 
 ## Latest production-like alternating local result
 

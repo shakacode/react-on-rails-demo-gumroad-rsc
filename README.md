@@ -39,7 +39,8 @@ The priority is consumer-facing performance: public product pages, Discover mark
 - Book a ShakaCode consultation: <https://meetings.hubspot.com/justingordon/30-minute-consultation>
 - Performance evaluation notes: [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - Public product demo details: [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
-- Current findings and benchmark artifacts: [docs/performance-findings.md](docs/performance-findings.md)
+- Hosted public buyer-page performance results: [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md)
+- Historical dashboard/bundler findings: [docs/performance-findings.md](docs/performance-findings.md)
 - Benchmark and positioning issue: [React on Rails issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
 ### Who this demo is for
@@ -55,8 +56,8 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The required performance claim is mobile performance: ShakaPerf/Lighthouse-style A/B reports must show a meaningful improvement in metrics such as `LCP`, `TBT`, `INP`, route JavaScript, serialized payload, and mobile score.
-- If the mobile public-page report is not favorable enough to justify extra architecture complexity, treat this as an integration demo rather than a Gumroad adoption recommendation.
+- The first hosted ShakaPerf-style A/B report is favorable on browser navigation, `LCP`, route JavaScript, and serialized Inertia payload removal.
+- The final adoption claim still needs a mobile-throttled Lighthouse/ShakaPerf repeat with `TBT`, `INP`, and mobile score before making a Gumroad merge proposal.
 
 ### React Server Components via React on Rails, not Rspack, is the performance premise
 
@@ -82,7 +83,16 @@ The hosted lab now compares two production-shaped public surfaces:
 The fixtures are synthetic but production-shaped. They were informed by the public Gumroad `Discover/Index` and `Products/Discover/Show` page shapes without committing creator copy, thumbnails, or seller URLs.
 To re-sample shape only, run `scripts/perf/sample_public_gumroad_shapes.mjs`; it prints component names, prop keys, selected field shapes, and counts without writing scraped content into the repo.
 
-This is the correct surface for the performance question, but it is not yet the final upstream claim. The final claim needs ShakaPerf/Lighthouse-style A/B reports focused on mobile buyer-page metrics.
+### Latest Hosted A/B Result
+
+Captured on `2026-06-23 HST` / `2026-06-24 UTC` against `https://gumroad.reactonrails.com` with local headless Chrome `149`, `8` alternating cycles, and `2` warmup requests per measured run.
+
+| Surface | Median nav duration | Median LCP start | JS requests | Inertia payload |
+| --- | ---: | ---: | ---: | ---: |
+| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` (`-85.7%`) | `12,183 B` -> none |
+| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` (`-85.7%`) | `24,960 B` -> none |
+
+The result is directionally strong enough to continue the Gumroad-facing pitch: React Server Components via React on Rails Pro remove the serialized Inertia payload and cut route JS work sharply. The tradeoff is larger HTML transfer (`+59.7%` product, `+83.4%` Discover) because more rendered content arrives in the document. See [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md).
 
 ### Live demo surface
 
@@ -116,10 +126,10 @@ All four public comparison routes render production-shaped synthetic fixtures an
 - GitHub-hosted demo validation includes browser smoke coverage for the public comparison routes.
 - Route-scoped `Server-Timing` and an alternating comparison runner are available for disciplined A/B benchmarks.
 
-### Evidence still needed before a Gumroad adoption proposal
+### Still Needed Before A Gumroad Adoption Proposal
 
-- Run and publish mobile ShakaPerf/Lighthouse-style A/B reports for `/public_product/inertia_demo` vs `/public_product/rsc_demo` and `/public_product/discover_inertia_demo` vs `/public_product/discover_rsc_demo`.
-- Use that report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
+- Repeat the hosted A/B result as a mobile-throttled Lighthouse/ShakaPerf report for `/public_product/inertia_demo` vs `/public_product/rsc_demo` and `/public_product/discover_inertia_demo` vs `/public_product/discover_rsc_demo`.
+- Use the mobile report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
 - Profile renderer and streaming overhead if `responseEnd`, `TBT`, or tail latency weakens the RSC case.
 - Keep dashboard routes out of the headline story except as technical integration evidence.
 
@@ -207,11 +217,12 @@ Then run Rails without `bin/shakapacker-dev-server`, start `RENDERER_PASSWORD=be
 
 If a long comparison run is interrupted after it writes per-run JSON files, rerun the same command with `--reuse-existing` to emit the final comparison summary without discarding completed samples.
 
-If you want the measured benchmark artifacts instead of a visual spot check, start with [docs/performance-findings.md](docs/performance-findings.md).
+If you want the measured benchmark artifacts instead of a visual spot check, start with [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md).
 
 ### Public evaluation docs
 
 - [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
+- [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md)
 - [docs/performance-findings.md](docs/performance-findings.md)
 - [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - [docs/rsc-comparison-plan.md](docs/rsc-comparison-plan.md)

@@ -2,7 +2,7 @@
 
 ## Short answer
 
-The production-shaped public product and Discover demo pairs are implemented.
+The production-shaped public product and Discover demo pairs are implemented and now have a favorable hosted headless-Chrome A/B result.
 The public demo has a visible performance lab entry point at `/rsc-demo` and
 `/public_product/performance_demo` so visitors can see same-origin stream
 timing, response size, route script bytes, and serialized Inertia payload differences before
@@ -13,6 +13,13 @@ The dashboard demo pair remains useful as a technical proof, but it is **not** t
 This repository has moved past pure planning and into a matched Inertia-versus-React on Rails Pro comparison surface.
 Rspack is supporting build/tooling infrastructure only; the runtime performance premise is React Server Components delivered through `react_on_rails` and React on Rails Pro on public buyer-facing pages.
 
+Latest hosted public result, captured `2026-06-23 HST` / `2026-06-24 UTC` on `https://gumroad.reactonrails.com`:
+
+| Surface | Median nav duration | Median LCP start | JS requests |
+| --- | ---: | ---: | ---: |
+| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` |
+| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` |
+
 ## Shareable references
 
 - repo: [shakacode/react-on-rails-demo-gumroad-rsc](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc)
@@ -21,6 +28,7 @@ Rspack is supporting build/tooling infrastructure only; the runtime performance 
 - production-like benchmark PR: [react-on-rails-demo-gumroad-rsc#12](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/12)
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
+- hosted public buyer-page results: [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md)
 
 The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/1), [#2](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/2), [#3](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/3), [#6](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/6), [#7](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/7), [#8](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/8), [#9](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/9)) was closed unmerged after the work was consolidated into [#11](https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/11).
 
@@ -34,12 +42,13 @@ The earlier review stack ([#1](https://github.com/shakacode/react-on-rails-demo-
 - Documented the public product and Discover proof targets in [public-product-rsc-demo.md](./public-product-rsc-demo.md)
 - Documented positioning, adjacent ideas, and IP guardrails in [positioning-notes.md](./positioning-notes.md)
 - Added public performance evaluation notes in [performance-evaluation.md](./performance-evaluation.md)
+- Added hosted public buyer-page performance results in [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md)
 - Added logged-out public product and Discover comparison route pairs at `/public_product/inertia_demo`, `/public_product/rsc_demo`, `/public_product/discover_inertia_demo`, and `/public_product/discover_rsc_demo`
 - Added `--public` / `--skip-login` benchmark support so the public route pair can be measured without dashboard authentication
 - Added controller and browser smoke coverage for the public comparison routes
 - Selected `Dashboard` as the first comparison surface
 - Documented the first implementation-facing brief in [dashboard-experiment-brief.md](./dashboard-experiment-brief.md)
-- Documented measured results in [performance-findings.md](./performance-findings.md)
+- Documented historical dashboard/bundler measured results in [performance-findings.md](./performance-findings.md)
 - Added a browser-level smoke spec that renders both `/dashboard/inertia_demo` and `/dashboard/rsc_demo` through a real headless browser in CI
 - Added route-scoped `Server-Timing` instrumentation to both comparison routes and to the benchmark output
 - Added an alternating benchmark runner in `scripts/perf/compare_dashboard_routes.rb` so route order is balanced across cycles

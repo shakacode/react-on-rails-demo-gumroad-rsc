@@ -1,0 +1,51 @@
+{
+  "captured_at": "2026-06-23T23:56:29-10:00",
+  "captured_at_utc_date": "2026-06-24",
+  "host": "https://gumroad.reactonrails.com",
+  "browser": {
+    "name": "chrome",
+    "version": "149.0.7827.158",
+    "driver_version": "149.0.7827.155",
+    "mode": "headless desktop"
+  },
+  "method": {
+    "cycles": 8,
+    "server_warmup_requests_per_run": 2,
+    "public": true,
+    "require_driver_match": true,
+    "alternating_route_order": true
+  },
+  "results": [
+    {
+      "surface": "Product detail",
+      "baseline_path": "/public_product/inertia_demo",
+      "candidate_path": "/public_product/rsc_demo",
+      "median_navigation_duration_ms": { "inertia": 811.5, "rsc": 272.25, "delta_percent": -66.5 },
+      "median_lcp_start_ms": { "inertia": 368.0, "rsc": 304.0, "delta_percent": -17.4 },
+      "median_response_end_ms": { "inertia": 215.6, "rsc": 214.1, "delta_percent": -0.7 },
+      "median_html_transfer_bytes": { "inertia": 5702, "rsc": 9105, "delta_percent": 59.7 },
+      "median_js_request_count": { "inertia": 7, "rsc": 1, "delta_percent": -85.7 },
+      "median_js_transfer_bytes": { "inertia": 178955, "rsc": 82759, "delta_percent": -53.8 },
+      "median_decoded_js_css_bytes": { "inertia": 1174356, "rsc": 611242, "delta_percent": -48.0 },
+      "inertia_data_page_bytes": { "inertia": 12183, "rsc": 0 }
+    },
+    {
+      "surface": "Discover marketplace",
+      "baseline_path": "/public_product/discover_inertia_demo",
+      "candidate_path": "/public_product/discover_rsc_demo",
+      "median_navigation_duration_ms": { "inertia": 796.95, "rsc": 283.75, "delta_percent": -64.4 },
+      "median_lcp_start_ms": { "inertia": 360.0, "rsc": 322.0, "delta_percent": -10.6 },
+      "median_response_end_ms": { "inertia": 211.5, "rsc": 218.2, "delta_percent": 3.2 },
+      "median_html_transfer_bytes": { "inertia": 7643, "rsc": 14019, "delta_percent": 83.4 },
+      "median_js_request_count": { "inertia": 7, "rsc": 1, "delta_percent": -85.7 },
+      "median_js_transfer_bytes": { "inertia": 178955, "rsc": 82780, "delta_percent": -53.7 },
+      "median_decoded_js_css_bytes": { "inertia": 1174357, "rsc": 611242, "delta_percent": -48.0 },
+      "inertia_data_page_bytes": { "inertia": 24960, "rsc": 0 }
+    }
+  ],
+  "caveats": [
+    "This is a hosted headless desktop Chrome navigation run, not a mobile-throttled Lighthouse report.",
+    "RSC increased HTML transfer because server-rendered content replaces serialized Inertia page JSON.",
+    "Discover median responseEnd regressed by 3.2%, so renderer and streaming-path profiling remain necessary."
+  ]
+}
