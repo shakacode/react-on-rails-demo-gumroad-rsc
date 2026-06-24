@@ -21,16 +21,18 @@
 
 ## React on Rails Pro Consumer-Page Performance Experiment
 
-This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused public demo comparing a current Inertia-style public product page against a React Server Components candidate implemented with `react_on_rails`, React on Rails Pro, and React 19.
+This repository tracks [antiwork/gumroad](https://github.com/antiwork/gumroad) and is being used by ShakaCode as a focused public demo comparing current Inertia-style public buyer pages against React Server Components candidates implemented with `react_on_rails`, React on Rails Pro, and React 19.
 
-The priority is consumer-facing performance: public product pages, mobile buyers, SEO, first meaningful content, conversion, and route-level JavaScript cost. Dashboard pages are useful technical proof that the stack works, but they are not the value proof.
+The priority is consumer-facing performance: public product pages, Discover marketplace pages, mobile buyers, SEO, first meaningful content, conversion, and route-level JavaScript cost. Dashboard pages are useful technical proof that the stack works, but they are not the value proof.
 
 ### Start here
 
 - Hosted homepage with an explicit experiment callout: <https://gumroad.reactonrails.com>
 - Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo>
-- Before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
-- After, React Server Components via React on Rails Pro route: <https://gumroad.reactonrails.com/public_product/rsc_demo>
+- Product before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
+- Product after, React Server Components via React on Rails Pro route: <https://gumroad.reactonrails.com/public_product/rsc_demo>
+- Discover before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/discover_inertia_demo>
+- Discover after, React Server Components via React on Rails Pro route: <https://gumroad.reactonrails.com/public_product/discover_rsc_demo>
 - React on Rails docs: <https://reactonrails.com/>
 - React on Rails source: <https://github.com/shakacode/react_on_rails>
 - ShakaCode: <https://www.shakacode.com/>
@@ -44,15 +46,16 @@ The priority is consumer-facing performance: public product pages, mobile buyers
 
 - Teams evaluating `react_on_rails`: inspect how React Server Components can run inside a real Rails app without turning the whole product page into a client-only island.
 - Teams evaluating ShakaCode: use the demo, benchmark method, and tradeoff notes to judge how we approach Rails plus React performance work.
-- Gumroad maintainers: focus on whether the public product page case is compelling enough to justify trying these technologies in Gumroad itself.
+- Gumroad maintainers: focus on whether public product and Discover pages improve enough to justify trying these technologies in Gumroad itself.
 
 ### Public evaluation bar
 
 The demo only matters if it proves a meaningful buyer-page advantage.
 
-- The public product page is the primary surface because it is logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
-- The first supported claim is payload reduction: less route JavaScript and no serialized Inertia `data-page` payload on the RSC route.
-- The next required claim is mobile performance: ShakaPerf/Lighthouse-style A/B reports must show a meaningful improvement in metrics such as `LCP`, `TBT`, `INP`, and mobile score.
+- Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
+- The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content.
+- The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
+- The required performance claim is mobile performance: ShakaPerf/Lighthouse-style A/B reports must show a meaningful improvement in metrics such as `LCP`, `TBT`, `INP`, route JavaScript, serialized payload, and mobile score.
 - If the mobile public-page report is not favorable enough to justify extra architecture complexity, treat this as an integration demo rather than a Gumroad adoption recommendation.
 
 ### React Server Components via React on Rails, not Rspack, is the performance premise
@@ -67,19 +70,19 @@ That is not the claim.
 If the consumer-facing page wins, it should be because React Server Components through React on Rails reduce client JavaScript, serialized payload, hydration work, or mobile render cost enough to matter.
 If the consumer-facing page does not win, faster bundling does not save the adoption case.
 
-### Current public buyer-page evidence
+### Current public buyer-page implementation
 
-Latest hosted lab sample from <https://gumroad.reactonrails.com/rsc-demo>:
+The hosted lab now compares two production-shaped public surfaces:
 
-| Public product route metric |                     Before: Inertia | After: React Server Components via React on Rails Pro | Result                                                                |
-| --------------------------- | ----------------------------------: | ----------------------------------------------------: | --------------------------------------------------------------------- |
-| Readable route JavaScript   |                          `880.8 KB` |                                            `340.4 KB` | about `61%` less route JS                                             |
-| Serialized page payload     |                  `6.4 KB data-page` |                                                  none | RSC removes the route-level Inertia payload                           |
-| Login required              |                                  no |                                                    no | both routes are buyer-visible without auth                            |
-| Product content             | metadata plus serialized page props |                      streamed in initial RSC document | RSC makes the server-rendered buyer content explicit before hydration |
+| Surface              | Before: Inertia                         | After: React Server Components via React on Rails Pro | Why it matters                                                                                                                                   |
+| -------------------- | --------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Product detail       | `/public_product/inertia_demo`          | `/public_product/rsc_demo`                            | Product storytelling, pricing, reviews, seller context, CTA framing, FAQ, and recommendations are SEO- and conversion-sensitive.                 |
+| Discover marketplace | `/public_product/discover_inertia_demo` | `/public_product/discover_rsc_demo`                   | Dense product grids, taxonomy navigation, filters, editorial context, prices, ratings, and seller cards are mobile-heavy public browse surfaces. |
 
-This is a strong reason to keep testing, but it is not the final upstream claim.
-The final claim needs a ShakaPerf/Lighthouse-style A/B report focused on mobile buyer-page metrics.
+The fixtures are synthetic but production-shaped. They were informed by the public Gumroad `Discover/Index` and `Products/Discover/Show` page shapes without committing creator copy, thumbnails, or seller URLs.
+To re-sample shape only, run `scripts/perf/sample_public_gumroad_shapes.mjs`; it prints component names, prop keys, selected field shapes, and counts without writing scraped content into the repo.
+
+This is the correct surface for the performance question, but it is not yet the final upstream claim. The final claim needs ShakaPerf/Lighthouse-style A/B reports focused on mobile buyer-page metrics.
 
 ### Live demo surface
 
@@ -89,8 +92,10 @@ Open the hosted public demo first:
 - `https://gumroad.reactonrails.com/rsc-demo`
 - `https://gumroad.reactonrails.com/public_product/inertia_demo`
 - `https://gumroad.reactonrails.com/public_product/rsc_demo`
+- `https://gumroad.reactonrails.com/public_product/discover_inertia_demo`
+- `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
 
-The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see how to run the comparison and why the public product route matters. The lab is logged out and runs a same-origin browser race against the matched public product routes. It makes the streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route for manual inspection.
+The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see how to run the comparison and why public buyer pages matter. The lab is logged out and runs same-origin browser races against the matched product-detail and Discover routes. It makes streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route for manual inspection.
 
 Local equivalents:
 
@@ -98,21 +103,22 @@ Local equivalents:
 - `https://gumroad.dev/public_product/performance_demo`
 - `https://gumroad.dev/public_product/inertia_demo`
 - `https://gumroad.dev/public_product/rsc_demo`
+- `https://gumroad.dev/public_product/discover_inertia_demo`
+- `https://gumroad.dev/public_product/discover_rsc_demo`
 
-Both product routes render the seeded public `demo` product and link back to the hosted homepage and lab. They intentionally do not link to `/l/demo` on the hosted custom domain because Gumroad product helpers canonicalize product URLs to seller subdomains, and `*.gumroad.reactonrails.com` is not configured for this demo.
+All four public comparison routes render production-shaped synthetic fixtures and link back to the hosted homepage and lab. They intentionally do not link to `/l/demo` or seller subdomains on the hosted custom domain because `*.gumroad.reactonrails.com` is not configured for this demo and the benchmark should stay same-origin.
 
 ### What this repo currently proves
 
-- The public product comparison route pair is logged out and focused on buyer-facing page behavior, not seller admin UX.
-- The live lab makes route script bytes and serialized payload differences visible immediately.
+- The public product and Discover comparison route pairs are logged out and focused on buyer-facing page behavior, not seller admin UX.
+- The live lab makes route script bytes and serialized payload differences visible immediately for both matched surfaces.
 - The demo assets are route-scoped, so ordinary Inertia pages do not pay for the experiment's extra JS or CSS.
 - GitHub-hosted demo validation includes browser smoke coverage for the public comparison routes.
 - Route-scoped `Server-Timing` and an alternating comparison runner are available for disciplined A/B benchmarks.
 
 ### Evidence still needed before a Gumroad adoption proposal
 
-- Run and publish a mobile ShakaPerf/Lighthouse-style A/B report for `/public_product/inertia_demo` vs `/public_product/rsc_demo`.
-- Replace the seeded toy product with production-shaped Discover and product-detail fixtures that match real Gumroad pages closely enough to make the comparison credible.
+- Run and publish mobile ShakaPerf/Lighthouse-style A/B reports for `/public_product/inertia_demo` vs `/public_product/rsc_demo` and `/public_product/discover_inertia_demo` vs `/public_product/discover_rsc_demo`.
 - Use that report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
 - Profile renderer and streaming overhead if `responseEnd`, `TBT`, or tail latency weakens the RSC case.
 - Keep dashboard routes out of the headline story except as technical integration evidence.
@@ -175,18 +181,23 @@ Hosted demo verification:
    `SHAKAPACKER_DEV_SERVER_PORT=3036 npm run setup && ./bin/shakapacker-dev-server`
 4. Open the performance lab first:
    `/rsc-demo`
-   The lab auto-loads both matched public routes, shows first streamed bytes, complete response timing, HTML response
-   size, route script bytes, and the serialized Inertia payload size.
-5. Open the two demo routes and compare:
+   The lab auto-loads both matched public route pairs, shows first streamed bytes, complete response timing, HTML
+   response size, route script bytes, and the serialized Inertia payload size.
+5. Open the product-detail routes and compare:
    `/public_product/inertia_demo`
    `/public_product/rsc_demo`
+6. Open the Discover routes and compare:
+   `/public_product/discover_inertia_demo`
+   `/public_product/discover_rsc_demo`
    The dashboard technical proof routes remain available, but they are not the SEO/conversion proof:
    `/dashboard/inertia_demo`
    `/dashboard/rsc_demo`
-6. For the stricter benchmark method, run:
-   `ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
+7. For the stricter product-detail benchmark method, run:
+   `ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-detail-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match`
+8. For the stricter Discover benchmark method, run:
+   `ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label public-discover-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match`
    Use `/dashboard/inertia_demo` and `/dashboard/rsc_demo` with a dashboard-specific label only when benchmarking the technical proof.
-   For the longer headline-style local repeat, use the same command with `--cycles 8`.
+   For a shorter smoke comparison, use the same commands with `--cycles 4`.
 
 For the production-like local pass, first build compiled assets and initialize local Elasticsearch:
 `RENDERER_PASSWORD=benchmarkRendererPassword RAILS_ENV=production NODE_ENV=production bin/shakapacker`

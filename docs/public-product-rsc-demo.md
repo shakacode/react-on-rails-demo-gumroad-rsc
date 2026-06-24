@@ -7,35 +7,37 @@ The next RSC comparison should make the value visible on a logged-out, public, p
 Implemented routes:
 
 - performance lab: `/rsc-demo` or `/public_product/performance_demo`
-- `Inertia` control: `/public_product/inertia_demo`
-- React Server Components via React on Rails Pro demo: `/public_product/rsc_demo`
+- product `Inertia` control: `/public_product/inertia_demo`
+- product React Server Components via React on Rails Pro demo: `/public_product/rsc_demo`
+- Discover `Inertia` control: `/public_product/discover_inertia_demo`
+- Discover React Server Components via React on Rails Pro demo: `/public_product/discover_rsc_demo`
 
-The lab and both implementation routes render without requiring login.
-The lab should be opened first because it auto-loads the matched Inertia and
-RSC routes, then shows first streamed bytes, complete response timing, HTML
-response size, route script bytes, and serialized Inertia payload size in the
-page itself.
+The lab and all implementation routes render without requiring login.
+The lab should be opened first because it auto-loads the matched product and
+Discover route pairs, then shows first streamed bytes, complete response timing,
+HTML response size, route script bytes, and serialized Inertia payload size in
+the page itself.
 
-The route intentionally selects the `demo` product owned by the seeded
-`seller@gumroad.com` account and requires that product to be alive and
-non-draft. If that seeded product is unavailable, the comparison routes 404
-instead of silently falling back to another seller's permalink. Product
-descriptions are passed through Gumroad's existing `Link#html_safe_description`
-sanitizer before the React component renders the HTML string.
+The headline routes use static, synthetic, production-shaped fixtures so the
+public benchmark is stable, logged out, and same-origin. A small shape sampler inspected public Gumroad
+`Discover/Index` and `Products/Discover/Show` pages to identify field and layout
+shape. The committed fixture does not copy creator text, seller URLs, product
+thumbnails, or real product names.
 
 ## Why this page matters
 
 Dashboard routes are useful technical proofs, but they are not the strongest product proof.
 
-A public product page is where rendering quality can affect:
+Public product and Discover pages are where rendering quality can affect:
 
 - search indexing and metadata quality
 - first meaningful content for logged-out visitors
 - share previews and landing-page credibility
 - conversion-sensitive product storytelling
+- browse-to-product discovery
 - client JavaScript cost before a visitor decides whether to buy
 
-That makes the public product route the better place to compare Gumroad/Inertia-style rendering with React Server Components via React on Rails Pro.
+That makes public buyer pages the better place to compare Gumroad/Inertia-style rendering with React Server Components via React on Rails Pro.
 
 ## What to compare
 
@@ -45,6 +47,7 @@ The comparison should include:
 
 - a visible lab page that explains what difference a reviewer should notice before they open DevTools
 - identical or near-identical product title, description, media, pricing, creator, and call-to-action content
+- identical or near-identical Discover product cards, taxonomy/category context, prices, ratings, filters, and collection cards
 - SEO-relevant HTML and metadata emitted in the initial document
 - equivalent above-the-fold content and layout
 - route-scoped demo assets so unrelated Gumroad pages do not pay for the experiment
@@ -52,20 +55,32 @@ The comparison should include:
 
 The RSC route should demonstrate server/client composition where it matters: product facts, purchase framing, and mostly static content can be server-rendered, while genuinely interactive controls stay client-side.
 
-## Next Iteration: Production-Shaped Pages
+## Production-Shaped Fixtures
 
-The current seeded `demo` product is useful for validating the rendering path, but it is too small to settle whether Gumroad should consider a production migration. The next credible comparison should use real-page-shaped fixtures:
+The early small product route was useful for validating the rendering path, but
+it was too small to settle whether Gumroad should consider adopting this stack.
+The current comparison uses real-page-shaped synthetic fixtures:
 
 - Discover listing page: a dense grid of product cards, categories, thumbnails, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
 - Product detail page: a public product landing page with realistic media, seller profile data, description length, recommendations, purchase framing, and mobile above-the-fold content
 - Matched implementations: one route rendered with the current Inertia approach and one route rendered with React Server Components via React on Rails Pro
 - Same data, same host, same measurement harness, so ShakaPerf results reflect rendering architecture rather than fixture differences
 
-Public Gumroad pages expose enough metadata, HTML, and Inertia page data to build these fixtures from a small set of public examples. For a public demo repository, prefer curated and sanitized fixture data or production-shaped synthetic data over broad scraping or wholesale copied creator content. Use real Gumroad URLs as external benchmark references, not as unreviewed committed content.
+Public Gumroad pages expose enough metadata, HTML, and Inertia page data to build these fixtures from a small set of public examples. For a public demo repository, prefer curated and sanitized fixture data or production-shaped synthetic data over broad scraping or wholesale copied creator content. Use real Gumroad URLs as external shape references, not as unreviewed committed content or the apples-to-apples A/B baseline.
+
+To re-sample public page shape without committing scraped content:
+
+```bash
+scripts/perf/sample_public_gumroad_shapes.mjs
+```
+
+The script reports component names, top-level prop keys, selected field shapes,
+and counts. It intentionally does not write product copy or image assets into
+the repository.
 
 ## Benchmark focus
 
-Measure the public route pair with the same discipline used for the dashboard comparison.
+Measure the public route pairs with the same disciplined alternating benchmark method.
 
 Primary metrics:
 

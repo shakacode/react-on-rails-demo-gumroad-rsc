@@ -4,13 +4,9 @@
       const root = document.querySelector("[data-rsc-performance-lab]");
       if (!root) return;
 
-      const runButton = root.querySelector("[data-rerun-race]");
+      const pairElements = Array.from(root.querySelectorAll("[data-route-pair]"));
+      const runButtons = Array.from(root.querySelectorAll("[data-rerun-race]"));
       const runStatus = root.querySelector("[data-run-status]");
-      const summary = root.querySelector("[data-race-summary]");
-      const routes = {
-        inertia: root.getAttribute("data-inertia-url"),
-        rsc: root.getAttribute("data-rsc-url"),
-      };
 
       const numberFormatter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
 
@@ -26,17 +22,17 @@
         return `${numberFormatter.format(value)} B`;
       };
 
-      const setText = (selector, value) => {
-        const element = root.querySelector(selector);
+      const setText = (scope, selector, value) => {
+        const element = scope.querySelector(selector);
         if (element) element.textContent = value;
       };
 
-      const setMetric = (variant, metric, value) => {
-        setText(`[data-metric="${variant}.${metric}"]`, value);
+      const setMetric = (scope, variant, metric, value) => {
+        setText(scope, `[data-metric="${variant}.${metric}"]`, value);
       };
 
-      const setCardState = (variant, state) => {
-        const card = root.querySelector(`[data-route-card="${variant}"]`);
+      const setCardState = (scope, variant, state) => {
+        const card = scope.querySelector(`[data-route-card="${variant}"]`);
         if (card) card.setAttribute("data-state", state);
       };
 
@@ -94,15 +90,19 @@
         return unreadableCount > 0 ? `${readableCopy}; ${unreadableCount} unavailable` : readableCopy;
       };
 
-      const measureRoute = async (variant, path) => {
-        setCardState(variant, "loading");
-        setMetric(variant, "status", "Loading...");
-        setMetric(variant, "firstChunk", "...");
-        setMetric(variant, "complete", "...");
-        setMetric(variant, "bytes", "...");
-        setMetric(variant, "scripts", "...");
-        setMetric(variant, "payload", "...");
-        setMetric(variant, "serverTiming", "Waiting for headers");
+      const resetMetrics = (scope, variant) => {
+        setCardState(scope, variant, "loading");
+        setMetric(scope, variant, "status", "Loading...");
+        setMetric(scope, variant, "firstChunk", "...");
+        setMetric(scope, variant, "complete", "...");
+        setMetric(scope, variant, "bytes", "...");
+        setMetric(scope, variant, "scripts", "...");
+        setMetric(scope, variant, "payload", "...");
+        setMetric(scope, variant, "serverTiming", "Waiting for headers");
+      };
+
+      const measureRoute = async (scope, variant, path) => {
+        resetMetrics(scope, variant);
 
         const startedAt = performance.now();
         const response = await fetch(urlWithCacheBust(path), {
@@ -135,7 +135,7 @@
             if (firstChunkAt == null) firstChunkAt = performance.now();
             bytes += value.byteLength;
             html += decoder.decode(value, { stream: true });
-            setMetric(variant, "bytes", formatBytes(bytes));
+            setMetric(scope, variant, "bytes", formatBytes(bytes));
           }
 
           html += decoder.decode();
@@ -162,30 +162,30 @@
           totalMs: completedAt - startedAt,
         };
 
-        setMetric(variant, "status", "HTML complete");
-        setMetric(variant, "firstChunk", formatMs(result.firstChunkMs));
-        setMetric(variant, "complete", formatMs(result.totalMs));
-        setMetric(variant, "bytes", formatBytes(result.bytes));
-        setMetric(variant, "scripts", "Waiting for route script pass");
-        setMetric(variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
-        setMetric(variant, "serverTiming", serverTiming);
+        setMetric(scope, variant, "status", "HTML complete");
+        setMetric(scope, variant, "firstChunk", formatMs(result.firstChunkMs));
+        setMetric(scope, variant, "complete", formatMs(result.totalMs));
+        setMetric(scope, variant, "bytes", formatBytes(result.bytes));
+        setMetric(scope, variant, "scripts", "Waiting for route script pass");
+        setMetric(scope, variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
+        setMetric(scope, variant, "serverTiming", serverTiming);
 
         return result;
       };
 
-      const measureRouteScripts = async (variant, result) => {
-        setMetric(variant, "status", "Measuring scripts...");
+      const measureRouteScripts = async (scope, variant, result) => {
+        setMetric(scope, variant, "status", "Measuring scripts...");
         const scriptMetric = await routeScriptBytes(result.scriptSources);
         result.scriptBytes = scriptMetric.bytes;
         result.scriptReadableCount = scriptMetric.readableCount;
         result.scriptUnreadableCount = scriptMetric.unreadableCount;
-        setMetric(variant, "scripts", formatScriptMetric(scriptMetric, result.scriptCount));
-        setMetric(variant, "status", "Complete");
-        setCardState(variant, "complete");
+        setMetric(scope, variant, "scripts", formatScriptMetric(scriptMetric, result.scriptCount));
+        setMetric(scope, variant, "status", "Complete");
+        setCardState(scope, variant, "complete");
         return result;
       };
 
-      const describeResults = (inertia, rsc) => {
+      const describeResults = (label, inertia, rsc) => {
         const completionDelta = inertia.totalMs - rsc.totalMs;
         const firstChunkDelta = inertia.firstChunkMs - rsc.firstChunkMs;
         const byteDelta = inertia.bytes - rsc.bytes;
@@ -202,8 +202,8 @@
             : ` Inertia referenced ${formatBytes(Math.abs(scriptDelta))} less route JavaScript.`;
         const completionCopy =
           completionDelta >= 0
-            ? `RSC completed ${formatMs(completionDelta)} faster in this browser fetch.`
-            : `Inertia completed ${formatMs(Math.abs(completionDelta))} faster in this browser fetch.`;
+            ? `${label}: RSC completed ${formatMs(completionDelta)} faster in this browser fetch.`
+            : `${label}: Inertia completed ${formatMs(Math.abs(completionDelta))} faster in this browser fetch.`;
         const firstChunkCopy =
           firstChunkDelta >= 0
             ? ` RSC delivered first streamed bytes ${formatMs(firstChunkDelta)} sooner.`
@@ -216,87 +216,98 @@
         return `${completionCopy}${firstChunkCopy}${byteCopy}${scriptCopy}${payloadCopy}`;
       };
 
-      const runRace = async () => {
-        runButton?.setAttribute("disabled", "disabled");
-        if (runStatus) runStatus.textContent = "Running same-origin stream fetches...";
-        if (summary) summary.textContent = "The lab is loading both routes with cache-busting query strings.";
+      const runRace = async (scope) => {
+        const label = scope.getAttribute("data-route-pair-label") || "Route pair";
+        const summary = scope.querySelector("[data-race-summary]");
+        const routes = {
+          inertia: scope.getAttribute("data-inertia-url"),
+          rsc: scope.getAttribute("data-rsc-url"),
+        };
+
+        if (summary) summary.textContent = `${label}: loading both routes with cache-busting query strings.`;
 
         const [inertiaResult, rscResult] = await Promise.allSettled([
-          measureRoute("inertia", routes.inertia),
-          measureRoute("rsc", routes.rsc),
+          measureRoute(scope, "inertia", routes.inertia),
+          measureRoute(scope, "rsc", routes.rsc),
         ]);
 
         if (inertiaResult.status === "fulfilled" && rscResult.status === "fulfilled") {
-          if (runStatus) runStatus.textContent = "Measuring route script bytes...";
-          if (summary) summary.textContent = "HTML race complete. The lab is measuring referenced route scripts now.";
+          if (summary) summary.textContent = `${label}: HTML race complete. Measuring referenced route scripts now.`;
           const [inertia, rsc] = await Promise.all([
-            measureRouteScripts("inertia", inertiaResult.value),
-            measureRouteScripts("rsc", rscResult.value),
+            measureRouteScripts(scope, "inertia", inertiaResult.value),
+            measureRouteScripts(scope, "rsc", rscResult.value),
           ]);
-          if (summary) summary.textContent = describeResults(inertia, rsc);
-          if (runStatus) runStatus.textContent = "Race complete";
-        } else {
-          await Promise.all(
-            [
-              ["inertia", inertiaResult],
-              ["rsc", rscResult],
-            ]
-              .filter(([, result]) => result.status === "fulfilled")
-              .map(([variant, result]) => measureRouteScripts(variant, result.value)),
-          );
-
-          for (const [variant, result] of [
-            ["inertia", inertiaResult],
-            ["rsc", rscResult],
-          ]) {
-            if (result.status === "rejected") {
-              setCardState(variant, "error");
-              setMetric(variant, "status", "Failed");
-              setMetric(variant, "serverTiming", result.reason?.message || "Request failed");
-            }
-          }
-          if (summary) summary.textContent = "One route failed to load. Check the renderer, seeded product, and Rails logs, then rerun the race.";
-          if (runStatus) runStatus.textContent = "Race failed";
+          if (summary) summary.textContent = describeResults(label, inertia, rsc);
+          return;
         }
 
-        runButton?.removeAttribute("disabled");
+        await Promise.all(
+          [
+            ["inertia", inertiaResult],
+            ["rsc", rscResult],
+          ]
+            .filter(([, result]) => result.status === "fulfilled")
+            .map(([variant, result]) => measureRouteScripts(scope, variant, result.value)),
+        );
+
+        for (const [variant, result] of [
+          ["inertia", inertiaResult],
+          ["rsc", rscResult],
+        ]) {
+          if (result.status === "rejected") {
+            setCardState(scope, variant, "error");
+            setMetric(scope, variant, "status", "Failed");
+            setMetric(scope, variant, "serverTiming", result.reason?.message || "Request failed");
+          }
+        }
+        if (summary) summary.textContent = `${label}: one route failed to load. Check the renderer and Rails logs, then rerun the race.`;
       };
 
-      runButton?.addEventListener("click", runRace);
-      runRace();
+      const runAll = async () => {
+        runButtons.forEach((button) => button.setAttribute("disabled", "disabled"));
+        if (runStatus) runStatus.textContent = "Running matched public route pairs...";
+
+        for (const pairElement of pairElements) {
+          await runRace(pairElement);
+        }
+
+        if (runStatus) runStatus.textContent = "All route pairs complete";
+        runButtons.forEach((button) => button.removeAttribute("disabled"));
+      };
+
+      runButtons.forEach((button) => button.addEventListener("click", runAll));
+      runAll();
     })();
   </script>
 <% end %>
 
-<% react_on_rails_url = "https://reactonrails.com/" %>
-<% react_on_rails_github_url = "https://github.com/shakacode/react_on_rails" %>
-<% shakacode_url = "https://www.shakacode.com/" %>
-<% consultation_url = "https://meetings.hubspot.com/justingordon/30-minute-consultation" %>
+<% react_on_rails_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_URL %>
+<% react_on_rails_github_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_GITHUB_URL %>
+<% shakacode_url = PublicProductRscDemoPresenter::SHAKACODE_URL %>
+<% consultation_url = PublicProductRscDemoPresenter::CONSULTATION_URL %>
+<% gumroad_discover_reference_url = PublicProductRscDemoPresenter::GUMROAD_DISCOVER_REFERENCE_URL %>
 
-<div
-  class="dd dd-performance"
-  data-rsc-performance-lab
-  data-inertia-url="<%= public_product_inertia_demo_path %>"
-  data-rsc-url="<%= public_product_rsc_demo_path %>"
->
+<div class="dd dd-performance" data-rsc-performance-lab>
   <aside class="dd-side">
     <div class="dd-brand">
       <a href="<%= root_path %>">Gumroad</a>
       <p>React Server Components via React on Rails Pro lab</p>
     </div>
 
-    <nav class="dd-nav" aria-label="Public product performance lab routes">
+    <nav class="dd-nav" aria-label="Public performance lab routes">
       <a href="<%= root_path %>">Home</a>
       <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
-      <a href="<%= public_product_inertia_demo_path %>">Inertia route</a>
-      <a href="<%= public_product_rsc_demo_path %>">RSC route</a>
+      <a href="<%= public_product_inertia_demo_path %>">Product Inertia</a>
+      <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
+      <a href="<%= public_product_discover_inertia_demo_path %>">Discover Inertia</a>
+      <a href="<%= public_product_discover_rsc_demo_path %>">Discover RSC</a>
       <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
       <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
       <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
     </nav>
 
     <footer class="dd-meta">
-      <strong><%= @product.name %></strong>
+      <strong>Production-shaped public fixtures</strong>
       <p>For React on Rails evaluators, ShakaCode prospects, and Gumroad maintainers.</p>
       <p><a href="<%= consultation_url %>" target="_blank" rel="noopener">Book a ShakaCode consultation</a></p>
     </footer>
@@ -305,19 +316,21 @@
   <main class="dd-main">
     <header class="dd-header dd-hero-grid">
       <div>
-        <p class="dd-eyebrow">Public product comparison</p>
+        <p class="dd-eyebrow">Public buyer-page A/B report</p>
         <h1>Gumroad RSC performance lab</h1>
         <p>
-          This page makes the Inertia versus React Server Components via React on Rails Pro comparison visible as soon as the demo loads.
-          It runs a same-origin browser fetch against both logged-out product routes and shows stream timing, response
-          size, and serialized payload differences.
+          This lab compares matched Inertia and React Server Components via React on Rails Pro routes for the two public
+          pages that matter most: a product detail page and a Discover marketplace page.
+        </p>
+        <p class="dd-proof-line">
+          The runtime performance premise is React Server Components via React on Rails Pro, not Rspack.
+          Rspack helps the build pipeline; RSC must earn adoption through public-page performance.
         </p>
       </div>
 
       <div class="dd-actions">
+        <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
         <a href="<%= root_path %>" class="dd-btn">Back to home</a>
-        <a href="<%= public_product_inertia_demo_path %>" class="dd-btn">Open Inertia route</a>
-        <a href="<%= public_product_rsc_demo_path %>" class="dd-btn">Open RSC route</a>
         <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener" class="dd-btn">Learn React on Rails</a>
         <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
@@ -325,129 +338,92 @@
 
     <div class="dd-body">
       <p class="dd-note">
-        The point of this demo is not that Rspack changes page runtime performance. The runtime question is whether
-        React Server Components via React on Rails Pro can reduce client-side work and stream public,
-        SEO-sensitive product content early enough to justify the extra architecture.
+        The committed fixtures are synthetic but production-shaped. A small public-page sampler confirmed that Gumroad
+        Discover exposes a <code>Discover/Index</code> Inertia payload with a dense product grid and taxonomy data, while
+        public product pages expose <code>Products/Discover/Show</code> product, seller, cover, rating, purchase, section,
+        and taxonomy props. This repo uses that shape without copying creator content.
       </p>
 
       <section class="dd-section">
         <header>
-          <h2>Live browser race</h2>
+          <h2>What this report is allowed to claim</h2>
           <p>
-            The lab starts automatically and can be rerun. It measures the HTML stream for the two matched routes, not
-            full page navigation or LCP. Use the benchmark runner for the final performance claim.
+            The browser race below is a fast same-origin sanity check. The adoption claim must come from ShakaPerf or
+            Lighthouse-style A/B runs that show mobile LCP, navigation, TBT, INP, client JS, and payload wins on these
+            matched public pages.
           </p>
-        </header>
-
-        <div class="dd-race-toolbar">
-          <button type="button" class="dd-btn" data-rerun-race>Rerun race</button>
-          <span class="dd-stamp" data-run-status>Waiting to start</span>
-        </div>
-
-        <div class="dd-lab-grid">
-          <article class="dd-race-card" data-route-card="inertia" data-state="idle">
-            <header>
-              <p class="dd-eyebrow">Control</p>
-              <h3>Inertia public product route</h3>
-              <span data-metric="inertia.status">Waiting</span>
-            </header>
-            <dl>
-              <div>
-                <dt>First streamed bytes</dt>
-                <dd data-metric="inertia.firstChunk">...</dd>
-              </div>
-              <div>
-                <dt>Complete response</dt>
-                <dd data-metric="inertia.complete">...</dd>
-              </div>
-              <div>
-                <dt>HTML response size</dt>
-                <dd data-metric="inertia.bytes">...</dd>
-              </div>
-              <div>
-                <dt>Route script bytes</dt>
-                <dd data-metric="inertia.scripts">...</dd>
-              </div>
-              <div>
-                <dt>Serialized Inertia payload</dt>
-                <dd data-metric="inertia.payload">...</dd>
-              </div>
-            </dl>
-            <p class="dd-server-timing" data-metric="inertia.serverTiming">Waiting for Server-Timing</p>
-          </article>
-
-          <article class="dd-race-card" data-route-card="rsc" data-state="idle">
-            <header>
-              <p class="dd-eyebrow">Candidate</p>
-              <h3>React Server Components via React on Rails Pro route</h3>
-              <span data-metric="rsc.status">Waiting</span>
-            </header>
-            <dl>
-              <div>
-                <dt>First streamed bytes</dt>
-                <dd data-metric="rsc.firstChunk">...</dd>
-              </div>
-              <div>
-                <dt>Complete response</dt>
-                <dd data-metric="rsc.complete">...</dd>
-              </div>
-              <div>
-                <dt>HTML response size</dt>
-                <dd data-metric="rsc.bytes">...</dd>
-              </div>
-              <div>
-                <dt>Route script bytes</dt>
-                <dd data-metric="rsc.scripts">...</dd>
-              </div>
-              <div>
-                <dt>Serialized Inertia payload</dt>
-                <dd data-metric="rsc.payload">...</dd>
-              </div>
-            </dl>
-            <p class="dd-server-timing" data-metric="rsc.serverTiming">Waiting for Server-Timing</p>
-          </article>
-        </div>
-
-        <p class="dd-note is-info" data-race-summary>
-          The live race will summarize the current browser run here.
-        </p>
-      </section>
-
-      <section class="dd-section">
-        <header>
-          <h2>What should be obvious</h2>
-          <p>The demo is valuable only if public, buyer-facing pages improve enough to justify the added complexity.</p>
         </header>
 
         <div class="dd-list">
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>Inertia control:</strong> the page includes a serialized <code>data-page</code> payload that the
-              client runtime uses to render the product experience.
+              <strong>For Gumroad maintainers:</strong> judge public product and Discover pages first because they are
+              SEO-sensitive, conversion-sensitive, logged out, and mobile-heavy.
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>RSC candidate:</strong> the server component stream can send crawlable product content and
-              conversion context without treating the whole public page as one client-rendered island.
+              <strong>For React on Rails evaluators:</strong> inspect how Rails can stream React Server Components while
+              keeping interactive work isolated instead of making the whole public page client-rendered.
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>For Gumroad maintainers:</strong> focus on public product pages, SEO, conversion-sensitive
-              loading, client JS reduction, and measured LCP/navigation wins before considering adoption.
+              <strong>For ShakaCode prospects:</strong> use this as a concrete performance consulting artifact, then
+              <a href="<%= consultation_url %>" target="_blank" rel="noopener">book a consultation</a> if your Rails app has similar public-page constraints.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <div class="dd-race-toolbar">
+        <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
+        <span class="dd-stamp" data-run-status>Waiting to start</span>
+      </div>
+
+      <%= render "public_product_rsc_demo/route_pair_lab",
+        label: "Product detail",
+        summary: "Buyer-facing product storytelling, price, reviews, seller context, purchase framing, FAQ, and recommendations.",
+        inertia_path: public_product_inertia_demo_path,
+        rsc_path: public_product_rsc_demo_path,
+        inertia_label: "Product Inertia route",
+        rsc_label: "Product RSC route" %>
+
+      <%= render "public_product_rsc_demo/route_pair_lab",
+        label: "Discover marketplace",
+        summary: "Dense browse grid, taxonomy/category context, filters, editorial collections, prices, ratings, and seller cards.",
+        inertia_path: public_product_discover_inertia_demo_path,
+        rsc_path: public_product_discover_rsc_demo_path,
+        inertia_label: "Discover Inertia route",
+        rsc_label: "Discover RSC route" %>
+
+      <section class="dd-section">
+        <header>
+          <h2>Reproduce with ShakaPerf</h2>
+          <p>
+            Use alternating cycles so route order is balanced. The public Gumroad pages are useful external references,
+            but the defensible before/after comparison is same data, same host, matched Inertia versus RSC routes.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Product detail pair:</strong>
+              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-detail-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match</code>
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>For teams evaluating React on Rails:</strong> this shows React Server Components running inside a
-              real Rails app, with a matched Inertia control instead of a synthetic benchmark.
+              <strong>Discover pair:</strong>
+              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label public-discover-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match</code>
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>For teams evaluating ShakaCode:</strong> use the lab and benchmark artifacts to judge our Rails
-              plus React performance approach. Then <a href="<%= consultation_url %>" target="_blank" rel="noopener">book a consultation</a> if this resembles a problem in your app.
+              <strong>External shape reference:</strong>
+              <a href="<%= gumroad_discover_reference_url %>" target="_blank" rel="noopener"><%= gumroad_discover_reference_url %></a>
+              helps explain why these fixtures are shaped this way, but it should not be treated as the A/B baseline.
             </p>
           </article>
         </div>

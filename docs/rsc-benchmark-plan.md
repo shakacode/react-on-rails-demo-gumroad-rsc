@@ -2,30 +2,33 @@
 
 ## Goal
 
-Decide whether a public product page using React Server Components through `react_on_rails`, React on Rails Pro, and React 19 is worth the extra complexity compared with a matched `Inertia` public product page.
+Decide whether public buyer pages using React Server Components through `react_on_rails`, React on Rails Pro, and React 19 are worth the extra complexity compared with matched `Inertia` public buyer pages.
 
 The question is not whether `Rspack` is faster to build with. That is already established.
 
-The question is whether React Server Components delivered by React on Rails Pro can make the logged-out, buyer-facing page better enough to matter for SEO, initial rendering, and conversion-sensitive loading behavior.
+The question is whether React Server Components delivered by React on Rails Pro can make logged-out, buyer-facing product and Discover pages better enough to matter for SEO, initial rendering, and conversion-sensitive loading behavior.
 
 ## Apples-to-apples rule
 
-Compare the same public product-like surface:
+Compare the same production-shaped public surfaces:
 
-- baseline: `Inertia` control at `/public_product/inertia_demo`
-- candidate: React Server Components via React on Rails Pro at `/public_product/rsc_demo`
+- product baseline: `Inertia` control at `/public_product/inertia_demo`
+- product candidate: React Server Components via React on Rails Pro at `/public_product/rsc_demo`
+- Discover baseline: `Inertia` control at `/public_product/discover_inertia_demo`
+- Discover candidate: React Server Components via React on Rails Pro at `/public_product/discover_rsc_demo`
 
 Keep these constant where possible:
 
-- same local database
-- same product-like data
+- same synthetic production-shaped fixture data
 - same Docker-backed services
 - same nginx and browser setup
 - same measurement harness
 
 Run the harness in public mode:
 
-`ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-demo-alternating-4 --cycles 4 --server-warmup-requests 1 --require-driver-match`
+`ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-detail-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match`
+
+`ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label public-discover-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match`
 
 ## What should change in the candidate
 
@@ -33,8 +36,8 @@ The candidate should be narrow.
 
 Target changes:
 
-- keep the public product page intent and UI broadly the same
-- replace the Inertia route with a React on Rails Pro route for this page only
+- keep the public product and Discover page intent and UI broadly the same
+- replace the Inertia route with a React on Rails Pro route for each measured surface only
 - use React Server Components for product facts, description, media framing, creator context, and other read-heavy sections
 - keep only truly interactive pieces as client components
 
@@ -45,6 +48,7 @@ Bias toward sections that are mostly display and data shaping:
 - product title, description, and media
 - creator and social-proof context
 - price, availability, and purchase framing
+- Discover product grid, taxonomy context, filters, and product cards
 - SEO-relevant metadata and canonical URL
 - related static trust or policy content
 
@@ -58,11 +62,11 @@ Avoid spending the first pass on sections that are already cheap:
 
 These are the metrics that matter for the first decision:
 
-- initial product HTML and metadata completeness
-- total public product JS transferred
-- largest public product JS chunk
-- public product `LCP`
-- total public product navigation duration
+- initial product and Discover HTML and metadata completeness
+- total public-route JS transferred
+- largest public-route JS chunk
+- public-route `LCP`
+- total public-route navigation duration
 
 ## Secondary metrics
 
@@ -80,7 +84,7 @@ These help explain the result:
 
 The first public `RSC` demo should be considered a meaningful performance win only if it can show something like:
 
-- at least `20%` less public product JS transferred
+- at least `20%` less public-route JS transferred
 - at least `10%` smaller largest client chunk
 - equal or better SEO-relevant initial HTML and metadata
 - equal or better `LCP`
@@ -110,7 +114,7 @@ Use it to validate integration, asset isolation, React on Rails Pro renderer boo
 
 The local development benchmark is useful for direction, but it is not enough for a stronger performance claim.
 
-The first production-like local pass was measured on the dashboard technical-proof pair. Treat it as benchmark-method history and integration evidence, not as the public product-page result.
+The first production-like local pass was measured on the dashboard technical-proof pair. Treat it as benchmark-method history and integration evidence, not as the public buyer-page result.
 
 That pass removed the dev-server as a confounder:
 
