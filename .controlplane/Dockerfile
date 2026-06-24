@@ -49,7 +49,8 @@ RUN gem install bundler:$(awk '/BUNDLED WITH/{getline; print}' Gemfile.lock | tr
     bundle install --jobs=3 --retry=3
 
 COPY package.json package-lock.json .npmrc ./
-RUN npm ci
+RUN npm ci && \
+    node -e "require('@rspack/core'); console.log('Rspack native binding loaded')"
 
 COPY . ./
 
