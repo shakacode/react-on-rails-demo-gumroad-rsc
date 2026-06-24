@@ -23,6 +23,7 @@ describe HomeController do
       expect(response.body).to include("Discover: RSC")
       expect(response.body).to include("7 -> 1")
       expect(response.body).to include("Hosted public results")
+      expect(response.body).to include("Fixture provenance")
       expect(response.body).to include("React on Rails")
       expect(response.body).to include("Book a ShakaCode consultation")
       expect(response.body).to include("https://reactonrails.com/")

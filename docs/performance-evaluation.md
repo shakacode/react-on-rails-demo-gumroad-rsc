@@ -41,6 +41,7 @@ What is already true:
 - product and Discover pages now have matched Inertia and React Server Components via React on Rails Pro routes
 - both route pairs use the same synthetic production-shaped fixture data, host, route-scoped CSS, and measurement harness
 - the fixtures were shaped from public Gumroad `Discover/Index` and `Products/Discover/Show` page structure without committing copied creator content
+- the sanitized shape sampling notes are documented in [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md)
 - all public comparison routes are logged out, so the comparison can be evaluated without a demo account
 - these public buyer pages are the correct surfaces for SEO, conversion-sensitive loading, client JavaScript cost, and mobile buyer performance
 - the first hosted headless-Chrome A/B run shows large median navigation wins and a 7-to-1 reduction in JS requests on both public route pairs

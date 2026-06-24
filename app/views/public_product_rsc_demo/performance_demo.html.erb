@@ -344,9 +344,9 @@
         and taxonomy props. This repo uses that shape without copying creator content.
       </p>
 
-      <section class="dd-section">
+      <section class="dd-section" id="hosted-headless-chrome-result">
         <header>
-          <h2>Hosted ShakaPerf result</h2>
+          <h2>Hosted headless Chrome A/B result</h2>
           <p>
             Captured on <code>2026-06-23 HST</code> / <code>2026-06-24 UTC</code> against
             <code>https://gumroad.reactonrails.com</code> with local headless Chrome 149, 8 alternating cycles,
@@ -395,7 +395,7 @@
         <header>
           <h2>What this report is allowed to claim</h2>
           <p>
-            The hosted ShakaPerf-style run shows a meaningful browser-navigation win on the right public surfaces.
+            The hosted headless Chrome A/B run shows a meaningful browser-navigation win on the right public surfaces.
             A Gumroad adoption proposal still needs a mobile Lighthouse/ShakaPerf repeat with TBT, INP, and mobile score.
           </p>
         </header>
@@ -456,13 +456,13 @@
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Product detail pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/inertia_demo --path /public_product/rsc_demo --label public-product-detail-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match</code>
+              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/inertia_demo --path /public_product/rsc_demo --label hosted-public-product-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Discover pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.dev --measure-base-url https://gumroad.dev --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label public-discover-alternating-8 --cycles 8 --server-warmup-requests 1 --require-driver-match</code>
+              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label hosted-public-discover-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
             </p>
           </article>
           <article class="dd-row">
@@ -472,11 +472,21 @@
               helps explain why these fixtures are shaped this way, but it should not be treated as the A/B baseline.
             </p>
           </article>
+          <article class="dd-row" id="fixture-provenance">
+            <p class="dd-copy">
+              <strong>Fixture provenance:</strong>
+              public page shape sampling observed <code>Discover/Index</code> with a 36-card product grid,
+              8 tag buckets, 8 filetype buckets, and taxonomy navigation, plus
+              <code>Products/Discover/Show</code> with product seller, cover, rating, price, purchase, description,
+              and taxonomy fields. The committed benchmark fixture keeps those field families but uses synthetic names,
+              copy, prices, and cover placeholders instead of creator content, product URLs, seller URLs, or image URLs.
+            </p>
+          </article>
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Hosted result docs:</strong>
-              <a href="https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/public-buyer-page-performance-results.md" target="_blank" rel="noopener">public buyer-page performance results</a>
-              include the exact commands, caveats, and supporting metrics.
+              the commands above reproduce the hosted public buyer-page run, while the headline table includes the
+              supporting caveat: this is a headless Chrome navigation result, not the final mobile Lighthouse claim.
             </p>
           </article>
         </div>

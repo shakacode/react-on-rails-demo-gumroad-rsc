@@ -28,7 +28,7 @@ I put together a public experiment repo that tracks Gumroad and compares matched
 - Product React Server Components route: https://gumroad.reactonrails.com/public_product/rsc_demo
 - Discover Inertia control: https://gumroad.reactonrails.com/public_product/discover_inertia_demo
 - Discover React Server Components route: https://gumroad.reactonrails.com/public_product/discover_rsc_demo
-- Public buyer-page results: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/public-buyer-page-performance-results.md
+- Current PR with result and fixture-provenance docs: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/45
 
 The goal is not to argue for a broad rewrite.
 The goal is to determine whether public, buyer-facing product and Discover pages can get enough SEO, conversion, browse, and loading-performance benefit to justify the extra complexity.
@@ -42,6 +42,7 @@ The hosted lab now has production-shaped synthetic fixtures for the public pages
 - both route pairs are logged out and visible without a demo account
 - both route pairs use the same fixture data for Inertia and React Server Components
 - the fixtures were shaped from public Gumroad page structure without committing copied creator content
+- the current control route is a custom Inertia benchmark surface, not yet the production `Discover/Index` or `Products/Discover/Show` component migrated one-for-one
 
 The first hosted A/B result is favorable enough to keep testing on the page type that matters most for Gumroad:
 
@@ -86,7 +87,7 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 ## Links
 
 - Public product demo details: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/public-product-rsc-demo.md
-- Public buyer-page performance results: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/public-buyer-page-performance-results.md
+- Public buyer-page performance results and fixture sampling notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/45
 - Historical dashboard/bundler findings: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-findings.md
 - Performance evaluation notes: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/performance-evaluation.md
 ```

@@ -39,6 +39,7 @@ The priority is consumer-facing performance: public product pages, Discover mark
 - Book a ShakaCode consultation: <https://meetings.hubspot.com/justingordon/30-minute-consultation>
 - Performance evaluation notes: [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - Public product demo details: [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
+- Fixture sampling and sanitation notes: [docs/public-page-fixture-sampling.md](docs/public-page-fixture-sampling.md)
 - Hosted public buyer-page performance results: [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md)
 - Historical dashboard/bundler findings: [docs/performance-findings.md](docs/performance-findings.md)
 - Benchmark and positioning issue: [React on Rails issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
@@ -54,9 +55,9 @@ The priority is consumer-facing performance: public product pages, Discover mark
 The demo only matters if it proves a meaningful buyer-page advantage.
 
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
-- The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content.
+- The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content, seller URLs, product URLs, or image URLs.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The first hosted ShakaPerf-style A/B report is favorable on browser navigation, `LCP`, route JavaScript, and serialized Inertia payload removal.
+- The first hosted headless Chrome A/B report is favorable on browser navigation, `LCP`, route JavaScript, and serialized Inertia payload removal.
 - The final adoption claim still needs a mobile-throttled Lighthouse/ShakaPerf repeat with `TBT`, `INP`, and mobile score before making a Gumroad merge proposal.
 
 ### React Server Components via React on Rails, not Rspack, is the performance premise
@@ -81,7 +82,9 @@ The hosted lab now compares two production-shaped public surfaces:
 | Discover marketplace | `/public_product/discover_inertia_demo` | `/public_product/discover_rsc_demo`                   | Dense product grids, taxonomy navigation, filters, editorial context, prices, ratings, and seller cards are mobile-heavy public browse surfaces. |
 
 The fixtures are synthetic but production-shaped. They were informed by the public Gumroad `Discover/Index` and `Products/Discover/Show` page shapes without committing creator copy, thumbnails, or seller URLs.
-To re-sample shape only, run `scripts/perf/sample_public_gumroad_shapes.mjs`; it prints component names, prop keys, selected field shapes, and counts without writing scraped content into the repo.
+To re-sample Discover shape only, run `scripts/perf/sample_public_gumroad_shapes.mjs`. To re-sample product-page shape, pass an explicit public product URL locally and sanitize the output before sharing it. The sampler prints component names, prop keys, selected field shapes, and counts without writing scraped content into the repo. The current sanitized shape summary is in [docs/public-page-fixture-sampling.md](docs/public-page-fixture-sampling.md).
+
+Important limitation: the current "before" route is a custom Inertia benchmark surface that uses the same synthetic fixture as the RSC route. That makes the framework/rendering comparison clean, but it is not yet a port of Gumroad's production `Discover/Index` or `Products/Discover/Show` components. The stronger follow-up is to wire sanitized production-shaped props into those real public components where feasible, then compare the RSC equivalent.
 
 ### Latest Hosted A/B Result
 
@@ -161,21 +164,12 @@ Dashboard screenshots are kept as proof that the stack works against signed-in G
 | --------------------------------------------- | -------------------------------------------------------------- |
 | ![Inertia demo](docs/images/inertia-demo.png) | ![RSC demo](docs/images/rsc-demo.png)                          |
 
-### Optional seller login for technical proof routes
+### Optional signed-in technical proof routes
 
-The headline public demo does not require a login. Use these credentials only when verifying the older signed-in dashboard technical proof or other seller-only Gumroad flows.
-
-Local verification:
-
-- email: `seller@gumroad.com`
-- password: `password`
-- two-factor code: `000000`
-
-Hosted demo verification:
-
-- email: `seller+admin@gumroad.com`
-- password: `password`
-- two-factor code, when prompted: `000000`
+The headline public demo does not require a login. If you need to inspect older
+signed-in dashboard proof routes during local development, use the credential
+reference in [docs/users.md](docs/users.md) instead of treating those routes as
+part of the public buyer-page value case.
 
 ### How to reproduce the comparison locally
 
@@ -222,6 +216,7 @@ If you want the measured benchmark artifacts instead of a visual spot check, sta
 ### Public evaluation docs
 
 - [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
+- [docs/public-page-fixture-sampling.md](docs/public-page-fixture-sampling.md)
 - [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md)
 - [docs/performance-findings.md](docs/performance-findings.md)
 - [docs/performance-evaluation.md](docs/performance-evaluation.md)
@@ -424,9 +419,7 @@ You can now access the application at `https://gumroad.dev`.
 
 ### Logging in
 
-You can log in with the username `seller@gumroad.com` and the password `password`. The two-factor authentication code is `000000`.
-
-Read more about logging in as a user with a different team role at [Users & authentication](docs/users.md).
+For local development credentials and team-role examples, see [Users & authentication](docs/users.md).
 
 ### Resetting Elasticsearch indices
 

@@ -205,7 +205,11 @@ class PublicProductRscDemoPresenter
     def shared_props
       {
         locale: I18n.locale.to_s,
-        source_note: "Fixture shape sampled from public Gumroad #{DISCOVER_REFERENCE_SHAPE} and #{PRODUCT_REFERENCE_SHAPE} pages; committed copy, creators, prices, and artwork are synthetic.",
+        source_note: [
+          "Fixture shape sampled from public Gumroad #{DISCOVER_REFERENCE_SHAPE} and #{PRODUCT_REFERENCE_SHAPE} pages:",
+          "36-card Discover grid, 8 tag/filetype buckets, taxonomy nav, and product seller/cover/rating/purchase fields.",
+          "Committed copy, creators, prices, and artwork are synthetic.",
+        ].join(" "),
         comparison: comparison_links,
       }
     end
