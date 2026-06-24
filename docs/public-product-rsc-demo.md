@@ -52,6 +52,17 @@ The comparison should include:
 
 The RSC route should demonstrate server/client composition where it matters: product facts, purchase framing, and mostly static content can be server-rendered, while genuinely interactive controls stay client-side.
 
+## Next Iteration: Production-Shaped Pages
+
+The current seeded `demo` product is useful for validating the rendering path, but it is too small to settle whether Gumroad should consider a production migration. The next credible comparison should use real-page-shaped fixtures:
+
+- Discover listing page: a dense grid of product cards, categories, thumbnails, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
+- Product detail page: a public product landing page with realistic media, seller profile data, description length, recommendations, purchase framing, and mobile above-the-fold content
+- Matched implementations: one route rendered with the current Inertia approach and one route rendered with React Server Components via React on Rails Pro
+- Same data, same host, same measurement harness, so ShakaPerf results reflect rendering architecture rather than fixture differences
+
+Public Gumroad pages expose enough metadata, HTML, and Inertia page data to build these fixtures from a small set of public examples. For a public demo repository, prefer curated and sanitized fixture data or production-shaped synthetic data over broad scraping or wholesale copied creator content. Use real Gumroad URLs as external benchmark references, not as unreviewed committed content.
+
 ## Benchmark focus
 
 Measure the public route pair with the same discipline used for the dashboard comparison.

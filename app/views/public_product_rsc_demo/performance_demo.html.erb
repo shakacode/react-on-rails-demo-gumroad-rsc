@@ -281,15 +281,15 @@
 >
   <aside class="dd-side">
     <div class="dd-brand">
-      <a href="<%= rsc_performance_demo_path %>">Gumroad</a>
+      <a href="<%= root_path %>">Gumroad</a>
       <p>React Server Components via React on Rails Pro lab</p>
     </div>
 
     <nav class="dd-nav" aria-label="Public product performance lab routes">
+      <a href="<%= root_path %>">Home</a>
       <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
       <a href="<%= public_product_inertia_demo_path %>">Inertia route</a>
       <a href="<%= public_product_rsc_demo_path %>">RSC route</a>
-      <a href="<%= short_link_path(@product) %>">Current product page</a>
       <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
       <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
       <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
@@ -315,6 +315,7 @@
       </div>
 
       <div class="dd-actions">
+        <a href="<%= root_path %>" class="dd-btn">Back to home</a>
         <a href="<%= public_product_inertia_demo_path %>" class="dd-btn">Open Inertia route</a>
         <a href="<%= public_product_rsc_demo_path %>" class="dd-btn">Open RSC route</a>
         <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener" class="dd-btn">Learn React on Rails</a>

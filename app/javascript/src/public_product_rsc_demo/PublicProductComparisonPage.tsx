@@ -30,19 +30,17 @@ type PublicProductProps = {
   attributes?: PublicProductAttribute[];
   currency_code: CurrencyCode;
   description_html?: string | null;
-  long_url: string;
   name: string;
   permalink: string;
   price_cents: number;
   public_files?: PublicProductFile[];
-  purchase_url: string;
   ratings?: PublicProductRatings | null;
   seller: PublicProductSeller;
   summary?: string | null;
 };
 
 type PublicProductComparisonLinks = {
-  control_url: string;
+  home_url: string;
   performance_url: string;
   inertia_url: string;
   rsc_url: string;
@@ -98,8 +96,8 @@ const ProductNav = ({
   currentView: PublicProductComparisonVariant;
 }) => {
   const links = [
+    { href: comparison.home_url, label: "Home", view: null },
     { href: comparison.performance_url, label: "Performance lab", view: null },
-    { href: comparison.control_url, label: "Current product page", view: null },
     { href: comparison.inertia_url, label: "Inertia demo", view: "inertia" },
     { href: comparison.rsc_url, label: "RSC demo", view: "rsc" },
   ];
@@ -182,7 +180,7 @@ export default function PublicProductComparisonPage({ comparison, locale, produc
     <div className="dd">
       <aside className="dd-side">
         <div className="dd-brand">
-          <a href={comparison.control_url}>Gumroad</a>
+          <a href={comparison.home_url}>Gumroad</a>
           <p>{copy.subtitle}</p>
         </div>
 
@@ -209,8 +207,8 @@ export default function PublicProductComparisonPage({ comparison, locale, produc
             <a href={compareHref} className="dd-btn">
               {copy.compareLabel}
             </a>
-            <a href={product.purchase_url} className="dd-btn">
-              Open current product page
+            <a href={comparison.home_url} className="dd-btn">
+              Back to home
             </a>
           </div>
         </header>

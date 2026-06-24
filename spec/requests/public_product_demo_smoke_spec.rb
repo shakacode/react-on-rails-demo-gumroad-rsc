@@ -29,6 +29,8 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("First streamed bytes")
     expect(page).to have_text("Route script bytes")
     expect(page).to have_text("Serialized Inertia payload")
+    expect(page).to have_link("Home", href: root_path)
+    expect(page).to have_link("Back to home", href: root_path)
     expect(page).to have_link("Open Inertia route", href: public_product_inertia_demo_path)
     expect(page).to have_link("Open RSC route", href: public_product_rsc_demo_path)
     expect(page).to have_link("Learn React on Rails", href: "https://reactonrails.com/")
@@ -51,13 +53,15 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("$19")
     expect(page).to have_link("Open performance lab", href: public_product_performance_demo_path)
     expect(page).to have_link("Open RSC demo", href: public_product_rsc_demo_path)
-    expect(page).to have_link("Open current product page", href: short_link_path(product))
+    expect(page).to have_link("Back to home", href: root_path)
+    expect(page).not_to have_link("Open current product page")
 
     within("nav[aria-label='Public product comparison routes']") do
+      expect(page).to have_link("Home", href: root_path)
       expect(page).to have_link("Performance lab", href: public_product_performance_demo_path)
       expect(page).to have_link("Inertia demo", aria: { current: "page" })
       expect(page).to have_link("RSC demo", href: public_product_rsc_demo_path)
-      expect(page).to have_link("Current product page", href: short_link_path(product))
+      expect(page).not_to have_link("Current product page")
     end
   end
 
@@ -73,13 +77,15 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("$19")
     expect(page).to have_link("Open performance lab", href: public_product_performance_demo_path)
     expect(page).to have_link("Open Inertia demo", href: public_product_inertia_demo_path)
-    expect(page).to have_link("Open current product page", href: short_link_path(product))
+    expect(page).to have_link("Back to home", href: root_path)
+    expect(page).not_to have_link("Open current product page")
 
     within("nav[aria-label='Public product comparison routes']") do
+      expect(page).to have_link("Home", href: root_path)
       expect(page).to have_link("Performance lab", href: public_product_performance_demo_path)
       expect(page).to have_link("RSC demo", aria: { current: "page" })
       expect(page).to have_link("Inertia demo", href: public_product_inertia_demo_path)
-      expect(page).to have_link("Current product page", href: short_link_path(product))
+      expect(page).not_to have_link("Current product page")
     end
   end
 end

@@ -31,11 +31,9 @@ class PublicProductRscDemoPresenter
         ratings: product_props[:ratings],
         attributes: product_props[:attributes],
         public_files: public_file_props(product_props[:public_files]),
-        long_url: product_props[:long_url],
-        purchase_url: short_link_path(product),
       }.compact,
       comparison: {
-        control_url: short_link_path(product),
+        home_url: root_path,
         performance_url: public_product_performance_demo_path,
         inertia_url: public_product_inertia_demo_path,
         rsc_url: public_product_rsc_demo_path,
