@@ -9,6 +9,31 @@ class PublicProductRscDemoPresenter
   CONSULTATION_URL = "https://meetings.hubspot.com/justingordon/30-minute-consultation"
   GUMROAD_DISCOVER_REFERENCE_URL = "https://gumroad.com/discover"
 
+  REPO_SOURCE_BASE_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
+  HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
+  BENCHMARK_TIE_BAND_PERCENT = 5
+
+  CONTROLLER_SOURCE_PATH = "app/controllers/public_product_rsc_demo_controller.rb"
+  PRESENTER_SOURCE_PATH = "app/presenters/public_product_rsc_demo_presenter.rb"
+  COMPARISON_UI_SOURCE_PATH = "app/javascript/src/public_product_rsc_demo/PublicProductComparisonPage.tsx"
+  PRODUCT_INERTIA_PAGE_SOURCE_PATH = "app/javascript/pages/PublicProduct/InertiaDemo.tsx"
+  DISCOVER_INERTIA_PAGE_SOURCE_PATH = "app/javascript/pages/PublicProduct/DiscoverInertiaDemo.tsx"
+  PRODUCT_RSC_TEMPLATE_SOURCE_PATH = "app/views/public_product_rsc_demo/rsc_demo.html.erb"
+  DISCOVER_RSC_TEMPLATE_SOURCE_PATH = "app/views/public_product_rsc_demo/discover_rsc_demo.html.erb"
+  PRODUCT_RSC_COMPONENT_SOURCE_PATH = "app/javascript/src/public_product_rsc_demo/ror_components/PublicProductRscDemoPage.tsx"
+  DISCOVER_RSC_COMPONENT_SOURCE_PATH = "app/javascript/src/public_product_rsc_demo/ror_components/PublicDiscoverRscDemoPage.tsx"
+
+  HOSTED_BENCHMARK_METRICS = [
+    { key: :median_navigation_duration_ms, label: "Navigation duration", unit: :ms },
+    { key: :median_lcp_start_ms, label: "LCP start", unit: :ms },
+    { key: :median_response_end_ms, label: "Response end (server TTLB)", unit: :ms },
+    { key: :median_html_transfer_bytes, label: "HTML transfer (over the wire)", unit: :bytes },
+    { key: :median_js_transfer_bytes, label: "JavaScript transfer (over the wire)", unit: :bytes },
+    { key: :median_js_request_count, label: "JavaScript requests", unit: :count },
+    { key: :median_decoded_js_css_bytes, label: "Decoded JavaScript + CSS", unit: :bytes },
+    { key: :inertia_data_page_bytes, label: "Serialized Inertia payload", unit: :bytes },
+  ].freeze
+
   PRODUCT_REFERENCE_SHAPE = "Products/Discover/Show"
   DISCOVER_REFERENCE_SHAPE = "Discover/Index"
 
@@ -201,7 +226,143 @@ class PublicProductRscDemoPresenter
     "A production-shaped, synthetic Discover listing fixture comparing Inertia and React Server Components via React on Rails Pro."
   end
 
+  def self.hosted_benchmark
+    return @hosted_benchmark if defined?(@hosted_benchmark)
+
+    @hosted_benchmark = begin
+      JSON.parse(File.read(Rails.root.join(HOSTED_BENCHMARK_ARTIFACT_PATH)), symbolize_names: true)
+    rescue StandardError
+      nil
+    end
+  end
+
+  def route_source_links(page_kind)
+    discover = page_kind.to_sym == :discover
+    {
+      inertia: [
+        source_link("Controller", CONTROLLER_SOURCE_PATH),
+        source_link("Inertia page", discover ? DISCOVER_INERTIA_PAGE_SOURCE_PATH : PRODUCT_INERTIA_PAGE_SOURCE_PATH),
+        source_link("Shared UI", COMPARISON_UI_SOURCE_PATH),
+        source_link("Fixtures", PRESENTER_SOURCE_PATH),
+      ],
+      rsc: [
+        source_link("Controller", CONTROLLER_SOURCE_PATH),
+        source_link("Streamed template", discover ? DISCOVER_RSC_TEMPLATE_SOURCE_PATH : PRODUCT_RSC_TEMPLATE_SOURCE_PATH),
+        source_link("RSC server component", discover ? DISCOVER_RSC_COMPONENT_SOURCE_PATH : PRODUCT_RSC_COMPONENT_SOURCE_PATH),
+        source_link("Fixtures", PRESENTER_SOURCE_PATH),
+      ],
+    }
+  end
+
+  def hosted_benchmark_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{HOSTED_BENCHMARK_ARTIFACT_PATH}"
+  end
+
+  def hosted_benchmark_method_note
+    data = self.class.hosted_benchmark
+    return if data.nil?
+
+    browser = data[:browser] || {}
+    method = data[:method] || {}
+    "Captured #{data[:captured_at_utc_date]} UTC against #{data[:host]} with headless #{browser[:name]} #{browser[:version]}, " \
+      "#{method[:cycles]} alternating cycles, and #{method[:server_warmup_requests_per_run]} warmup requests per measured run."
+  end
+
+  def hosted_benchmark_caveats
+    self.class.hosted_benchmark&.dig(:caveats) || []
+  end
+
+  def hosted_benchmark_surfaces
+    (self.class.hosted_benchmark&.dig(:results) || []).map do |result|
+      {
+        surface: result[:surface],
+        page_kind: result[:candidate_path].to_s.include?("discover") ? :discover : :product,
+        rows: hosted_benchmark_rows(result),
+      }
+    end
+  end
+
   private
+    def source_link(label, path)
+      { label:, url: "#{REPO_SOURCE_BASE_URL}/#{path}" }
+    end
+
+    def hosted_benchmark_rows(result)
+      rows = HOSTED_BENCHMARK_METRICS.filter_map do |metric|
+        pair = result[metric[:key]]
+        next if pair.nil?
+
+        benchmark_row(metric[:label], pair[:inertia], pair[:rsc], metric[:unit], pair[:delta_percent])
+      end
+
+      html = result[:median_html_transfer_bytes]
+      js = result[:median_js_transfer_bytes]
+      if html && js
+        rows << benchmark_row("Total wire weight (HTML + JavaScript)", html[:inertia] + js[:inertia], html[:rsc] + js[:rsc], :bytes)
+      end
+
+      rows
+    end
+
+    def benchmark_row(label, inertia, rsc, unit, delta_percent = nil)
+      percent = delta_percent || computed_percent(inertia, rsc)
+      {
+        label:,
+        inertia: format_metric(inertia, unit),
+        rsc: format_metric(rsc, unit),
+        delta: format_delta_percent(percent),
+        verdict: verdict_for(inertia, rsc),
+      }
+    end
+
+    def verdict_for(inertia, rsc)
+      inertia = inertia.to_f
+      rsc = rsc.to_f
+      return :tie if inertia.zero? && rsc.zero?
+      return :rsc_wins if inertia.zero?
+
+      improvement = ((inertia - rsc) / inertia) * 100.0
+      return :tie if improvement.abs < BENCHMARK_TIE_BAND_PERCENT
+
+      improvement.positive? ? :rsc_wins : :inertia_wins
+    end
+
+    def computed_percent(inertia, rsc)
+      inertia = inertia.to_f
+      return if inertia.zero?
+
+      ((rsc.to_f - inertia) / inertia) * 100.0
+    end
+
+    def format_delta_percent(percent)
+      return "—" if percent.nil?
+
+      "#{percent.negative? ? "-" : "+"}#{trim_number(percent.abs, 1)}%"
+    end
+
+    def format_metric(value, unit)
+      case unit
+      when :ms then "#{trim_number(value)} ms"
+      when :bytes then format_bytes(value)
+      when :count then value.to_i.to_s
+      else value.to_s
+      end
+    end
+
+    def format_bytes(value)
+      value = value.to_f
+      return "None" if value.zero?
+      return "#{trim_number(value / 1_048_576.0)} MB" if value >= 1_048_576
+      return "#{trim_number(value / 1024.0)} KB" if value >= 1024
+
+      "#{value.to_i} B"
+    end
+
+    def trim_number(value, precision = 2)
+      rounded = value.to_f.round(precision)
+      rounded == rounded.to_i ? rounded.to_i.to_s : rounded.to_s
+    end
+
     def shared_props
       {
         locale: I18n.locale.to_s,

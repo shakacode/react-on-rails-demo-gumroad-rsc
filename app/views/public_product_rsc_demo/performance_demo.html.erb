@@ -22,6 +22,13 @@
         return `${numberFormatter.format(value)} B`;
       };
 
+      const formatHtmlSize = (result) => {
+        if (Number.isFinite(result.wireBytes) && result.wireBytes > 0) {
+          return `${formatBytes(result.wireBytes)} wire / ${formatBytes(result.decodedBytes)} decoded`;
+        }
+        return `${formatBytes(result.decodedBytes)} decoded`;
+      };
+
       const setText = (scope, selector, value) => {
         const element = scope.querySelector(selector);
         if (element) element.textContent = value;
@@ -105,7 +112,8 @@
         resetMetrics(scope, variant);
 
         const startedAt = performance.now();
-        const response = await fetch(urlWithCacheBust(path), {
+        const requestUrl = urlWithCacheBust(path);
+        const response = await fetch(requestUrl, {
           cache: "no-store",
           credentials: "omit",
           headers: {
@@ -148,8 +156,11 @@
         const completedAt = performance.now();
         const payloadBytes = inertiaPayloadBytes(html);
         const scriptSources = routeScriptSources(html);
+        const timingEntry = performance.getEntriesByName(requestUrl).at(-1);
+        const wireBytes = timingEntry && timingEntry.encodedBodySize ? timingEntry.encodedBodySize : null;
         const result = {
-          bytes,
+          decodedBytes: bytes,
+          wireBytes,
           firstChunkMs: (firstChunkAt || headersAt) - startedAt,
           headersMs: headersAt - startedAt,
           inertiaPayloadBytes: payloadBytes,
@@ -165,7 +176,7 @@
         setMetric(scope, variant, "status", "HTML complete");
         setMetric(scope, variant, "firstChunk", formatMs(result.firstChunkMs));
         setMetric(scope, variant, "complete", formatMs(result.totalMs));
-        setMetric(scope, variant, "bytes", formatBytes(result.bytes));
+        setMetric(scope, variant, "bytes", formatHtmlSize(result));
         setMetric(scope, variant, "scripts", "Waiting for route script pass");
         setMetric(scope, variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
         setMetric(scope, variant, "serverTiming", serverTiming);
@@ -186,34 +197,33 @@
       };
 
       const describeResults = (label, inertia, rsc) => {
-        const completionDelta = inertia.totalMs - rsc.totalMs;
+        const wireKnown = Number.isFinite(inertia.wireBytes) && Number.isFinite(rsc.wireBytes);
+        const inertiaHtml = wireKnown ? inertia.wireBytes : inertia.decodedBytes;
+        const rscHtml = wireKnown ? rsc.wireBytes : rsc.decodedBytes;
+        const htmlBasis = wireKnown ? "over the wire" : "in this fetch";
+        const htmlDelta = inertiaHtml - rscHtml;
         const firstChunkDelta = inertia.firstChunkMs - rsc.firstChunkMs;
-        const byteDelta = inertia.bytes - rsc.bytes;
         const scriptDelta = inertia.scriptBytes - rsc.scriptBytes;
-        const payloadCopy =
-          inertia.inertiaPayloadBytes > 0
-            ? ` The Inertia document included ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document did not expose a data-page payload.`
-            : "";
-        const hasUnavailableScripts = inertia.scriptUnreadableCount > 0 || rsc.scriptUnreadableCount > 0;
-        const scriptCopy = hasUnavailableScripts
-          ? ` Readable route JavaScript bytes: Inertia ${formatBytes(inertia.scriptBytes)} (${inertia.scriptReadableCount}/${inertia.scriptCount} scripts), RSC ${formatBytes(rsc.scriptBytes)} (${rsc.scriptReadableCount}/${rsc.scriptCount} scripts).`
-          : scriptDelta >= 0
-            ? ` RSC referenced ${formatBytes(scriptDelta)} less route JavaScript.`
-            : ` Inertia referenced ${formatBytes(Math.abs(scriptDelta))} less route JavaScript.`;
-        const completionCopy =
-          completionDelta >= 0
-            ? `${label}: RSC completed ${formatMs(completionDelta)} faster in this browser fetch.`
-            : `${label}: Inertia completed ${formatMs(Math.abs(completionDelta))} faster in this browser fetch.`;
+
         const firstChunkCopy =
           firstChunkDelta >= 0
-            ? ` RSC delivered first streamed bytes ${formatMs(firstChunkDelta)} sooner.`
-            : ` Inertia delivered first bytes ${formatMs(Math.abs(firstChunkDelta))} sooner.`;
-        const byteCopy =
-          byteDelta >= 0
-            ? ` RSC transferred ${formatBytes(byteDelta)} less HTML in this run.`
-            : ` Inertia transferred ${formatBytes(Math.abs(byteDelta))} less HTML in this run.`;
+            ? `RSC delivered first streamed bytes ${formatMs(firstChunkDelta)} sooner.`
+            : `Inertia delivered first bytes ${formatMs(Math.abs(firstChunkDelta))} sooner.`;
+        const htmlCopy =
+          htmlDelta >= 0
+            ? ` RSC sent ${formatBytes(htmlDelta)} less HTML ${htmlBasis}.`
+            : ` RSC sent ${formatBytes(Math.abs(htmlDelta))} more HTML ${htmlBasis} — more server-rendered content, Brotli-compressed in transit.`;
+        const scriptCopy =
+          scriptDelta >= 0
+            ? ` It referenced ${formatBytes(scriptDelta)} less route JavaScript across ${rsc.scriptCount} request(s) vs ${inertia.scriptCount}.`
+            : ` Inertia referenced ${formatBytes(Math.abs(scriptDelta))} less route JavaScript.`;
+        const payloadCopy =
+          inertia.inertiaPayloadBytes > 0
+            ? ` The Inertia document also carried ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document carried none.`
+            : "";
+        const completionCopy = ` Raw full-body download (Inertia ${formatMs(inertia.totalMs)}, RSC ${formatMs(rsc.totalMs)}) is not the verdict: it favors the smaller document and ignores the JavaScript execution and hydration the browser still does. The authoritative comparison is the hosted headless-Chrome navigation result above.`;
 
-        return `${completionCopy}${firstChunkCopy}${byteCopy}${scriptCopy}${payloadCopy}`;
+        return `${label}: ${firstChunkCopy}${htmlCopy}${scriptCopy}${payloadCopy}${completionCopy}`;
       };
 
       const runRace = async (scope) => {
@@ -344,51 +354,91 @@
         and taxonomy props. This repo uses that shape without copying creator content.
       </p>
 
+      <% verdict_labels = {
+        rsc_wins: ["React on Rails Pro RSC wins", "dd-verdict--win"],
+        inertia_wins: ["Inertia wins", "dd-verdict--loss"],
+        tie: ["About the same", "dd-verdict--tie"],
+      } %>
+
       <section class="dd-section" id="hosted-headless-chrome-result">
         <header>
           <h2>Hosted headless Chrome A/B result</h2>
-          <p>
-            Captured on <code>2026-06-23 HST</code> / <code>2026-06-24 UTC</code> against
-            <code>https://gumroad.reactonrails.com</code> with local headless Chrome 149, 8 alternating cycles,
-            and 2 warmup requests per measured run.
+          <p><%= @presenter.hosted_benchmark_method_note %></p>
+          <p class="dd-source-links dd-source-links--lead">
+            <span>Source for the measured app:</span>
+            <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">benchmark data (summary.json)</a>
+            <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
+            <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
           </p>
         </header>
 
-        <div class="dd-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Public surface</th>
-                <th>Median nav duration</th>
-                <th>Median LCP start</th>
-                <th>JS requests</th>
-                <th>Inertia payload</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Product detail</td>
-                <td><code>811.50ms</code> -> <code>272.25ms</code> (<strong>-66.5%</strong>)</td>
-                <td><code>368.00ms</code> -> <code>304.00ms</code> (<strong>-17.4%</strong>)</td>
-                <td><code>7</code> -> <code>1</code> (<strong>-85.7%</strong>)</td>
-                <td><code>12,183 B</code> -> none</td>
-              </tr>
-              <tr>
-                <td>Discover marketplace</td>
-                <td><code>796.95ms</code> -> <code>283.75ms</code> (<strong>-64.4%</strong>)</td>
-                <td><code>360.00ms</code> -> <code>322.00ms</code> (<strong>-10.6%</strong>)</td>
-                <td><code>7</code> -> <code>1</code> (<strong>-85.7%</strong>)</td>
-                <td><code>24,960 B</code> -> none</td>
-              </tr>
-            </tbody>
-          </table>
+        <p class="dd-note is-info">
+          <strong>How to read this:</strong> the control (column A) is Gumroad's current <strong>Inertia</strong> route; the
+          candidate (column B) is the <strong>React on Rails Pro RSC</strong> route. Same fixture data, same host, same harness.
+          Every metric is lower-is-better. The verdict only names a winner when the gap exceeds
+          &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
+        </p>
+
+        <% @presenter.hosted_benchmark_surfaces.each do |surface| %>
+          <% sources = @presenter.route_source_links(surface[:page_kind]) %>
+          <div class="dd-surface-block">
+            <header class="dd-surface-head">
+              <h3><%= surface[:surface] %></h3>
+              <p class="dd-source-links">
+                <span>A &middot; Inertia route source:</span>
+                <% sources[:inertia].each do |link| %><a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a><% end %>
+              </p>
+              <p class="dd-source-links">
+                <span>B &middot; React on Rails Pro RSC route source:</span>
+                <% sources[:rsc].each do |link| %><a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a><% end %>
+              </p>
+            </header>
+
+            <div class="dd-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Metric (lower is better)</th>
+                    <th scope="col">A &middot; Inertia control</th>
+                    <th scope="col">B &middot; React on Rails Pro RSC</th>
+                    <th scope="col">Change (B vs A)</th>
+                    <th scope="col">Verdict</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% surface[:rows].each do |row| %>
+                    <% label, klass = verdict_labels.fetch(row[:verdict]) %>
+                    <tr>
+                      <th scope="row"><%= row[:label] %></th>
+                      <td><code><%= row[:inertia] %></code></td>
+                      <td><code><%= row[:rsc] %></code></td>
+                      <td><code><%= row[:delta] %></code></td>
+                      <td><span class="dd-verdict <%= klass %>"><%= label %></span></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="dd-note is-info">
+          <strong>What this shows:</strong> on the wire, RSC's only loss is a few KB of extra HTML &mdash; dwarfed by shipping
+          far less JavaScript across one request instead of seven, and removing the serialized Inertia payload entirely. The
+          one place Inertia genuinely edges ahead (Discover response-end) is inside the &ldquo;about the same&rdquo; band.
+          <% if @presenter.hosted_benchmark_caveats.any? %>
+            <br />
+            <strong>Caveats from the run:</strong>
+          <% end %>
         </div>
 
-        <p class="dd-note is-info">
-          This is strong hosted browser-navigation evidence, not the final mobile-throttled Lighthouse claim.
-          RSC sends larger HTML because more rendered content arrives in the document, but it removes the serialized
-          Inertia payload and sharply reduces client JavaScript.
-        </p>
+        <% if @presenter.hosted_benchmark_caveats.any? %>
+          <ul class="dd-caveats">
+            <% @presenter.hosted_benchmark_caveats.each do |caveat| %>
+              <li><%= caveat %></li>
+            <% end %>
+          </ul>
+        <% end %>
       </section>
 
       <section class="dd-section">
@@ -422,26 +472,45 @@
         </div>
       </section>
 
+      <section class="dd-section">
+        <header>
+          <h2>Run the A/B race yourself</h2>
+          <p>
+            This live race fetches both routes from your browser right now. Treat it as directional: it captures first
+            streamed bytes, HTML size (wire and decoded), route JavaScript weight, and the serialized Inertia payload, but it
+            does not measure the JavaScript execution and hydration the browser still does after download. Raw full-response
+            download time favors the smaller document, so for the load-time verdict trust the hosted headless-Chrome result
+            above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
+          </p>
+        </header>
+      </section>
+
       <div class="dd-race-toolbar">
         <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
         <span class="dd-stamp" data-run-status>Waiting to start</span>
       </div>
 
+      <% product_sources = @presenter.route_source_links(:product) %>
       <%= render "public_product_rsc_demo/route_pair_lab",
         label: "Product detail",
         summary: "Buyer-facing product storytelling, price, reviews, seller context, purchase framing, FAQ, and recommendations.",
         inertia_path: public_product_inertia_demo_path,
         rsc_path: public_product_rsc_demo_path,
         inertia_label: "Product Inertia route",
-        rsc_label: "Product RSC route" %>
+        rsc_label: "Product RSC route",
+        inertia_sources: product_sources[:inertia],
+        rsc_sources: product_sources[:rsc] %>
 
+      <% discover_sources = @presenter.route_source_links(:discover) %>
       <%= render "public_product_rsc_demo/route_pair_lab",
         label: "Discover marketplace",
         summary: "Dense browse grid, taxonomy/category context, filters, editorial collections, prices, ratings, and seller cards.",
         inertia_path: public_product_discover_inertia_demo_path,
         rsc_path: public_product_discover_rsc_demo_path,
         inertia_label: "Discover Inertia route",
-        rsc_label: "Discover RSC route" %>
+        rsc_label: "Discover RSC route",
+        inertia_sources: discover_sources[:inertia],
+        rsc_sources: discover_sources[:rsc] %>
 
       <section class="dd-section">
         <header>
