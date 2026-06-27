@@ -344,51 +344,116 @@
         and taxonomy props. This repo uses that shape without copying creator content.
       </p>
 
+      <% report = @hosted_benchmark_report %>
+      <% provenance = report[:provenance] %>
+
       <section class="dd-section" id="hosted-headless-chrome-result">
         <header>
           <h2>Hosted headless Chrome A/B result</h2>
           <p>
-            Captured on <code>2026-06-23 HST</code> / <code>2026-06-24 UTC</code> against
-            <code>https://gumroad.reactonrails.com</code> with local headless Chrome 149, 8 alternating cycles,
-            and 2 warmup requests per measured run.
+            Captured <code><%= provenance[:captured_at_utc_date] %> UTC</code> against
+            <code><%= provenance[:host] %></code> with <%= provenance[:browser_summary] %>,
+            <%= provenance[:method_summary] %>.
           </p>
         </header>
 
-        <div class="dd-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Public surface</th>
-                <th>Median nav duration</th>
-                <th>Median LCP start</th>
-                <th>JS requests</th>
-                <th>Inertia payload</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Product detail</td>
-                <td><code>811.50ms</code> -> <code>272.25ms</code> (<strong>-66.5%</strong>)</td>
-                <td><code>368.00ms</code> -> <code>304.00ms</code> (<strong>-17.4%</strong>)</td>
-                <td><code>7</code> -> <code>1</code> (<strong>-85.7%</strong>)</td>
-                <td><code>12,183 B</code> -> none</td>
-              </tr>
-              <tr>
-                <td>Discover marketplace</td>
-                <td><code>796.95ms</code> -> <code>283.75ms</code> (<strong>-64.4%</strong>)</td>
-                <td><code>360.00ms</code> -> <code>322.00ms</code> (<strong>-10.6%</strong>)</td>
-                <td><code>7</code> -> <code>1</code> (<strong>-85.7%</strong>)</td>
-                <td><code>24,960 B</code> -> none</td>
-              </tr>
-            </tbody>
-          </table>
+        <p class="dd-note">
+          <strong>How to read this:</strong> each row is the same measurement on two matched routes.
+          <strong>A = Inertia</strong> (the current control); <strong>B = RSC</strong>
+          (the React Server Components via React on Rails Pro candidate). Every metric is
+          <strong>lower is better</strong>, so the winner is whichever column is lower by more than the
+          <%= format("%g", PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT) %>% noise band.
+        </p>
+
+        <% report[:surfaces].each do |surface| %>
+          <article class="dd-ab-surface">
+            <header>
+              <h3><%= surface[:name] %></h3>
+              <p>A <code><%= surface[:baseline_path] %></code> vs B <code><%= surface[:candidate_path] %></code></p>
+            </header>
+
+            <div class="dd-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Metric</th>
+                    <th scope="col">A &middot; Inertia (control)</th>
+                    <th scope="col">B &middot; RSC (candidate)</th>
+                    <th scope="col">&Delta; (B vs A)</th>
+                    <th scope="col">Winner</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% surface[:rows].each do |row| %>
+                    <tr>
+                      <th scope="row"><%= row[:label] %></th>
+                      <td><code><%= row[:inertia_display] %></code></td>
+                      <td><code><%= row[:rsc_display] %></code></td>
+                      <td><code><%= row[:delta_display] %></code></td>
+                      <td><span class="dd-badge is-<%= row[:winner] %>"><%= row[:winner_label] %></span></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+
+            <p class="dd-source-links">
+              <span class="dd-source-links-label">View this surface's source (tracks <code>main</code>):</span>
+              <% surface[:source_links].each do |link| %>
+                <a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a>
+              <% end %>
+            </p>
+          </article>
+        <% end %>
+
+        <div class="dd-list">
+          <% report[:caveats].each do |caveat| %>
+            <article class="dd-row">
+              <p class="dd-copy"><%= caveat %></p>
+            </article>
+          <% end %>
         </div>
 
         <p class="dd-note is-info">
-          This is strong hosted browser-navigation evidence, not the final mobile-throttled Lighthouse claim.
-          RSC sends larger HTML because more rendered content arrives in the document, but it removes the serialized
-          Inertia payload and sharply reduces client JavaScript.
+          The source links track <code>main</code>, so they show the current shape of the hosted app, while the
+          numbers above were captured on <code><%= provenance[:captured_at_utc_date] %> UTC</code> and refresh
+          whenever a new benchmark <code>summary.json</code> is committed.
         </p>
+      </section>
+
+      <section class="dd-section" id="where-inertia-wins">
+        <header>
+          <h2>Where Inertia still wins, and how RSC closes the gap</h2>
+          <p>
+            Honest reporting means naming the metrics RSC does not win yet. Each gap below has a concrete
+            optimization and a tracked React on Rails issue.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <% report[:inertia_win_groups].each do |group| %>
+            <article class="dd-row">
+              <p class="dd-copy">
+                <strong><%= group[:label] %></strong>
+                (<%= group[:occurrences].map { |occurrence| "#{occurrence[:surface]} #{occurrence[:delta_display]}" }.join(", ") %>):
+                <%= group[:cause] %>
+              </p>
+              <p class="dd-copy"><strong>How RSC wins it:</strong> <%= group[:lever] %></p>
+              <p class="dd-copy">
+                <strong>Tracked in:</strong>
+                <% group[:issues].each_with_index do |issue, index| %><%= ", " if index.positive? %><a href="<%= issue[:url] %>" target="_blank" rel="noopener">react_on_rails#<%= issue[:number] %></a><% end %>
+              </p>
+            </article>
+          <% end %>
+
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Time to first meaningful HTML:</strong> finer Suspense boundaries would let the candidate
+              stream above-the-fold content sooner without regressing final paint. Tracked in
+              <a href="<%= PublicProductRscDemoPresenter::REACT_ON_RAILS_ISSUE_BASE %>/3886" target="_blank" rel="noopener">react_on_rails#3886</a>.
+            </p>
+          </article>
+        </div>
       </section>
 
       <section class="dd-section">

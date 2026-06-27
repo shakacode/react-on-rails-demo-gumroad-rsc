@@ -38,6 +38,7 @@ class PublicProductRscDemoController < ApplicationController
   def performance_demo
     @hide_layouts = true
     @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+    @hosted_benchmark_report = PublicProductRscDemoPresenter.hosted_benchmark_report
 
     set_meta_tag(title: "Gumroad RSC performance lab")
     set_meta_tag(

@@ -93,9 +93,20 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include("Fixture provenance")
       expect(response.body).to include("Serialized Inertia payload")
       expect(response.body).to include("React Server Components via React on Rails Pro, not Rspack")
+      expect(response.body).to include("A = Inertia")
+      expect(response.body).to include("B = RSC")
+      expect(response.body).to include("RSC wins")
+      expect(response.body).to include("Inertia wins")
+      expect(response.body).to include("Where Inertia still wins, and how RSC closes the gap")
+      expect(response.body).to include(
+        "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/app/controllers/public_product_rsc_demo_controller.rb"
+      )
+      expect(response.body).to include("https://github.com/shakacode/react_on_rails/issues/4238")
+      expect(response.body).to include("react_on_rails#4239")
       expect(response.body).not_to include("seller.gumroad.reactonrails.com")
       expect(response.body).not_to include("/l/demo")
       expect(assigns(:hide_layouts)).to be(true)
+      expect(assigns(:hosted_benchmark_report)[:surfaces].length).to eq(2)
     end
   end
 

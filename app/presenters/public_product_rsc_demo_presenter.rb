@@ -163,6 +163,184 @@ class PublicProductRscDemoPresenter
     ["#f1f333", "#ff90e8"],
   ].freeze
 
+  SOURCE_REPO_BLOB_BASE = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
+  REACT_ON_RAILS_ISSUE_BASE = "https://github.com/shakacode/react_on_rails/issues"
+
+  HOSTED_BENCHMARK_SUMMARY_PATH =
+    Rails.root.join("docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json")
+
+  # A delta within this band is reported as "about the same" instead of a win for either
+  # side, because run-to-run variance across the measured cycles is at least this large.
+  # Deriving the band from measured variance is tracked upstream.
+  BENCHMARK_TIE_BAND_PERCENT = 2.0
+
+  # Every metric below is lower-is-better, so the winner logic is uniform: a negative
+  # delta (candidate lower than control) is an RSC win.
+  HOSTED_BENCHMARK_METRICS = [
+    { key: "median_navigation_duration_ms", label: "Median nav duration", unit: :ms },
+    { key: "median_lcp_start_ms", label: "Median LCP start", unit: :ms },
+    { key: "median_response_end_ms", label: "Median responseEnd", unit: :ms },
+    { key: "median_html_transfer_bytes", label: "Median HTML transfer", unit: :bytes },
+    { key: "median_js_request_count", label: "JS requests", unit: :count },
+    { key: "median_js_transfer_bytes", label: "Median JS transfer", unit: :bytes },
+    { key: "median_decoded_js_css_bytes", label: "Median decoded JS/CSS", unit: :bytes },
+    { key: "inertia_data_page_bytes", label: "Serialized Inertia payload", unit: :bytes },
+  ].freeze
+
+  WINNER_LABELS = {
+    rsc: "RSC wins",
+    inertia: "Inertia wins",
+    tie: "About the same",
+  }.freeze
+
+  HOSTED_BENCHMARK_SOURCE_LINKS = {
+    "/public_product/rsc_demo" => [
+      ["Controller action", "app/controllers/public_product_rsc_demo_controller.rb"],
+      ["Fixture presenter", "app/presenters/public_product_rsc_demo_presenter.rb"],
+      ["RSC view", "app/views/public_product_rsc_demo/rsc_demo.html.erb"],
+      ["RSC server component", "app/javascript/src/public_product_rsc_demo/ror_components/PublicProductRscDemoPage.tsx"],
+      ["Inertia control component", "app/javascript/pages/PublicProduct/InertiaDemo.tsx"],
+    ],
+    "/public_product/discover_rsc_demo" => [
+      ["Controller action", "app/controllers/public_product_rsc_demo_controller.rb"],
+      ["Fixture presenter", "app/presenters/public_product_rsc_demo_presenter.rb"],
+      ["RSC view", "app/views/public_product_rsc_demo/discover_rsc_demo.html.erb"],
+      ["RSC server component", "app/javascript/src/public_product_rsc_demo/ror_components/PublicDiscoverRscDemoPage.tsx"],
+      ["Inertia control component", "app/javascript/pages/PublicProduct/DiscoverInertiaDemo.tsx"],
+    ],
+  }.freeze
+
+  # For each metric where Inertia still wins, the root cause plus the concrete optimization
+  # that should flip it, tracked by real React on Rails issues.
+  HOSTED_BENCHMARK_IMPROVEMENTS = {
+    "median_html_transfer_bytes" => {
+      cause: "RSC streams rendered HTML into the document instead of a serialized Inertia JSON payload, and the streamed response is not yet compressed end to end.",
+      lever: "Enable Brotli/gzip on the streamed RSC response so the rendered HTML transfers smaller than the JSON payload plus the client JS it replaces.",
+      issues: [4238],
+    },
+    "median_response_end_ms" => {
+      cause: "The streamed responseEnd tail (Node renderer round-trip, cold workers, per-request connection setup) is not yet attributable or tuned.",
+      lever: "Attribute the tail with renderer Server-Timing, then warm the renderer pool and keep the Rails-to-renderer connection alive.",
+      issues: [4239, 4240],
+    },
+  }.freeze
+
+  def self.hosted_benchmark_report
+    @hosted_benchmark_report ||= build_hosted_benchmark_report
+  end
+
+  def self.build_hosted_benchmark_report
+    summary = JSON.parse(File.read(HOSTED_BENCHMARK_SUMMARY_PATH))
+    surfaces = summary.fetch("results").map { |surface| hosted_benchmark_surface(surface) }
+
+    {
+      provenance: hosted_benchmark_provenance(summary),
+      surfaces:,
+      caveats: summary.fetch("caveats"),
+      inertia_win_groups: hosted_benchmark_inertia_win_groups(surfaces),
+    }
+  end
+
+  def self.hosted_benchmark_provenance(summary)
+    browser = summary.fetch("browser")
+    method = summary.fetch("method")
+
+    {
+      captured_at_utc_date: summary.fetch("captured_at_utc_date"),
+      host: summary.fetch("host"),
+      browser_summary: "#{browser.fetch("name")} #{browser.fetch("version")} (#{browser.fetch("mode")})",
+      method_summary: "#{method.fetch("cycles")} alternating cycles, #{method.fetch("server_warmup_requests_per_run")} warmup requests per measured run",
+    }
+  end
+
+  def self.hosted_benchmark_surface(surface)
+    rows = HOSTED_BENCHMARK_METRICS.map do |metric|
+      measurement = surface.fetch(metric[:key])
+      inertia = measurement.fetch("inertia")
+      rsc = measurement.fetch("rsc")
+      delta_percent = measurement["delta_percent"]
+      winner = benchmark_winner(inertia, rsc, delta_percent)
+
+      {
+        key: metric[:key],
+        label: metric[:label],
+        inertia_display: format_metric_value(inertia, metric[:unit]),
+        rsc_display: format_metric_value(rsc, metric[:unit]),
+        delta_display: format_delta(delta_percent),
+        winner:,
+        winner_label: WINNER_LABELS.fetch(winner),
+      }
+    end
+
+    {
+      name: surface.fetch("surface"),
+      baseline_path: surface.fetch("baseline_path"),
+      candidate_path: surface.fetch("candidate_path"),
+      source_links: hosted_benchmark_source_links(surface.fetch("candidate_path")),
+      rows:,
+    }
+  end
+
+  def self.hosted_benchmark_source_links(candidate_path)
+    HOSTED_BENCHMARK_SOURCE_LINKS.fetch(candidate_path, []).map do |label, path|
+      { label:, url: "#{SOURCE_REPO_BLOB_BASE}/#{path}" }
+    end
+  end
+
+  def self.hosted_benchmark_inertia_win_groups(surfaces)
+    HOSTED_BENCHMARK_IMPROVEMENTS.filter_map do |key, improvement|
+      occurrences = surfaces.filter_map do |surface|
+        row = surface[:rows].find { |candidate| candidate[:key] == key }
+        next unless row && row[:winner] == :inertia
+
+        { surface: surface[:name], delta_display: row[:delta_display] }
+      end
+      next if occurrences.empty?
+
+      {
+        label: HOSTED_BENCHMARK_METRICS.find { |metric| metric[:key] == key }.fetch(:label),
+        occurrences:,
+        cause: improvement[:cause],
+        lever: improvement[:lever],
+        issues: improvement[:issues].map { |number| { number:, url: "#{REACT_ON_RAILS_ISSUE_BASE}/#{number}" } },
+      }
+    end
+  end
+
+  def self.benchmark_winner(inertia_value, rsc_value, delta_percent)
+    if delta_percent.nil?
+      return :rsc if rsc_value.to_f.zero? && inertia_value.to_f.positive?
+
+      return :tie
+    end
+
+    return :tie if delta_percent.abs <= BENCHMARK_TIE_BAND_PERCENT
+
+    delta_percent.negative? ? :rsc : :inertia
+  end
+
+  def self.format_metric_value(value, unit)
+    case unit
+    when :ms
+      format("%.2fms", value)
+    when :bytes
+      value.to_f.zero? ? "none" : "#{ActiveSupport::NumberHelper.number_to_delimited(value)} B"
+    when :count
+      value.to_i.to_s
+    end
+  end
+
+  def self.format_delta(delta_percent)
+    return "removed" if delta_percent.nil?
+
+    format("%+.1f%%", delta_percent)
+  end
+
+  private_class_method :build_hosted_benchmark_report, :hosted_benchmark_provenance,
+                       :hosted_benchmark_surface, :hosted_benchmark_source_links,
+                       :hosted_benchmark_inertia_win_groups, :benchmark_winner,
+                       :format_metric_value, :format_delta
+
   attr_reader :request
 
   def initialize(request:)

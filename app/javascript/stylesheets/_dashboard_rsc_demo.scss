@@ -247,6 +247,56 @@
   background: gray(1);
 }
 
+.dd-badge {
+  display: inline-block;
+  padding: spacer(1) spacer(2);
+  border: $border-width solid transparent;
+  border-radius: border-radius(1);
+  font-weight: 600;
+  white-space: nowrap;
+  @include font-size(1);
+}
+
+.dd-badge.is-rsc {
+  border-color: rgb(var(--success) / 0.45);
+  background: rgb(var(--success) / 0.16);
+}
+
+.dd-badge.is-inertia {
+  border-color: rgb(var(--warning) / 0.45);
+  background: rgb(var(--warning) / 0.16);
+}
+
+.dd-badge.is-tie {
+  border-color: rgb(var(--info) / 0.4);
+  background: rgb(var(--info) / 0.14);
+}
+
+.dd-ab-surface {
+  display: grid;
+  gap: spacer(3);
+}
+
+.dd-ab-surface > header h3 {
+  font-weight: 600;
+}
+
+.dd-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: spacer(2);
+  @include font-size(1);
+}
+
+.dd-source-links-label {
+  color: rgb(var(--color) / 0.65);
+}
+
+.dd-source-links a {
+  text-decoration: underline;
+}
+
 .dd-list {
   overflow: hidden;
 }

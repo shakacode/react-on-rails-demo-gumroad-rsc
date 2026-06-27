@@ -13,6 +13,15 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Hosted headless Chrome A/B result")
     expect(page).to have_text("-66.5%")
     expect(page).to have_text("-64.4%")
+    expect(page).to have_text("A = Inertia")
+    expect(page).to have_text("RSC wins")
+    expect(page).to have_text("Inertia wins")
+    expect(page).to have_text("Where Inertia still wins, and how RSC closes the gap")
+    expect(page).to have_link(
+      "Controller action",
+      href: "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/app/controllers/public_product_rsc_demo_controller.rb"
+    )
+    expect(page).to have_link("react_on_rails#4238", href: "https://github.com/shakacode/react_on_rails/issues/4238")
     expect(page).to have_text("Fixture provenance")
     expect(page).to have_text("Product detail A/B route pair")
     expect(page).to have_text("Discover marketplace A/B route pair")
