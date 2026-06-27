@@ -411,7 +411,7 @@ For Linux (Debian / Ubuntu) you might need the following:
 bin/dev
 ```
 
-This starts the Rails server, the JavaScript build system, and a Sidekiq worker.
+This starts the Rails server, the JavaScript build system, and a Sidekiq worker. It also builds and watches the React Server Components demo bundles, so the RSC demo routes (`/public_product/rsc_demo`, `/public_product/discover_rsc_demo`, and the dashboard RSC demo) render without a separate build step.
 
 You can now access the application at `https://gumroad.dev`.
 
