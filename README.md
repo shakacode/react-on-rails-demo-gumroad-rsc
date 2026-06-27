@@ -44,6 +44,10 @@ The priority is consumer-facing performance: public product pages, Discover mark
 - Historical dashboard/bundler findings: [docs/performance-findings.md](docs/performance-findings.md)
 - Benchmark and positioning issue: [React on Rails issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
+### Where TanStack Query fits
+
+RSC removes client JavaScript from the static, server-rendered buyer pages. For the **interactive** islands — cart, checkout, anything that mutates or refetches — pair RSC with [TanStack Query](https://reactonrails.com/docs/building-features/tanstack-query): Rails stays the source of truth, the client gets caching, mutations, and cache invalidation. See the [TanStack starter](https://starter.reactonrails.com) for a full example.
+
 ### Who this demo is for
 
 - Teams evaluating `react_on_rails`: inspect how React Server Components can run inside a real Rails app without turning the whole product page into a client-only island.
