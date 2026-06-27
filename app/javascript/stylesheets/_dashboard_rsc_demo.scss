@@ -632,3 +632,78 @@
 .dd-stamp {
   white-space: nowrap;
 }
+
+.dd-verdict {
+  display: inline-block;
+  border: $border-width solid $border-color;
+  border-radius: 9999px;
+  padding: spacer(1) spacer(2);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.dd-verdict--win {
+  border-color: rgb(var(--success) / 0.4);
+  background: rgb(var(--success) / 0.12);
+}
+
+.dd-verdict--loss {
+  border-color: rgb(var(--danger) / 0.4);
+  background: rgb(var(--danger) / 0.12);
+}
+
+.dd-verdict--tie {
+  border-color: rgb(var(--warning) / 0.4);
+  background: rgb(var(--warning) / 0.12);
+}
+
+.dd-surface-block {
+  display: grid;
+  gap: spacer(3);
+}
+
+.dd-surface-head {
+  display: grid;
+  gap: spacer(1);
+}
+
+.dd-surface-head h3 {
+  @include font-size(4);
+
+  font-weight: 600;
+}
+
+.dd-source-grid {
+  display: grid;
+  gap: spacer(2);
+  margin-top: spacer(3);
+}
+
+.dd-source-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: spacer(1) spacer(2);
+  color: rgb(var(--color) / 0.65);
+}
+
+.dd-source-links span {
+  font-weight: 600;
+}
+
+.dd-source-links a {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.dd-source-links--lead {
+  margin-top: spacer(2);
+}
+
+.dd-caveats {
+  display: grid;
+  gap: spacer(1);
+  margin: 0;
+  padding-left: spacer(4);
+  color: rgb(var(--color) / 0.72);
+}
