@@ -1,14 +1,18 @@
-# React on Rails Pro upstream issue drafts
+# React on Rails upstream issues from the performance lab
 
-Drafts for `shakacode/react_on_rails_pro`, surfaced while building the public
-buyer-page performance lab in this repo. Each follows the repo issue structure
-(What / Why).
+Surfaced while building the public buyer-page performance lab in this repo, and
+filed against `shakacode/react_on_rails` — the active monorepo where React on
+Rails Pro is now developed (the `shakacode/react_on_rails_pro` repo is
+historical/read-only). Each follows the repo issue structure (What / Why).
 
 Filed:
 
-- Issue 1 → https://github.com/shakacode/react_on_rails_pro/issues/586
-- Issue 2 → https://github.com/shakacode/react_on_rails_pro/issues/587
-- Issue 3 → https://github.com/shakacode/react_on_rails_pro/issues/588
+- Expose the RSC flight payload as an inspectable browser resource with timing →
+  https://github.com/shakacode/react_on_rails/issues/4205
+- Provide CDN-safe, streaming-compatible renderer/route Server-Timing for
+  streamed RSC responses → https://github.com/shakacode/react_on_rails/issues/4206
+- Emit hydration / interactivity performance marks for client islands →
+  https://github.com/shakacode/react_on_rails/issues/4207
 
 Shared evidence (hosted headless Chrome, 8 alternating cycles, against
 `https://gumroad.reactonrails.com`, see
