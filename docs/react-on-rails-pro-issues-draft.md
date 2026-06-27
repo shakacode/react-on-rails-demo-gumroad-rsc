@@ -16,7 +16,7 @@ Filed:
 
 Shared evidence (hosted headless Chrome, 8 alternating cycles, against
 `https://gumroad.reactonrails.com`, see
-[summary.json](performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json)):
+[summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json)):
 RSC wins navigation duration (-66% / -64%), LCP (-17% / -11%), JavaScript
 transfer (-54%), and request count (7 -> 1), and removes the serialized Inertia
 payload. The only places Inertia is not behind are HTML transfer size (RSC sends

@@ -319,7 +319,7 @@ class PublicProductRscDemoPresenter
       inertia = inertia.to_f
       rsc = rsc.to_f
       return :tie if inertia.zero? && rsc.zero?
-      return :rsc_wins if inertia.zero?
+      return :inertia_wins if inertia.zero?
 
       improvement = ((inertia - rsc) / inertia) * 100.0
       return :tie if improvement.abs < BENCHMARK_TIE_BAND_PERCENT

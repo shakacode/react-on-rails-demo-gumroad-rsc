@@ -156,7 +156,8 @@
         const completedAt = performance.now();
         const payloadBytes = inertiaPayloadBytes(html);
         const scriptSources = routeScriptSources(html);
-        const timingEntry = performance.getEntriesByName(requestUrl).at(-1);
+        const timingEntries = performance.getEntriesByName(requestUrl);
+        const timingEntry = timingEntries[timingEntries.length - 1];
         const wireBytes = timingEntry && timingEntry.encodedBodySize ? timingEntry.encodedBodySize : null;
         const result = {
           decodedBytes: bytes,
@@ -213,10 +214,15 @@
           htmlDelta >= 0
             ? ` RSC sent ${formatBytes(htmlDelta)} less HTML ${htmlBasis}.`
             : ` RSC sent ${formatBytes(Math.abs(htmlDelta))} more HTML ${htmlBasis} — more server-rendered content, Brotli-compressed in transit.`;
+        const unreadableScripts = inertia.scriptUnreadableCount + rsc.scriptUnreadableCount;
+        const scriptCaveat =
+          unreadableScripts > 0
+            ? ` (measured from readable scripts only: Inertia ${inertia.scriptReadableCount}/${inertia.scriptCount}, RSC ${rsc.scriptReadableCount}/${rsc.scriptCount})`
+            : "";
         const scriptCopy =
           scriptDelta >= 0
-            ? ` It referenced ${formatBytes(scriptDelta)} less route JavaScript across ${rsc.scriptCount} request(s) vs ${inertia.scriptCount}.`
-            : ` Inertia referenced ${formatBytes(Math.abs(scriptDelta))} less route JavaScript.`;
+            ? ` It referenced ${formatBytes(scriptDelta)} less route JavaScript across ${rsc.scriptCount} request(s) vs ${inertia.scriptCount}.${scriptCaveat}`
+            : ` Inertia referenced ${formatBytes(Math.abs(scriptDelta))} less route JavaScript.${scriptCaveat}`;
         const payloadCopy =
           inertia.inertiaPayloadBytes > 0
             ? ` The Inertia document also carried ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document carried none.`
@@ -274,6 +280,7 @@
       };
 
       const runAll = async () => {
+        if (typeof performance.clearResourceTimings === "function") performance.clearResourceTimings();
         runButtons.forEach((button) => button.setAttribute("disabled", "disabled"));
         if (runStatus) runStatus.textContent = "Running matched public route pairs...";
 
