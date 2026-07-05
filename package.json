@@ -81,6 +81,7 @@
     "@eslint/compat": "^1.1.1",
     "@eslint/js": "^9.6.0",
     "@rspack/cli": "^2.0.4",
+    "@rspack/dev-server": "^2.1.0",
     "@rspack/plugin-react-refresh": "^2.0.0",
     "@tailwindcss/postcss": "^4.1.14",
     "@tailwindcss/typography": "^0.5.19",
