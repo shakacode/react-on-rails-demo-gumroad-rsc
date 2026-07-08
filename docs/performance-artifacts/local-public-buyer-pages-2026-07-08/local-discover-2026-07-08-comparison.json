@@ -1,0 +1,2214 @@
+{
+  "label": "local-discover-2026-07-08",
+  "method": "alternating_cycles",
+  "cycles": 6,
+  "paths": [
+    "/public_product/discover_inertia_demo",
+    "/public_product/discover_rsc_demo"
+  ],
+  "baseUrl": "http://app.test.gumroad.com:31338",
+  "measureBaseUrl": "http://app.test.gumroad.com:31338",
+  "serverWarmupRequestsPerRun": 2,
+  "reuseExisting": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "environment": {
+    "measuredAt": "2026-07-08T00:15:01-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "149.0.7827.201",
+    "platformName": "mac",
+    "chromeDriverVersion": "149.0.7827.155",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.0.0 Safari/537.36"
+  },
+  "cycleOrders": [
+    [
+      "/public_product/discover_inertia_demo",
+      "/public_product/discover_rsc_demo"
+    ],
+    [
+      "/public_product/discover_rsc_demo",
+      "/public_product/discover_inertia_demo"
+    ],
+    [
+      "/public_product/discover_inertia_demo",
+      "/public_product/discover_rsc_demo"
+    ],
+    [
+      "/public_product/discover_rsc_demo",
+      "/public_product/discover_inertia_demo"
+    ],
+    [
+      "/public_product/discover_inertia_demo",
+      "/public_product/discover_rsc_demo"
+    ],
+    [
+      "/public_product/discover_rsc_demo",
+      "/public_product/discover_inertia_demo"
+    ]
+  ],
+  "orderedMeasurements": [
+    {
+      "cycle": 1,
+      "positionInCycle": 1,
+      "path": "/public_product/discover_inertia_demo",
+      "label": "local-discover-2026-07-08-cycle1-position1",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle1-position1-public-product-discover-inertia-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 1,
+      "positionInCycle": 2,
+      "path": "/public_product/discover_rsc_demo",
+      "label": "local-discover-2026-07-08-cycle1-position2",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle1-position2-public-product-discover-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 2,
+      "positionInCycle": 1,
+      "path": "/public_product/discover_rsc_demo",
+      "label": "local-discover-2026-07-08-cycle2-position1",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle2-position1-public-product-discover-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 2,
+      "positionInCycle": 2,
+      "path": "/public_product/discover_inertia_demo",
+      "label": "local-discover-2026-07-08-cycle2-position2",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle2-position2-public-product-discover-inertia-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 3,
+      "positionInCycle": 1,
+      "path": "/public_product/discover_inertia_demo",
+      "label": "local-discover-2026-07-08-cycle3-position1",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle3-position1-public-product-discover-inertia-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 3,
+      "positionInCycle": 2,
+      "path": "/public_product/discover_rsc_demo",
+      "label": "local-discover-2026-07-08-cycle3-position2",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle3-position2-public-product-discover-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 4,
+      "positionInCycle": 1,
+      "path": "/public_product/discover_rsc_demo",
+      "label": "local-discover-2026-07-08-cycle4-position1",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle4-position1-public-product-discover-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 4,
+      "positionInCycle": 2,
+      "path": "/public_product/discover_inertia_demo",
+      "label": "local-discover-2026-07-08-cycle4-position2",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle4-position2-public-product-discover-inertia-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 5,
+      "positionInCycle": 1,
+      "path": "/public_product/discover_inertia_demo",
+      "label": "local-discover-2026-07-08-cycle5-position1",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle5-position1-public-product-discover-inertia-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 5,
+      "positionInCycle": 2,
+      "path": "/public_product/discover_rsc_demo",
+      "label": "local-discover-2026-07-08-cycle5-position2",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle5-position2-public-product-discover-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 6,
+      "positionInCycle": 1,
+      "path": "/public_product/discover_rsc_demo",
+      "label": "local-discover-2026-07-08-cycle6-position1",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle6-position1-public-product-discover-rsc-demo-metrics.json",
+      "reusedExisting": false
+    },
+    {
+      "cycle": 6,
+      "positionInCycle": 2,
+      "path": "/public_product/discover_inertia_demo",
+      "label": "local-discover-2026-07-08-cycle6-position2",
+      "summaryPath": "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/local-discover-2026-07-08-runs/local-discover-2026-07-08-cycle6-position2-public-product-discover-inertia-demo-metrics.json",
+      "reusedExisting": false
+    }
+  ],
+  "pathSummaries": {
+    "/public_product/discover_inertia_demo": {
+      "count": 6,
+      "averages": {
+        "navigation": {
+          "domContentLoadedMs": 361.65,
+          "loadEventMs": 394.35,
+          "responseEndMs": 331.42,
+          "durationMs": 394.35,
+          "transferSize": 46636.0,
+          "encodedBodySize": 46336.0,
+          "decodedBodySize": 46336.0
+        },
+        "lcp": {
+          "startTime": 418.0,
+          "size": 57892.0
+        },
+        "inertiaDataPageBytes": 25295.0,
+        "htmlBytes": 78269.0,
+        "bodyTextBytes": 6496.0,
+        "packs": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "jsTransferSize": 0.0,
+          "cssTransferSize": 0.0,
+          "jsCount": 0.0,
+          "cssCount": 0.0
+        },
+        "serverTiming": {
+          "action_total": {
+            "durationMs": 255.46
+          },
+          "compare_discover": {
+            "durationMs": 0.42
+          },
+          "compare_props": {
+            "durationMs": 0.42
+          },
+          "render_dispatch": {
+            "durationMs": 255.46
+          }
+        },
+        "rscPayload": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "count": 0.0,
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "distributions": {
+        "navigation": {
+          "domContentLoadedMs": {
+            "count": 6,
+            "min": 328.9,
+            "median": 343.05,
+            "p95": 424.9,
+            "max": 438.4,
+            "stddev": 38.89
+          },
+          "loadEventMs": {
+            "count": 6,
+            "min": 360.4,
+            "median": 375.45,
+            "p95": 458.6,
+            "max": 472.2,
+            "stddev": 39.5
+          },
+          "responseEndMs": {
+            "count": 6,
+            "min": 299.0,
+            "median": 313.6,
+            "p95": 393.45,
+            "max": 407.2,
+            "stddev": 38.14
+          },
+          "durationMs": {
+            "count": 6,
+            "min": 360.4,
+            "median": 375.45,
+            "p95": 458.6,
+            "max": 472.2,
+            "stddev": 39.5
+          },
+          "transferSize": {
+            "count": 6,
+            "min": 46636.0,
+            "median": 46636.0,
+            "p95": 46636.0,
+            "max": 46636.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 6,
+            "min": 46336.0,
+            "median": 46336.0,
+            "p95": 46336.0,
+            "max": 46336.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 6,
+            "min": 46336.0,
+            "median": 46336.0,
+            "p95": 46336.0,
+            "max": 46336.0,
+            "stddev": 0.0
+          }
+        },
+        "lcp": {
+          "startTime": {
+            "count": 6,
+            "min": 384.0,
+            "median": 400.0,
+            "p95": 481.0,
+            "max": 496.0,
+            "stddev": 38.76
+          },
+          "size": {
+            "count": 6,
+            "min": 57892.0,
+            "median": 57892.0,
+            "p95": 57892.0,
+            "max": 57892.0,
+            "stddev": 0.0
+          }
+        },
+        "inertiaDataPageBytes": {
+          "count": 6,
+          "min": 25295.0,
+          "median": 25295.0,
+          "p95": 25295.0,
+          "max": 25295.0,
+          "stddev": 0.0
+        },
+        "htmlBytes": {
+          "count": 6,
+          "min": 78268.0,
+          "median": 78269.0,
+          "p95": 78270.0,
+          "max": 78270.0,
+          "stddev": 1.0
+        },
+        "bodyTextBytes": {
+          "count": 6,
+          "min": 6496.0,
+          "median": 6496.0,
+          "p95": 6496.0,
+          "max": 6496.0,
+          "stddev": 0.0
+        },
+        "packs": {
+          "transferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsTransferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "cssTransferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsCount": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "cssCount": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          }
+        },
+        "serverTiming": {
+          "action_total": {
+            "stats": {
+              "count": 6,
+              "min": 226.73,
+              "median": 241.87,
+              "p95": 300.52,
+              "max": 307.2,
+              "stddev": 28.7
+            }
+          },
+          "compare_discover": {
+            "stats": {
+              "count": 6,
+              "min": 0.33,
+              "median": 0.41,
+              "p95": 0.54,
+              "max": 0.58,
+              "stddev": 0.08
+            }
+          },
+          "compare_props": {
+            "stats": {
+              "count": 6,
+              "min": 0.33,
+              "median": 0.41,
+              "p95": 0.54,
+              "max": 0.58,
+              "stddev": 0.08
+            }
+          },
+          "render_dispatch": {
+            "stats": {
+              "count": 6,
+              "min": 226.72,
+              "median": 241.87,
+              "p95": 300.51,
+              "max": 307.19,
+              "stddev": 28.7
+            }
+          }
+        },
+        "rscPayload": {
+          "transferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "count": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "byExecutionPosition": {
+        "1": {
+          "count": 3,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 353.4,
+              "loadEventMs": 385.37,
+              "responseEndMs": 323.3,
+              "durationMs": 385.37,
+              "transferSize": 46636.0,
+              "encodedBodySize": 46336.0,
+              "decodedBodySize": 46336.0
+            },
+            "lcp": {
+              "startTime": 409.33,
+              "size": 57892.0
+            },
+            "inertiaDataPageBytes": 25295.0,
+            "htmlBytes": 78268.67,
+            "bodyTextBytes": 6496.0,
+            "packs": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "jsTransferSize": 0.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 0.0,
+              "cssCount": 0.0
+            },
+            "serverTiming": {
+              "action_total": {
+                "durationMs": 254.73
+              },
+              "compare_discover": {
+                "durationMs": 0.39
+              },
+              "compare_props": {
+                "durationMs": 0.39
+              },
+              "render_dispatch": {
+                "durationMs": 254.73
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 3,
+                "min": 328.9,
+                "median": 346.9,
+                "p95": 380.65,
+                "max": 384.4,
+                "stddev": 23.12
+              },
+              "loadEventMs": {
+                "count": 3,
+                "min": 360.4,
+                "median": 377.9,
+                "p95": 413.81,
+                "max": 417.8,
+                "stddev": 24.02
+              },
+              "responseEndMs": {
+                "count": 3,
+                "min": 299.0,
+                "median": 318.7,
+                "p95": 348.85,
+                "max": 352.2,
+                "stddev": 21.96
+              },
+              "durationMs": {
+                "count": 3,
+                "min": 360.4,
+                "median": 377.9,
+                "p95": 413.81,
+                "max": 417.8,
+                "stddev": 24.02
+              },
+              "transferSize": {
+                "count": 3,
+                "min": 46636.0,
+                "median": 46636.0,
+                "p95": 46636.0,
+                "max": 46636.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 46336.0,
+                "median": 46336.0,
+                "p95": 46336.0,
+                "max": 46336.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 46336.0,
+                "median": 46336.0,
+                "p95": 46336.0,
+                "max": 46336.0,
+                "stddev": 0.0
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 3,
+                "min": 384.0,
+                "median": 408.0,
+                "p95": 433.2,
+                "max": 436.0,
+                "stddev": 21.25
+              },
+              "size": {
+                "count": 3,
+                "min": 57892.0,
+                "median": 57892.0,
+                "p95": 57892.0,
+                "max": 57892.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": {
+              "count": 3,
+              "min": 25295.0,
+              "median": 25295.0,
+              "p95": 25295.0,
+              "max": 25295.0,
+              "stddev": 0.0
+            },
+            "htmlBytes": {
+              "count": 3,
+              "min": 78268.0,
+              "median": 78268.0,
+              "p95": 78269.8,
+              "max": 78270.0,
+              "stddev": 0.94
+            },
+            "bodyTextBytes": {
+              "count": 3,
+              "min": 6496.0,
+              "median": 6496.0,
+              "p95": 6496.0,
+              "max": 6496.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "action_total": {
+                "stats": {
+                  "count": 3,
+                  "min": 239.58,
+                  "median": 244.15,
+                  "p95": 276.84,
+                  "max": 280.47,
+                  "stddev": 18.29
+                }
+              },
+              "compare_discover": {
+                "stats": {
+                  "count": 3,
+                  "min": 0.34,
+                  "median": 0.4,
+                  "p95": 0.43,
+                  "max": 0.43,
+                  "stddev": 0.04
+                }
+              },
+              "compare_props": {
+                "stats": {
+                  "count": 3,
+                  "min": 0.34,
+                  "median": 0.4,
+                  "p95": 0.44,
+                  "max": 0.44,
+                  "stddev": 0.04
+                }
+              },
+              "render_dispatch": {
+                "stats": {
+                  "count": 3,
+                  "min": 239.58,
+                  "median": 244.15,
+                  "p95": 276.83,
+                  "max": 280.46,
+                  "stddev": 18.29
+                }
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        },
+        "2": {
+          "count": 3,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 369.9,
+              "loadEventMs": 403.33,
+              "responseEndMs": 339.53,
+              "durationMs": 403.33,
+              "transferSize": 46636.0,
+              "encodedBodySize": 46336.0,
+              "decodedBodySize": 46336.0
+            },
+            "lcp": {
+              "startTime": 426.67,
+              "size": 57892.0
+            },
+            "inertiaDataPageBytes": 25295.0,
+            "htmlBytes": 78269.33,
+            "bodyTextBytes": 6496.0,
+            "packs": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "jsTransferSize": 0.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 0.0,
+              "cssCount": 0.0
+            },
+            "serverTiming": {
+              "action_total": {
+                "durationMs": 256.19
+              },
+              "compare_discover": {
+                "durationMs": 0.44
+              },
+              "compare_props": {
+                "durationMs": 0.44
+              },
+              "render_dispatch": {
+                "durationMs": 256.18
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 3,
+                "min": 332.1,
+                "median": 339.2,
+                "p95": 428.48,
+                "max": 438.4,
+                "stddev": 48.52
+              },
+              "loadEventMs": {
+                "count": 3,
+                "min": 364.8,
+                "median": 373.0,
+                "p95": 462.28,
+                "max": 472.2,
+                "stddev": 48.81
+              },
+              "responseEndMs": {
+                "count": 3,
+                "min": 302.9,
+                "median": 308.5,
+                "p95": 397.33,
+                "max": 407.2,
+                "stddev": 47.9
+              },
+              "durationMs": {
+                "count": 3,
+                "min": 364.8,
+                "median": 373.0,
+                "p95": 462.28,
+                "max": 472.2,
+                "stddev": 48.81
+              },
+              "transferSize": {
+                "count": 3,
+                "min": 46636.0,
+                "median": 46636.0,
+                "p95": 46636.0,
+                "max": 46636.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 46336.0,
+                "median": 46336.0,
+                "p95": 46336.0,
+                "max": 46336.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 46336.0,
+                "median": 46336.0,
+                "p95": 46336.0,
+                "max": 46336.0,
+                "stddev": 0.0
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 3,
+                "min": 392.0,
+                "median": 392.0,
+                "p95": 485.6,
+                "max": 496.0,
+                "stddev": 49.03
+              },
+              "size": {
+                "count": 3,
+                "min": 57892.0,
+                "median": 57892.0,
+                "p95": 57892.0,
+                "max": 57892.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": {
+              "count": 3,
+              "min": 25295.0,
+              "median": 25295.0,
+              "p95": 25295.0,
+              "max": 25295.0,
+              "stddev": 0.0
+            },
+            "htmlBytes": {
+              "count": 3,
+              "min": 78268.0,
+              "median": 78270.0,
+              "p95": 78270.0,
+              "max": 78270.0,
+              "stddev": 0.94
+            },
+            "bodyTextBytes": {
+              "count": 3,
+              "min": 6496.0,
+              "median": 6496.0,
+              "p95": 6496.0,
+              "max": 6496.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "action_total": {
+                "stats": {
+                  "count": 3,
+                  "min": 226.73,
+                  "median": 234.63,
+                  "p95": 299.94,
+                  "max": 307.2,
+                  "stddev": 36.22
+                }
+              },
+              "compare_discover": {
+                "stats": {
+                  "count": 3,
+                  "min": 0.33,
+                  "median": 0.41,
+                  "p95": 0.56,
+                  "max": 0.58,
+                  "stddev": 0.1
+                }
+              },
+              "compare_props": {
+                "stats": {
+                  "count": 3,
+                  "min": 0.33,
+                  "median": 0.42,
+                  "p95": 0.56,
+                  "max": 0.58,
+                  "stddev": 0.1
+                }
+              },
+              "render_dispatch": {
+                "stats": {
+                  "count": 3,
+                  "min": 226.72,
+                  "median": 234.63,
+                  "p95": 299.93,
+                  "max": 307.19,
+                  "stddev": 36.21
+                }
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        }
+      },
+      "slowestPackResources": []
+    },
+    "/public_product/discover_rsc_demo": {
+      "count": 6,
+      "averages": {
+        "navigation": {
+          "domContentLoadedMs": 296.25,
+          "loadEventMs": 311.9,
+          "responseEndMs": 252.65,
+          "durationMs": 311.9,
+          "transferSize": 452646.0,
+          "encodedBodySize": 452346.0,
+          "decodedBodySize": 452346.0
+        },
+        "lcp": {
+          "startTime": 328.67,
+          "size": 57892.0
+        },
+        "inertiaDataPageBytes": null,
+        "htmlBytes": 437490.0,
+        "bodyTextBytes": 6537.0,
+        "packs": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "jsTransferSize": 0.0,
+          "cssTransferSize": 0.0,
+          "jsCount": 0.0,
+          "cssCount": 0.0
+        },
+        "serverTiming": {
+          "ror_renderer_prepare": {
+            "durationMs": 2.62,
+            "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+          },
+          "ror_stream_shell": {
+            "durationMs": 160.71,
+            "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+          }
+        },
+        "rscPayload": {
+          "transferSize": 0.0,
+          "encodedBodySize": 0.0,
+          "decodedBodySize": 0.0,
+          "count": 0.0,
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "distributions": {
+        "navigation": {
+          "domContentLoadedMs": {
+            "count": 6,
+            "min": 278.8,
+            "median": 289.85,
+            "p95": 324.9,
+            "max": 330.5,
+            "stddev": 18.08
+          },
+          "loadEventMs": {
+            "count": 6,
+            "min": 292.1,
+            "median": 303.7,
+            "p95": 338.25,
+            "max": 339.3,
+            "stddev": 18.54
+          },
+          "responseEndMs": {
+            "count": 6,
+            "min": 236.3,
+            "median": 245.25,
+            "p95": 280.9,
+            "max": 286.5,
+            "stddev": 17.58
+          },
+          "durationMs": {
+            "count": 6,
+            "min": 292.1,
+            "median": 303.7,
+            "p95": 338.25,
+            "max": 339.3,
+            "stddev": 18.54
+          },
+          "transferSize": {
+            "count": 6,
+            "min": 452638.0,
+            "median": 452645.5,
+            "p95": 452653.75,
+            "max": 452656.0,
+            "stddev": 5.32
+          },
+          "encodedBodySize": {
+            "count": 6,
+            "min": 452338.0,
+            "median": 452345.5,
+            "p95": 452353.75,
+            "max": 452356.0,
+            "stddev": 5.32
+          },
+          "decodedBodySize": {
+            "count": 6,
+            "min": 452338.0,
+            "median": 452345.5,
+            "p95": 452353.75,
+            "max": 452356.0,
+            "stddev": 5.32
+          }
+        },
+        "lcp": {
+          "startTime": {
+            "count": 6,
+            "min": 308.0,
+            "median": 322.0,
+            "p95": 358.0,
+            "max": 364.0,
+            "stddev": 18.82
+          },
+          "size": {
+            "count": 6,
+            "min": 57892.0,
+            "median": 57892.0,
+            "p95": 57892.0,
+            "max": 57892.0,
+            "stddev": 0.0
+          }
+        },
+        "inertiaDataPageBytes": null,
+        "htmlBytes": {
+          "count": 6,
+          "min": 437482.0,
+          "median": 437489.5,
+          "p95": 437497.75,
+          "max": 437500.0,
+          "stddev": 5.32
+        },
+        "bodyTextBytes": {
+          "count": 6,
+          "min": 6537.0,
+          "median": 6537.0,
+          "p95": 6537.0,
+          "max": 6537.0,
+          "stddev": 0.0
+        },
+        "packs": {
+          "transferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsTransferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "cssTransferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "jsCount": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "cssCount": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          }
+        },
+        "serverTiming": {
+          "ror_renderer_prepare": {
+            "stats": {
+              "count": 6,
+              "min": 2.1,
+              "median": 2.69,
+              "p95": 3.1,
+              "max": 3.15,
+              "stddev": 0.4
+            },
+            "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+          },
+          "ror_stream_shell": {
+            "stats": {
+              "count": 6,
+              "min": 132.67,
+              "median": 155.17,
+              "p95": 195.6,
+              "max": 202.86,
+              "stddev": 22.93
+            },
+            "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+          }
+        },
+        "rscPayload": {
+          "transferSize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "encodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "decodedBodySize": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "count": {
+            "count": 6,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "max": 0.0,
+            "stddev": 0.0
+          },
+          "durationMs": null,
+          "responseStartMs": null,
+          "responseEndMs": null,
+          "serverTiming": {}
+        }
+      },
+      "byExecutionPosition": {
+        "1": {
+          "count": 3,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 300.5,
+              "loadEventMs": 323.97,
+              "responseEndMs": 255.83,
+              "durationMs": 323.97,
+              "transferSize": 452643.33,
+              "encodedBodySize": 452343.33,
+              "decodedBodySize": 452343.33
+            },
+            "lcp": {
+              "startTime": 340.0,
+              "size": 57892.0
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": 437487.33,
+            "bodyTextBytes": 6537.0,
+            "packs": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "jsTransferSize": 0.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 0.0,
+              "cssCount": 0.0
+            },
+            "serverTiming": {
+              "ror_renderer_prepare": {
+                "durationMs": 2.41,
+                "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+              },
+              "ror_stream_shell": {
+                "durationMs": 160.03,
+                "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 3,
+                "min": 278.8,
+                "median": 292.2,
+                "p95": 326.67,
+                "max": 330.5,
+                "stddev": 21.91
+              },
+              "loadEventMs": {
+                "count": 3,
+                "min": 297.5,
+                "median": 335.1,
+                "p95": 338.88,
+                "max": 339.3,
+                "stddev": 18.79
+              },
+              "responseEndMs": {
+                "count": 3,
+                "min": 236.3,
+                "median": 244.7,
+                "p95": 282.32,
+                "max": 286.5,
+                "stddev": 21.95
+              },
+              "durationMs": {
+                "count": 3,
+                "min": 297.5,
+                "median": 335.1,
+                "p95": 338.88,
+                "max": 339.3,
+                "stddev": 18.79
+              },
+              "transferSize": {
+                "count": 3,
+                "min": 452638.0,
+                "median": 452645.0,
+                "p95": 452646.8,
+                "max": 452647.0,
+                "stddev": 3.86
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 452338.0,
+                "median": 452345.0,
+                "p95": 452346.8,
+                "max": 452347.0,
+                "stddev": 3.86
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 452338.0,
+                "median": 452345.0,
+                "p95": 452346.8,
+                "max": 452347.0,
+                "stddev": 3.86
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 3,
+                "min": 316.0,
+                "median": 340.0,
+                "p95": 361.6,
+                "max": 364.0,
+                "stddev": 19.6
+              },
+              "size": {
+                "count": 3,
+                "min": 57892.0,
+                "median": 57892.0,
+                "p95": 57892.0,
+                "max": 57892.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": {
+              "count": 3,
+              "min": 437482.0,
+              "median": 437489.0,
+              "p95": 437490.8,
+              "max": 437491.0,
+              "stddev": 3.86
+            },
+            "bodyTextBytes": {
+              "count": 3,
+              "min": 6537.0,
+              "median": 6537.0,
+              "p95": 6537.0,
+              "max": 6537.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "ror_renderer_prepare": {
+                "stats": {
+                  "count": 3,
+                  "min": 2.1,
+                  "median": 2.18,
+                  "p95": 2.87,
+                  "max": 2.94,
+                  "stddev": 0.38
+                },
+                "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+              },
+              "ror_stream_shell": {
+                "stats": {
+                  "count": 3,
+                  "min": 132.67,
+                  "median": 144.54,
+                  "p95": 197.03,
+                  "max": 202.86,
+                  "stddev": 30.67
+                },
+                "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        },
+        "2": {
+          "count": 3,
+          "averages": {
+            "navigation": {
+              "domContentLoadedMs": 292.0,
+              "loadEventMs": 299.83,
+              "responseEndMs": 249.47,
+              "durationMs": 299.83,
+              "transferSize": 452648.67,
+              "encodedBodySize": 452348.67,
+              "decodedBodySize": 452348.67
+            },
+            "lcp": {
+              "startTime": 317.33,
+              "size": 57892.0
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": 437492.67,
+            "bodyTextBytes": 6537.0,
+            "packs": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "jsTransferSize": 0.0,
+              "cssTransferSize": 0.0,
+              "jsCount": 0.0,
+              "cssCount": 0.0
+            },
+            "serverTiming": {
+              "ror_renderer_prepare": {
+                "durationMs": 2.84,
+                "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+              },
+              "ror_stream_shell": {
+                "durationMs": 161.39,
+                "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+              }
+            },
+            "rscPayload": {
+              "transferSize": 0.0,
+              "encodedBodySize": 0.0,
+              "decodedBodySize": 0.0,
+              "count": 0.0,
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          },
+          "distributions": {
+            "navigation": {
+              "domContentLoadedMs": {
+                "count": 3,
+                "min": 280.4,
+                "median": 287.5,
+                "p95": 306.04,
+                "max": 308.1,
+                "stddev": 11.75
+              },
+              "loadEventMs": {
+                "count": 3,
+                "min": 292.1,
+                "median": 299.2,
+                "p95": 307.3,
+                "max": 308.2,
+                "stddev": 6.59
+              },
+              "responseEndMs": {
+                "count": 3,
+                "min": 238.5,
+                "median": 245.8,
+                "p95": 262.27,
+                "max": 264.1,
+                "stddev": 10.77
+              },
+              "durationMs": {
+                "count": 3,
+                "min": 292.1,
+                "median": 299.2,
+                "p95": 307.3,
+                "max": 308.2,
+                "stddev": 6.59
+              },
+              "transferSize": {
+                "count": 3,
+                "min": 452644.0,
+                "median": 452646.0,
+                "p95": 452655.0,
+                "max": 452656.0,
+                "stddev": 5.25
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 452344.0,
+                "median": 452346.0,
+                "p95": 452355.0,
+                "max": 452356.0,
+                "stddev": 5.25
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 452344.0,
+                "median": 452346.0,
+                "p95": 452355.0,
+                "max": 452356.0,
+                "stddev": 5.25
+              }
+            },
+            "lcp": {
+              "startTime": {
+                "count": 3,
+                "min": 308.0,
+                "median": 316.0,
+                "p95": 326.8,
+                "max": 328.0,
+                "stddev": 8.22
+              },
+              "size": {
+                "count": 3,
+                "min": 57892.0,
+                "median": 57892.0,
+                "p95": 57892.0,
+                "max": 57892.0,
+                "stddev": 0.0
+              }
+            },
+            "inertiaDataPageBytes": null,
+            "htmlBytes": {
+              "count": 3,
+              "min": 437488.0,
+              "median": 437490.0,
+              "p95": 437499.0,
+              "max": 437500.0,
+              "stddev": 5.25
+            },
+            "bodyTextBytes": {
+              "count": 3,
+              "min": 6537.0,
+              "median": 6537.0,
+              "p95": 6537.0,
+              "max": 6537.0,
+              "stddev": 0.0
+            },
+            "packs": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssTransferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "jsCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "cssCount": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              }
+            },
+            "serverTiming": {
+              "ror_renderer_prepare": {
+                "stats": {
+                  "count": 3,
+                  "min": 2.48,
+                  "median": 2.89,
+                  "p95": 3.13,
+                  "max": 3.15,
+                  "stddev": 0.28
+                },
+                "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+              },
+              "ror_stream_shell": {
+                "stats": {
+                  "count": 3,
+                  "min": 148.18,
+                  "median": 162.16,
+                  "p95": 172.66,
+                  "max": 173.83,
+                  "stddev": 10.49
+                },
+                "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+              }
+            },
+            "rscPayload": {
+              "transferSize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "encodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "decodedBodySize": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "count": {
+                "count": 3,
+                "min": 0.0,
+                "median": 0.0,
+                "p95": 0.0,
+                "max": 0.0,
+                "stddev": 0.0
+              },
+              "durationMs": null,
+              "responseStartMs": null,
+              "responseEndMs": null,
+              "serverTiming": {}
+            }
+          }
+        }
+      },
+      "slowestPackResources": []
+    }
+  },
+  "comparison": {
+    "baselinePath": "/public_product/discover_inertia_demo",
+    "candidates": [
+      {
+        "candidatePath": "/public_product/discover_rsc_demo",
+        "primaryMetricDeltas": {
+          "average": {
+            "navigationDurationMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 394.35,
+              "candidateValue": 311.9,
+              "deltaPercent": -20.9
+            },
+            "responseEndMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 331.42,
+              "candidateValue": 252.65,
+              "deltaPercent": -23.8
+            },
+            "lcpStartTime": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 418.0,
+              "candidateValue": 328.67,
+              "deltaPercent": -21.4
+            },
+            "htmlTransferBytes": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 46336.0,
+              "candidateValue": 452346.0,
+              "deltaPercent": 876.2
+            },
+            "jsRequestCount": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "rscPayloadDurationMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadResponseEndMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadTransferBytes": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "actionTotalMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 255.46,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "comparePropsMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.42,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareCreatorHomeMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareProductMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareDiscoverMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.42,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "sqlActiveRecordMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "renderDispatchMs": {
+              "statistic": "average",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 255.46,
+              "candidateValue": null,
+              "deltaPercent": null
+            }
+          },
+          "median": {
+            "navigationDurationMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 375.45,
+              "candidateValue": 303.7,
+              "deltaPercent": -19.1
+            },
+            "responseEndMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 313.6,
+              "candidateValue": 245.25,
+              "deltaPercent": -21.8
+            },
+            "lcpStartTime": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 400.0,
+              "candidateValue": 322.0,
+              "deltaPercent": -19.5
+            },
+            "htmlTransferBytes": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 46336.0,
+              "candidateValue": 452345.5,
+              "deltaPercent": 876.2
+            },
+            "jsRequestCount": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "rscPayloadDurationMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadResponseEndMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadTransferBytes": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "actionTotalMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 241.87,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "comparePropsMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.41,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareCreatorHomeMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareProductMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareDiscoverMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.41,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "sqlActiveRecordMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "renderDispatchMs": {
+              "statistic": "median",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 241.87,
+              "candidateValue": null,
+              "deltaPercent": null
+            }
+          },
+          "p95": {
+            "navigationDurationMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 458.6,
+              "candidateValue": 338.25,
+              "deltaPercent": -26.2
+            },
+            "responseEndMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 393.45,
+              "candidateValue": 280.9,
+              "deltaPercent": -28.6
+            },
+            "lcpStartTime": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 481.0,
+              "candidateValue": 358.0,
+              "deltaPercent": -25.6
+            },
+            "htmlTransferBytes": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 46336.0,
+              "candidateValue": 452353.75,
+              "deltaPercent": 876.2
+            },
+            "jsRequestCount": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "rscPayloadDurationMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadResponseEndMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "rscPayloadTransferBytes": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.0,
+              "candidateValue": 0.0,
+              "deltaPercent": null
+            },
+            "actionTotalMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 300.52,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "comparePropsMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.54,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareCreatorHomeMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareProductMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "compareDiscoverMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 0.54,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "sqlActiveRecordMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": null,
+              "candidateValue": null,
+              "deltaPercent": null
+            },
+            "renderDispatchMs": {
+              "statistic": "p95",
+              "baselinePath": "/public_product/discover_inertia_demo",
+              "candidatePath": "/public_product/discover_rsc_demo",
+              "baselineValue": 300.51,
+              "candidateValue": null,
+              "deltaPercent": null
+            }
+          }
+        }
+      }
+    ]
+  }
+}

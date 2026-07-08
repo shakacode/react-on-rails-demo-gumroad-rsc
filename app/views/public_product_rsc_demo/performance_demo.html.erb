@@ -97,6 +97,18 @@
         return unreadableCount > 0 ? `${readableCopy}; ${unreadableCount} unavailable` : readableCopy;
       };
 
+      const streamTimingSummary = (serverTiming) => {
+        if (!serverTiming || serverTiming === "No Server-Timing header exposed") return "No stream timing attribution";
+
+        const hasShell = serverTiming.includes("ror_stream_shell");
+        const hasRendererPrepare = serverTiming.includes("ror_renderer_prepare");
+        if (hasShell && hasRendererPrepare) return "Rails shell + Node renderer prepare timing exposed";
+        if (hasShell) return "Rails streamed shell timing exposed";
+        if (hasRendererPrepare) return "Node renderer prepare timing exposed";
+        if (serverTiming.includes("action_total")) return "Rails action timing only";
+        return "No Pro stream timing attribution";
+      };
+
       const resetMetrics = (scope, variant) => {
         setCardState(scope, variant, "loading");
         setMetric(scope, variant, "status", "Loading...");
@@ -105,6 +117,7 @@
         setMetric(scope, variant, "bytes", "...");
         setMetric(scope, variant, "scripts", "...");
         setMetric(scope, variant, "payload", "...");
+        setMetric(scope, variant, "streamTiming", "Waiting for headers");
         setMetric(scope, variant, "serverTiming", "Waiting for headers");
       };
 
@@ -180,6 +193,7 @@
         setMetric(scope, variant, "bytes", formatHtmlSize(result));
         setMetric(scope, variant, "scripts", "Waiting for route script pass");
         setMetric(scope, variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
+        setMetric(scope, variant, "streamTiming", streamTimingSummary(serverTiming));
         setMetric(scope, variant, "serverTiming", serverTiming);
 
         return result;
@@ -227,7 +241,7 @@
           inertia.inertiaPayloadBytes > 0
             ? ` The Inertia document also carried ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document carried none.`
             : "";
-        const completionCopy = ` Raw full-body download (Inertia ${formatMs(inertia.totalMs)}, RSC ${formatMs(rsc.totalMs)}) is not the verdict: it favors the smaller document and ignores the JavaScript execution and hydration the browser still does. The authoritative comparison is the hosted headless-Chrome navigation result above.`;
+        const completionCopy = ` Raw full-body download (Inertia ${formatMs(inertia.totalMs)}, RSC ${formatMs(rsc.totalMs)}) is not the verdict: it favors the smaller document and ignores the JavaScript execution and hydration the browser still does. The controlled comparison is the ShakaPerf navigation result above.`;
 
         return `${label}: ${firstChunkCopy}${htmlCopy}${scriptCopy}${payloadCopy}${completionCopy}`;
       };
@@ -302,18 +316,22 @@
 <% react_on_rails_github_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_GITHUB_URL %>
 <% shakacode_url = PublicProductRscDemoPresenter::SHAKACODE_URL %>
 <% consultation_url = PublicProductRscDemoPresenter::CONSULTATION_URL %>
+<% gumroad_product_reference_url = PublicProductRscDemoPresenter::GUMROAD_PRODUCT_REFERENCE_URL %>
 <% gumroad_discover_reference_url = PublicProductRscDemoPresenter::GUMROAD_DISCOVER_REFERENCE_URL %>
+<% public_home_path = about_path %>
+<% deployed_performance_url = @presenter.deployed_performance_demo_url %>
 
 <div class="dd dd-performance" data-rsc-performance-lab>
   <aside class="dd-side">
     <div class="dd-brand">
-      <a href="<%= root_path %>">Gumroad</a>
+      <a href="<%= public_home_path %>">Gumroad</a>
       <p>React Server Components via React on Rails Pro lab</p>
     </div>
 
     <nav class="dd-nav" aria-label="Public performance lab routes">
-      <a href="<%= root_path %>">Home</a>
+      <a href="<%= public_home_path %>">Home</a>
       <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
+      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Deployed demo</a>
       <a href="<%= public_product_inertia_demo_path %>">Product Inertia</a>
       <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
       <a href="<%= public_product_discover_inertia_demo_path %>">Discover Inertia</a>
@@ -347,7 +365,8 @@
 
       <div class="dd-actions">
         <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
-        <a href="<%= root_path %>" class="dd-btn">Back to home</a>
+        <a href="<%= public_home_path %>" class="dd-btn">Back to home</a>
+        <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Compare deployed demo</a>
         <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener" class="dd-btn">Learn React on Rails</a>
         <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
@@ -355,11 +374,59 @@
 
     <div class="dd-body">
       <p class="dd-note">
-        The committed fixtures are synthetic but production-shaped. A small public-page sampler confirmed that Gumroad
-        Discover exposes a <code>Discover/Index</code> Inertia payload with a dense product grid and taxonomy data, while
-        public product pages expose <code>Products/Discover/Show</code> product, seller, cover, rating, purchase, section,
-        and taxonomy props. This repo uses that shape without copying creator content.
+        The product fixture is source-attributed to
+        <a href="<%= gumroad_product_reference_url %>" target="_blank" rel="noopener">Tendon Book by Jacked Athlete</a>:
+        title, seller, price, ebook type, rating summary, and source link are preserved, while longer descriptive copy is
+        rewritten for this demo. A small public-page sampler also confirmed that Gumroad Discover exposes a
+        <code>Discover/Index</code> Inertia payload with a dense product grid and taxonomy data, while public product pages
+        expose <code>Products/Discover/Show</code> product, seller, cover, rating, purchase, section, and taxonomy props.
       </p>
+
+      <% stack_versions = @presenter.react_stack_versions %>
+      <section class="dd-section" id="react-on-rails-pro-17-audit">
+        <header>
+          <h2>React on Rails Pro 17 / React 19.2 audit</h2>
+          <p>
+            This pass checked the demo against the current Pro 17 RC line and the public Gumroad upstream delta on
+            July 8, 2026.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Runtime stack:</strong>
+              React <code><%= stack_versions[:react] || "unknown" %></code>,
+              React DOM <code><%= stack_versions[:react_dom] || "unknown" %></code>,
+              React on Rails Pro gem <code><%= stack_versions[:react_on_rails_pro_gem] || "unknown" %></code>,
+              React on Rails Pro npm <code><%= stack_versions[:react_on_rails_pro_npm] || "unknown" %></code>,
+              and <code>react-on-rails-rsc</code> <code><%= stack_versions[:react_on_rails_rsc] || "unknown" %></code>.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Streaming now active:</strong>
+              the public RSC routes opt into Pro stream observability, so the live race can expose
+              <code>ror_stream_shell</code> and <code>ror_renderer_prepare</code> timing when the renderer returns them.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Static caching boundary:</strong>
+              Pro 17 adds buffered/static RSC helpers for cacheable public shells, but this headline route pair stays
+              matched and uncached. A cached static RSC variant should be measured as a separate claim.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Latest Gumroad shape check:</strong>
+              upstream now includes buyer-local currency, richer public product/profile JSON, custom HTML product pages,
+              and Discover category fixes. Those are useful adoption context, but a broad upstream merge would pull in
+              the unrelated Vite migration and is not part of this focused demo pass.
+            </p>
+          </article>
+        </div>
+      </section>
 
       <% verdict_labels = {
         rsc_wins: ["React on Rails Pro RSC wins", "dd-verdict--win"],
@@ -367,13 +434,17 @@
         tie: ["About the same", "dd-verdict--tie"],
       } %>
 
-      <section class="dd-section" id="hosted-headless-chrome-result">
+      <section class="dd-section" id="current-shakaperf-result">
         <header>
-          <h2>Hosted headless Chrome A/B result</h2>
-          <p><%= @presenter.hosted_benchmark_method_note %></p>
+          <h2>Current branch ShakaPerf A/B result</h2>
+          <p><%= @presenter.local_benchmark_method_note %></p>
           <p class="dd-source-links dd-source-links--lead">
             <span>Source for the measured app:</span>
-            <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">benchmark data (summary.json)</a>
+            <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">current branch A/B summary</a>
+            <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">hosted review-app A/B summary</a>
+            <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">Lighthouse URL-pair summary</a>
+            <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">deployed performance lab</a>
+            <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
             <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
             <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
           </p>
@@ -386,7 +457,7 @@
           &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
         </p>
 
-        <% @presenter.hosted_benchmark_surfaces.each do |surface| %>
+        <% @presenter.local_benchmark_surfaces.each do |surface| %>
           <% sources = @presenter.route_source_links(surface[:page_kind]) %>
           <div class="dd-surface-block">
             <header class="dd-surface-head">
@@ -430,30 +501,88 @@
         <% end %>
 
         <div class="dd-note is-info">
-          <strong>What this shows:</strong> on the wire, RSC's only loss is a few KB of extra HTML &mdash; dwarfed by shipping
-          far less JavaScript across one request instead of seven, and removing the serialized Inertia payload entirely. The
-          one place Inertia genuinely edges ahead (Discover response-end) is inside the &ldquo;about the same&rdquo; band.
-          <% if @presenter.hosted_benchmark_caveats.any? %>
+          <strong>What this shows:</strong> on the current Tendon Book fixture, RSC wins median navigation, response-end,
+          and LCP on both same-host route pairs. The tradeoff is larger streamed HTML because the server-rendered content
+          is present in the document; the hosted review-app and Lighthouse reruns below add public-network JavaScript,
+          LCP, and mobile-score context.
+          <% if @presenter.local_benchmark_caveats.any? %>
             <br />
             <strong>Caveats from the run:</strong>
           <% end %>
         </div>
 
-        <% if @presenter.hosted_benchmark_caveats.any? %>
+        <% if @presenter.local_benchmark_caveats.any? %>
           <ul class="dd-caveats">
-            <% @presenter.hosted_benchmark_caveats.each do |caveat| %>
+            <% @presenter.local_benchmark_caveats.each do |caveat| %>
               <li><%= caveat %></li>
             <% end %>
           </ul>
         <% end %>
+
+        <p class="dd-note">
+          <strong>Hosted review-app rerun:</strong>
+          the PR 63 review app confirms the same direction on both public route pairs. Product detail median navigation
+          moved from 602.75ms to 502.20ms, LCP from 500ms to 394ms, and route JavaScript requests from 7 to 1.
+          Discover median navigation moved from 605.30ms to 529.25ms, LCP from 508ms to 430ms, and route JavaScript
+          requests from 7 to 1. It also makes the server tradeoff clearer: streamed RSC response-end and HTML transfer
+          are higher on the review app, so the honest claim is faster browser completion and less client JavaScript, not
+          lower server TTLB everywhere.
+          <br />
+          <strong>Historical hosted run:</strong>
+          the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
+          transfer and request-count evidence. It predates the Tendon Book fixture, so it is supporting context rather than
+          the headline current result.
+        </p>
+      </section>
+
+      <section class="dd-section" id="pagespeed-comparator-pairs">
+        <header>
+          <h2>PageSpeed comparator pairs</h2>
+          <p>
+            Point PageSpeed at these public URL pairs to compare this React on Rails RSC build with the live Gumroad
+            status quo. On a review app, the demo links target the review app; the deployed-demo links target the current
+            production demo at <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %>. Use mobile as the headline result
+            and desktop as a sanity check; the matched Inertia-vs-RSC route-pair data above remains the controlled A/B proof.
+            A local Lighthouse matrix is linked above because the PageSpeed Insights API returned HTTP 429 from this
+            environment. That fallback found the product mobile score moving from 0.56 to 0.99 with LCP moving from 14.7s to
+            2.1s, and Discover mobile moving from 0.58 to 0.96 with LCP moving from 12.0s to 2.6s.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <% @presenter.page_speed_comparator_pairs.each do |pair| %>
+            <article class="dd-row">
+              <p class="dd-copy">
+                <strong><%= pair[:surface] %>:</strong>
+                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> current app RSC URL</a>,
+                <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> deployed RSC URL</a>,
+                versus
+                <a href="<%= pair[:live_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> live URL</a>.
+              </p>
+              <p class="dd-source-links">
+                <span>Mobile headline:</span>
+                <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile current-app PageSpeed</a>
+                <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile deployed-demo PageSpeed</a>
+                <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile live PageSpeed</a>
+              </p>
+              <p class="dd-source-links">
+                <span>Desktop sanity:</span>
+                <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop current-app PageSpeed</a>
+                <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop deployed-demo PageSpeed</a>
+                <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop live PageSpeed</a>
+              </p>
+            </article>
+          <% end %>
+        </div>
       </section>
 
       <section class="dd-section">
         <header>
           <h2>What this report is allowed to claim</h2>
           <p>
-            The hosted headless Chrome A/B run shows a meaningful browser-navigation win on the right public surfaces.
-            A Gumroad adoption proposal still needs a mobile Lighthouse/ShakaPerf repeat with TBT, INP, and mobile score.
+            The current branch ShakaPerf A/B run shows a meaningful browser-navigation win on the right public surfaces.
+            The hosted review app and Lighthouse URL-pair reruns add public-network evidence, but a Gumroad adoption
+            proposal still needs PageSpeed API or field-data corroboration for INP and mobile score.
           </p>
         </header>
 
@@ -485,9 +614,10 @@
           <p>
             This live race fetches both routes from your browser right now. Treat it as directional: it captures first
             streamed bytes, HTML size (wire and decoded), route JavaScript weight, and the serialized Inertia payload, but it
-            does not measure the JavaScript execution and hydration the browser still does after download. Raw full-response
-            download time favors the smaller document, so for the load-time verdict trust the hosted headless-Chrome result
-            above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
+            does not measure the JavaScript execution and hydration the browser still does after download. The RSC cards also
+            show whether Pro stream observability exposed Rails shell and Node renderer prepare timing in <code>Server-Timing</code>.
+            Raw full-response download time favors the smaller document, so for the load-time verdict trust the controlled
+            ShakaPerf navigation result above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
           </p>
         </header>
       </section>
@@ -543,9 +673,16 @@
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>External shape reference:</strong>
+              <strong>External product reference:</strong>
+              <a href="<%= gumroad_product_reference_url %>" target="_blank" rel="noopener">Tendon Book by Jacked Athlete</a>
+              is the approved live product comparator for the attributed fixture and PageSpeed pair.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>External Discover reference:</strong>
               <a href="<%= gumroad_discover_reference_url %>" target="_blank" rel="noopener"><%= gumroad_discover_reference_url %></a>
-              helps explain why these fixtures are shaped this way, but it should not be treated as the A/B baseline.
+              helps explain why the marketplace fixture is shaped this way, but it should not be treated as the controlled A/B baseline.
             </p>
           </article>
           <article class="dd-row" id="fixture-provenance">
@@ -554,8 +691,9 @@
               public page shape sampling observed <code>Discover/Index</code> with a 36-card product grid,
               8 tag buckets, 8 filetype buckets, and taxonomy navigation, plus
               <code>Products/Discover/Show</code> with product seller, cover, rating, price, purchase, description,
-              and taxonomy fields. The committed benchmark fixture keeps those field families but uses synthetic names,
-              copy, prices, and cover placeholders instead of creator content, product URLs, seller URLs, or image URLs.
+              and taxonomy fields. The product fixture preserves the approved source identity for title, seller, price,
+              type, rating summary, and source URL; supporting copy is rewritten. The Discover fixture remains synthetic
+              and production-shaped, with no creator URLs, seller URLs, product URLs, or image URLs committed.
             </p>
           </article>
           <article class="dd-row">

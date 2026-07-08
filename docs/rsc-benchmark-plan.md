@@ -78,7 +78,7 @@ These help explain the result:
 - crawlable title, description, canonical URL, and product content
 - server response end
 - `/rsc_payload/` resource duration, response end, transfer size, and any resource-level `Server-Timing`
-- route-level `Server-Timing` split between Rails/presenter work and renderer dispatch
+- route-level `Server-Timing` split between Rails/presenter work, streamed RSC shell rendering, and Node renderer prepare time
 
 ## Suggested success bar
 
@@ -141,7 +141,7 @@ The benchmark JSON now records `/rsc_payload/` resource details separately from 
 - payload resource-level `serverTiming` entries when the browser exposes them
 - primary comparison deltas for payload duration, payload response end, and payload transfer size
 
-The current `/dashboard/rsc_demo` implementation streams the RSC payload inline, so it does not emit a browser resource named `/rsc_payload/` on the initial page load. In this run the new resource timing fields are therefore empty. That is still useful: it tells us the next profiling step should either expose a separate RSC payload resource for measurement or add renderer-internal `Server-Timing` in the React on Rails Pro streaming path.
+The current `/dashboard/rsc_demo` and public RSC implementations stream the RSC payload inline, so they do not emit a browser resource named `/rsc_payload/` on the initial page load. In these runs the payload resource timing fields are therefore empty. React on Rails Pro 17 stream observability now fills part of that gap through top-level `Server-Timing` entries such as streamed shell render and renderer prepare timing; rerun the public benchmarks after enabling that flag to attribute the RSC response tail more clearly.
 
 ## Decision outcomes
 

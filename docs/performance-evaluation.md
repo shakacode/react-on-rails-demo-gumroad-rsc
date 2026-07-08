@@ -44,32 +44,79 @@ What is already true:
 - the sanitized shape sampling notes are documented in [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md)
 - all public comparison routes are logged out, so the comparison can be evaluated without a demo account
 - these public buyer pages are the correct surfaces for SEO, conversion-sensitive loading, client JavaScript cost, and mobile buyer performance
-- the first hosted headless-Chrome A/B run shows large median navigation wins and a 7-to-1 reduction in JS requests on both public route pairs
+- the current branch local ShakaPerf A/B run shows same-fixture median navigation, response-end, and LCP wins on both public route pairs
+- the hosted PR 63 review-app ShakaPerf run shows median navigation, LCP, and JavaScript request-count wins on both public route pairs
+- the Lighthouse URL-pair run shows the public RSC demo URLs scoring much faster and lighter than comparable live Gumroad URLs
+- the historical hosted headless-Chrome A/B run shows a 7-to-1 reduction in JS requests on both public route pairs, but predates the Tendon Book fixture
 
 What still needs proof:
 
-- mobile ShakaPerf/Lighthouse-style A/B reports for both product and Discover pairs showing meaningful `LCP`, `TBT`, `INP`, navigation, payload, route JavaScript, and mobile-score wins
+- PageSpeed Insights API or field-data corroboration for `INP` and mobile score once API quota is available
 - production-grade renderer and streaming-path profiling for the public routes
-- that the measured mobile public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad
+- that the measured public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad despite the hosted response-end tradeoff
 
-## Latest Hosted Public Buyer-Page Result
+## Current Branch Public Buyer-Page Result
 
-Captured on `2026-06-23 HST` / `2026-06-24 UTC` against `https://gumroad.reactonrails.com` with local headless Chrome `149`, `8` alternating cycles, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
+Captured on `2026-07-08 UTC` against `http://app.test.gumroad.com:31338` with headless Chrome `149`, `6` alternating cycles per pair, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
 
-| Surface | Median nav duration | Median LCP start | JS requests | Serialized Inertia payload |
+| Surface | Median nav duration | Median response end | Median LCP start | HTML transfer |
 | --- | ---: | ---: | ---: | ---: |
-| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` (`-85.7%`) | `12,183 B` -> none |
-| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` (`-85.7%`) | `24,960 B` -> none |
+| Product detail | `392.70ms` -> `212.80ms` (`-45.8%`) | `337.40ms` -> `171.30ms` (`-49.2%`) | `416.00ms` -> `224.00ms` (`-46.2%`) | `24,291 B` -> `179,407.5 B` |
+| Discover marketplace | `375.45ms` -> `303.70ms` (`-19.1%`) | `313.60ms` -> `245.25ms` (`-21.8%`) | `400.00ms` -> `322.00ms` (`-19.5%`) | `46,336 B` -> `452,345.5 B` |
 
-Supporting details are in [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md) and [performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json).
+Supporting details are in [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json). The earlier hosted run in [performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json) remains useful historical context for JavaScript transfer and request-count reduction, but it predates the Tendon Book fixture.
 
 Interpretation:
 
-- the public-page RSC path is now worth continuing because the deployed browser-navigation win is large
-- the strongest win is reduced client work: one route-scoped RSC pack instead of seven JS requests plus an Inertia `data-page` payload
+- the public-page RSC path is now worth continuing because the same-fixture navigation, response-end, and LCP wins are consistent
 - RSC increases HTML transfer because it streams rendered content in the document
-- Discover has a small median `responseEnd` regression, so renderer/streaming instrumentation is still required
-- this is a hosted headless desktop run, not yet a mobile-throttled Lighthouse result
+- local test-pack JavaScript deltas are omitted because this run recorded `0` route scripts for both variants
+- the historical hosted run still supports the reduced-client-work direction: one route-scoped RSC pack instead of seven JS requests plus an Inertia `data-page` payload
+- this is a local headless desktop run; use the hosted review-app and Lighthouse sections below for public-network context
+
+## Hosted Review-App Public Buyer-Page Result
+
+Captured on `2026-07-08 UTC` against PR 63 review app
+`https://rails-ejbbntm539k6r.cpln.app` with headless Chrome `149`, `6`
+alternating cycles per route pair, `2` server warmup requests per measured run,
+`--public`, and `--require-driver-match`.
+
+| Surface | Median nav duration | Median response end | Median LCP start | JS requests |
+| --- | ---: | ---: | ---: | ---: |
+| Product detail | `602.75ms` -> `502.20ms` (`-16.7%`) | `153.00ms` -> `193.00ms` (`+26.1%`) | `500.00ms` -> `394.00ms` (`-21.2%`) | `7` -> `1` (`-85.7%`) |
+| Discover marketplace | `605.30ms` -> `529.25ms` (`-12.6%`) | `152.10ms` -> `357.25ms` (`+134.9%`) | `508.00ms` -> `430.00ms` (`-15.4%`) | `7` -> `1` (`-85.7%`) |
+
+Supporting details are in
+[performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json).
+
+Interpretation:
+
+- the hosted current-PR result preserves the same direction for median browser navigation and LCP
+- the RSC route reliably cuts route JavaScript requests from `7` to `1`
+- RSC loses median response-end on the review app, especially on Discover, because the server streams more complete HTML
+- this makes the honest pitch sharper: faster browser completion and less client JavaScript, not universally lower server TTLB
+
+## Lighthouse Public URL-Pair Result
+
+The PageSpeed Insights API returned HTTP `429` from this environment, so the
+external comparator was captured with local `lighthouse@12.8.2`, Chrome `149`,
+and `3` runs per URL per mobile/desktop strategy.
+
+| Surface | Strategy | Score | LCP | TBT | Total byte weight |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Product detail | Mobile | `0.56` -> `0.99` (`+43 pts`) | `14,741.13ms` -> `2,122.72ms` (`-85.6%`) | `56.00ms` -> `0.00ms` | `4,059,130 B` -> `369,328 B` (`-90.9%`) |
+| Product detail | Desktop | `0.81` -> `1.00` (`+19 pts`) | `1,724.60ms` -> `584.08ms` (`-66.1%`) | `0.00ms` -> `0.00ms` | `4,937,003 B` -> `369,122 B` (`-92.5%`) |
+| Discover marketplace | Mobile | `0.58` -> `0.96` (`+38 pts`) | `11,990.70ms` -> `2,647.96ms` (`-77.9%`) | `114.50ms` -> `0.00ms` | `12,811,991 B` -> `372,678 B` (`-97.1%`) |
+| Discover marketplace | Desktop | `0.76` -> `1.00` (`+24 pts`) | `3,014.54ms` -> `462.49ms` (`-84.7%`) | `0.00ms` -> `0.00ms` | `12,982,659 B` -> `372,913 B` (`-97.1%`) |
+
+Supporting details are in
+[performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json).
+
+Interpretation:
+
+- this is strong external URL-pair evidence that the public RSC demo pages are lighter and faster than comparable live Gumroad pages
+- it is not same-data architecture proof; use the ShakaPerf route-pair artifacts for that
+- the next external proof step is PageSpeed API or field-data capture, especially for `INP`
 
 The dashboard RSC implementation is also **promising but not fully optimized**.
 
@@ -264,8 +311,8 @@ It does **not** yet prove the full upside of RSC as an architecture.
 
 If the next performance review should be high signal, focus here:
 
-1. Repeat the comparison against the deployed review/staging app once the Control Plane environment is stable.
-   The production-like local rerun is complete and is now the strongest local evidence; the next question is whether the RSC advantage holds with deployed network, container, and renderer behavior.
+1. Keep the review-app, deployed-demo, and live Gumroad PageSpeed URLs visible.
+   The PR 63 review-app rerun is complete and shows the same navigation/LCP direction; the lab now generates current-host PageSpeed links for review apps plus stable deployed-demo links for `https://gumroad.reactonrails.com`.
 
 2. Instrument the React on Rails Pro renderer and streaming path.
    We now have route-scoped Rails timing, but not renderer-internal timing.

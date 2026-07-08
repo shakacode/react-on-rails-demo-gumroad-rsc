@@ -11,7 +11,7 @@ Do not claim:
 - a universal RSC win
 - that the full dashboard is already faster
 - that `Rspack` is responsible for the route-level runtime gain
-- that the hosted headless-Chrome result replaces a mobile Lighthouse report
+- that the current Lighthouse fallback replaces PageSpeed API or field-data proof
 
 ## Suggested video length
 
@@ -51,8 +51,10 @@ Same public marketplace data, different rendering model.
 ### State the measured result
 
 ```text
-On the hosted A/B run, the Discover RSC route cuts median navigation duration from about 797ms to 284ms and drops JS requests from 7 to 1.
-The product detail route shows the same shape: about 812ms to 272ms median navigation duration.
+On the current same-fixture ShakaPerf run, the Discover RSC route cuts median navigation duration from about 375ms to 304ms.
+The product detail route shows a larger win: about 393ms to 213ms median navigation duration.
+The PR 63 hosted review-app rerun keeps the direction honest: navigation, LCP, and JavaScript request count improve, while streamed RSC response-end is slower.
+The Lighthouse URL-pair fallback is also favorable against comparable live Gumroad pages, but PageSpeed API quota blocked a real PageSpeed capture from this environment.
 That is not a universal win, but it is a real buyer-page win on bounded public surfaces.
 ```
 
@@ -60,7 +62,7 @@ That is not a universal win, but it is a real buyer-page win on bounded public s
 
 ```text
 That makes this interesting for product positioning and for a narrow upstream discussion.
-The next honest proof gate is a mobile Lighthouse/ShakaPerf repeat with LCP, TBT, and INP.
+The next honest proof gate is PageSpeed API or field-data corroboration, especially for INP.
 ```
 
 ## Full version script
@@ -115,7 +117,7 @@ It is meant to help decide what should be positioned, what should be optimized n
 ### 7. Close with the honest ask
 
 ```text
-If the mobile Lighthouse repeat keeps the navigation and LCP win while TBT and INP also move in the right direction, this becomes a credible Gumroad-facing proposal.
+If PageSpeed API or field data corroborates the Lighthouse fallback, especially for INP, this becomes a credible Gumroad-facing proposal.
 If not, it is still valuable because it tells us where the tradeoff actually lives.
 ```
 

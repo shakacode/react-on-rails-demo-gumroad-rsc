@@ -1,0 +1,396 @@
+{
+  "label": "local-attributed-product-2026-07-08-cycle3-position1",
+  "baseUrl": "http://app.test.gumroad.com:31338",
+  "measureBaseUrl": "http://app.test.gumroad.com:31338",
+  "path": "/public_product/inertia_demo",
+  "targetUrl": "http://app.test.gumroad.com:31338/public_product/inertia_demo",
+  "headed": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 2,
+  "environment": {
+    "measuredAt": "2026-07-08T00:13:52-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "149.0.7827.201",
+    "platformName": "mac",
+    "chromeDriverVersion": "149.0.7827.155",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 408.9,
+      "loadEventMs": 435.9,
+      "responseEndMs": 380.1,
+      "durationMs": 435.9,
+      "transferSize": 24591.0,
+      "encodedBodySize": 24291.0,
+      "decodedBodySize": 24291.0
+    },
+    "lcp": {
+      "startTime": 456.0,
+      "size": 57892.0
+    },
+    "inertiaDataPageBytes": 12932.0,
+    "htmlBytes": 42766.0,
+    "bodyTextBytes": 4952.0,
+    "packs": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "jsTransferSize": 0.0,
+      "cssTransferSize": 0.0,
+      "jsCount": 0.0,
+      "cssCount": 0.0
+    },
+    "serverTiming": {
+      "action_total": {
+        "durationMs": 312.24
+      },
+      "compare_product": {
+        "durationMs": 0.33
+      },
+      "compare_props": {
+        "durationMs": 0.34
+      },
+      "render_dispatch": {
+        "durationMs": 312.23
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 408.9,
+        "median": 408.9,
+        "p95": 408.9,
+        "max": 408.9,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 435.9,
+        "median": 435.9,
+        "p95": 435.9,
+        "max": 435.9,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 380.1,
+        "median": 380.1,
+        "p95": 380.1,
+        "max": 380.1,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 435.9,
+        "median": 435.9,
+        "p95": 435.9,
+        "max": 435.9,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 24591.0,
+        "median": 24591.0,
+        "p95": 24591.0,
+        "max": 24591.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 24291.0,
+        "median": 24291.0,
+        "p95": 24291.0,
+        "max": 24291.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 24291.0,
+        "median": 24291.0,
+        "p95": 24291.0,
+        "max": 24291.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 456.0,
+        "median": 456.0,
+        "p95": 456.0,
+        "max": 456.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 57892.0,
+        "median": 57892.0,
+        "p95": 57892.0,
+        "max": 57892.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": {
+      "count": 1,
+      "min": 12932.0,
+      "median": 12932.0,
+      "p95": 12932.0,
+      "max": 12932.0,
+      "stddev": 0.0
+    },
+    "htmlBytes": {
+      "count": 1,
+      "min": 42766.0,
+      "median": 42766.0,
+      "p95": 42766.0,
+      "max": 42766.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 4952.0,
+      "median": 4952.0,
+      "p95": 4952.0,
+      "max": 4952.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "action_total": {
+        "stats": {
+          "count": 1,
+          "min": 312.24,
+          "median": 312.24,
+          "p95": 312.24,
+          "max": 312.24,
+          "stddev": 0.0
+        }
+      },
+      "compare_product": {
+        "stats": {
+          "count": 1,
+          "min": 0.33,
+          "median": 0.33,
+          "p95": 0.33,
+          "max": 0.33,
+          "stddev": 0.0
+        }
+      },
+      "compare_props": {
+        "stats": {
+          "count": 1,
+          "min": 0.34,
+          "median": 0.34,
+          "p95": 0.34,
+          "max": 0.34,
+          "stddev": 0.0
+        }
+      },
+      "render_dispatch": {
+        "stats": {
+          "count": 1,
+          "min": 312.23,
+          "median": 312.23,
+          "p95": 312.23,
+          "max": 312.23,
+          "stddev": 0.0
+        }
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 4952,
+      "heading": "Tendon Book",
+      "htmlBytes": 42766,
+      "inertiaDataPageBytes": 12932,
+      "lcp": {
+        "loadTime": 0,
+        "renderTime": 456,
+        "size": 57892,
+        "startTime": 456,
+        "url": ""
+      },
+      "navigation": {
+        "decodedBodySize": 24291,
+        "domContentLoadedMs": 408.8999999910593,
+        "durationMs": 435.8999999910593,
+        "encodedBodySize": 24291,
+        "loadEventMs": 435.8999999910593,
+        "responseEndMs": 380.09999999403954,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": null,
+            "duration": 0.33,
+            "name": "compare_product"
+          },
+          {
+            "description": null,
+            "duration": 0.34,
+            "name": "compare_props"
+          },
+          {
+            "description": null,
+            "duration": 312.23,
+            "name": "render_dispatch"
+          },
+          {
+            "description": null,
+            "duration": 312.24,
+            "name": "action_total"
+          }
+        ],
+        "transferSize": 24591
+      },
+      "packs": {
+        "all": {
+          "count": 0,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "css": {
+          "count": 0,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "js": {
+          "count": 0,
+          "decodedBodySize": 0,
+          "encodedBodySize": 0,
+          "transferSize": 0
+        },
+        "largest": []
+      },
+      "pageTitle": "Tendon Book",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-07-08T10:13:52.159Z",
+      "url": "http://app.test.gumroad.com:31338/public_product/inertia_demo",
+      "run": 1
+    }
+  ]
+}

@@ -14,14 +14,29 @@ Filed:
 - Emit hydration / interactivity performance marks for client islands →
   https://github.com/shakacode/react_on_rails/issues/4207
 
-Shared evidence (hosted headless Chrome, 8 alternating cycles, against
-`https://gumroad.reactonrails.com`, see
-[summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json)):
-RSC wins navigation duration (-66% / -64%), LCP (-17% / -11%), JavaScript
-transfer (-54%), and request count (7 -> 1), and removes the serialized Inertia
-payload. The only places Inertia is not behind are HTML transfer size (RSC sends
-more rendered HTML) and Discover `responseEnd` (+3.2%, inside the tie band). The
-three gaps below are what blocked measuring and closing those last items.
+Shared evidence now has two layers:
+
+- Current branch ShakaPerf run (`2026-07-08 UTC`, local headless Chrome, 6
+  alternating cycles, same Tendon Book fixture, see
+  [summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)):
+  product navigation `392.70ms` -> `212.80ms` (`-45.8%`), product
+  `responseEnd` `337.40ms` -> `171.30ms` (`-49.2%`), product LCP
+  `416.00ms` -> `224.00ms` (`-46.2%`); Discover navigation `375.45ms` ->
+  `303.70ms` (`-19.1%`), Discover `responseEnd` `313.60ms` -> `245.25ms`
+  (`-21.8%`), and Discover LCP `400.00ms` -> `322.00ms` (`-19.5%`).
+- Historical hosted headless-Chrome run (`2026-06-24 UTC`, 8 alternating cycles
+  against `https://gumroad.reactonrails.com`, see
+  [summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json)):
+  JavaScript request count moved from `7` to `1` on both public route pairs and
+  transfer dropped about `54%`, but this run predates the Tendon Book fixture and
+  should be treated as supporting context rather than the current headline.
+
+The remaining gaps below are what still make the final Gumroad-facing proof
+harder: the current local run records stronger navigation/response/LCP evidence,
+the hosted review-app run records current public-network navigation/LCP/JS
+evidence with a response-end tradeoff, and the Lighthouse fallback is favorable;
+PageSpeed API or field-data scores, RSC payload timing, CDN-safe streaming
+timing, and hydration/interactivity marks still need first-class measurement.
 
 ---
 

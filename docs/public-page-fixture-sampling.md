@@ -2,18 +2,22 @@
 
 ## Goal
 
-The Gumroad RSC demo needs realistic public buyer-page data without copying
-creator content into a public ShakaCode demo repository.
+The Gumroad RSC demo needs realistic public buyer-page data without confusing
+the demo fixture with unreviewed copied creator content.
 
 The policy is:
 
 - Sample public Gumroad pages for component names, prop keys, field types, and
   counts.
-- Do not commit creator copy, seller URLs, product URLs, image URLs, thumbnails,
-  or real product names.
+- For the approved product comparator, preserve only the source identity fields
+  needed for a clear comparison: title, seller, price, type, rating summary, and
+  source link.
+- Lightly rewrite long descriptive and supporting product copy.
+- Do not commit image URLs, thumbnails, raw HTML descriptions, or broad scraped
+  product payloads.
 - Build curated synthetic fixtures that preserve the production data shape
-  needed for an apples-to-apples Inertia versus React Server Components
-  benchmark.
+  needed for the Discover apples-to-apples Inertia versus React Server
+  Components benchmark.
 
 The sanitized shape artifact is committed at
 [docs/performance-artifacts/public-gumroad-shape-sampling-2026-06-24/summary.json](performance-artifacts/public-gumroad-shape-sampling-2026-06-24/summary.json).
@@ -28,10 +32,9 @@ node scripts/perf/sample_public_gumroad_shapes.mjs '<public product URL with lay
 ```
 
 The sampler prints only the source category, page component name, top-level prop
-keys, selected field shapes, array counts, status, and response size. It omits
-the sampled URL and page title by default, and it does not write files or persist
-scraped content. Use `--include-source-url` only for local debugging, and do not
-commit that raw output.
+keys, selected field shapes, array counts, status, and response size by default.
+Use `--include-source-url` only when intentionally preparing an attributed
+fixture, and do not commit raw scraped payload output.
 
 Observed public page shapes:
 
@@ -43,7 +46,7 @@ Observed public page shapes:
 ## How The Fixture Uses The Shape
 
 The committed demo fixture in `PublicProductRscDemoPresenter` keeps the public
-shape but replaces content with synthetic data:
+shape with two different content policies:
 
 - `discover_page.products` contains `36` synthetic product cards to match the
   observed public Discover grid count.
@@ -51,9 +54,13 @@ shape but replaces content with synthetic data:
   entries each to match the observed filter payload shape.
 - `discover_page.categories` and taxonomy-like fields preserve the browse and
   category context that matters for public marketplace pages.
-- `product_page` includes product name, summary, seller, price, rating
-  percentages, media theme, description sections, included files, FAQ, and
-  recommendations so the benchmark includes SEO and conversion-sensitive copy.
+- `product_page` is attributed to
+  [Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search),
+  preserving title, seller, price, ebook type, rating summary, and source link.
+  Longer summary/body/FAQ text is rewritten for the demo.
+- `product_page` still includes media theme, description sections, included
+  files, FAQ, and recommendations so the benchmark includes SEO and
+  conversion-sensitive copy.
 - Both the Inertia and RSC routes use the same presenter output, same host, same
   route CSS, and same benchmark harness.
 
@@ -74,9 +81,11 @@ This is not yet the final Gumroad adoption proof:
 
 - It does not claim the production Gumroad `Discover/Index` component itself has
   been ported to RSC.
-- It does not copy a real creator product page or use real creator media.
-- It still needs a mobile-throttled Lighthouse/ShakaPerf repeat before making a
-  stronger upstream proposal.
+- It does not copy raw creator body copy or use real creator media.
+- It still needs PageSpeed API or field-data corroboration before making a
+  stronger adoption proposal.
+- PageSpeed comparisons should target public URLs, not repositories: the hosted
+  RSC demo URL versus the live Gumroad URL for the same surface.
 - A stronger follow-up would wire sanitized production-shaped props into the
   existing Gumroad public page components where feasible, then compare those
   with RSC equivalents.

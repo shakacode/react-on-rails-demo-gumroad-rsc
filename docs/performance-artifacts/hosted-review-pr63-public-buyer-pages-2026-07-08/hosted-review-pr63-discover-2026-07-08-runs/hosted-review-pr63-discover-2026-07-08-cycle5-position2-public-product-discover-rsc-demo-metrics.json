@@ -1,0 +1,393 @@
+{
+  "label": "hosted-review-pr63-discover-2026-07-08-cycle5-position2",
+  "baseUrl": "https://rails-ejbbntm539k6r.cpln.app",
+  "measureBaseUrl": "https://rails-ejbbntm539k6r.cpln.app",
+  "path": "/public_product/discover_rsc_demo",
+  "targetUrl": "https://rails-ejbbntm539k6r.cpln.app/public_product/discover_rsc_demo",
+  "headed": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 2,
+  "environment": {
+    "measuredAt": "2026-07-08T08:29:41-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "149.0.7827.201",
+    "platformName": "mac",
+    "chromeDriverVersion": "149.0.7827.155",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/149.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 501.7,
+      "loadEventMs": 526.2,
+      "responseEndMs": 356.0,
+      "durationMs": 526.2,
+      "transferSize": 153496.0,
+      "encodedBodySize": 153196.0,
+      "decodedBodySize": 153196.0
+    },
+    "lcp": {
+      "startTime": 420.0,
+      "size": 44936.0
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": 149602.0,
+    "bodyTextBytes": 6640.0,
+    "packs": {
+      "transferSize": 314036.0,
+      "encodedBodySize": 385671.0,
+      "decodedBodySize": 538870.0,
+      "jsTransferSize": 260203.0,
+      "cssTransferSize": 2289.0,
+      "jsCount": 1.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "ror_renderer_prepare": {
+        "durationMs": 2.66,
+        "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+      },
+      "ror_stream_shell": {
+        "durationMs": 75.14,
+        "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 501.7,
+        "median": 501.7,
+        "p95": 501.7,
+        "max": 501.7,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 526.2,
+        "median": 526.2,
+        "p95": 526.2,
+        "max": 526.2,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 356.0,
+        "median": 356.0,
+        "p95": 356.0,
+        "max": 356.0,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 526.2,
+        "median": 526.2,
+        "p95": 526.2,
+        "max": 526.2,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 153496.0,
+        "median": 153496.0,
+        "p95": 153496.0,
+        "max": 153496.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 153196.0,
+        "median": 153196.0,
+        "p95": 153196.0,
+        "max": 153196.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 153196.0,
+        "median": 153196.0,
+        "p95": 153196.0,
+        "max": 153196.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 420.0,
+        "median": 420.0,
+        "p95": 420.0,
+        "max": 420.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 44936.0,
+        "median": 44936.0,
+        "p95": 44936.0,
+        "max": 44936.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": {
+      "count": 1,
+      "min": 149602.0,
+      "median": 149602.0,
+      "p95": 149602.0,
+      "max": 149602.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 6640.0,
+      "median": 6640.0,
+      "p95": 6640.0,
+      "max": 6640.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 314036.0,
+        "median": 314036.0,
+        "p95": 314036.0,
+        "max": 314036.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 385671.0,
+        "median": 385671.0,
+        "p95": 385671.0,
+        "max": 385671.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 538870.0,
+        "median": 538870.0,
+        "p95": 538870.0,
+        "max": 538870.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 260203.0,
+        "median": 260203.0,
+        "p95": 260203.0,
+        "max": 260203.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 2289.0,
+        "median": 2289.0,
+        "p95": 2289.0,
+        "max": 2289.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 1.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "max": 1.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "ror_renderer_prepare": {
+        "stats": {
+          "count": 1,
+          "min": 2.66,
+          "median": 2.66,
+          "p95": 2.66,
+          "max": 2.66,
+          "stddev": 0.0
+        },
+        "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+      },
+      "ror_stream_shell": {
+        "stats": {
+          "count": 1,
+          "min": 75.14,
+          "median": 75.14,
+          "p95": 75.14,
+          "max": 75.14,
+          "stddev": 0.0
+        },
+        "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 6640,
+      "heading": "Discover creator-made products",
+      "htmlBytes": 149602,
+      "inertiaDataPageBytes": null,
+      "lcp": {
+        "loadTime": 0,
+        "renderTime": 420,
+        "size": 44936,
+        "startTime": 420,
+        "url": ""
+      },
+      "navigation": {
+        "decodedBodySize": 153196,
+        "domContentLoadedMs": 501.69999998807907,
+        "durationMs": 526.1999999880791,
+        "encodedBodySize": 153196,
+        "loadEventMs": 526.1999999880791,
+        "responseEndMs": 356,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)",
+            "duration": 75.141,
+            "name": "ror_stream_shell"
+          },
+          {
+            "description": "Node renderer prepare (bundle sync + exec context build + render start)",
+            "duration": 2.663,
+            "name": "ror_renderer_prepare"
+          }
+        ],
+        "transferSize": 153496
+      },
+      "packs": {
+        "all": {
+          "count": 5,
+          "decodedBodySize": 538870,
+          "encodedBodySize": 385671,
+          "transferSize": 314036
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 177855,
+          "encodedBodySize": 24656,
+          "transferSize": 2289
+        },
+        "js": {
+          "count": 1,
+          "decodedBodySize": 259903,
+          "encodedBodySize": 259903,
+          "transferSize": 260203
+        },
+        "largest": [
+          {
+            "decodedBodySize": 259903,
+            "duration": 266.90000000596046,
+            "encodedBodySize": 259903,
+            "name": "https://rails-ejbbntm539k6r.cpln.app/packs/public_product_rsc_demo.js",
+            "transferSize": 260203
+          },
+          {
+            "decodedBodySize": 51244,
+            "duration": 156,
+            "encodedBodySize": 51244,
+            "name": "https://rails-ejbbntm539k6r.cpln.app/packs/static/41e564656a0745c3.woff2",
+            "transferSize": 51544
+          },
+          {
+            "decodedBodySize": 9989,
+            "duration": 137.20000000298023,
+            "encodedBodySize": 1989,
+            "name": "https://rails-ejbbntm539k6r.cpln.app/packs/css/dashboard_rsc_demo_styles-7c87dbaa.css",
+            "transferSize": 2289
+          },
+          {
+            "decodedBodySize": 167866,
+            "duration": 0,
+            "encodedBodySize": 22667,
+            "name": "https://rails-ejbbntm539k6r.cpln.app/packs/css/design-7e110a36.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 49868,
+            "duration": 0,
+            "encodedBodySize": 49868,
+            "name": "https://rails-ejbbntm539k6r.cpln.app/packs/static/c5b6753f20ce2ddf.woff2",
+            "transferSize": 0
+          }
+        ]
+      },
+      "pageTitle": "Gumroad Discover RSC benchmark",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-07-08T18:29:41.771Z",
+      "url": "https://rails-ejbbntm539k6r.cpln.app/public_product/discover_rsc_demo",
+      "run": 1
+    }
+  ]
+}

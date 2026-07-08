@@ -63,6 +63,8 @@ type ProductPage = {
   ratings: Ratings;
   recommendations: ProductCard[];
   seller: Seller;
+  source_label: string;
+  source_url: string;
   summary: string;
 };
 
@@ -82,9 +84,11 @@ type DiscoverPage = {
 
 type ComparisonLinks = {
   consultation_url: string;
+  deployed_performance_url: string;
   discover_inertia_url: string;
   discover_rsc_url: string;
   gumroad_discover_reference_url: string;
+  gumroad_product_reference_url: string;
   home_url: string;
   inertia_url: string;
   performance_url: string;
@@ -169,10 +173,13 @@ const BenchmarkNav = ({
   const links = [
     { href: comparison.home_url, label: "Home" },
     { href: comparison.performance_url, label: "Performance lab" },
+    { href: comparison.deployed_performance_url, label: "Deployed demo", external: true },
     { href: comparison.product_inertia_url, label: "Product Inertia", pageKind: "product", variant: "inertia" },
     { href: comparison.product_rsc_url, label: "Product RSC", pageKind: "product", variant: "rsc" },
     { href: comparison.discover_inertia_url, label: "Discover Inertia", pageKind: "discover", variant: "inertia" },
     { href: comparison.discover_rsc_url, label: "Discover RSC", pageKind: "discover", variant: "rsc" },
+    { href: comparison.gumroad_product_reference_url, label: "Live Product", external: true },
+    { href: comparison.gumroad_discover_reference_url, label: "Live Discover", external: true },
     { href: comparison.react_on_rails_url, label: "React on Rails", external: true },
     { href: comparison.shakacode_url, label: "ShakaCode", external: true },
   ] satisfies {
@@ -275,7 +282,7 @@ const ProductDetailBenchmark = ({
     <div className="dd-body">
       <section className="dd-product-hero">
         <div className="dd-product-copy">
-          <p className="dd-eyebrow">Synthetic public product detail</p>
+          <p className="dd-eyebrow">Attributed live product fixture</p>
           <h2>{product.name}</h2>
           <p>{product.summary}</p>
 
@@ -299,6 +306,9 @@ const ProductDetailBenchmark = ({
           <p>{product.seller.tagline}</p>
           <a href={comparison.performance_url} className="dd-btn">
             {product.call_to_action}
+          </a>
+          <a href={product.source_url} className="dd-btn" rel="noreferrer" target="_blank">
+            Open live Gumroad source
           </a>
           <span>Demo CTA links to the lab, not a fake checkout.</span>
         </aside>
@@ -532,13 +542,27 @@ export default function PublicProductComparisonPage({
             <a href={comparison.home_url} className="dd-btn">
               Back to home
             </a>
+            <a href={comparison.deployed_performance_url} className="dd-btn" rel="noreferrer" target="_blank">
+              Compare deployed demo
+            </a>
           </div>
         </header>
 
-        <p className="dd-note dd-fixture-note">
-          This is a production-shaped synthetic fixture based on public Gumroad page structure. It is designed for
-          matched A/B measurement, not as a copy of any creator's product.
-        </p>
+        {pageKind === "product" && product_page ? (
+          <p className="dd-note dd-fixture-note">
+            This is an attributed live fixture: title, seller, price, product type, rating summary, and source link
+            match{" "}
+            <a href={product_page.source_url} rel="noreferrer" target="_blank">
+              {product_page.source_label}
+            </a>
+            . Longer product copy is lightly rewritten for a reproducible public benchmark.
+          </p>
+        ) : (
+          <p className="dd-note dd-fixture-note">
+            This is a production-shaped synthetic Discover fixture based on public Gumroad page structure. It is
+            designed for matched A/B measurement, not as a copy of any creator's marketplace data.
+          </p>
+        )}
 
         {pageKind === "discover" && discover_page ? (
           <DiscoverBenchmark comparison={comparison} discover={discover_page} locale={locale} variant={variant} />

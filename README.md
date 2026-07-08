@@ -61,8 +61,16 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content, seller URLs, product URLs, or image URLs.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The first hosted headless Chrome A/B report is favorable on browser navigation, `LCP`, route JavaScript, and serialized Inertia payload removal.
-- The final adoption claim still needs a mobile-throttled Lighthouse/ShakaPerf repeat with `TBT`, `INP`, and mobile score before making a Gumroad merge proposal.
+- The current hosted review-app A/B report is favorable on browser navigation, `LCP`, route JavaScript request count, and serialized Inertia payload removal, while showing a real response-end and HTML-transfer tradeoff.
+- The Lighthouse URL-pair fallback is favorable against comparable live Gumroad pages, but the final adoption claim still needs PageSpeed API or field-data corroboration, especially for `INP` and mobile score.
+
+### July 2026 React on Rails Pro 17 / React 19.2 audit
+
+The demo is on the React on Rails Pro 17 RC line with React 19.2.7 and `react-on-rails-rsc` 19.2.1-rc.0, matching the current Pro RSC generator guidance during the RC soak. The public RSC routes now opt into Pro stream observability so `Server-Timing` can include streamed shell and Node renderer prepare attribution when the renderer returns it.
+
+React on Rails Pro 17 also adds buffered/static RSC helpers and static RSC cache diagnostics that are attractive for public marketplace shells. This repo keeps the headline `/public_product/*_demo` route pairs matched and uncached so the A/B result remains an architecture comparison; a cached static RSC route should be measured and labeled as a separate variant.
+
+The latest public Gumroad upstream contains buyer-local currency, richer public product/profile JSON endpoints, custom HTML product pages, and Discover category fixes. Those changes inform the fixture/adoption context, but a direct upstream merge is not part of this pass because upstream has also moved through a broad Vite migration and hundreds of unrelated changes.
 
 ### React Server Components via React on Rails, not Rspack, is the performance premise
 
