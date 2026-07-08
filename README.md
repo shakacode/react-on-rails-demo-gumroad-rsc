@@ -426,10 +426,20 @@ The request smoke specs load the test Shakapacker output from `public/packs-test
 ```shell
 RAILS_ENV=test NODE_ENV=test bin/shakapacker
 npm run build:rsc-demo:test
+if nc -z 127.0.0.1 3800; then
+  echo "Port 3800 is already in use; stop the existing renderer before running this smoke gate."
+  exit 1
+fi
 RENDERER_PASSWORD=devPassword RENDERER_PORT=3800 RENDERER_LOG_LEVEL=warn node client/node-renderer.cjs &
 renderer_pid=$!
-trap 'kill "$renderer_pid"' EXIT
-until nc -z 127.0.0.1 3800; do sleep 1; done
+trap 'kill "$renderer_pid" 2>/dev/null || true' EXIT
+until nc -z 127.0.0.1 3800; do
+  if ! kill -0 "$renderer_pid" 2>/dev/null; then
+    wait "$renderer_pid"
+    exit 1
+  fi
+  sleep 1
+done
 DISABLE_SPRING=1 RAILS_ENV=test bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
 ```
 
