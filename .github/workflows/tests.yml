@@ -29,7 +29,7 @@ jobs:
     env:
       DISABLE_SPRING: "1"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
@@ -40,7 +40,7 @@ jobs:
           sudo apt-get install -y default-libmysqlclient-dev pkg-config
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: ".node-version"
           cache: "npm"
@@ -233,12 +233,12 @@ jobs:
     env:
       DOCKER_BUILDKIT: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
       - name: Login to Quay
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_seconds: 120
           max_attempts: 3
@@ -345,12 +345,12 @@ jobs:
         ci_node_total: [20]
         ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
       - name: Login to Quay
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_seconds: 120
           max_attempts: 3
@@ -360,7 +360,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       - name: Start services and pull test image
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 3
@@ -377,7 +377,7 @@ jobs:
           COMPOSE_HTTP_TIMEOUT: "300"
           WEB_REPO: quay.io/gumroad/web
       - name: Wait for services
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 3
@@ -392,7 +392,7 @@ jobs:
         env:
           WEB_REPO: quay.io/gumroad/web
       - name: Setup test database
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 3
@@ -519,12 +519,12 @@ jobs:
             64,
           ]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
       - name: Login to Quay
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_seconds: 120
           max_attempts: 3
@@ -534,7 +534,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       - name: Start services and pull test image
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 3
@@ -551,7 +551,7 @@ jobs:
           COMPOSE_HTTP_TIMEOUT: "300"
           WEB_REPO: quay.io/gumroad/web
       - name: Wait for services
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 3
@@ -566,7 +566,7 @@ jobs:
         env:
           WEB_REPO: quay.io/gumroad/web
       - name: Setup test database
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 3
@@ -628,7 +628,7 @@ jobs:
         timeout-minutes: 20
       - name: Archive capybara artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: capybara-screenshots-slow-${{ matrix.ci_node_index }}-attempt-${{ github.run_attempt }}
           path: ./capybara-artifacts/*.png
@@ -636,7 +636,7 @@ jobs:
           if-no-files-found: ignore
       - name: Archive test logs
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-logs-slow-${{ matrix.ci_node_index }}-attempt-${{ github.run_attempt }}
           path: ./test-logs/test.log
@@ -657,7 +657,7 @@ jobs:
     if: ${{ github.repository != 'shakacode/react-on-rails-demo-gumroad-rsc' && success() && github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     steps:
       - name: Unblock corresponding Buildkite build
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_seconds: 20
           retry_wait_seconds: 300
