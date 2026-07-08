@@ -24,6 +24,8 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Route script bytes")
     expect(page).to have_text("Serialized Inertia payload")
     expect(page).to have_text("Hosted review-app rerun")
+    expect(page).to have_text("602.75ms to 502.20ms")
+    expect(page).to have_text("0.56 to 0.99")
     expect(page).to have_text("PageSpeed comparator pairs")
     expect(page).to have_text("PageSpeed Insights API returned HTTP 429")
     expect(page).to have_link("hosted review-app A/B summary")

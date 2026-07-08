@@ -498,7 +498,8 @@
         <div class="dd-note is-info">
           <strong>What this shows:</strong> on the current Tendon Book fixture, RSC wins median navigation, response-end,
           and LCP on both same-host route pairs. The tradeoff is larger streamed HTML because the server-rendered content
-          is present in the document; use hosted and PageSpeed reruns for the public-network JavaScript and mobile score.
+          is present in the document; the hosted review-app and Lighthouse reruns below add public-network JavaScript,
+          LCP, and mobile-score context.
           <% if @presenter.local_benchmark_caveats.any? %>
             <br />
             <strong>Caveats from the run:</strong>
@@ -515,10 +516,12 @@
 
         <p class="dd-note">
           <strong>Hosted review-app rerun:</strong>
-          the PR 63 review app confirms the same direction for median navigation, LCP, and JavaScript request count on both
-          public route pairs. It also makes the server tradeoff clearer: streamed RSC response-end and HTML transfer are
-          higher on the review app, so the honest claim is faster browser completion and less client JavaScript, not lower
-          server TTLB everywhere.
+          the PR 63 review app confirms the same direction on both public route pairs. Product detail median navigation
+          moved from 602.75ms to 502.20ms, LCP from 500ms to 394ms, and route JavaScript requests from 7 to 1.
+          Discover median navigation moved from 605.30ms to 529.25ms, LCP from 508ms to 430ms, and route JavaScript
+          requests from 7 to 1. It also makes the server tradeoff clearer: streamed RSC response-end and HTML transfer
+          are higher on the review app, so the honest claim is faster browser completion and less client JavaScript, not
+          lower server TTLB everywhere.
           <br />
           <strong>Historical hosted run:</strong>
           the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
@@ -534,7 +537,9 @@
             Point PageSpeed at these public URL pairs to compare the hosted React on Rails RSC demo with the live Gumroad
             status quo. Use mobile as the headline result and desktop as a sanity check; the matched Inertia-vs-RSC
             route-pair data above remains the controlled A/B proof. A local Lighthouse matrix is linked above because
-            the PageSpeed Insights API returned HTTP 429 from this environment.
+            the PageSpeed Insights API returned HTTP 429 from this environment. That fallback found the product mobile
+            score moving from 0.56 to 0.99 with LCP moving from 14.7s to 2.1s, and Discover mobile moving from 0.58 to
+            0.96 with LCP moving from 12.0s to 2.6s.
           </p>
         </header>
 
