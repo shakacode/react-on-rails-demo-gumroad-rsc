@@ -419,6 +419,40 @@ This starts the Rails server, the JavaScript build system, and a Sidekiq worker.
 
 You can now access the application at `https://gumroad.dev`.
 
+#### Run the RSC request smoke hard gate
+
+The request smoke specs load the test Shakapacker output from `public/packs-test`, so build both the standard test packs and the standalone RSC demo bundles in the test environment before starting the renderer:
+
+```shell
+(
+  set -e
+
+  renderer_host=127.0.0.1
+  renderer_port=3800
+  renderer_url="http://$renderer_host:$renderer_port"
+
+  RAILS_ENV=test NODE_ENV=test bin/shakapacker
+  npm run build:rsc-demo:test
+  if nc -z "$renderer_host" "$renderer_port"; then
+    echo "Port $renderer_port is already in use; stop the existing renderer before running this smoke gate."
+    exit 1
+  fi
+  RENDERER_PASSWORD=devPassword RENDERER_HOST="$renderer_host" RENDERER_PORT="$renderer_port" RENDERER_LOG_LEVEL=warn node client/node-renderer.cjs &
+  renderer_pid=$!
+  trap 'kill "$renderer_pid" 2>/dev/null || true' EXIT
+  until nc -z "$renderer_host" "$renderer_port"; do
+    if ! kill -0 "$renderer_pid" 2>/dev/null; then
+      wait "$renderer_pid"
+      exit 1
+    fi
+    sleep 1
+  done
+  REACT_RENDERER_URL="$renderer_url" DISABLE_SPRING=1 RAILS_ENV=test bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
+)
+```
+
+If a previous run started the renderer before `public/packs-test/react-client-manifest.json` existed, stop the renderer and remove `.node-renderer-bundles` before rerunning the hard gate so the renderer cache is rebuilt with the test client manifest.
+
 ## Development
 
 ### Logging in
