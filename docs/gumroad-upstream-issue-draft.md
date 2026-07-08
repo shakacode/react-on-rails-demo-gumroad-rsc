@@ -44,7 +44,7 @@ The hosted lab now has production-shaped synthetic fixtures for the public pages
 - the fixtures were shaped from public Gumroad page structure without committing copied creator content
 - the current control route is a custom Inertia benchmark surface, not yet the production `Discover/Index` or `Products/Discover/Show` component migrated one-for-one
 
-The first hosted A/B result is favorable enough to keep testing on the page type that matters most for Gumroad:
+The current branch A/B result is favorable enough to keep testing on the page type that matters most for Gumroad:
 
 - public product pages
 - public Discover pages
@@ -53,14 +53,14 @@ The first hosted A/B result is favorable enough to keep testing on the page type
 - browse-to-product discovery
 - client JavaScript reduction
 
-Hosted headless-Chrome results from `2026-06-23 HST` / `2026-06-24 UTC`:
+Current branch ShakaPerf results from `2026-07-08 UTC`:
 
-| Public surface | Median nav duration | Median LCP start | JS requests |
+| Public surface | Median nav duration | Median response end | Median LCP start |
 | --- | ---: | ---: | ---: |
-| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` |
-| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` |
+| Product detail | `392.70ms` -> `212.80ms` (`-45.8%`) | `337.40ms` -> `171.30ms` (`-49.2%`) | `416.00ms` -> `224.00ms` (`-46.2%`) |
+| Discover marketplace | `375.45ms` -> `303.70ms` (`-19.1%`) | `313.60ms` -> `245.25ms` (`-21.8%`) | `400.00ms` -> `322.00ms` (`-19.5%`) |
 
-This is not the final mobile adoption claim yet. The next proof step should be a mobile-throttled ShakaPerf/Lighthouse repeat with `LCP`, `TBT`, `INP`, and mobile score.
+The historical hosted run from `2026-06-24 UTC` predates the Tendon Book fixture, but it remains useful supporting context for JavaScript weight: both public route pairs moved from `7` JS requests to `1`. This is not the final mobile adoption claim yet. The next proof step should be a hosted review-app plus mobile-throttled ShakaPerf/Lighthouse repeat with `LCP`, `TBT`, `INP`, and mobile score.
 
 The dashboard comparison remains useful as a technical proof, but it should not carry the Gumroad value case because logged-in dashboard pages are not the public buyer path.
 
@@ -70,13 +70,13 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 - the RSC routes can be benchmarked against matched Inertia controls on the same data
 - the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
 - the next measurement step is straightforward: mobile ShakaPerf/Lighthouse-style A/B testing on both public route pairs
-- the initial hosted browser-navigation result is already large enough to justify that next step
+- the current same-fixture browser-navigation result is already large enough to justify that next step
 
 ## What I am not claiming
 
 - that the full Gumroad dashboard is already faster under RSC
 - that RSC is a better fit for every Inertia page
-- that the current hosted headless-Chrome result is enough to justify adoption by itself without mobile LCP/TBT/INP evidence
+- that the current same-fixture headless-Chrome result is enough to justify adoption by itself without hosted mobile LCP/TBT/INP evidence
 
 ## What I want feedback on
 

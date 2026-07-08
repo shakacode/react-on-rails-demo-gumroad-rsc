@@ -15,19 +15,21 @@ pages because those are SEO-sensitive, conversion-sensitive, mobile-heavy, and
 visible without a demo account. Dashboard routes remain technical integration
 proof only.
 
-## Latest Hosted Public Result
+## Current Branch Public Result
 
-Captured on `2026-06-23 HST` / `2026-06-24 UTC` against
-`https://gumroad.reactonrails.com` with local headless Chrome `149`, `8`
-alternating cycles, and `2` warmup requests per measured run.
+Captured on `2026-07-08 UTC` against `http://app.test.gumroad.com:31338`
+with local headless Chrome `149`, `6` alternating cycles per route pair, and
+`2` warmup requests per measured run.
 
-| Surface | Median nav duration | Median LCP start | JS requests |
+| Surface | Median nav duration | Median response end | Median LCP start |
 | --- | ---: | ---: | ---: |
-| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` |
-| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` |
+| Product detail | `392.70ms` -> `212.80ms` (`-45.8%`) | `337.40ms` -> `171.30ms` (`-49.2%`) | `416.00ms` -> `224.00ms` (`-46.2%`) |
+| Discover marketplace | `375.45ms` -> `303.70ms` (`-19.1%`) | `313.60ms` -> `245.25ms` (`-21.8%`) | `400.00ms` -> `322.00ms` (`-19.5%`) |
 
-This is favorable hosted browser-navigation evidence. It is not yet the final
-mobile adoption claim.
+This is favorable same-fixture browser-navigation evidence. It is not yet the
+final hosted mobile adoption claim. The older hosted `2026-06-24` run remains
+historical support for JavaScript request and transfer deltas, but it predates
+the Tendon Book fixture.
 
 ## What Is Done
 
@@ -40,8 +42,8 @@ mobile adoption claim.
 - The public RSC routes opt into React on Rails Pro stream observability, so
   `Server-Timing` can expose streamed shell and Node renderer prepare
   attribution when available.
-- Hosted result details are in
-  [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md).
+- Current result details are in
+  [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json).
 - Rspack is framed as build/tooling infrastructure only; the runtime performance
   premise is React Server Components via React on Rails Pro.
 

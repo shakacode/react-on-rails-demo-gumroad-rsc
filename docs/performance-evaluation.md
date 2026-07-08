@@ -44,7 +44,8 @@ What is already true:
 - the sanitized shape sampling notes are documented in [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md)
 - all public comparison routes are logged out, so the comparison can be evaluated without a demo account
 - these public buyer pages are the correct surfaces for SEO, conversion-sensitive loading, client JavaScript cost, and mobile buyer performance
-- the first hosted headless-Chrome A/B run shows large median navigation wins and a 7-to-1 reduction in JS requests on both public route pairs
+- the current branch ShakaPerf A/B run shows same-fixture median navigation, response-end, and LCP wins on both public route pairs
+- the historical hosted headless-Chrome A/B run shows a 7-to-1 reduction in JS requests on both public route pairs, but predates the Tendon Book fixture
 
 What still needs proof:
 
@@ -52,24 +53,24 @@ What still needs proof:
 - production-grade renderer and streaming-path profiling for the public routes
 - that the measured mobile public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad
 
-## Latest Hosted Public Buyer-Page Result
+## Current Branch Public Buyer-Page Result
 
-Captured on `2026-06-23 HST` / `2026-06-24 UTC` against `https://gumroad.reactonrails.com` with local headless Chrome `149`, `8` alternating cycles, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
+Captured on `2026-07-08 UTC` against `http://app.test.gumroad.com:31338` with headless Chrome `149`, `6` alternating cycles per pair, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
 
-| Surface | Median nav duration | Median LCP start | JS requests | Serialized Inertia payload |
+| Surface | Median nav duration | Median response end | Median LCP start | HTML transfer |
 | --- | ---: | ---: | ---: | ---: |
-| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` (`-85.7%`) | `12,183 B` -> none |
-| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` (`-85.7%`) | `24,960 B` -> none |
+| Product detail | `392.70ms` -> `212.80ms` (`-45.8%`) | `337.40ms` -> `171.30ms` (`-49.2%`) | `416.00ms` -> `224.00ms` (`-46.2%`) | `24,291 B` -> `179,407.5 B` |
+| Discover marketplace | `375.45ms` -> `303.70ms` (`-19.1%`) | `313.60ms` -> `245.25ms` (`-21.8%`) | `400.00ms` -> `322.00ms` (`-19.5%`) | `46,336 B` -> `452,345.5 B` |
 
-Supporting details are in [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md) and [performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json).
+Supporting details are in [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json). The earlier hosted run in [performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json) remains useful historical context for JavaScript transfer and request-count reduction, but it predates the Tendon Book fixture.
 
 Interpretation:
 
-- the public-page RSC path is now worth continuing because the deployed browser-navigation win is large
-- the strongest win is reduced client work: one route-scoped RSC pack instead of seven JS requests plus an Inertia `data-page` payload
+- the public-page RSC path is now worth continuing because the same-fixture navigation, response-end, and LCP wins are consistent
 - RSC increases HTML transfer because it streams rendered content in the document
-- Discover has a small median `responseEnd` regression, so renderer/streaming instrumentation is still required
-- this is a hosted headless desktop run, not yet a mobile-throttled Lighthouse result
+- local test-pack JavaScript deltas are omitted because this run recorded `0` route scripts for both variants
+- the historical hosted run still supports the reduced-client-work direction: one route-scoped RSC pack instead of seven JS requests plus an Inertia `data-page` payload
+- this is a local headless desktop run, not yet a hosted review-app or mobile-throttled Lighthouse result
 
 The dashboard RSC implementation is also **promising but not fully optimized**.
 

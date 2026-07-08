@@ -3,14 +3,18 @@
 class PublicProductRscDemoPresenter
   include Rails.application.routes.url_helpers
 
+  HOSTED_DEMO_BASE_URL = "https://gumroad.reactonrails.com"
   REACT_ON_RAILS_URL = "https://reactonrails.com/"
   REACT_ON_RAILS_GITHUB_URL = "https://github.com/shakacode/react_on_rails"
   SHAKACODE_URL = "https://www.shakacode.com/"
   CONSULTATION_URL = "https://meetings.hubspot.com/justingordon/30-minute-consultation"
   GUMROAD_DISCOVER_REFERENCE_URL = "https://gumroad.com/discover"
+  GUMROAD_PRODUCT_REFERENCE_URL = "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"
+  PAGE_SPEED_INSIGHTS_URL = "https://pagespeed.web.dev/analysis"
 
   REPO_SOURCE_BASE_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
   HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
+  LOCAL_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json"
   BENCHMARK_TIE_BAND_PERCENT = 5
 
   CONTROLLER_SOURCE_PATH = "app/controllers/public_product_rsc_demo_controller.rb"
@@ -23,7 +27,7 @@ class PublicProductRscDemoPresenter
   PRODUCT_RSC_COMPONENT_SOURCE_PATH = "app/javascript/src/public_product_rsc_demo/ror_components/PublicProductRscDemoPage.tsx"
   DISCOVER_RSC_COMPONENT_SOURCE_PATH = "app/javascript/src/public_product_rsc_demo/ror_components/PublicDiscoverRscDemoPage.tsx"
 
-  HOSTED_BENCHMARK_METRICS = [
+  BENCHMARK_METRICS = [
     { key: :median_navigation_duration_ms, label: "Navigation duration", unit: :ms },
     { key: :median_lcp_start_ms, label: "LCP start", unit: :ms },
     { key: :median_response_end_ms, label: "Response end (server TTLB)", unit: :ms },
@@ -38,58 +42,59 @@ class PublicProductRscDemoPresenter
   DISCOVER_REFERENCE_SHAPE = "Discover/Index"
 
   PRODUCT_PAGE = {
-    permalink: "creator-analytics-playbook",
-    name: "Creator Analytics Playbook",
-    summary: "A practical workbook for turning storefront traffic, launch notes, and customer feedback into repeatable product decisions.",
-    native_type: "digital workbook",
-    price_cents: 3900,
+    permalink: "tendonbook",
+    name: "Tendon Book",
+    summary: "A practical ebook for athletes and coaches who want a clearer framework for tendon pain, loading progressions, and return-to-sport decisions.",
+    native_type: "ebook",
+    price_cents: 4700,
     currency_code: "usd",
     call_to_action: "Buy this",
+    source_url: GUMROAD_PRODUCT_REFERENCE_URL,
+    source_label: "Tendon Book by Jacked Athlete",
     seller: {
-      name: "Northstar Studio",
-      tagline: "Templates and field guides for independent creators",
-      avatar_initials: "NS",
-      is_verified: true,
-      followers_count: 12800,
+      name: "Jacked Athlete",
+      tagline: "Training resources for tendon health and athletic performance",
+      avatar_initials: "JA",
+      is_verified: false,
     },
     ratings: {
-      average: 4.8,
-      count: 427,
-      percentages: [82, 13, 4, 1, 0],
+      average: 5.0,
+      count: 10,
+      percentages: [0, 0, 0, 0, 100],
     },
     hero_stats: [
-      { label: "Launch checklists", value: "42" },
-      { label: "Worksheet pages", value: "118" },
-      { label: "Buyer segments", value: "9" },
+      { label: "Source price", value: "$47" },
+      { label: "Rating", value: "5.0" },
+      { label: "Reviews", value: "10" },
     ],
     cover_theme: {
-      start: "#ff90e8",
+      start: "#ffc900",
       end: "#23a094",
-      accent: "#ffc900",
+      accent: "#ff90e8",
     },
     bullets: [
-      "Map acquisition channels to product experiments before spending on ads.",
-      "Prioritize product-page copy changes using conversion and search intent signals.",
-      "Run weekly creator reviews with lightweight scorecards and decision logs.",
+      "Frame tendon pain with plain-language anatomy, loading concepts, and recovery milestones.",
+      "Choose progressions that match the athlete's current tolerance instead of guessing from symptoms alone.",
+      "Turn a static product page into a source-linked RSC benchmark with real public marketplace identity.",
     ],
     description_sections: [
       {
-        heading: "Built for public product pages",
-        body: "The fixture mirrors the kind of product storytelling that should be visible before hydration: title, seller, summary, price, cover art, reviews, included files, and purchase framing.",
+        heading: "Built from a live Gumroad comparator",
+        body: "The fixture preserves the source title, seller, price, ebook type, rating summary, and link so the product story is visible before hydration without pretending the demo owns the creator's listing.",
       },
       {
-        heading: "Designed to stress the rendering path",
-        body: "The page includes enough above-the-fold content, recommendation cards, FAQ copy, and buyer confidence details to make client JavaScript and serialized payload differences measurable.",
+        heading: "Lightly rewritten for a public demo",
+        body: "Long explanatory copy is rewritten rather than copied, while the page still keeps enough above-the-fold content, recommendation cards, FAQ text, and buyer confidence details to make client JavaScript and serialized payload differences measurable.",
       },
       {
-        heading: "Synthetic but production-shaped",
-        body: "The layout and data shape were informed by public Gumroad Discover and product pages, but names, copy, prices, creator profiles, and artwork placeholders are synthetic for the public demo repo.",
+        heading: "Scientific enough to reproduce",
+        body: "The source URL is part of the fixture, the demo URL is stable, and the lab provides PageSpeed rerun links so maintainers can compare the RSC route with the live Gumroad status quo.",
       },
     ],
     included_files: [
-      { name: "Analytics workbook", description: "Spreadsheet and PDF workbook", filetype: "xlsx + pdf" },
-      { name: "Launch review template", description: "Weekly experiment retro template", filetype: "notion + md" },
-      { name: "Product-page checklist", description: "Mobile-first conversion checklist", filetype: "pdf" },
+      { name: "Tendon education guide", description: "Rewritten demo summary of the ebook-style source material", filetype: "pdf" },
+      { name: "Loading progression notes", description: "Public-page copy shaped for buyer confidence and crawlable content", filetype: "pdf" },
+      { name: "Return-to-training checklist", description: "Benchmark content that stays source-attributed without copying long creator copy", filetype: "pdf" },
     ],
     faq: [
       {
@@ -97,12 +102,12 @@ class PublicProductRscDemoPresenter
         answer: "It is logged out, SEO-sensitive, conversion-sensitive, and common on mobile. That is the surface where React Server Components must earn their complexity.",
       },
       {
-        question: "Is this copied from a creator?",
-        answer: "No. The fixture uses public page structure as a guide, but the committed data is synthetic and sanitized.",
+        question: "Is this copied from the creator's listing?",
+        answer: "No. The fixture preserves source identity fields and links back to Gumroad, but the longer descriptive text is rewritten for the benchmark demo.",
       },
       {
         question: "What would make the result compelling?",
-        answer: "A meaningful win in LCP, navigation timing, client JavaScript, serialized payload, or mobile Lighthouse-style scores on matched pages.",
+        answer: "A meaningful win in LCP, navigation timing, client JavaScript, serialized payload, or mobile Lighthouse-style scores on the matched route pair and live URL comparator.",
       },
     ],
   }.freeze
@@ -141,7 +146,7 @@ class PublicProductRscDemoPresenter
   ].freeze
 
   CARD_NAMES = [
-    ["Launch Metrics OS", "Northstar Studio", "business-and-money", "template", 4900],
+    ["Launch Metrics OS", "Metric Harbor", "business-and-money", "template", 4900],
     ["Pixel Brush Studio Kit", "Palette Forge", "drawing-and-painting", "brush pack", 2200],
     ["Indie SaaS Pricing Lab", "Lumen Works", "software-development", "workbook", 5900],
     ["Creator Email Swipe File", "Small Bet Supply", "writing-and-publishing", "templates", 1900],
@@ -167,7 +172,7 @@ class PublicProductRscDemoPresenter
     ["Micro Course Sales Page", "Launch Shelf", "education", "template", 4500],
     ["Icon Grid System", "Vector Mill", "design", "asset pack", 2300],
     ["Ambient Texture Library", "Field Audio Lab", "music-and-sound-design", "sound library", 3200],
-    ["Creator Finance Tracker", "Northstar Studio", "business-and-money", "spreadsheet", 2100],
+    ["Creator Finance Tracker", "Metric Harbor", "business-and-money", "spreadsheet", 2100],
     ["3D Product Render Basics", "Render Room", "3d", "video lessons", 5300],
     ["Writing Sprint Planner", "Inkline Studio", "writing-and-publishing", "planner", 900],
     ["Landing Page Copy Blocks", "Conversion Cottage", "business-and-money", "copy kit", 3700],
@@ -227,13 +232,11 @@ class PublicProductRscDemoPresenter
   end
 
   def self.hosted_benchmark
-    return @hosted_benchmark if defined?(@hosted_benchmark)
+    @hosted_benchmark ||= read_benchmark(HOSTED_BENCHMARK_ARTIFACT_PATH)
+  end
 
-    @hosted_benchmark = begin
-      JSON.parse(File.read(Rails.root.join(HOSTED_BENCHMARK_ARTIFACT_PATH)), symbolize_names: true)
-    rescue StandardError
-      nil
-    end
+  def self.local_benchmark
+    @local_benchmark ||= read_benchmark(LOCAL_BENCHMARK_ARTIFACT_PATH)
   end
 
   def route_source_links(page_kind)
@@ -258,14 +261,20 @@ class PublicProductRscDemoPresenter
     "#{REPO_SOURCE_BASE_URL}/#{HOSTED_BENCHMARK_ARTIFACT_PATH}"
   end
 
-  def hosted_benchmark_method_note
-    data = self.class.hosted_benchmark
-    return if data.nil?
+  def local_benchmark_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{LOCAL_BENCHMARK_ARTIFACT_PATH}"
+  end
 
-    browser = data[:browser] || {}
-    method = data[:method] || {}
-    "Captured #{data[:captured_at_utc_date]} UTC against #{data[:host]} with headless #{browser[:name]} #{browser[:version]}, " \
-      "#{method[:cycles]} alternating cycles, and #{method[:server_warmup_requests_per_run]} warmup requests per measured run."
+  def local_benchmark_method_note
+    benchmark_method_note(self.class.local_benchmark)
+  end
+
+  def hosted_benchmark_method_note
+    benchmark_method_note(self.class.hosted_benchmark)
+  end
+
+  def local_benchmark_caveats
+    self.class.local_benchmark&.dig(:caveats) || []
   end
 
   def hosted_benchmark_caveats
@@ -282,17 +291,68 @@ class PublicProductRscDemoPresenter
     }.compact
   end
 
+  def page_speed_comparator_pairs
+    [
+      page_speed_comparator_pair(
+        surface: "Product detail",
+        demo_url: hosted_demo_url(public_product_rsc_demo_path),
+        live_url: GUMROAD_PRODUCT_REFERENCE_URL
+      ),
+      page_speed_comparator_pair(
+        surface: "Discover marketplace",
+        demo_url: hosted_demo_url(public_product_discover_rsc_demo_path),
+        live_url: GUMROAD_DISCOVER_REFERENCE_URL
+      ),
+    ]
+  end
+
+  def local_benchmark_surfaces
+    benchmark_surfaces(self.class.local_benchmark)
+  end
+
   def hosted_benchmark_surfaces
-    (self.class.hosted_benchmark&.dig(:results) || []).map do |result|
-      {
-        surface: result[:surface],
-        page_kind: result[:candidate_path].to_s.include?("discover") ? :discover : :product,
-        rows: hosted_benchmark_rows(result),
-      }
-    end
+    benchmark_surfaces(self.class.hosted_benchmark)
   end
 
   private
+    def self.read_benchmark(path)
+      JSON.parse(File.read(Rails.root.join(path)), symbolize_names: true)
+    rescue StandardError
+      nil
+    end
+
+    def benchmark_method_note(data)
+      return if data.nil?
+
+      browser = data[:browser] || {}
+      method = data[:method] || {}
+      captured_at = data[:captured_at_utc] || data[:captured_at_utc_date]
+      host = method[:measure_base_url] || method[:base_url] || data[:host]
+      cycles = method[:cycles_per_pair] || method[:cycles]
+      "Captured #{captured_at} against #{host} with headless #{browser[:name]} #{browser[:version]}, " \
+        "#{cycles} alternating cycles, and #{method[:server_warmup_requests_per_run]} warmup requests per measured run."
+    end
+
+    def hosted_demo_url(path)
+      "#{HOSTED_DEMO_BASE_URL}#{path}"
+    end
+
+    def page_speed_comparator_pair(surface:, demo_url:, live_url:)
+      {
+        surface:,
+        demo_url:,
+        live_url:,
+        mobile_demo_page_speed_url: page_speed_url(demo_url, strategy: "mobile"),
+        mobile_live_page_speed_url: page_speed_url(live_url, strategy: "mobile"),
+        desktop_demo_page_speed_url: page_speed_url(demo_url, strategy: "desktop"),
+        desktop_live_page_speed_url: page_speed_url(live_url, strategy: "desktop"),
+      }
+    end
+
+    def page_speed_url(url, strategy:)
+      "#{PAGE_SPEED_INSIGHTS_URL}?url=#{CGI.escape(url)}&strategy=#{strategy}"
+    end
+
     def source_link(label, path)
       { label:, url: "#{REPO_SOURCE_BASE_URL}/#{path}" }
     end
@@ -311,8 +371,18 @@ class PublicProductRscDemoPresenter
       end
     end
 
-    def hosted_benchmark_rows(result)
-      rows = HOSTED_BENCHMARK_METRICS.filter_map do |metric|
+    def benchmark_surfaces(data)
+      (data&.dig(:results) || []).map do |result|
+        {
+          surface: result[:surface],
+          page_kind: result[:candidate_path].to_s.include?("discover") ? :discover : :product,
+          rows: benchmark_rows(result),
+        }
+      end
+    end
+
+    def benchmark_rows(result)
+      rows = BENCHMARK_METRICS.filter_map do |metric|
         pair = result[metric[:key]]
         next if pair.nil?
 
@@ -391,9 +461,9 @@ class PublicProductRscDemoPresenter
       {
         locale: I18n.locale.to_s,
         source_note: [
-          "Fixture shape sampled from public Gumroad #{DISCOVER_REFERENCE_SHAPE} and #{PRODUCT_REFERENCE_SHAPE} pages:",
-          "36-card Discover grid, 8 tag/filetype buckets, taxonomy nav, and product seller/cover/rating/purchase fields.",
-          "Committed copy, creators, prices, and artwork are synthetic.",
+          "Product fixture source: Tendon Book by Jacked Athlete, linked back to Gumroad with title, seller, price, type, and rating identity preserved.",
+          "Long copy is rewritten for the demo. Discover shape still follows public Gumroad #{DISCOVER_REFERENCE_SHAPE} data:",
+          "36-card grid, 8 tag/filetype buckets, taxonomy nav, and product seller/cover/rating/purchase fields.",
         ].join(" "),
         comparison: comparison_links,
       }
@@ -413,6 +483,7 @@ class PublicProductRscDemoPresenter
         react_on_rails_github_url: REACT_ON_RAILS_GITHUB_URL,
         shakacode_url: SHAKACODE_URL,
         consultation_url: CONSULTATION_URL,
+        gumroad_product_reference_url: GUMROAD_PRODUCT_REFERENCE_URL,
         gumroad_discover_reference_url: GUMROAD_DISCOVER_REFERENCE_URL,
       }
     end

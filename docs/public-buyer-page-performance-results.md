@@ -1,6 +1,6 @@
 # Public Buyer-Page Performance Results
 
-## Latest Hosted A/B Run
+## Historical Hosted A/B Run
 
 Captured: `2026-06-23 23:56-23:58 HST` (`2026-06-24 UTC`)
 
@@ -10,13 +10,13 @@ Browser: local headless Chrome `149.0.7827.158` with ChromeDriver `149.0.7827.15
 
 Method: `8` alternating cycles per route pair, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
 
-These results compare the same synthetic production-shaped fixture data on the same deployed host. They are not a Lighthouse mobile-throttling result yet, so treat them as strong browser-navigation evidence and not the final mobile adoption claim.
+These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence for JavaScript request and transfer deltas, not the current headline same-fixture result. The current artifact is [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json).
 
 Note: this run predates the React on Rails Pro 17 stream observability toggle now enabled on the public RSC routes. The next hosted run should preserve the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
 
 Fixture provenance: [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) documents the sanitized public Gumroad shape sampling used to build the synthetic Discover and product fixtures. The benchmark does not commit creator copy, seller URLs, product URLs, image URLs, or real product names.
 
-## Headline Results
+## Historical Results
 
 | Public surface | Inertia route | RSC route | Median nav duration | Median LCP start | JS requests | Inertia payload |
 | --- | --- | --- | ---: | ---: | ---: | ---: |

@@ -11,7 +11,7 @@ Do not claim:
 - a universal RSC win
 - that the full dashboard is already faster
 - that `Rspack` is responsible for the route-level runtime gain
-- that the hosted headless-Chrome result replaces a mobile Lighthouse report
+- that the current same-fixture headless-Chrome result replaces a mobile Lighthouse report
 
 ## Suggested video length
 
@@ -51,8 +51,9 @@ Same public marketplace data, different rendering model.
 ### State the measured result
 
 ```text
-On the hosted A/B run, the Discover RSC route cuts median navigation duration from about 797ms to 284ms and drops JS requests from 7 to 1.
-The product detail route shows the same shape: about 812ms to 272ms median navigation duration.
+On the current same-fixture ShakaPerf run, the Discover RSC route cuts median navigation duration from about 375ms to 304ms.
+The product detail route shows a larger win: about 393ms to 213ms median navigation duration.
+The historical hosted run predates this Tendon Book fixture, but it also showed route JavaScript requests dropping from 7 to 1.
 That is not a universal win, but it is a real buyer-page win on bounded public surfaces.
 ```
 

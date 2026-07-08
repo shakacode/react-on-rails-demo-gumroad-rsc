@@ -18,13 +18,16 @@ Discover route pairs, then shows first streamed bytes, complete response timing,
 HTML response size, route script bytes, and serialized Inertia payload size in
 the page itself.
 
-The headline routes use static, synthetic, production-shaped fixtures so the
-public benchmark is stable, logged out, and same-origin. A small shape sampler inspected public Gumroad
-`Discover/Index` and `Products/Discover/Show` pages to identify field and layout
-shape. The committed fixture does not copy creator text, seller URLs, product
-thumbnails, or real product names.
+The headline routes use stable, logged-out, same-origin fixtures. The product
+fixture is now source-attributed to
+[Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search):
+title, seller, price, ebook type, rating summary, and source link are preserved,
+while longer descriptive copy is lightly rewritten for this public demo. The
+Discover fixture remains synthetic but production-shaped. A small shape sampler
+inspected public Gumroad `Discover/Index` and `Products/Discover/Show` pages to
+identify field and layout shape.
 See [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) for
-the sanitized shape artifact and the fixture sanitation policy.
+the source-attribution and fixture sanitation policy.
 
 ## Why this page matters
 
@@ -71,14 +74,14 @@ The public Gumroad upstream has moved since the fixture was first sampled. Usefu
 
 The early small product route was useful for validating the rendering path, but
 it was too small to settle whether Gumroad should consider adopting this stack.
-The current comparison uses real-page-shaped synthetic fixtures:
+The current comparison uses real-page-shaped fixtures:
 
 - Discover listing page: a dense grid of product cards, categories, synthetic cover placeholders, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
-- Product detail page: a public product landing page with synthetic media placeholders, seller profile data, description length, recommendations, purchase framing, and mobile above-the-fold content
+- Product detail page: an attributed fixture based on [Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search), preserving the source title, seller, price, ebook type, rating summary, and source link while rewriting long body copy
 - Matched implementations: one route rendered with the current Inertia approach and one route rendered with React Server Components via React on Rails Pro
 - Same data, same host, same measurement harness, so benchmark results reflect rendering architecture rather than fixture differences
 
-Public Gumroad pages expose enough metadata, HTML, and Inertia page data to build these fixtures from a small set of public examples. For a public demo repository, prefer curated and sanitized fixture data or production-shaped synthetic data over broad scraping or wholesale copied creator content. Use real Gumroad URLs as external shape references, not as unreviewed committed content or the apples-to-apples A/B baseline.
+Public Gumroad pages expose enough metadata, HTML, and Inertia page data to build these fixtures from a small set of public examples. For a public demo repository, prefer curated source attribution plus rewritten copy, or production-shaped synthetic data, over broad scraping or wholesale copied creator content. Use real Gumroad URLs as external comparators and PageSpeed targets, not as the same-data A/B baseline.
 
 The current "before" implementation intentionally uses a custom Inertia benchmark
 surface rather than Gumroad's full production `Discover/Index` or
@@ -88,8 +91,24 @@ not be overclaimed as a completed production component migration. A stronger
 follow-up is to reuse the existing public Gumroad components with sanitized
 production-shaped props where feasible, then compare those to an RSC equivalent.
 Another stronger follow-up is to add sanitized local image/media fixtures and
-rerun the benchmark, because the current committed route uses synthetic cover
-placeholders rather than real creator media.
+rerun the benchmark, because the current committed route links to the live
+source but still uses synthetic cover placeholders rather than real creator
+media.
+
+## Reproducible PageSpeed Comparator Pairs
+
+The lab exposes ready-to-click PageSpeed links for the public URL pairs that
+matter for an upstream Gumroad issue:
+
+- Product detail demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
+- Product detail live comparator: `https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search`
+- Discover demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
+- Discover live comparator: `https://gumroad.com/discover`
+
+Use mobile PageSpeed/Lighthouse results as the headline external proof and
+desktop as a sanity check. Treat these URL comparisons as external credibility
+evidence. The controlled architecture proof is still the alternating same-host
+Inertia-vs-RSC benchmark, where both variants use the same fixture data.
 
 To re-sample public page shape without committing scraped content:
 

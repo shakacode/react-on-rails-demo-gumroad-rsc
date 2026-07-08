@@ -1,0 +1,97 @@
+{
+  "captured_at_utc": "2026-07-08T10:15:01Z",
+  "method": {
+    "harness": "scripts/perf/compare_dashboard_routes.rb",
+    "cycles_per_pair": 6,
+    "server_warmup_requests_per_run": 2,
+    "public": true,
+    "require_driver_match": true,
+    "base_url": "http://app.test.gumroad.com:31338",
+    "measure_base_url": "http://app.test.gumroad.com:31338"
+  },
+  "browser": {
+    "name": "chrome",
+    "version": "149.0.7827.201",
+    "driver_version": "149.0.7827.155",
+    "platform": "mac"
+  },
+  "source_fixture": {
+    "product_reference_url": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+    "product_identity": {
+      "title": "Tendon Book",
+      "seller": "Jacked Athlete",
+      "type": "ebook",
+      "price_cents": 4700,
+      "rating_average": 5.0,
+      "rating_count": 10
+    },
+    "copy_policy": "Preserve source identity fields and source link; lightly rewrite long descriptive copy."
+  },
+  "results": [
+    {
+      "surface": "Product detail",
+      "baseline_path": "/public_product/inertia_demo",
+      "candidate_path": "/public_product/rsc_demo",
+      "comparison_artifact": "local-attributed-product-2026-07-08-comparison.json",
+      "median_navigation_duration_ms": {
+        "inertia": 392.7,
+        "rsc": 212.8,
+        "delta_percent": -45.8
+      },
+      "median_response_end_ms": {
+        "inertia": 337.4,
+        "rsc": 171.3,
+        "delta_percent": -49.2
+      },
+      "median_lcp_start_ms": {
+        "inertia": 416.0,
+        "rsc": 224.0,
+        "delta_percent": -46.2
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 24291.0,
+        "rsc": 179407.5,
+        "delta_percent": 638.6
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 1.77,
+        "ror_stream_shell": 108.54
+      }
+    },
+    {
+      "surface": "Discover marketplace",
+      "baseline_path": "/public_product/discover_inertia_demo",
+      "candidate_path": "/public_product/discover_rsc_demo",
+      "comparison_artifact": "local-discover-2026-07-08-comparison.json",
+      "median_navigation_duration_ms": {
+        "inertia": 375.45,
+        "rsc": 303.7,
+        "delta_percent": -19.1
+      },
+      "median_response_end_ms": {
+        "inertia": 313.6,
+        "rsc": 245.25,
+        "delta_percent": -21.8
+      },
+      "median_lcp_start_ms": {
+        "inertia": 400.0,
+        "rsc": 322.0,
+        "delta_percent": -19.5
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 46336.0,
+        "rsc": 452345.5,
+        "delta_percent": 876.2
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 2.69,
+        "ror_stream_shell": 155.17
+      }
+    }
+  ],
+  "caveats": [
+    "Local RAILS_ENV=test run; use as supporting evidence rather than final hosted proof.",
+    "RSC HTML transfer is larger because the server-rendered content is streamed in the document.",
+    "JavaScript pack deltas are omitted from this local result because the test-pack measurement recorded zero route scripts for both variants."
+  ]
+}
