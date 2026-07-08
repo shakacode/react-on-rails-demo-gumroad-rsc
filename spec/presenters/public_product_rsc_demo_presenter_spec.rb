@@ -88,7 +88,7 @@ describe PublicProductRscDemoPresenter do
       expect(product.fetch(:native_type)).to eq("ebook")
       expect(product.fetch(:price_cents)).to eq(4700)
       expect(product.fetch(:ratings)).to include(average: 5.0, count: 10)
-      expect(product.fetch(:ratings).fetch(:percentages)).to eq([100, 0, 0, 0, 0])
+      expect(product.fetch(:ratings).fetch(:percentages)).to eq([0, 0, 0, 0, 100])
       expect(product.fetch(:source_url)).to eq("https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search")
       expect(product.fetch(:description_sections).first.fetch(:body)).to include("visible before hydration")
       expect(product.to_json).not_to include("Creator Analytics Playbook")

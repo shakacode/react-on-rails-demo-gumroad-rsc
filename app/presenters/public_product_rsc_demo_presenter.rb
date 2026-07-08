@@ -62,7 +62,7 @@ class PublicProductRscDemoPresenter
     ratings: {
       average: 5.0,
       count: 10,
-      percentages: [100, 0, 0, 0, 0],
+      percentages: [0, 0, 0, 0, 100],
     },
     hero_stats: [
       { label: "Source price", value: "$47" },
