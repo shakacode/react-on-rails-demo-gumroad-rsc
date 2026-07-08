@@ -419,6 +419,19 @@ This starts the Rails server, the JavaScript build system, and a Sidekiq worker.
 
 You can now access the application at `https://gumroad.dev`.
 
+#### Run the RSC request smoke hard gate
+
+The request smoke specs load the test Shakapacker output from `public/packs-test`, so build both the standard test packs and the standalone RSC demo bundles in the test environment before starting the renderer:
+
+```shell
+RAILS_ENV=test NODE_ENV=test bin/shakapacker
+npm run build:rsc-demo:test
+RENDERER_PASSWORD=devPassword RENDERER_PORT=3800 RENDERER_LOG_LEVEL=warn node client/node-renderer.cjs
+DISABLE_SPRING=1 RAILS_ENV=test bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
+```
+
+If a previous run started the renderer before `public/packs-test/react-client-manifest.json` existed, stop the renderer and remove `.node-renderer-bundles` before rerunning the hard gate so the renderer cache is rebuilt with the test client manifest.
+
 ## Development
 
 ### Logging in

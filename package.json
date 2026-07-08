@@ -155,6 +155,7 @@
   "scripts": {
     "build": "bin/shakapacker",
     "build:rsc-demo": "webpack --config config/webpack/rsc_demo.config.cjs",
+    "build:rsc-demo:test": "RAILS_ENV=test NODE_ENV=test webpack --config config/webpack/rsc_demo.config.cjs",
     "watch": "bin/shakapacker --watch",
     "watch:rsc-demo": "webpack --watch --config config/webpack/rsc_demo.config.cjs",
     "analyze": "WEBPACK_ANALYZE=1 bin/shakapacker",
