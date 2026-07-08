@@ -311,8 +311,8 @@ It does **not** yet prove the full upside of RSC as an architecture.
 
 If the next performance review should be high signal, focus here:
 
-1. Repeat the comparison against the deployed review/staging app once the Control Plane environment is stable.
-   The production-like local rerun is complete and is now the strongest local evidence; the next question is whether the RSC advantage holds with deployed network, container, and renderer behavior.
+1. Keep the review-app, deployed-demo, and live Gumroad PageSpeed URLs visible.
+   The PR 63 review-app rerun is complete and shows the same navigation/LCP direction; the lab now generates current-host PageSpeed links for review apps plus stable deployed-demo links for `https://gumroad.reactonrails.com`.
 
 2. Instrument the React on Rails Pro renderer and streaming path.
    We now have route-scoped Rails timing, but not renderer-internal timing.

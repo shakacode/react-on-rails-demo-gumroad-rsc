@@ -84,6 +84,7 @@ type DiscoverPage = {
 
 type ComparisonLinks = {
   consultation_url: string;
+  deployed_performance_url: string;
   discover_inertia_url: string;
   discover_rsc_url: string;
   gumroad_discover_reference_url: string;
@@ -172,6 +173,7 @@ const BenchmarkNav = ({
   const links = [
     { href: comparison.home_url, label: "Home" },
     { href: comparison.performance_url, label: "Performance lab" },
+    { href: comparison.deployed_performance_url, label: "Deployed demo", external: true },
     { href: comparison.product_inertia_url, label: "Product Inertia", pageKind: "product", variant: "inertia" },
     { href: comparison.product_rsc_url, label: "Product RSC", pageKind: "product", variant: "rsc" },
     { href: comparison.discover_inertia_url, label: "Discover Inertia", pageKind: "discover", variant: "inertia" },
@@ -539,6 +541,9 @@ export default function PublicProductComparisonPage({
             </a>
             <a href={comparison.home_url} className="dd-btn">
               Back to home
+            </a>
+            <a href={comparison.deployed_performance_url} className="dd-btn" rel="noreferrer" target="_blank">
+              Compare deployed demo
             </a>
           </div>
         </header>

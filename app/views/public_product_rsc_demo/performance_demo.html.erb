@@ -318,17 +318,20 @@
 <% consultation_url = PublicProductRscDemoPresenter::CONSULTATION_URL %>
 <% gumroad_product_reference_url = PublicProductRscDemoPresenter::GUMROAD_PRODUCT_REFERENCE_URL %>
 <% gumroad_discover_reference_url = PublicProductRscDemoPresenter::GUMROAD_DISCOVER_REFERENCE_URL %>
+<% public_home_path = about_path %>
+<% deployed_performance_url = @presenter.deployed_performance_demo_url %>
 
 <div class="dd dd-performance" data-rsc-performance-lab>
   <aside class="dd-side">
     <div class="dd-brand">
-      <a href="<%= root_path %>">Gumroad</a>
+      <a href="<%= public_home_path %>">Gumroad</a>
       <p>React Server Components via React on Rails Pro lab</p>
     </div>
 
     <nav class="dd-nav" aria-label="Public performance lab routes">
-      <a href="<%= root_path %>">Home</a>
+      <a href="<%= public_home_path %>">Home</a>
       <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
+      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Deployed demo</a>
       <a href="<%= public_product_inertia_demo_path %>">Product Inertia</a>
       <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
       <a href="<%= public_product_discover_inertia_demo_path %>">Discover Inertia</a>
@@ -362,7 +365,8 @@
 
       <div class="dd-actions">
         <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
-        <a href="<%= root_path %>" class="dd-btn">Back to home</a>
+        <a href="<%= public_home_path %>" class="dd-btn">Back to home</a>
+        <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Compare deployed demo</a>
         <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener" class="dd-btn">Learn React on Rails</a>
         <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
@@ -439,6 +443,7 @@
             <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">current branch A/B summary</a>
             <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">hosted review-app A/B summary</a>
             <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">Lighthouse URL-pair summary</a>
+            <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">deployed performance lab</a>
             <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
             <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
             <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
@@ -534,12 +539,13 @@
         <header>
           <h2>PageSpeed comparator pairs</h2>
           <p>
-            Point PageSpeed at these public URL pairs to compare the hosted React on Rails RSC demo with the live Gumroad
-            status quo. Use mobile as the headline result and desktop as a sanity check; the matched Inertia-vs-RSC
-            route-pair data above remains the controlled A/B proof. A local Lighthouse matrix is linked above because
-            the PageSpeed Insights API returned HTTP 429 from this environment. That fallback found the product mobile
-            score moving from 0.56 to 0.99 with LCP moving from 14.7s to 2.1s, and Discover mobile moving from 0.58 to
-            0.96 with LCP moving from 12.0s to 2.6s.
+            Point PageSpeed at these public URL pairs to compare this React on Rails RSC build with the live Gumroad
+            status quo. On a review app, the demo links target the review app; the deployed-demo links target the current
+            production demo at <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %>. Use mobile as the headline result
+            and desktop as a sanity check; the matched Inertia-vs-RSC route-pair data above remains the controlled A/B proof.
+            A local Lighthouse matrix is linked above because the PageSpeed Insights API returned HTTP 429 from this
+            environment. That fallback found the product mobile score moving from 0.56 to 0.99 with LCP moving from 14.7s to
+            2.1s, and Discover mobile moving from 0.58 to 0.96 with LCP moving from 12.0s to 2.6s.
           </p>
         </header>
 
@@ -548,18 +554,21 @@
             <article class="dd-row">
               <p class="dd-copy">
                 <strong><%= pair[:surface] %>:</strong>
-                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> RSC demo URL</a>
+                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> current app RSC URL</a>,
+                <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> deployed RSC URL</a>,
                 versus
                 <a href="<%= pair[:live_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> live URL</a>.
               </p>
               <p class="dd-source-links">
                 <span>Mobile headline:</span>
-                <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile demo PageSpeed</a>
+                <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile current-app PageSpeed</a>
+                <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile deployed-demo PageSpeed</a>
                 <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile live PageSpeed</a>
               </p>
               <p class="dd-source-links">
                 <span>Desktop sanity:</span>
-                <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop demo PageSpeed</a>
+                <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop current-app PageSpeed</a>
+                <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop deployed-demo PageSpeed</a>
                 <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop live PageSpeed</a>
               </p>
             </article>

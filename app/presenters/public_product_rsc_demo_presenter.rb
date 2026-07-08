@@ -305,15 +305,21 @@ class PublicProductRscDemoPresenter
     [
       page_speed_comparator_pair(
         surface: "Product detail",
-        demo_url: hosted_demo_url(public_product_rsc_demo_path),
+        demo_url: current_demo_url(public_product_rsc_demo_path),
+        deployed_demo_url: hosted_demo_url(public_product_rsc_demo_path),
         live_url: GUMROAD_PRODUCT_REFERENCE_URL
       ),
       page_speed_comparator_pair(
         surface: "Discover marketplace",
-        demo_url: hosted_demo_url(public_product_discover_rsc_demo_path),
+        demo_url: current_demo_url(public_product_discover_rsc_demo_path),
+        deployed_demo_url: hosted_demo_url(public_product_discover_rsc_demo_path),
         live_url: GUMROAD_DISCOVER_REFERENCE_URL
       ),
     ]
+  end
+
+  def deployed_performance_demo_url
+    hosted_demo_url(public_product_performance_demo_path)
   end
 
   def local_benchmark_surfaces
@@ -347,14 +353,21 @@ class PublicProductRscDemoPresenter
       "#{HOSTED_DEMO_BASE_URL}#{path}"
     end
 
-    def page_speed_comparator_pair(surface:, demo_url:, live_url:)
+    def current_demo_url(path)
+      "#{request.base_url}#{path}"
+    end
+
+    def page_speed_comparator_pair(surface:, demo_url:, deployed_demo_url:, live_url:)
       {
         surface:,
         demo_url:,
+        deployed_demo_url:,
         live_url:,
         mobile_demo_page_speed_url: page_speed_url(demo_url, strategy: "mobile"),
+        mobile_deployed_demo_page_speed_url: page_speed_url(deployed_demo_url, strategy: "mobile"),
         mobile_live_page_speed_url: page_speed_url(live_url, strategy: "mobile"),
         desktop_demo_page_speed_url: page_speed_url(demo_url, strategy: "desktop"),
+        desktop_deployed_demo_page_speed_url: page_speed_url(deployed_demo_url, strategy: "desktop"),
         desktop_live_page_speed_url: page_speed_url(live_url, strategy: "desktop"),
       }
     end
@@ -481,8 +494,9 @@ class PublicProductRscDemoPresenter
 
     def comparison_links
       {
-        home_url: root_path,
+        home_url: about_path,
         performance_url: public_product_performance_demo_path,
+        deployed_performance_url: deployed_performance_demo_url,
         inertia_url: public_product_inertia_demo_path,
         rsc_url: public_product_rsc_demo_path,
         product_inertia_url: public_product_inertia_demo_path,

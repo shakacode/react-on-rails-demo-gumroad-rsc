@@ -47,10 +47,10 @@ describe PublicController, type: :controller, inertia: true do
 
   describe "GET home" do
     context "when not authenticated" do
-      it "redirects to the login page" do
+      it "redirects to the public about page" do
         get :home
 
-        expect(response).to redirect_to(login_path)
+        expect(response).to redirect_to(about_path)
       end
     end
 

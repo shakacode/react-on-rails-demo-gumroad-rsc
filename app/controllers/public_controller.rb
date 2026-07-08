@@ -10,7 +10,7 @@ class PublicController < ApplicationController
   layout "inertia", only: [:widgets, :ping, :api, :charge, :license_key_lookup]
 
   def home
-    redirect_to user_signed_in? ? after_sign_in_path_for(logged_in_user) : login_path
+    redirect_to user_signed_in? ? after_sign_in_path_for(logged_in_user) : about_path
   end
 
   def widgets

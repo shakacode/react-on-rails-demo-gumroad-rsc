@@ -102,13 +102,16 @@ describe PublicProductRscDemoPresenter do
       product = pairs.find { |pair| pair[:surface] == "Product detail" }
       discover = pairs.find { |pair| pair[:surface] == "Discover marketplace" }
 
-      expect(product[:demo_url]).to eq("https://gumroad.reactonrails.com/public_product/rsc_demo")
+      expect(product[:demo_url]).to eq("http://test.host/public_product/rsc_demo")
+      expect(product[:deployed_demo_url]).to eq("https://gumroad.reactonrails.com/public_product/rsc_demo")
       expect(product[:live_url]).to eq("https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search")
       expect(product[:mobile_demo_page_speed_url]).to include("pagespeed.web.dev")
       expect(product[:mobile_demo_page_speed_url]).to include("strategy=mobile")
+      expect(product[:mobile_deployed_demo_page_speed_url]).to include(CGI.escape(product[:deployed_demo_url]))
       expect(product[:mobile_live_page_speed_url]).to include(CGI.escape(product[:live_url]))
 
-      expect(discover[:demo_url]).to eq("https://gumroad.reactonrails.com/public_product/discover_rsc_demo")
+      expect(discover[:demo_url]).to eq("http://test.host/public_product/discover_rsc_demo")
+      expect(discover[:deployed_demo_url]).to eq("https://gumroad.reactonrails.com/public_product/discover_rsc_demo")
       expect(discover[:live_url]).to eq("https://gumroad.com/discover")
       expect(discover[:desktop_live_page_speed_url]).to include("strategy=desktop")
     end

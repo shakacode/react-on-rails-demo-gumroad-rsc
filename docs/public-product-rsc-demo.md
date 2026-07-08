@@ -100,15 +100,21 @@ media.
 The lab exposes ready-to-click PageSpeed links for the public URL pairs that
 matter for an upstream Gumroad issue:
 
-- Product detail demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
+- Product detail current-app demo: `/public_product/rsc_demo` on the current host
+- Product detail deployed demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
 - Product detail live comparator: `https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search`
-- Discover demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
+- Discover current-app demo: `/public_product/discover_rsc_demo` on the current host
+- Discover deployed demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
 - Discover live comparator: `https://gumroad.com/discover`
 
 Use mobile PageSpeed/Lighthouse results as the headline external proof and
 desktop as a sanity check. Treat these URL comparisons as external credibility
 evidence. The controlled architecture proof is still the alternating same-host
 Inertia-vs-RSC benchmark, where both variants use the same fixture data.
+On review apps, the lab generates current-app PageSpeed links from the request
+host and keeps separate deployed-demo links back to
+`https://gumroad.reactonrails.com`, so reviewers can compare the PR, deployed
+demo, and live Gumroad status quo without editing URLs by hand.
 
 Current artifacts:
 
