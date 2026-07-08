@@ -426,7 +426,10 @@ The request smoke specs load the test Shakapacker output from `public/packs-test
 ```shell
 RAILS_ENV=test NODE_ENV=test bin/shakapacker
 npm run build:rsc-demo:test
-RENDERER_PASSWORD=devPassword RENDERER_PORT=3800 RENDERER_LOG_LEVEL=warn node client/node-renderer.cjs
+RENDERER_PASSWORD=devPassword RENDERER_PORT=3800 RENDERER_LOG_LEVEL=warn node client/node-renderer.cjs &
+renderer_pid=$!
+trap 'kill "$renderer_pid"' EXIT
+until nc -z 127.0.0.1 3800; do sleep 1; done
 DISABLE_SPRING=1 RAILS_ENV=test bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
 ```
 
