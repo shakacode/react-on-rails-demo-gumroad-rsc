@@ -82,8 +82,8 @@ This is not yet the final Gumroad adoption proof:
 - It does not claim the production Gumroad `Discover/Index` component itself has
   been ported to RSC.
 - It does not copy raw creator body copy or use real creator media.
-- It still needs a mobile-throttled Lighthouse/ShakaPerf repeat before making a
-  stronger upstream proposal.
+- It still needs PageSpeed API or field-data corroboration before making a
+  stronger adoption proposal.
 - PageSpeed comparisons should target public URLs, not repositories: the hosted
   RSC demo URL versus the live Gumroad URL for the same surface.
 - A stronger follow-up would wire sanitized production-shaped props into the

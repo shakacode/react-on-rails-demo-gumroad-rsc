@@ -437,6 +437,8 @@
           <p class="dd-source-links dd-source-links--lead">
             <span>Source for the measured app:</span>
             <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">current branch A/B summary</a>
+            <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">hosted review-app A/B summary</a>
+            <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">Lighthouse URL-pair summary</a>
             <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
             <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
             <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
@@ -512,6 +514,12 @@
         <% end %>
 
         <p class="dd-note">
+          <strong>Hosted review-app rerun:</strong>
+          the PR 63 review app confirms the same direction for median navigation, LCP, and JavaScript request count on both
+          public route pairs. It also makes the server tradeoff clearer: streamed RSC response-end and HTML transfer are
+          higher on the review app, so the honest claim is faster browser completion and less client JavaScript, not lower
+          server TTLB everywhere.
+          <br />
           <strong>Historical hosted run:</strong>
           the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
           transfer and request-count evidence. It predates the Tendon Book fixture, so it is supporting context rather than
@@ -525,7 +533,8 @@
           <p>
             Point PageSpeed at these public URL pairs to compare the hosted React on Rails RSC demo with the live Gumroad
             status quo. Use mobile as the headline result and desktop as a sanity check; the matched Inertia-vs-RSC
-            route-pair data above remains the controlled A/B proof.
+            route-pair data above remains the controlled A/B proof. A local Lighthouse matrix is linked above because
+            the PageSpeed Insights API returned HTTP 429 from this environment.
           </p>
         </header>
 
@@ -558,8 +567,8 @@
           <h2>What this report is allowed to claim</h2>
           <p>
             The current branch ShakaPerf A/B run shows a meaningful browser-navigation win on the right public surfaces.
-            A Gumroad adoption proposal still needs hosted review-app and mobile Lighthouse repeats with TBT, INP, and
-            mobile score.
+            The hosted review app and Lighthouse URL-pair reruns add public-network evidence, but a Gumroad adoption
+            proposal still needs PageSpeed API or field-data corroboration for INP and mobile score.
           </p>
         </header>
 

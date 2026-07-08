@@ -1,0 +1,136 @@
+{
+  "captured_at_utc": "2026-07-08T18:27:00Z",
+  "review_app_url": "https://rails-ejbbntm539k6r.cpln.app",
+  "review_app_commit": "7ee485531536eee980386b1fbc58729d2202c3c7",
+  "method": {
+    "harness": "scripts/perf/compare_dashboard_routes.rb",
+    "cycles_per_pair": 6,
+    "server_warmup_requests_per_run": 2,
+    "public": true,
+    "require_driver_match": true,
+    "base_url": "https://rails-ejbbntm539k6r.cpln.app",
+    "measure_base_url": "https://rails-ejbbntm539k6r.cpln.app",
+    "browser": "Chrome 149.0.7827.201 / ChromeDriver 149.0.7827.155"
+  },
+  "source_fixture": {
+    "product_reference_url": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+    "product_identity": {
+      "title": "Tendon Book",
+      "seller": "Jacked Athlete",
+      "type": "ebook",
+      "price_cents": 4700,
+      "rating_average": 5,
+      "rating_count": 10
+    },
+    "copy_policy": "Preserve source identity fields and source link; lightly rewrite long descriptive copy."
+  },
+  "results": [
+    {
+      "surface": "Product detail",
+      "key": "product",
+      "baseline_path": "/public_product/inertia_demo",
+      "candidate_path": "/public_product/rsc_demo",
+      "comparison_artifact": "hosted-review-pr63-product-2026-07-08-comparison.json",
+      "median_navigation_duration_ms": {
+        "statistic": "median",
+        "baselinePath": "/public_product/inertia_demo",
+        "candidatePath": "/public_product/rsc_demo",
+        "baselineValue": 602.75,
+        "candidateValue": 502.2,
+        "deltaPercent": -16.7
+      },
+      "median_response_end_ms": {
+        "statistic": "median",
+        "baselinePath": "/public_product/inertia_demo",
+        "candidatePath": "/public_product/rsc_demo",
+        "baselineValue": 153,
+        "candidateValue": 193,
+        "deltaPercent": 26.1
+      },
+      "median_lcp_start_ms": {
+        "statistic": "median",
+        "baselinePath": "/public_product/inertia_demo",
+        "candidatePath": "/public_product/rsc_demo",
+        "baselineValue": 500,
+        "candidateValue": 394,
+        "deltaPercent": -21.2
+      },
+      "median_html_transfer_bytes": {
+        "statistic": "median",
+        "baselinePath": "/public_product/inertia_demo",
+        "candidatePath": "/public_product/rsc_demo",
+        "baselineValue": 24335,
+        "candidateValue": 65994.5,
+        "deltaPercent": 171.2
+      },
+      "median_js_request_count": {
+        "statistic": "median",
+        "baselinePath": "/public_product/inertia_demo",
+        "candidatePath": "/public_product/rsc_demo",
+        "baselineValue": 7,
+        "candidateValue": 1,
+        "deltaPercent": -85.7
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 2.37,
+        "ror_stream_shell": 34.94
+      }
+    },
+    {
+      "surface": "Discover marketplace",
+      "key": "discover",
+      "baseline_path": "/public_product/discover_inertia_demo",
+      "candidate_path": "/public_product/discover_rsc_demo",
+      "comparison_artifact": "hosted-review-pr63-discover-2026-07-08-comparison.json",
+      "median_navigation_duration_ms": {
+        "statistic": "median",
+        "baselinePath": "/public_product/discover_inertia_demo",
+        "candidatePath": "/public_product/discover_rsc_demo",
+        "baselineValue": 605.3,
+        "candidateValue": 529.25,
+        "deltaPercent": -12.6
+      },
+      "median_response_end_ms": {
+        "statistic": "median",
+        "baselinePath": "/public_product/discover_inertia_demo",
+        "candidatePath": "/public_product/discover_rsc_demo",
+        "baselineValue": 152.1,
+        "candidateValue": 357.25,
+        "deltaPercent": 134.9
+      },
+      "median_lcp_start_ms": {
+        "statistic": "median",
+        "baselinePath": "/public_product/discover_inertia_demo",
+        "candidatePath": "/public_product/discover_rsc_demo",
+        "baselineValue": 508,
+        "candidateValue": 430,
+        "deltaPercent": -15.4
+      },
+      "median_html_transfer_bytes": {
+        "statistic": "median",
+        "baselinePath": "/public_product/discover_inertia_demo",
+        "candidatePath": "/public_product/discover_rsc_demo",
+        "baselineValue": 46380,
+        "candidateValue": 153196,
+        "deltaPercent": 230.3
+      },
+      "median_js_request_count": {
+        "statistic": "median",
+        "baselinePath": "/public_product/discover_inertia_demo",
+        "candidatePath": "/public_product/discover_rsc_demo",
+        "baselineValue": 7,
+        "candidateValue": 1,
+        "deltaPercent": -85.7
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 3.01,
+        "ror_stream_shell": 78.32
+      }
+    }
+  ],
+  "caveats": [
+    "Hosted review-app run against PR #63 commit 7ee485531536eee980386b1fbc58729d2202c3c7; review-app URLs are temporary.",
+    "RSC wins median navigation, LCP, and JS request count on both route pairs, but loses median responseEnd and HTML transfer size because the rendered document is streamed server-side.",
+    "This is desktop headless Chrome, not mobile-throttled Lighthouse/PageSpeed. Use the Lighthouse URL-pair artifact for mobile comparator evidence."
+  ]
+}

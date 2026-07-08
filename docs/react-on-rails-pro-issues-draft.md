@@ -33,8 +33,10 @@ Shared evidence now has two layers:
 
 The remaining gaps below are what still make the final Gumroad-facing proof
 harder: the current local run records stronger navigation/response/LCP evidence,
-but hosted mobile scores, RSC payload timing, CDN-safe streaming timing, and
-hydration/interactivity marks still need first-class measurement.
+the hosted review-app run records current public-network navigation/LCP/JS
+evidence with a response-end tradeoff, and the Lighthouse fallback is favorable;
+PageSpeed API or field-data scores, RSC payload timing, CDN-safe streaming
+timing, and hydration/interactivity marks still need first-class measurement.
 
 ---
 

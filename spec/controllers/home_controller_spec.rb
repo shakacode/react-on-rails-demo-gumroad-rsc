@@ -22,6 +22,8 @@ describe HomeController do
       expect(response.body).to include("Discover: Inertia")
       expect(response.body).to include("Discover: RSC")
       expect(response.body).to include("7 -> 1")
+      expect(response.body).to include("External proof gate")
+      expect(response.body).to include("INP field data")
       expect(response.body).to include("Current ShakaPerf results")
       expect(response.body).to include("Fixture provenance")
       expect(response.body).to include("React on Rails")

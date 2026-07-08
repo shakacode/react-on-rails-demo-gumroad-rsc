@@ -24,7 +24,15 @@ the headline external comparator. Desktop is a sanity check.
 
 Use the committed alternating benchmark artifact in
 `docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json`
-as the current same-fixture A/B result. The older hosted `2026-06-24` artifact
-is historical support for production-hosted JavaScript deltas. The URL pairs in
-this document compare the hosted RSC demo to the live Gumroad status quo; they
-are not the same-data architecture baseline.
+as the local same-fixture A/B result. Use
+`docs/performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json`
+as the hosted PR 63 same-fixture A/B result.
+
+The PageSpeed Insights API returned HTTP `429` from the benchmark environment,
+so `docs/performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json`
+contains a pinned local `lighthouse@12.8.2` fallback for these URL pairs.
+
+The older hosted `2026-06-24` artifact is historical support for
+production-hosted JavaScript deltas. The URL pairs in this document compare the
+hosted RSC demo to the live Gumroad status quo; they are not the same-data
+architecture baseline.

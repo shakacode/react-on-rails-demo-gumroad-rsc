@@ -61,8 +61,8 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content, seller URLs, product URLs, or image URLs.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The first hosted headless Chrome A/B report is favorable on browser navigation, `LCP`, route JavaScript, and serialized Inertia payload removal.
-- The final adoption claim still needs a mobile-throttled Lighthouse/ShakaPerf repeat with `TBT`, `INP`, and mobile score before making a Gumroad merge proposal.
+- The current hosted review-app A/B report is favorable on browser navigation, `LCP`, route JavaScript request count, and serialized Inertia payload removal, while showing a real response-end and HTML-transfer tradeoff.
+- The Lighthouse URL-pair fallback is favorable against comparable live Gumroad pages, but the final adoption claim still needs PageSpeed API or field-data corroboration, especially for `INP` and mobile score.
 
 ### July 2026 React on Rails Pro 17 / React 19.2 audit
 

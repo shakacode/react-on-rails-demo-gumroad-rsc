@@ -15,6 +15,8 @@ class PublicProductRscDemoPresenter
   REPO_SOURCE_BASE_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
   HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
   LOCAL_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json"
+  HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
+  LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH = "docs/performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json"
   BENCHMARK_TIE_BAND_PERCENT = 5
 
   CONTROLLER_SOURCE_PATH = "app/controllers/public_product_rsc_demo_controller.rb"
@@ -263,6 +265,14 @@ class PublicProductRscDemoPresenter
 
   def local_benchmark_artifact_url
     "#{REPO_SOURCE_BASE_URL}/#{LOCAL_BENCHMARK_ARTIFACT_PATH}"
+  end
+
+  def hosted_review_benchmark_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH}"
+  end
+
+  def lighthouse_comparator_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH}"
   end
 
   def local_benchmark_method_note

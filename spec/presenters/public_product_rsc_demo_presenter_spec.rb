@@ -113,4 +113,15 @@ describe PublicProductRscDemoPresenter do
       expect(discover[:desktop_live_page_speed_url]).to include("strategy=desktop")
     end
   end
+
+  describe "artifact links" do
+    it "links the hosted review-app and Lighthouse comparator artifacts" do
+      expect(presenter.hosted_review_benchmark_artifact_url).to include(
+        "hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
+      )
+      expect(presenter.lighthouse_comparator_artifact_url).to include(
+        "lighthouse-public-comparator-2026-07-08/summary.json"
+      )
+    end
+  end
 end
