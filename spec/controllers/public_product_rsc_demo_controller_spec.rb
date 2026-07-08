@@ -35,10 +35,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
     it "keeps synthetic product content in the serialized Inertia payload for benchmark measurement" do
       get :inertia_demo
 
-      data_page_match = response.body.match(/data-page="([^"]*)"/)
-      expect(data_page_match).to be_present
-
-      page_data = JSON.parse(CGI.unescapeHTML(data_page_match[1]))
+      page_data = serialized_inertia_page_payload
       product_props = page_data.fetch("props").fetch("product_page")
 
       expect(product_props.fetch("name")).to eq("Creator Analytics Playbook")

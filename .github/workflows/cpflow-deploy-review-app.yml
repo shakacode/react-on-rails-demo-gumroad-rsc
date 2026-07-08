@@ -70,7 +70,7 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install Control Plane CLI
         run: npm install -g @controlplane/cli@3.10.2
       - name: Prepare app database secrets

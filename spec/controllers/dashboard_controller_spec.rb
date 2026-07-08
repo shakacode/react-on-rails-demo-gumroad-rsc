@@ -71,9 +71,7 @@ describe DashboardController, type: :controller, inertia: true do
           has_sale: false
         )
 
-        data_page_match = response.body.match(/data-page="([^"]*)"/)
-        decoded_content = CGI.unescapeHTML(data_page_match[1])
-        json_data = JSON.parse(decoded_content)
+        json_data = serialized_inertia_page_payload
         creator_home = json_data["props"]["creator_home"]
 
         expect(creator_home["sales"]).to be_present
@@ -103,18 +101,14 @@ describe DashboardController, type: :controller, inertia: true do
 
         expect(inertia).to render_component("Dashboard/Index")
 
-        data_page_match = response.body.match(/data-page="([^"]*)"/)
-        if data_page_match
-          decoded_content = CGI.unescapeHTML(data_page_match[1])
-          json_data = JSON.parse(decoded_content)
-          creator_home = json_data["props"]["creator_home"]
-          puts "Creator home with purchases:"
-          puts "  has_sale: #{creator_home['has_sale']}"
-          puts "  sales count: #{creator_home['sales']&.length}"
-          puts "  activity_items count: #{creator_home['activity_items']&.length}"
-          puts "  balances: #{creator_home['balances']}"
-          puts "  getting_started_stats: #{creator_home['getting_started_stats']}"
-        end
+        json_data = serialized_inertia_page_payload
+        creator_home = json_data["props"]["creator_home"]
+        puts "Creator home with purchases:"
+        puts "  has_sale: #{creator_home['has_sale']}"
+        puts "  sales count: #{creator_home['sales']&.length}"
+        puts "  activity_items count: #{creator_home['activity_items']&.length}"
+        puts "  balances: #{creator_home['balances']}"
+        puts "  getting_started_stats: #{creator_home['getting_started_stats']}"
 
         expect_dashboard_data_in_inertia_response(
           has_sale: true
