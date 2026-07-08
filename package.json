@@ -95,7 +95,7 @@
     "@types/jquery": "^4.0.1",
     "@types/jwplayer": "^8.31.3",
     "@types/mailcheck": "^1.1.33",
-    "@types/node": "^20.0.0",
+    "@types/node": "^26.1.0",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "@types/sortablejs": "^1.15.9",
