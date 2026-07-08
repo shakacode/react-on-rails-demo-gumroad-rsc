@@ -1,5 +1,5 @@
 import fs from "fs";
-import yaml from "js-yaml";
+import { load, YAML11_SCHEMA } from "js-yaml";
 import { fileURLToPath } from "node:url";
 
 const DEV_SERVER_ENV_PREFIX = "SHAKAPACKER_DEV_SERVER";
@@ -40,5 +40,7 @@ const applyDevServerEnvOverrides = (config) => {
 
 export const loadShakapackerConfig = (environment) =>
   applyDevServerEnvOverrides(
-    yaml.load(fs.readFileSync(fileURLToPath(import.meta.resolve("./shakapacker.yml"))))[environment],
+    load(fs.readFileSync(fileURLToPath(import.meta.resolve("./shakapacker.yml")), "utf8"), {
+      schema: YAML11_SCHEMA,
+    })[environment],
   );
