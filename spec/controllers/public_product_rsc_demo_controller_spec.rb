@@ -88,6 +88,9 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include("Product detail A/B route pair")
       expect(response.body).to include("Discover marketplace A/B route pair")
       expect(response.body).to include("Hosted headless Chrome A/B result")
+      expect(response.body).to include("React on Rails Pro 17 / React 19.2 audit")
+      expect(response.body).to include("Static caching boundary")
+      expect(response.body).to include("Stream timing attribution")
       expect(response.body).to include("-66.5%")
       expect(response.body).to include("-64.4%")
       expect(response.body).to include("Fixture provenance")
@@ -96,6 +99,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).not_to include("seller.gumroad.reactonrails.com")
       expect(response.body).not_to include("/l/demo")
       expect(assigns(:hide_layouts)).to be(true)
+      expect(assigns(:skip_legacy_application_javascript)).to be(true)
     end
   end
 
@@ -113,9 +117,11 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response).not_to redirect_to(login_path)
       expect(controller).to have_received(:stream_view_containing_react_components).with(
         template: "public_product_rsc_demo/rsc_demo",
-        layout: "inertia"
+        layout: "inertia",
+        rsc_stream_observability: true
       )
       expect(assigns(:hide_layouts)).to be(true)
+      expect(assigns(:skip_legacy_application_javascript)).to be(true)
       expect(assigns(:public_product_rsc_demo_props).dig(:page_kind)).to eq("product")
       expect(assigns(:public_product_rsc_demo_props).dig(:product_page, :name)).to eq("Creator Analytics Playbook")
       expect(assigns(:precomputed_rendering_context)).to include(:design_settings, :domain_settings, :user_agent_info)
@@ -143,9 +149,11 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response).not_to redirect_to(login_path)
       expect(controller).to have_received(:stream_view_containing_react_components).with(
         template: "public_product_rsc_demo/discover_rsc_demo",
-        layout: "inertia"
+        layout: "inertia",
+        rsc_stream_observability: true
       )
       expect(assigns(:hide_layouts)).to be(true)
+      expect(assigns(:skip_legacy_application_javascript)).to be(true)
       expect(assigns(:public_discover_rsc_demo_props).dig(:page_kind)).to eq("discover")
       expect(assigns(:public_discover_rsc_demo_props).dig(:discover_page, :products).length).to eq(36)
       expect(assigns(:precomputed_rendering_context)).to include(:design_settings, :domain_settings, :user_agent_info)

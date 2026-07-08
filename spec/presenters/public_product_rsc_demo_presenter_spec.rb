@@ -61,4 +61,16 @@ describe PublicProductRscDemoPresenter do
         .to all(start_with("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/"))
     end
   end
+
+  describe "#react_stack_versions" do
+    it "reports the React on Rails Pro and React 19 RSC package line used by the demo" do
+      versions = presenter.react_stack_versions
+
+      expect(versions[:react]).to eq("19.2.7")
+      expect(versions[:react_dom]).to eq("19.2.7")
+      expect(versions[:react_on_rails_pro_gem]).to eq("17.0.0.rc.7")
+      expect(versions[:react_on_rails_pro_npm]).to eq("17.0.0-rc.7")
+      expect(versions[:react_on_rails_rsc]).to eq("19.2.1-rc.0")
+    end
+  end
 end

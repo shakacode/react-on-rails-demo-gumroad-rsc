@@ -57,6 +57,16 @@ The comparison should include:
 
 The RSC route should demonstrate server/client composition where it matters: product facts, purchase framing, and mostly static content can be server-rendered, while genuinely interactive controls stay client-side.
 
+## React on Rails Pro 17 / React 19.2 Notes
+
+As of July 8, 2026, this demo is aligned with the React on Rails Pro 17 RC RSC line: React 19.2.7, React DOM 19.2.7, React on Rails Pro 17.0.0-rc.7, and `react-on-rails-rsc` 19.2.1-rc.0.
+
+The public RSC routes opt into `rsc_stream_observability`, so the lab and external benchmark harnesses can inspect Pro stream attribution in `Server-Timing`, including streamed shell and Node renderer prepare timing when available. This replaces the older caveat that streamed RSC had no browser-visible renderer timing.
+
+Pro 17's buffered/static RSC helpers are relevant to Gumroad-style public marketplace pages, but they change the benchmark claim. The headline route pair should stay matched and uncached; if the demo adds `cached_static_rsc_component`, it should be exposed as a separately named cached static RSC variant and measured against an appropriately labeled control.
+
+The public Gumroad upstream has moved since the fixture was first sampled. Useful status-quo context now includes buyer-local currency, richer public product/profile JSON endpoints, custom HTML product pages, and Discover category fixes. Those are fixture/adoption inputs, not a reason to merge upstream wholesale into this demo branch because upstream also carries broad unrelated Vite and product-editor churn.
+
 ## Production-Shaped Fixtures
 
 The early small product route was useful for validating the rendering path, but

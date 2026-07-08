@@ -272,6 +272,16 @@ class PublicProductRscDemoPresenter
     self.class.hosted_benchmark&.dig(:caveats) || []
   end
 
+  def react_stack_versions
+    {
+      react: package_dependency_version("react"),
+      react_dom: package_dependency_version("react-dom"),
+      react_on_rails_pro_gem: Gem.loaded_specs["react_on_rails_pro"]&.version&.to_s,
+      react_on_rails_pro_npm: package_dependency_version("react-on-rails-pro"),
+      react_on_rails_rsc: package_dependency_version("react-on-rails-rsc"),
+    }.compact
+  end
+
   def hosted_benchmark_surfaces
     (self.class.hosted_benchmark&.dig(:results) || []).map do |result|
       {
@@ -285,6 +295,20 @@ class PublicProductRscDemoPresenter
   private
     def source_link(label, path)
       { label:, url: "#{REPO_SOURCE_BASE_URL}/#{path}" }
+    end
+
+    def package_dependency_version(name)
+      self.class.package_json.dig("dependencies", name)&.delete_prefix("^")
+    end
+
+    def self.package_json
+      return @package_json if defined?(@package_json)
+
+      @package_json = begin
+        JSON.parse(File.read(Rails.root.join("package.json")))
+      rescue StandardError
+        {}
+      end
     end
 
     def hosted_benchmark_rows(result)

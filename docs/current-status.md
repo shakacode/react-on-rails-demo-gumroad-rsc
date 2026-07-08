@@ -37,6 +37,9 @@ mobile adoption claim.
   [public-page-fixture-sampling.md](./public-page-fixture-sampling.md).
 - The public lab shows same-origin route timing, response size, route script
   bytes, and serialized Inertia payload differences.
+- The public RSC routes opt into React on Rails Pro stream observability, so
+  `Server-Timing` can expose streamed shell and Node renderer prepare
+  attribution when available.
 - Hosted result details are in
   [public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md).
 - Rspack is framed as build/tooling infrastructure only; the runtime performance
@@ -47,7 +50,10 @@ mobile adoption claim.
 - Repeat the public route-pair comparison with mobile-throttled
   Lighthouse/ShakaPerf metrics: `LCP`, `TBT`, `INP`, mobile score, route
   JavaScript, and serialized payload.
-- Add renderer-internal timing for the React on Rails Pro streaming path.
+- Rerun the hosted benchmark after the Pro 17 / React 19.2 observability update
+  so the report includes streamed shell and renderer prepare attribution.
+- If using Pro 17 static RSC caching, add it as a separately named cached static
+  route variant rather than folding it into the headline matched route pair.
 - Add sanitized local image/media fixtures and rerun the benchmark, because the
   current committed fixture uses synthetic cover placeholders.
 - For a stronger Gumroad-maintainer case, wire sanitized production-shaped props

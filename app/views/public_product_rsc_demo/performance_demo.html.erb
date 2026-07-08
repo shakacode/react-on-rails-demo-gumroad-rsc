@@ -97,6 +97,18 @@
         return unreadableCount > 0 ? `${readableCopy}; ${unreadableCount} unavailable` : readableCopy;
       };
 
+      const streamTimingSummary = (serverTiming) => {
+        if (!serverTiming || serverTiming === "No Server-Timing header exposed") return "No stream timing attribution";
+
+        const hasShell = serverTiming.includes("ror_stream_shell");
+        const hasRendererPrepare = serverTiming.includes("ror_renderer_prepare");
+        if (hasShell && hasRendererPrepare) return "Rails shell + Node renderer prepare timing exposed";
+        if (hasShell) return "Rails streamed shell timing exposed";
+        if (hasRendererPrepare) return "Node renderer prepare timing exposed";
+        if (serverTiming.includes("action_total")) return "Rails action timing only";
+        return "No Pro stream timing attribution";
+      };
+
       const resetMetrics = (scope, variant) => {
         setCardState(scope, variant, "loading");
         setMetric(scope, variant, "status", "Loading...");
@@ -105,6 +117,7 @@
         setMetric(scope, variant, "bytes", "...");
         setMetric(scope, variant, "scripts", "...");
         setMetric(scope, variant, "payload", "...");
+        setMetric(scope, variant, "streamTiming", "Waiting for headers");
         setMetric(scope, variant, "serverTiming", "Waiting for headers");
       };
 
@@ -180,6 +193,7 @@
         setMetric(scope, variant, "bytes", formatHtmlSize(result));
         setMetric(scope, variant, "scripts", "Waiting for route script pass");
         setMetric(scope, variant, "payload", payloadBytes > 0 ? formatBytes(payloadBytes) : "None");
+        setMetric(scope, variant, "streamTiming", streamTimingSummary(serverTiming));
         setMetric(scope, variant, "serverTiming", serverTiming);
 
         return result;
@@ -361,6 +375,52 @@
         and taxonomy props. This repo uses that shape without copying creator content.
       </p>
 
+      <% stack_versions = @presenter.react_stack_versions %>
+      <section class="dd-section" id="react-on-rails-pro-17-audit">
+        <header>
+          <h2>React on Rails Pro 17 / React 19.2 audit</h2>
+          <p>
+            This pass checked the demo against the current Pro 17 RC line and the public Gumroad upstream delta on
+            July 8, 2026.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Runtime stack:</strong>
+              React <code><%= stack_versions[:react] || "unknown" %></code>,
+              React DOM <code><%= stack_versions[:react_dom] || "unknown" %></code>,
+              React on Rails Pro gem <code><%= stack_versions[:react_on_rails_pro_gem] || "unknown" %></code>,
+              React on Rails Pro npm <code><%= stack_versions[:react_on_rails_pro_npm] || "unknown" %></code>,
+              and <code>react-on-rails-rsc</code> <code><%= stack_versions[:react_on_rails_rsc] || "unknown" %></code>.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Streaming now active:</strong>
+              the public RSC routes opt into Pro stream observability, so the live race can expose
+              <code>ror_stream_shell</code> and <code>ror_renderer_prepare</code> timing when the renderer returns them.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Static caching boundary:</strong>
+              Pro 17 adds buffered/static RSC helpers for cacheable public shells, but this headline route pair stays
+              matched and uncached. A cached static RSC variant should be measured as a separate claim.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Latest Gumroad shape check:</strong>
+              upstream now includes buyer-local currency, richer public product/profile JSON, custom HTML product pages,
+              and Discover category fixes. Those are useful adoption context, but a broad upstream merge would pull in
+              the unrelated Vite migration and is not part of this focused demo pass.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <% verdict_labels = {
         rsc_wins: ["React on Rails Pro RSC wins", "dd-verdict--win"],
         inertia_wins: ["Inertia wins", "dd-verdict--loss"],
@@ -485,9 +545,10 @@
           <p>
             This live race fetches both routes from your browser right now. Treat it as directional: it captures first
             streamed bytes, HTML size (wire and decoded), route JavaScript weight, and the serialized Inertia payload, but it
-            does not measure the JavaScript execution and hydration the browser still does after download. Raw full-response
-            download time favors the smaller document, so for the load-time verdict trust the hosted headless-Chrome result
-            above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
+            does not measure the JavaScript execution and hydration the browser still does after download. The RSC cards also
+            show whether Pro stream observability exposed Rails shell and Node renderer prepare timing in <code>Server-Timing</code>.
+            Raw full-response download time favors the smaller document, so for the load-time verdict trust the hosted
+            headless-Chrome result above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
           </p>
         </header>
       </section>

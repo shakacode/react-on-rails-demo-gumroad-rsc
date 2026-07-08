@@ -8,6 +8,7 @@ class PublicProductRscDemoController < ApplicationController
 
   before_action :prepare_public_product_page, only: %i[inertia_demo rsc_demo]
   before_action :prepare_public_discover_page, only: %i[discover_inertia_demo discover_rsc_demo]
+  before_action :skip_legacy_application_javascript, only: %i[performance_demo rsc_demo discover_rsc_demo]
   before_action :prepare_live_streaming_response, only: %i[rsc_demo discover_rsc_demo]
   prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
   write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
@@ -60,7 +61,8 @@ class PublicProductRscDemoController < ApplicationController
       with_dashboard_comparison_timing("render_dispatch") do
         stream_view_containing_react_components(
           template: "public_product_rsc_demo/rsc_demo",
-          layout: "inertia"
+          layout: "inertia",
+          rsc_stream_observability: true
         )
       end
     end
@@ -79,13 +81,18 @@ class PublicProductRscDemoController < ApplicationController
       with_dashboard_comparison_timing("render_dispatch") do
         stream_view_containing_react_components(
           template: "public_product_rsc_demo/discover_rsc_demo",
-          layout: "inertia"
+          layout: "inertia",
+          rsc_stream_observability: true
         )
       end
     end
   end
 
   private
+    def skip_legacy_application_javascript
+      @skip_legacy_application_javascript = true
+    end
+
     def public_product_comparison_props
       with_dashboard_comparison_timing("compare_props") do
         with_dashboard_comparison_timing("compare_product") do
