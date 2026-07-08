@@ -429,6 +429,7 @@ The request smoke specs load the test Shakapacker output from `public/packs-test
 
   renderer_host=127.0.0.1
   renderer_port=3800
+  renderer_url="http://$renderer_host:$renderer_port"
 
   RAILS_ENV=test NODE_ENV=test bin/shakapacker
   npm run build:rsc-demo:test
@@ -446,7 +447,7 @@ The request smoke specs load the test Shakapacker output from `public/packs-test
     fi
     sleep 1
   done
-  DISABLE_SPRING=1 RAILS_ENV=test bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
+  REACT_RENDERER_URL="$renderer_url" DISABLE_SPRING=1 RAILS_ENV=test bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
 )
 ```
 
