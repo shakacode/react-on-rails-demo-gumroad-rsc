@@ -18,6 +18,13 @@ Discover route pairs, then shows first streamed bytes, complete response timing,
 HTML response size, route script bytes, and serialized Inertia payload size in
 the page itself.
 
+The lab is intentionally shaped like an evidence article rather than a link
+directory. The persistent navigation stays on the primary story: home,
+performance lab, the two RSC candidates, and the deployed demo. Supporting
+source links, benchmark artifacts, and PageSpeed rerun links live in expandable
+reproducibility panels so a Gumroad reviewer can read the claim first and still
+get exact URLs for independent checks.
+
 The headline routes use stable, logged-out, same-origin fixtures. The product
 fixture is now source-attributed to
 [Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search):

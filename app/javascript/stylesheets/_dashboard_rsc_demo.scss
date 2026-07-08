@@ -123,7 +123,8 @@
 }
 
 .dd-hero-grid {
-  background: radial-gradient(circle at 0 0, rgb(var(--accent) / 0.16), transparent 20rem),
+  background:
+    radial-gradient(circle at 0 0, rgb(var(--accent) / 0.16), transparent 20rem),
     linear-gradient(135deg, rgb(var(--filled)), var(--body-bg));
 }
 
@@ -326,7 +327,8 @@
 
 .dd-product-media,
 .dd-card-cover {
-  background: radial-gradient(circle at 20% 20%, var(--dd-cover-accent), transparent 8rem),
+  background:
+    radial-gradient(circle at 20% 20%, var(--dd-cover-accent), transparent 8rem),
     linear-gradient(135deg, var(--dd-cover-start), var(--dd-cover-end));
 }
 
@@ -677,6 +679,34 @@
   display: grid;
   gap: spacer(2);
   margin-top: spacer(3);
+}
+
+.dd-link-panel {
+  margin-top: spacer(3);
+  border: $border-width solid $border-color;
+  border-radius: border-radius(1);
+  background: rgb(var(--filled));
+}
+
+.dd-link-panel summary {
+  @include font-size(1);
+  cursor: pointer;
+  padding: spacer(3);
+  font-weight: 600;
+}
+
+.dd-link-panel[open] summary {
+  border-bottom: $border-width solid $border-color;
+}
+
+.dd-link-panel .dd-source-grid {
+  margin-top: 0;
+  padding: spacer(3);
+}
+
+.dd-link-panel--nested {
+  margin-top: spacer(2);
+  background: rgb(var(--color) / 0.03);
 }
 
 .dd-source-links {
