@@ -39,9 +39,12 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Open PageSpeed links")
     within(all("details.dd-link-panel--nested").first) do
       find("summary", text: "Open PageSpeed links").click
-      expect(page).to have_link("current app")
-      expect(page).to have_link("deployed demo")
-      expect(page).to have_link("live Gumroad")
+      expect(page).to have_link("current app mobile")
+      expect(page).to have_link("deployed demo mobile")
+      expect(page).to have_link("live Gumroad mobile")
+      expect(page).to have_link("current app desktop")
+      expect(page).to have_link("deployed demo desktop")
+      expect(page).to have_link("live Gumroad desktop")
     end
 
     expect(page).to have_text("Tendon Book by Jacked Athlete")
