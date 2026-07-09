@@ -336,6 +336,7 @@ class PublicProductRscDemoPresenter
     rescue StandardError
       nil
     end
+    private_class_method :read_benchmark
 
     def benchmark_method_note(data)
       return if data.nil?
@@ -381,10 +382,10 @@ class PublicProductRscDemoPresenter
     end
 
     def package_dependency_version(name)
-      self.class.package_json.dig("dependencies", name)&.delete_prefix("^")
+      package_json.dig("dependencies", name)&.delete_prefix("^")
     end
 
-    def self.package_json
+    def package_json
       return @package_json if defined?(@package_json)
 
       @package_json = begin

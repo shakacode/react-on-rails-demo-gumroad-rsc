@@ -30,22 +30,28 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("0.56 to 0.99")
     expect(page).to have_text("PageSpeed comparator pairs")
     expect(page).to have_text("PageSpeed Insights API returned HTTP 429")
+    expect(page).to have_text("Reproducibility artifacts and source")
+    find("summary", text: "Reproducibility artifacts and source").click
     expect(page).to have_link("hosted review-app A/B summary")
     expect(page).to have_link("Lighthouse URL-pair summary")
     expect(page).to have_link("Product detail live URL", href: PublicProductRscDemoPresenter::GUMROAD_PRODUCT_REFERENCE_URL)
 
-    expect(page).to have_link("Product detail mobile current-app PageSpeed")
-    expect(page).to have_link("Product detail mobile deployed-demo PageSpeed")
-    expect(page).to have_link("Product detail mobile live PageSpeed")
+    expect(page).to have_text("Open PageSpeed links")
+    within(all("details.dd-link-panel--nested").first) do
+      find("summary", text: "Open PageSpeed links").click
+      expect(page).to have_link("current app mobile")
+      expect(page).to have_link("deployed demo mobile")
+      expect(page).to have_link("live Gumroad mobile")
+      expect(page).to have_link("current app desktop")
+      expect(page).to have_link("deployed demo desktop")
+      expect(page).to have_link("live Gumroad desktop")
+    end
+
     expect(page).to have_text("Tendon Book by Jacked Athlete")
     expect(page).to have_link("Home", href: about_path)
-    expect(page).to have_link("Back to home", href: about_path)
     expect(page).to have_link("Compare deployed demo", href: deployed_performance_url)
-    expect(page).to have_link("Product Inertia", href: public_product_inertia_demo_path)
     expect(page).to have_link("Product RSC", href: public_product_rsc_demo_path)
-    expect(page).to have_link("Discover Inertia", href: public_product_discover_inertia_demo_path)
     expect(page).to have_link("Discover RSC", href: public_product_discover_rsc_demo_path)
-    expect(page).to have_link("Learn React on Rails", href: "https://reactonrails.com/")
     expect(page).to have_link("react_on_rails source", href: "https://github.com/shakacode/react_on_rails")
     expect(page).to have_link("Book a consultation", href: "https://meetings.hubspot.com/justingordon/30-minute-consultation")
     expect(page).to have_text("For Gumroad maintainers")
@@ -67,18 +73,15 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Recommended products")
     expect(page).to have_link("Open performance lab", href: public_product_performance_demo_path)
     expect(page).to have_link("Open RSC route", href: public_product_rsc_demo_path)
-    expect(page).to have_link("Back to home", href: about_path)
+    expect(page).to have_link("Compare deployed demo", href: deployed_performance_url)
 
     within("nav[aria-label='Public benchmark comparison routes']") do
       expect(page).to have_link("Home", href: about_path)
       expect(page).to have_link("Performance lab", href: public_product_performance_demo_path)
-      expect(page).to have_link("Deployed demo", href: deployed_performance_url)
       expect(page).to have_link("Product Inertia", aria: { current: "page" })
       expect(page).to have_link("Product RSC", href: public_product_rsc_demo_path)
       expect(page).to have_link("Discover Inertia", href: public_product_discover_inertia_demo_path)
       expect(page).to have_link("Discover RSC", href: public_product_discover_rsc_demo_path)
-      expect(page).to have_link("Live Product", href: PublicProductRscDemoPresenter::GUMROAD_PRODUCT_REFERENCE_URL)
-      expect(page).to have_link("Live Discover", href: PublicProductRscDemoPresenter::GUMROAD_DISCOVER_REFERENCE_URL)
     end
   end
 
@@ -95,7 +98,7 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_link("Open live Gumroad source", href: PublicProductRscDemoPresenter::GUMROAD_PRODUCT_REFERENCE_URL)
     expect(page).to have_link("Open performance lab", href: public_product_performance_demo_path)
     expect(page).to have_link("Open Inertia route", href: public_product_inertia_demo_path)
-    expect(page).to have_link("Back to home", href: about_path)
+    expect(page).to have_link("Compare deployed demo", href: deployed_performance_url)
 
     within("nav[aria-label='Public benchmark comparison routes']") do
       expect(page).to have_link("Product RSC", aria: { current: "page" })
@@ -115,7 +118,7 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Product grid")
     expect(page).to have_text("Launch Metrics OS")
     expect(page).to have_link("Open RSC route", href: public_product_discover_rsc_demo_path)
-    expect(page).to have_link("Back to home", href: about_path)
+    expect(page).to have_link("Compare deployed demo", href: deployed_performance_url)
 
     within("nav[aria-label='Public benchmark comparison routes']") do
       expect(page).to have_link("Discover Inertia", aria: { current: "page" })
@@ -134,7 +137,7 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Product grid")
     expect(page).to have_text("Launch Metrics OS")
     expect(page).to have_link("Open Inertia route", href: public_product_discover_inertia_demo_path)
-    expect(page).to have_link("Back to home", href: about_path)
+    expect(page).to have_link("Compare deployed demo", href: deployed_performance_url)
 
     within("nav[aria-label='Public benchmark comparison routes']") do
       expect(page).to have_link("Discover RSC", aria: { current: "page" })

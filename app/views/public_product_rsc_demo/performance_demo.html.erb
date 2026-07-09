@@ -331,14 +331,9 @@
     <nav class="dd-nav" aria-label="Public performance lab routes">
       <a href="<%= public_home_path %>">Home</a>
       <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
-      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Deployed demo</a>
-      <a href="<%= public_product_inertia_demo_path %>">Product Inertia</a>
       <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
-      <a href="<%= public_product_discover_inertia_demo_path %>">Discover Inertia</a>
       <a href="<%= public_product_discover_rsc_demo_path %>">Discover RSC</a>
-      <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
-      <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
-      <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
+      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Deployed demo</a>
     </nav>
 
     <footer class="dd-meta">
@@ -365,9 +360,7 @@
 
       <div class="dd-actions">
         <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
-        <a href="<%= public_home_path %>" class="dd-btn">Back to home</a>
         <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Compare deployed demo</a>
-        <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener" class="dd-btn">Learn React on Rails</a>
         <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
     </header>
@@ -438,16 +431,30 @@
         <header>
           <h2>Current branch ShakaPerf A/B result</h2>
           <p><%= @presenter.local_benchmark_method_note %></p>
-          <p class="dd-source-links dd-source-links--lead">
-            <span>Source for the measured app:</span>
-            <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">current branch A/B summary</a>
-            <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">hosted review-app A/B summary</a>
-            <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">Lighthouse URL-pair summary</a>
-            <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">deployed performance lab</a>
-            <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
-            <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
-            <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
-          </p>
+          <details class="dd-link-panel">
+            <summary>Reproducibility artifacts and source</summary>
+            <div class="dd-source-grid">
+              <p class="dd-source-links">
+                <span>Benchmark artifacts:</span>
+                <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">current branch A/B summary</a>
+                <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">hosted review-app A/B summary</a>
+                <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">Lighthouse URL-pair summary</a>
+                <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
+              </p>
+              <p class="dd-source-links">
+                <span>Implementation:</span>
+                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
+                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
+                <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
+              </p>
+              <p class="dd-source-links">
+                <span>External:</span>
+                <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">deployed performance lab</a>
+                <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
+                <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
+              </p>
+            </div>
+          </details>
         </header>
 
         <p class="dd-note is-info">
@@ -554,23 +561,33 @@
             <article class="dd-row">
               <p class="dd-copy">
                 <strong><%= pair[:surface] %>:</strong>
-                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> current app RSC URL</a>,
-                <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> deployed RSC URL</a>,
-                versus
+                compare
+                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">this RSC build</a>
+                with
                 <a href="<%= pair[:live_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> live URL</a>.
               </p>
-              <p class="dd-source-links">
-                <span>Mobile headline:</span>
-                <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile current-app PageSpeed</a>
-                <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile deployed-demo PageSpeed</a>
-                <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> mobile live PageSpeed</a>
-              </p>
-              <p class="dd-source-links">
-                <span>Desktop sanity:</span>
-                <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop current-app PageSpeed</a>
-                <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop deployed-demo PageSpeed</a>
-                <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> desktop live PageSpeed</a>
-              </p>
+              <details class="dd-link-panel dd-link-panel--nested">
+                <summary>Open PageSpeed links</summary>
+                <div class="dd-source-grid">
+                  <p class="dd-source-links">
+                    <span>Mobile headline:</span>
+                    <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener">current app mobile</a>
+                    <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">deployed demo mobile</a>
+                    <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad mobile</a>
+                  </p>
+                  <p class="dd-source-links">
+                    <span>Desktop sanity:</span>
+                    <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener">current app desktop</a>
+                    <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">deployed demo desktop</a>
+                    <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad desktop</a>
+                  </p>
+                  <p class="dd-source-links">
+                    <span>Direct URLs:</span>
+                    <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener">deployed RSC demo</a>
+                    <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">current RSC demo</a>
+                  </p>
+                </div>
+              </details>
             </article>
           <% end %>
         </div>

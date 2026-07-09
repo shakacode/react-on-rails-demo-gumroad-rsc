@@ -173,15 +173,10 @@ const BenchmarkNav = ({
   const links = [
     { href: comparison.home_url, label: "Home" },
     { href: comparison.performance_url, label: "Performance lab" },
-    { href: comparison.deployed_performance_url, label: "Deployed demo", external: true },
     { href: comparison.product_inertia_url, label: "Product Inertia", pageKind: "product", variant: "inertia" },
     { href: comparison.product_rsc_url, label: "Product RSC", pageKind: "product", variant: "rsc" },
     { href: comparison.discover_inertia_url, label: "Discover Inertia", pageKind: "discover", variant: "inertia" },
     { href: comparison.discover_rsc_url, label: "Discover RSC", pageKind: "discover", variant: "rsc" },
-    { href: comparison.gumroad_product_reference_url, label: "Live Product", external: true },
-    { href: comparison.gumroad_discover_reference_url, label: "Live Discover", external: true },
-    { href: comparison.react_on_rails_url, label: "React on Rails", external: true },
-    { href: comparison.shakacode_url, label: "ShakaCode", external: true },
   ] satisfies {
     external?: boolean;
     href: string;
@@ -538,9 +533,6 @@ export default function PublicProductComparisonPage({
             </a>
             <a href={compareHref} className="dd-btn">
               {copy.compareLabel}
-            </a>
-            <a href={comparison.home_url} className="dd-btn">
-              Back to home
             </a>
             <a href={comparison.deployed_performance_url} className="dd-btn" rel="noreferrer" target="_blank">
               Compare deployed demo
