@@ -72,11 +72,14 @@ public-page parity contract. For the current demo, verify the deployed fixture
 with:
 
 ```bash
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
 ```
 
 The check requires local media refs on both route pairs, plus initial `<img>`
 tags on the RSC pages so PageSpeed can observe the same media-bearing surface.
+Use the review-app host while reviewing PR 69 and the stable deployed host only
+after the media-bearing branch is merged there.
 
 ## What This Comparison Proves
 

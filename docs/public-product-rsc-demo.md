@@ -57,12 +57,15 @@ and static media assets as the measured branch. Before quoting PageSpeed or a
 deployed ShakaPerf run, check the target host:
 
 ```bash
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
 ```
 
 The command should pass for the host being measured. It is expected to fail on a
 stable deployment that predates PR 69's media fixture because those pages expose
-no local image refs.
+no local image refs. After PR 69 is merged and deployed, set `TARGET_BASE_URL` to
+`https://gumroad.reactonrails.com` and rerun the same check before treating the
+stable deployment as current.
 
 ## Why this page matters
 
@@ -172,12 +175,14 @@ Before rerunning the current artifact against any host, run the media parity
 gate:
 
 ```bash
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
 ```
 
 If it fails, the target still has the pre-media fixture and PageSpeed screenshots
 without product/card images are expected. Merge and deploy the media-bearing
-fixture first, then rerun ShakaPerf and PageSpeed.
+fixture first, then rerun the parity gate, ShakaPerf, and PageSpeed against that
+same host.
 
 The PageSpeed Insights API returned HTTP `429` from the benchmark environment
 on July 9, 2026 UTC, so the external URL-pair artifact uses a pinned local

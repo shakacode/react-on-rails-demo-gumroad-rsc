@@ -64,12 +64,16 @@ committed under `public/public-product-rsc-demo/media/`. Before treating any
 host as current media-bearing evidence, run:
 
 ```bash
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
 ```
 
 If the command fails, the host is still serving the pre-media fixture. PageSpeed
 reports for that host should be labeled diagnostic only, and the ShakaPerf
-headline should stay on the latest host that passes the parity check.
+headline should stay on the latest host that passes the parity check. Use the
+review-app host while reviewing PR 69, then switch `TARGET_BASE_URL` to
+`https://gumroad.reactonrails.com` only after the media-bearing branch is
+merged and deployed there.
 
 ## Current PR 69 Media-Bearing Public Buyer-Page Result
 
@@ -123,7 +127,7 @@ Interpretation:
 - keep this stable deployed run as chronology and reproducibility support, not the current headline claim
 - it predates the local synthetic media fixtures added in PR 69
 - rerun the same media-bearing benchmark against `https://gumroad.reactonrails.com` after PR 69 lands before calling the stable deployment current again
-- require `node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com` to pass before calling the stable deployment media-bearing
+- require `node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"` to pass on the host being measured before calling that host media-bearing
 
 ## Supporting PR 63 Review-App Public Buyer-Page Result
 
