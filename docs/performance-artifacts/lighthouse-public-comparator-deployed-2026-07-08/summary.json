@@ -1,0 +1,347 @@
+{
+  "capturedAtUtc": "2026-07-09T00:29:03.862Z",
+  "method": {
+    "harness": "lighthouse CLI",
+    "lighthouseVersion": "12.8.2",
+    "chromeVersion": "Google Chrome 150.0.7871.49",
+    "cyclesPerUrlPerStrategy": 3,
+    "categories": ["performance"],
+    "strategies": ["mobile", "desktop"],
+    "note": "Local Lighthouse run using PageSpeed-compatible Lighthouse metrics. PageSpeed Insights API returned HTTP 429 from this environment, so these are local Lighthouse artifacts rather than PageSpeed API artifacts.",
+    "pagespeedApiProbeArtifact": "pagespeed-api-probe.json",
+    "pagespeedApiProbe": {
+      "httpStatus": 429,
+      "status": "RESOURCE_EXHAUSTED",
+      "capturedAtUtc": "2026-07-09T00:30:09Z"
+    }
+  },
+  "urls": {
+    "product": {
+      "demoRsc": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+      "liveGumroad": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"
+    },
+    "discover": {
+      "demoRsc": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+      "liveGumroad": "https://gumroad.com/discover"
+    }
+  },
+  "caveats": [
+    "The demo URL is the public production demo host after the public-page demo PRs were merged, not a temporary review app.",
+    "These URL-pair results compare public demo pages to live Gumroad pages, not same-data Inertia-vs-RSC route pairs; use the ShakaPerf artifacts for same-fixture A/B evidence.",
+    "Network and third-party variance can move Lighthouse results. Three cycles per URL/strategy provide directional medians, not a final adoption benchmark."
+  ],
+  "variants": [
+    {
+      "surface": "discover",
+      "strategy": "desktop",
+      "variant": "demo-rsc",
+      "runs": 3,
+      "requestedUrl": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+      "finalUrls": ["https://gumroad.reactonrails.com/public_product/discover_rsc_demo"],
+      "fetchTimes": ["2026-07-09T00:24:49.816Z", "2026-07-09T00:26:45.959Z", "2026-07-09T00:28:37.614Z"],
+      "medians": {
+        "score": 1,
+        "lcpMs": 587.42,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 451.08,
+        "totalByteWeightBytes": 247073,
+        "mainthreadWorkMs": 69.12,
+        "jsExecutionMs": 0
+      },
+      "min": {
+        "score": 1,
+        "lcpMs": 380.03,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 437.16,
+        "totalByteWeightBytes": 246912,
+        "mainthreadWorkMs": 64.51,
+        "jsExecutionMs": 0
+      },
+      "max": {
+        "score": 1,
+        "lcpMs": 589.92,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 531.94,
+        "totalByteWeightBytes": 248348,
+        "mainthreadWorkMs": 70.03,
+        "jsExecutionMs": 0
+      }
+    },
+    {
+      "surface": "discover",
+      "strategy": "desktop",
+      "variant": "live-gumroad",
+      "runs": 3,
+      "requestedUrl": "https://gumroad.com/discover",
+      "finalUrls": ["https://gumroad.com/discover"],
+      "fetchTimes": ["2026-07-09T00:25:01.826Z", "2026-07-09T00:26:57.977Z", "2026-07-09T00:28:49.810Z"],
+      "medians": {
+        "score": 0.68,
+        "lcpMs": 4547.36,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 2746.32,
+        "totalByteWeightBytes": 12519508,
+        "mainthreadWorkMs": 515.35,
+        "jsExecutionMs": 221.46
+      },
+      "min": {
+        "score": 0.66,
+        "lcpMs": 4424.46,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 2073.18,
+        "totalByteWeightBytes": 12503104,
+        "mainthreadWorkMs": 502.73,
+        "jsExecutionMs": 178.62
+      },
+      "max": {
+        "score": 0.69,
+        "lcpMs": 5418.88,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 3736.74,
+        "totalByteWeightBytes": 12861171,
+        "mainthreadWorkMs": 518.07,
+        "jsExecutionMs": 228.51
+      }
+    },
+    {
+      "surface": "discover",
+      "strategy": "mobile",
+      "variant": "demo-rsc",
+      "runs": 3,
+      "requestedUrl": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+      "finalUrls": ["https://gumroad.reactonrails.com/public_product/discover_rsc_demo"],
+      "fetchTimes": ["2026-07-09T00:23:52.675Z", "2026-07-09T00:25:46.259Z", "2026-07-09T00:27:42.030Z"],
+      "medians": {
+        "score": 0.97,
+        "lcpMs": 2476.85,
+        "tbtMs": 0,
+        "cls": 0.02,
+        "speedIndexMs": 1541.18,
+        "totalByteWeightBytes": 246901,
+        "mainthreadWorkMs": 371.72,
+        "jsExecutionMs": 70.91
+      },
+      "min": {
+        "score": 0.97,
+        "lcpMs": 2472.47,
+        "tbtMs": 0,
+        "cls": 0.02,
+        "speedIndexMs": 1313.49,
+        "totalByteWeightBytes": 244177,
+        "mainthreadWorkMs": 369.82,
+        "jsExecutionMs": 69.78
+      },
+      "max": {
+        "score": 0.97,
+        "lcpMs": 2497.69,
+        "tbtMs": 3,
+        "cls": 0.02,
+        "speedIndexMs": 1548.66,
+        "totalByteWeightBytes": 246916,
+        "mainthreadWorkMs": 470.18,
+        "jsExecutionMs": 79.56
+      }
+    },
+    {
+      "surface": "discover",
+      "strategy": "mobile",
+      "variant": "live-gumroad",
+      "runs": 3,
+      "requestedUrl": "https://gumroad.com/discover",
+      "finalUrls": ["https://gumroad.com/discover"],
+      "fetchTimes": ["2026-07-09T00:24:05.109Z", "2026-07-09T00:25:58.312Z", "2026-07-09T00:27:53.964Z"],
+      "medians": {
+        "score": 0.58,
+        "lcpMs": 27210.88,
+        "tbtMs": 149,
+        "cls": 0.01,
+        "speedIndexMs": 6018.7,
+        "totalByteWeightBytes": 12584127,
+        "mainthreadWorkMs": 2004.03,
+        "jsExecutionMs": 928.41
+      },
+      "min": {
+        "score": 0.58,
+        "lcpMs": 12165.07,
+        "tbtMs": 130.5,
+        "cls": 0.01,
+        "speedIndexMs": 5975.08,
+        "totalByteWeightBytes": 12515651,
+        "mainthreadWorkMs": 1914.44,
+        "jsExecutionMs": 837.92
+      },
+      "max": {
+        "score": 0.59,
+        "lcpMs": 27620.44,
+        "tbtMs": 159.5,
+        "cls": 0.01,
+        "speedIndexMs": 6377.38,
+        "totalByteWeightBytes": 12646212,
+        "mainthreadWorkMs": 2201.14,
+        "jsExecutionMs": 1000.18
+      }
+    },
+    {
+      "surface": "product",
+      "strategy": "desktop",
+      "variant": "demo-rsc",
+      "runs": 3,
+      "requestedUrl": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+      "finalUrls": ["https://gumroad.reactonrails.com/public_product/rsc_demo"],
+      "fetchTimes": ["2026-07-09T00:24:22.291Z", "2026-07-09T00:26:14.774Z", "2026-07-09T00:28:10.871Z"],
+      "medians": {
+        "score": 1,
+        "lcpMs": 582.4,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 437.92,
+        "totalByteWeightBytes": 242142,
+        "mainthreadWorkMs": 53.07,
+        "jsExecutionMs": 0
+      },
+      "min": {
+        "score": 1,
+        "lcpMs": 382.07,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 369.44,
+        "totalByteWeightBytes": 242048,
+        "mainthreadWorkMs": 49.75,
+        "jsExecutionMs": 0
+      },
+      "max": {
+        "score": 1,
+        "lcpMs": 586.32,
+        "tbtMs": 0,
+        "cls": 0,
+        "speedIndexMs": 446.9,
+        "totalByteWeightBytes": 243265,
+        "mainthreadWorkMs": 53.67,
+        "jsExecutionMs": 0
+      }
+    },
+    {
+      "surface": "product",
+      "strategy": "desktop",
+      "variant": "live-gumroad",
+      "runs": 3,
+      "requestedUrl": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+      "finalUrls": ["https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"],
+      "fetchTimes": ["2026-07-09T00:24:35.184Z", "2026-07-09T00:26:26.630Z", "2026-07-09T00:28:23.472Z"],
+      "medians": {
+        "score": 0.78,
+        "lcpMs": 1797.56,
+        "tbtMs": 0,
+        "cls": 0.14,
+        "speedIndexMs": 1704.83,
+        "totalByteWeightBytes": 4937344,
+        "mainthreadWorkMs": 408.94,
+        "jsExecutionMs": 81.98
+      },
+      "min": {
+        "score": 0.77,
+        "lcpMs": 1687.63,
+        "tbtMs": 0,
+        "cls": 0.14,
+        "speedIndexMs": 1633.81,
+        "totalByteWeightBytes": 4930997,
+        "mainthreadWorkMs": 374.94,
+        "jsExecutionMs": 78.32
+      },
+      "max": {
+        "score": 0.82,
+        "lcpMs": 2127.72,
+        "tbtMs": 0,
+        "cls": 0.14,
+        "speedIndexMs": 2105.55,
+        "totalByteWeightBytes": 4938020,
+        "mainthreadWorkMs": 445.11,
+        "jsExecutionMs": 134.71
+      }
+    },
+    {
+      "surface": "product",
+      "strategy": "mobile",
+      "variant": "demo-rsc",
+      "runs": 3,
+      "requestedUrl": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+      "finalUrls": ["https://gumroad.reactonrails.com/public_product/rsc_demo"],
+      "fetchTimes": ["2026-07-09T00:23:19.889Z", "2026-07-09T00:25:19.142Z", "2026-07-09T00:27:14.663Z"],
+      "medians": {
+        "score": 0.98,
+        "lcpMs": 2422.79,
+        "tbtMs": 0,
+        "cls": 0.02,
+        "speedIndexMs": 1494.5,
+        "totalByteWeightBytes": 242140,
+        "mainthreadWorkMs": 214.26,
+        "jsExecutionMs": 58.35
+      },
+      "min": {
+        "score": 0.97,
+        "lcpMs": 2422.71,
+        "tbtMs": 0,
+        "cls": 0.02,
+        "speedIndexMs": 1163.42,
+        "totalByteWeightBytes": 242086,
+        "mainthreadWorkMs": 208.1,
+        "jsExecutionMs": 8.15
+      },
+      "max": {
+        "score": 0.98,
+        "lcpMs": 2506.89,
+        "tbtMs": 12,
+        "cls": 0.02,
+        "speedIndexMs": 1819.84,
+        "totalByteWeightBytes": 242248,
+        "mainthreadWorkMs": 350.98,
+        "jsExecutionMs": 106.21
+      }
+    },
+    {
+      "surface": "product",
+      "strategy": "mobile",
+      "variant": "live-gumroad",
+      "runs": 3,
+      "requestedUrl": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+      "finalUrls": ["https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"],
+      "fetchTimes": ["2026-07-09T00:23:32.747Z", "2026-07-09T00:25:31.213Z", "2026-07-09T00:27:26.749Z"],
+      "medians": {
+        "score": 0.57,
+        "lcpMs": 15590.34,
+        "tbtMs": 74,
+        "cls": 0.01,
+        "speedIndexMs": 8167.94,
+        "totalByteWeightBytes": 4053575,
+        "mainthreadWorkMs": 1589.84,
+        "jsExecutionMs": 793.93
+      },
+      "min": {
+        "score": 0.56,
+        "lcpMs": 9805.16,
+        "tbtMs": 68,
+        "cls": 0.01,
+        "speedIndexMs": 7258.66,
+        "totalByteWeightBytes": 4051970,
+        "mainthreadWorkMs": 1466.05,
+        "jsExecutionMs": 709.9
+      },
+      "max": {
+        "score": 0.58,
+        "lcpMs": 15672.38,
+        "tbtMs": 94,
+        "cls": 0.01,
+        "speedIndexMs": 8691.6,
+        "totalByteWeightBytes": 4060028,
+        "mainthreadWorkMs": 1689.52,
+        "jsExecutionMs": 863.08
+      }
+    }
+  ]
+}

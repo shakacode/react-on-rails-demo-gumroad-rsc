@@ -125,17 +125,20 @@ demo, and live Gumroad status quo without editing URLs by hand.
 
 Current artifacts:
 
+- Same-fixture deployed ShakaPerf:
+  [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json)
 - Same-fixture local ShakaPerf:
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)
-- Same-fixture hosted PR 63 review-app ShakaPerf:
+- Same-fixture supporting PR 63 review-app ShakaPerf:
   [performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json)
-- External demo-vs-live Lighthouse comparator:
-  [performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json)
+- External deployed-demo-vs-live Lighthouse comparator:
+  [performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)
 
 The PageSpeed Insights API returned HTTP `429` from the benchmark environment
-on July 8, 2026, so the external URL-pair artifact uses a pinned local
-`lighthouse@12.8.2` run. Use the ready-made PageSpeed links in the lab when API
-quota is available.
+on July 9, 2026 UTC, so the external URL-pair artifact uses a pinned local
+`lighthouse@12.8.2` run. The deployed Lighthouse artifact includes
+`pagespeed-api-probe.json` with the API response. Use the ready-made PageSpeed
+links in the lab when API quota is available.
 
 To re-sample public page shape without committing scraped content:
 

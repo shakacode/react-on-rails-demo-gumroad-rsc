@@ -16,7 +16,8 @@ class PublicProductRscDemoPresenter
   HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
   LOCAL_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json"
   HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
-  LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH = "docs/performance-artifacts/lighthouse-public-comparator-2026-07-08/summary.json"
+  DEPLOYED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json"
+  LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH = "docs/performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json"
   BENCHMARK_TIE_BAND_PERCENT = 5
 
   CONTROLLER_SOURCE_PATH = "app/controllers/public_product_rsc_demo_controller.rb"
@@ -241,6 +242,10 @@ class PublicProductRscDemoPresenter
     @local_benchmark ||= read_benchmark(LOCAL_BENCHMARK_ARTIFACT_PATH)
   end
 
+  def self.deployed_benchmark
+    @deployed_benchmark ||= read_benchmark(DEPLOYED_BENCHMARK_ARTIFACT_PATH)
+  end
+
   def route_source_links(page_kind)
     discover = page_kind.to_sym == :discover
     {
@@ -271,6 +276,10 @@ class PublicProductRscDemoPresenter
     "#{REPO_SOURCE_BASE_URL}/#{HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH}"
   end
 
+  def deployed_benchmark_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{DEPLOYED_BENCHMARK_ARTIFACT_PATH}"
+  end
+
   def lighthouse_comparator_artifact_url
     "#{REPO_SOURCE_BASE_URL}/#{LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH}"
   end
@@ -279,12 +288,20 @@ class PublicProductRscDemoPresenter
     benchmark_method_note(self.class.local_benchmark)
   end
 
+  def deployed_benchmark_method_note
+    benchmark_method_note(self.class.deployed_benchmark)
+  end
+
   def hosted_benchmark_method_note
     benchmark_method_note(self.class.hosted_benchmark)
   end
 
   def local_benchmark_caveats
     self.class.local_benchmark&.dig(:caveats) || []
+  end
+
+  def deployed_benchmark_caveats
+    self.class.deployed_benchmark&.dig(:caveats) || []
   end
 
   def hosted_benchmark_caveats
@@ -326,6 +343,10 @@ class PublicProductRscDemoPresenter
     benchmark_surfaces(self.class.local_benchmark)
   end
 
+  def deployed_benchmark_surfaces
+    benchmark_surfaces(self.class.deployed_benchmark)
+  end
+
   def hosted_benchmark_surfaces
     benchmark_surfaces(self.class.hosted_benchmark)
   end
@@ -346,7 +367,8 @@ class PublicProductRscDemoPresenter
       captured_at = data[:captured_at_utc] || data[:captured_at_utc_date]
       host = method[:measure_base_url] || method[:base_url] || data[:host]
       cycles = method[:cycles_per_pair] || method[:cycles]
-      "Captured #{captured_at} against #{host} with headless #{browser[:name]} #{browser[:version]}, " \
+      browser_label = method[:browser] || [browser[:name], browser[:version]].compact.join(" ")
+      "Captured #{captured_at} against #{host} with headless #{browser_label}, " \
         "#{cycles} alternating cycles, and #{method[:server_warmup_requests_per_run]} warmup requests per measured run."
     end
 

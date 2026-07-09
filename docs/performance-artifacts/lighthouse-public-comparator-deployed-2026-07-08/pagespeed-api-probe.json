@@ -1,0 +1,16 @@
+{
+  "captured_at_utc": "2026-07-09T00:30:09Z",
+  "probe": "PageSpeed Insights API availability check",
+  "http_status": 429,
+  "probe_url": "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https%3A%2F%2Fgumroad.reactonrails.com%2Fpublic_product%2Frsc_demo&strategy=mobile&category=performance",
+  "response": {
+    "error": {
+      "code": 429,
+      "status": "RESOURCE_EXHAUSTED",
+      "reason": "rateLimitExceeded",
+      "message": "Quota exceeded for PageSpeed Insights API daily query quota in this environment."
+    }
+  },
+  "sanitized": true,
+  "sanitization_note": "Removed Google consumer project identifier from the raw quota error message."
+}
