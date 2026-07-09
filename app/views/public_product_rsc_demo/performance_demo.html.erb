@@ -321,6 +321,7 @@
 <% public_home_path = about_path %>
 <% deployed_performance_url = @presenter.deployed_performance_demo_url %>
 <% evidence_cards = @presenter.performance_evidence_cards %>
+<% claim_status_cards = @presenter.performance_claim_status_cards %>
 <% comparison_terms = @presenter.comparison_terms %>
 
 <div class="dd dd-performance" data-rsc-performance-lab>
@@ -330,9 +331,16 @@
       <p>React Server Components via React on Rails Pro lab</p>
     </div>
 
-    <nav class="dd-nav" aria-label="Public performance lab routes">
+    <nav class="dd-nav" aria-label="Public performance lab sections">
+      <span class="dd-nav-label">Read the evidence</span>
+      <a href="#claim-status" aria-current="page">Claim status</a>
+      <a href="#comparison-vocabulary">Vocabulary</a>
+      <a href="#current-shakaperf-result">ShakaPerf A/B</a>
+      <a href="#pagespeed-comparator-pairs">PageSpeed diagnostics</a>
+      <a href="#reproduce-with-shakaperf">Reproduce</a>
+
+      <span class="dd-nav-label">Open routes</span>
       <a href="<%= public_home_path %>">Home</a>
-      <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
       <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
       <a href="<%= public_product_discover_rsc_demo_path %>">Discover RSC</a>
       <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Stable deployed demo</a>
@@ -382,6 +390,31 @@
     <% end %>
 
     <div class="dd-body">
+      <section class="dd-section" id="claim-status">
+        <header>
+          <h2>Read this evidence in order</h2>
+          <p>
+            The demo has one defensible performance claim today: same-host, same-fixture ShakaPerf A/B results for the
+            public product and Discover routes. PageSpeed links stay on the page to make the caution reproducible, not
+            to imply that the live Gumroad comparison is ready to cite.
+          </p>
+        </header>
+
+        <div class="dd-claim-grid">
+          <% claim_status_cards.each do |card| %>
+            <article class="dd-claim-card<%= " dd-claim-card--#{card[:tone]}" if card[:tone].present? %>">
+              <span><%= card[:step] %></span>
+              <div>
+                <p class="dd-eyebrow"><%= card[:label] %></p>
+                <h3><%= card[:title] %></h3>
+                <p><%= card[:body] %></p>
+                <a href="<%= card[:href] %>"><%= card[:link_label] %></a>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      </section>
+
       <p class="dd-note">
         The product fixture is source-attributed to
         <a href="<%= gumroad_product_reference_url %>" target="_blank" rel="noopener">Tendon Book by Jacked Athlete</a>:
@@ -717,7 +750,7 @@
         inertia_sources: discover_sources[:inertia],
         rsc_sources: discover_sources[:rsc] %>
 
-      <section class="dd-section">
+      <section class="dd-section" id="reproduce-with-shakaperf">
         <header>
           <h2>Reproduce with ShakaPerf</h2>
           <p>

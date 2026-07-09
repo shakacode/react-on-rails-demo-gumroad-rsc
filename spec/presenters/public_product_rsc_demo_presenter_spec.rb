@@ -208,6 +208,24 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#performance_claim_status_cards" do
+    it "keeps the valid claim, PageSpeed caveat, and next evidence gate explicit" do
+      cards = presenter.performance_claim_status_cards
+
+      expect(cards.map { |card| card[:title] }).to eq(
+        [
+          "Same-host ShakaPerf A/B",
+          "PageSpeed against live Gumroad",
+          "Rerun after Pro 17.0.0 final",
+        ]
+      )
+      expect(cards.second).to include(tone: "warning")
+      expect(cards.second[:body]).to include("not proof today")
+      expect(cards.third[:body]).to include("Wait for the final React on Rails Pro 17 release")
+      expect(cards.map { |card| card[:href] }).to include("#current-shakaperf-result", "#pagespeed-comparator-pairs", "#reproduce-with-shakaperf")
+    end
+  end
+
   describe "#shakaperf_reproduction_commands" do
     it "targets the current request host instead of the stable deployed host" do
       commands = presenter.shakaperf_reproduction_commands

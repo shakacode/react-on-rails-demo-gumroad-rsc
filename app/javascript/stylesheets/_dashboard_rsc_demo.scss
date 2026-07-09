@@ -58,6 +58,7 @@
 .dd-meta p,
 .dd-header p,
 .dd-evidence-card p,
+.dd-claim-card p,
 .dd-term-card p,
 .dd-section header p,
 .dd-metrics p,
@@ -81,6 +82,19 @@
   display: grid;
   gap: spacer(1);
   padding: spacer(3);
+}
+
+.dd-nav-label {
+  margin-top: spacer(2);
+  padding: spacer(2) spacer(4) 0;
+  color: rgb(255 255 255 / 0.55);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dd-nav-label:first-child {
+  margin-top: 0;
 }
 
 .dd-nav a,
@@ -191,6 +205,7 @@
 }
 
 .dd-evidence-card,
+.dd-claim-card,
 .dd-term-card {
   display: grid;
   align-content: start;
@@ -203,6 +218,7 @@
 }
 
 .dd-evidence-card h2,
+.dd-claim-card h3,
 .dd-term-card h3 {
   @include font-size(3);
 
@@ -241,6 +257,44 @@
   @include breakpoint-up(lg) {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+}
+
+.dd-claim-grid {
+  display: grid;
+  gap: spacer(3);
+
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dd-claim-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  background: rgb(var(--filled));
+}
+
+.dd-claim-card > span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: $border-width solid rgb(var(--success) / 0.4);
+  border-radius: 9999px;
+  background: rgb(var(--success) / 0.12);
+  font-weight: 700;
+}
+
+.dd-claim-card--warning > span {
+  border-color: rgb(var(--warning) / 0.5);
+  background: rgb(var(--warning) / 0.16);
+}
+
+.dd-claim-card a {
+  display: inline-block;
+  margin-top: spacer(2);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
 
 .dd-term-card span {

@@ -734,6 +734,36 @@ class PublicProductRscDemoPresenter
     ].compact
   end
 
+  def performance_claim_status_cards
+    [
+      {
+        step: "1",
+        label: "Valid headline claim",
+        title: "Same-host ShakaPerf A/B",
+        body: "Matched Inertia control versus React on Rails Pro RSC on the same host, with the same fixture data, committed local media, alternating cycles, and current PR artifacts.",
+        href: "#current-shakaperf-result",
+        link_label: "Read the ShakaPerf table",
+      },
+      {
+        step: "2",
+        label: "Diagnostic only",
+        title: "PageSpeed against live Gumroad",
+        body: "Useful for inspecting production gaps, but not proof today. The timeline screenshot showed the demo and live Gumroad did not load the same media surface.",
+        href: "#pagespeed-comparator-pairs",
+        link_label: "Open comparator links",
+        tone: "warning",
+      },
+      {
+        step: "3",
+        label: "Before a Gumroad issue",
+        title: "Rerun after Pro 17.0.0 final",
+        body: "Wait for the final React on Rails Pro 17 release, then rerun ShakaPerf and only quote PageSpeed once media, chrome, and production-service differences are comparable.",
+        href: "#reproduce-with-shakaperf",
+        link_label: "Copy reproduction commands",
+      },
+    ]
+  end
+
   def shakaperf_reproduction_commands
     method = self.class.media_review_benchmark&.dig(:method) || {}
 

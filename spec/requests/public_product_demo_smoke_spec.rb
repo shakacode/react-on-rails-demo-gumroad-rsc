@@ -12,6 +12,11 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).not_to have_current_path(login_path, ignore_query: true)
     expect(page).to have_selector("h1", text: "Gumroad RSC performance lab")
     expect(page).to have_text("Public buyer-page A/B report")
+    expect(page).to have_text("Read this evidence in order")
+    expect(page).to have_text("Valid headline claim")
+    expect(page).to have_text("Same-host ShakaPerf A/B")
+    expect(page).to have_text("PageSpeed against live Gumroad")
+    expect(page).to have_text("Rerun after Pro 17.0.0 final")
     expect(page).to have_text("What current, deployed, and live mean here")
     expect(page).to have_text("Matched Inertia control")
     expect(page).to have_text("This host RSC demo")
@@ -56,6 +61,10 @@ describe "Public product RSC demo routes", type: :system, js: true do
     end
 
     expect(page).to have_text("Tendon Book by Jacked Athlete")
+    expect(page).to have_link("Claim status", href: "#claim-status")
+    expect(page).to have_link("ShakaPerf A/B", href: "#current-shakaperf-result")
+    expect(page).to have_link("PageSpeed diagnostics", href: "#pagespeed-comparator-pairs")
+    expect(page).to have_link("Reproduce", href: "#reproduce-with-shakaperf")
     expect(page).to have_link("Home", href: about_path)
     expect(page).to have_link("Open stable deployed demo", href: deployed_performance_url)
     expect(page).to have_link("Product RSC", href: public_product_rsc_demo_path)
