@@ -186,7 +186,7 @@
   }
 
   @include breakpoint-up(lg) {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   }
 }
 
@@ -223,6 +223,11 @@
   padding: spacer(1) spacer(2);
   background: rgb(var(--success) / 0.12);
   font-weight: 600;
+}
+
+.dd-evidence-card--warning .dd-evidence-delta {
+  border-color: rgb(var(--warning) / 0.5);
+  background: rgb(var(--warning) / 0.16);
 }
 
 .dd-term-grid {
@@ -462,14 +467,28 @@
 }
 
 .dd-product-media {
+  position: relative;
   display: grid;
   min-height: 22rem;
+  overflow: hidden;
   place-items: center;
   align-content: center;
   gap: spacer(3);
   padding: spacer(4);
   color: #111;
   text-align: center;
+}
+
+.dd-product-media img,
+.dd-card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dd-product-media img {
+  position: absolute;
+  inset: 0;
 }
 
 .dd-product-media span,
@@ -480,6 +499,12 @@
   border-radius: 9999px;
   background: rgb(255 255 255 / 0.78);
   font-weight: 700;
+}
+
+.dd-product-media span,
+.dd-product-media strong {
+  position: relative;
+  z-index: 1;
 }
 
 .dd-product-media span {
@@ -597,11 +622,20 @@
 }
 
 .dd-card-cover {
+  position: relative;
   min-height: 11rem;
   border-bottom: $border-width solid $border-color;
 }
 
+.dd-card-cover img {
+  display: block;
+  min-height: 11rem;
+}
+
 .dd-card-cover span {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 3.5rem;
   height: 3.5rem;
   margin: spacer(3);

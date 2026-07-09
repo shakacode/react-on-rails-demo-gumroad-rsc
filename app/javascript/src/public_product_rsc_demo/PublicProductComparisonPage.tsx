@@ -47,12 +47,14 @@ type ProductCard = {
   seller: Seller;
   summary: string;
   taxonomy: string;
+  thumbnail_image_url: string;
   thumbnail_theme: Theme;
 };
 
 type ProductPage = {
   bullets: string[];
   call_to_action: string;
+  cover_image_url: string;
   cover_theme: Theme;
   currency_code: CurrencyCode;
   description_sections: { body: string; heading: string }[];
@@ -218,6 +220,13 @@ const ProductCardView = ({
 }) => (
   <a href={detailUrl} className="dd-product-card">
     <div className="dd-card-cover" style={coverStyle(card.thumbnail_theme)} aria-hidden="true">
+      <img
+        alt=""
+        decoding="async"
+        fetchPriority={eager ? "high" : "auto"}
+        loading={eager ? "eager" : "lazy"}
+        src={card.thumbnail_image_url}
+      />
       <span>{card.seller.avatar_initials}</span>
     </div>
     <div className="dd-card-body">
@@ -297,6 +306,13 @@ const ProductDetailBenchmark = ({
         </div>
 
         <div className="dd-product-media" style={coverStyle(product.cover_theme)}>
+          <img
+            alt={`${product.name} synthetic demo cover`}
+            decoding="async"
+            fetchPriority="high"
+            loading="eager"
+            src={product.cover_image_url}
+          />
           <span>{product.seller.avatar_initials}</span>
           <strong>{product.name}</strong>
         </div>
@@ -553,7 +569,8 @@ export default function PublicProductComparisonPage({
             <a href={product_page.source_url} rel="noreferrer" target="_blank">
               {product_page.source_label}
             </a>
-            . Longer product copy is lightly rewritten for a reproducible public benchmark.
+            . Longer product copy is lightly rewritten, and local synthetic media is used so the fixture loads images
+            without copying creator-owned media.
           </p>
         ) : (
           <p className="dd-note dd-fixture-note">

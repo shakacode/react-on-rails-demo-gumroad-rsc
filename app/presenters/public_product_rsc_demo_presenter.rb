@@ -11,6 +11,7 @@ class PublicProductRscDemoPresenter
   GUMROAD_DISCOVER_REFERENCE_URL = "https://gumroad.com/discover"
   GUMROAD_PRODUCT_REFERENCE_URL = "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"
   PAGE_SPEED_INSIGHTS_URL = "https://pagespeed.web.dev/analysis"
+  DEMO_MEDIA_BASE_PATH = "/public-product-rsc-demo/media"
 
   REPO_SOURCE_BASE_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
   HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
@@ -54,6 +55,7 @@ class PublicProductRscDemoPresenter
     call_to_action: "Buy this",
     source_url: GUMROAD_PRODUCT_REFERENCE_URL,
     source_label: "Tendon Book by Jacked Athlete",
+    cover_image_url: "#{DEMO_MEDIA_BASE_PATH}/tendon-book-cover.svg",
     seller: {
       name: "Jacked Athlete",
       tagline: "Training resources for tendon health and athletic performance",
@@ -520,6 +522,17 @@ class PublicProductRscDemoPresenter
     ["#f1f333", "#ff90e8"],
   ].freeze
 
+  DISCOVER_MEDIA_FILES = [
+    "marketplace-analytics.svg",
+    "marketplace-brushes.svg",
+    "marketplace-code.svg",
+    "marketplace-email.svg",
+    "marketplace-audio.svg",
+    "marketplace-habits.svg",
+    "marketplace-photo.svg",
+    "marketplace-course.svg",
+  ].freeze
+
   attr_reader :request
 
   def initialize(request:)
@@ -680,13 +693,13 @@ class PublicProductRscDemoPresenter
       {
         label: "Stable deployed RSC demo",
         eyebrow: HOSTED_DEMO_BASE_URL,
-        description: "The public demo deployment used for the headline hosted ShakaPerf and Lighthouse artifacts. This is the stable URL to share when the review app is gone.",
+        description: "The public demo deployment used for the headline hosted ShakaPerf artifacts. This is the stable URL to share when the review app is gone.",
         href: hosted_demo_url(public_product_rsc_demo_path),
       },
       {
         label: "Live Gumroad reference",
         eyebrow: "External status quo",
-        description: "The real Gumroad product or Discover page used for PageSpeed-style context. It is useful evidence, but not the same-data A/B baseline.",
+        description: "The real Gumroad product or Discover page used for PageSpeed diagnostics. It is not valid proof until media, chrome, and production-service differences are accounted for.",
         href: GUMROAD_PRODUCT_REFERENCE_URL,
       },
     ]
@@ -696,8 +709,7 @@ class PublicProductRscDemoPresenter
     [
       shakaperf_evidence_card(:product, "Product navigation"),
       shakaperf_evidence_card(:discover, "Discover navigation"),
-      lighthouse_evidence_card(:product, "Product PageSpeed-style score"),
-      lighthouse_evidence_card(:discover, "Discover PageSpeed-style score"),
+      page_speed_diagnostic_card,
     ].compact
   end
 
@@ -797,12 +809,6 @@ class PublicProductRscDemoPresenter
       (self.class.deployed_benchmark&.fetch(:results, []) || []).find { |result| result[:key] == key.to_s }
     end
 
-    def lighthouse_variant(surface, variant)
-      (self.class.lighthouse_comparator&.fetch(:variants, []) || []).find do |entry|
-        entry[:surface] == surface.to_s && entry[:strategy] == "mobile" && entry[:variant] == variant
-      end
-    end
-
     def shakaperf_evidence_card(key, label)
       result = benchmark_result(key)
       navigation = result&.fetch(:median_navigation_duration_ms, nil)
@@ -817,21 +823,14 @@ class PublicProductRscDemoPresenter
       }
     end
 
-    def lighthouse_evidence_card(surface, label)
-      demo = lighthouse_variant(surface, "demo-rsc")
-      live = lighthouse_variant(surface, "live-gumroad")
-      return if demo.blank? || live.blank?
-
-      live_medians = live.fetch(:medians)
-      demo_medians = demo.fetch(:medians)
-      score_delta = ((demo_medians.fetch(:score).to_f - live_medians.fetch(:score).to_f) * 100).round
-
+    def page_speed_diagnostic_card
       {
-        eyebrow: "Live Gumroad -> stable demo",
-        label:,
-        value: "#{format_lighthouse_score(live_medians.fetch(:score))} -> #{format_lighthouse_score(demo_medians.fetch(:score))}",
-        delta: "+#{score_delta} pts",
-        note: "Mobile LCP #{format_seconds(live_medians.fetch(:lcpMs))} -> #{format_seconds(demo_medians.fetch(:lcpMs))}.",
+        eyebrow: "External PageSpeed",
+        label: "Diagnostic only",
+        value: "Needs media parity",
+        delta: "Not evidence yet",
+        note: "Live Gumroad loads production imagery and chrome; use PageSpeed links to inspect gaps, not as the current proof.",
+        tone: "warning",
       }
     end
 
@@ -904,14 +903,6 @@ class PublicProductRscDemoPresenter
       return "#{trim_number(value / 1024.0)} KB" if value >= 1024
 
       "#{value.to_i} B"
-    end
-
-    def format_lighthouse_score(value)
-      format("%.2f", value.to_f)
-    end
-
-    def format_seconds(milliseconds)
-      "#{trim_number(milliseconds.to_f / 1000.0, 1)}s"
     end
 
     def trim_number(value, precision = 2)
@@ -998,6 +989,7 @@ class PublicProductRscDemoPresenter
             count: 48 + (index * 37) % 620,
             average: (4.2 + ((index % 7) * 0.1)).round(1),
           },
+          thumbnail_image_url: "#{DEMO_MEDIA_BASE_PATH}/#{DISCOVER_MEDIA_FILES[index % DISCOVER_MEDIA_FILES.length]}",
           thumbnail_theme: {
             start: theme_start,
             end: theme_end,

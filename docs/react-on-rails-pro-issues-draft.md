@@ -29,19 +29,18 @@ Shared evidence now has three layers:
 - Local and PR 63 review-app ShakaPerf runs from `2026-07-08 UTC`, linked from
   [public-product-rsc-demo.md](./public-product-rsc-demo.md), preserve the
   same overall direction and explain the response-end tradeoff.
-- Deployed Lighthouse URL-pair run (`lighthouse@12.8.2`, 3 runs per URL and
-  strategy, see
+- Deployed Lighthouse URL-pair diagnostic (`lighthouse@12.8.2`, 3 runs per URL
+  and strategy, see
   [summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)):
-  product mobile score `0.57` -> `0.98`, product mobile LCP `15.59s` ->
-  `2.42s`; Discover mobile score `0.58` -> `0.97`, Discover mobile LCP
-  `27.21s` -> `2.48s`.
+  keep this as an audit trail and parity check, not as current proof. A timeline
+  review showed the live Gumroad pages loaded production imagery and chrome that
+  the demo did not yet match.
 
 The remaining gaps below are what still make the final Gumroad-facing proof
 harder: the deployed run records strong public-network navigation and JS
-evidence with an honest response-end tradeoff, and the Lighthouse fallback is
-favorable; PageSpeed API or field-data scores, RSC payload timing, CDN-safe
-streaming timing, and hydration/interactivity marks still need first-class
-measurement.
+evidence with an honest response-end tradeoff. PageSpeed API or field-data
+scores after media parity, RSC payload timing, CDN-safe streaming timing, and
+hydration/interactivity marks still need first-class measurement.
 
 ---
 

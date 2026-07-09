@@ -33,6 +33,6 @@ Method:
 
 Interpretation:
 
-- These results are strong external URL-pair evidence that the deployed RSC demo pages are lighter and faster than the comparable live Gumroad pages under Lighthouse.
-- They are not same-data architecture proof; use the ShakaPerf artifacts for the controlled Inertia-vs-RSC route-pair comparison.
+- These results are not valid claim evidence. A later timeline review showed the URL pairs were not apples-to-apples because live Gumroad loaded production imagery and chrome that the demo did not yet match.
+- Keep this artifact as an audit trail and parity diagnostic; use the ShakaPerf artifacts for the controlled Inertia-vs-RSC route-pair comparison.
 - Full Lighthouse JSON was not committed because it is large; `runs.ndjson` preserves the extracted metrics used to build `summary.json`.

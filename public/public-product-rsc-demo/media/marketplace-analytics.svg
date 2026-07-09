@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic analytics dashboard thumbnail</title>
+  <desc id="desc">A locally generated marketplace thumbnail for benchmark fixture cards.</desc>
+  <rect width="640" height="420" fill="#111"/>
+  <rect x="44" y="44" width="552" height="332" rx="18" fill="#f5f5f0"/>
+  <rect x="82" y="84" width="166" height="44" rx="8" fill="#23a094"/>
+  <rect x="274" y="84" width="244" height="44" rx="8" fill="#ffc900"/>
+  <rect x="82" y="166" width="476" height="22" rx="11" fill="#ddd"/>
+  <rect x="82" y="220" width="78" height="92" rx="8" fill="#ff90e8"/>
+  <rect x="190" y="184" width="78" height="128" rx="8" fill="#23a094"/>
+  <rect x="298" y="242" width="78" height="70" rx="8" fill="#ffc900"/>
+  <rect x="406" y="144" width="78" height="168" rx="8" fill="#ff7051"/>
+  <path d="M86 346h468" stroke="#111" stroke-width="8" stroke-linecap="round"/>
+</svg>

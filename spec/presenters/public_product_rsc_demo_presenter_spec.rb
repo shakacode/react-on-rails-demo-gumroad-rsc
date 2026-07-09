@@ -127,7 +127,9 @@ describe PublicProductRscDemoPresenter do
       expect(product.fetch(:ratings)).to include(average: 5.0, count: 10)
       expect(product.fetch(:ratings).fetch(:percentages)).to eq([0, 0, 0, 0, 100])
       expect(product.fetch(:source_url)).to eq("https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search")
+      expect(product.fetch(:cover_image_url)).to eq("/public-product-rsc-demo/media/tendon-book-cover.svg")
       expect(product.fetch(:description_sections).first.fetch(:body)).to include("visible before hydration")
+      expect(product.fetch(:recommendations).map { |card| card.fetch(:thumbnail_image_url) }).to all(start_with("/public-product-rsc-demo/media/"))
       expect(product.to_json).not_to include("Creator Analytics Playbook")
       expect(product.to_json).not_to include("Northstar Studio")
     end
@@ -146,6 +148,7 @@ describe PublicProductRscDemoPresenter do
         audience_label: "Creator operators"
       )
       expect(first_product.fetch(:seller).fetch(:name)).to eq("Metric Harbor")
+      expect(first_product.fetch(:thumbnail_image_url)).to eq("/public-product-rsc-demo/media/marketplace-analytics.svg")
       expect(discover.to_json).not_to include("gumroad.com")
     end
   end
@@ -166,22 +169,23 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "#performance_evidence_cards" do
-    it "summarizes same-host ShakaPerf and live-Gumroad Lighthouse evidence" do
+    it "summarizes same-host ShakaPerf and labels PageSpeed as diagnostic only" do
       cards = presenter.performance_evidence_cards
 
       expect(cards.map { |card| card[:label] }).to include(
         "Product navigation",
         "Discover navigation",
-        "Product PageSpeed-style score",
-        "Discover PageSpeed-style score"
+        "Diagnostic only"
       )
+      expect(cards.map { |card| card[:label] }).not_to include("Product PageSpeed-style score", "Discover PageSpeed-style score")
       expect(cards.find { |card| card[:label] == "Product navigation" }).to include(
         value: "883.9 ms -> 267.25 ms",
         delta: "-69.8%"
       )
-      expect(cards.find { |card| card[:label] == "Discover PageSpeed-style score" }).to include(
-        value: "0.58 -> 0.97",
-        delta: "+39 pts"
+      expect(cards.find { |card| card[:label] == "Diagnostic only" }).to include(
+        value: "Needs media parity",
+        delta: "Not evidence yet",
+        tone: "warning"
       )
     end
   end

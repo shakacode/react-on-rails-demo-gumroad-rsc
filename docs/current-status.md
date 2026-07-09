@@ -36,19 +36,17 @@ because the route streams more complete server-rendered HTML.
 The earlier local and PR 63 review-app results remain useful chronology and
 reproducibility context, but they are no longer the hosted headline evidence.
 
-## Deployed Lighthouse URL-Pair Comparator
+## Deployed Lighthouse URL-Pair Diagnostic
 
 Because the PageSpeed Insights API returned HTTP `429` from this environment,
 the external URL comparison was captured with local `lighthouse@12.8.2` instead.
 The deployed rerun uses `3` runs per URL per mobile/desktop strategy.
 
-| Surface              | Strategy |           Live -> demo score |                         Live -> demo LCP |       Live -> demo TBT |           Live -> demo total byte weight |
-| -------------------- | -------- | ---------------------------: | ---------------------------------------: | ---------------------: | ---------------------------------------: |
-| Product detail       | Mobile   | `0.57` -> `0.98` (`+41 pts`) | `15,590.34ms` -> `2,422.79ms` (`-84.5%`) |  `74.00ms` -> `0.00ms` |  `4,053,575 B` -> `242,140 B` (`-94.0%`) |
-| Discover marketplace | Mobile   | `0.58` -> `0.97` (`+39 pts`) | `27,210.88ms` -> `2,476.85ms` (`-90.9%`) | `149.00ms` -> `0.00ms` | `12,584,127 B` -> `246,901 B` (`-98.0%`) |
-
-These URL pairs compare the public RSC demo host to live Gumroad pages. They are
-external credibility evidence, not the controlled same-data architecture proof.
+Do not quote the current live-Gumroad-versus-demo scores as evidence. A timeline
+review showed this URL-pair run was not apples-to-apples: live Gumroad loaded
+production imagery and chrome that the demo did not yet match. Keep the artifact
+for auditability and use the PageSpeed links to diagnose parity gaps. The
+controlled same-data architecture proof remains the ShakaPerf route-pair run.
 The older hosted `2026-06-24` run remains historical support for JavaScript
 request and transfer deltas, but it predates the Tendon Book fixture.
 
@@ -69,7 +67,7 @@ request and transfer deltas, but it predates the Tendon Book fixture.
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json).
 - Supporting PR 63 result details are in
   [performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json).
-- Lighthouse URL-pair details are in
+- Diagnostic Lighthouse URL-pair details are in
   [performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json).
 - Rspack is framed as build/tooling infrastructure only; the runtime performance
   premise is React Server Components via React on Rails Pro.
@@ -77,13 +75,14 @@ request and transfer deltas, but it predates the Tendon Book fixture.
 ## Remaining Proof Gates
 
 - Capture PageSpeed Insights API reports or field data for `INP` and mobile
-  score once API quota is available. The latest API probe is HTTP `429`
-  `RESOURCE_EXHAUSTED`, and the local Lighthouse fallback does not provide
-  field data.
+  score once API quota is available and the demo has production-equivalent
+  media parity. The latest API probe is HTTP `429` `RESOURCE_EXHAUSTED`, and
+  the local Lighthouse fallback does not provide field data.
 - If using Pro 17 static RSC caching, add it as a separately named cached static
   route variant rather than folding it into the headline matched route pair.
-- Add sanitized local image/media fixtures and rerun the benchmark, because the
-  current committed fixture uses synthetic cover placeholders.
+- Rerun the benchmark after the new local media fixtures are deployed, and add
+  production-equivalent responsive image/CDN parity before using live PageSpeed
+  numbers as evidence.
 - For a stronger Gumroad-maintainer case, wire sanitized production-shaped props
   into the real public `Discover/Index` and `Products/Discover/Show` components
   where feasible, then compare those with an RSC equivalent.
@@ -92,5 +91,5 @@ request and transfer deltas, but it predates the Tendon Book fixture.
 
 The result is strong enough to continue the Gumroad-facing pitch and ask
 maintainers what proof they would need next. It is still not enough to claim
-Gumroad should adopt the architecture wholesale; the response-end tradeoff and
-lack of PageSpeed field data should stay visible.
+Gumroad should adopt the architecture wholesale; the response-end tradeoff,
+media-parity caveat, and lack of PageSpeed field data should stay visible.

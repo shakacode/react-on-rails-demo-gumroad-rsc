@@ -38,9 +38,9 @@ fixture, and do not commit raw scraped payload output.
 
 Observed public page shapes:
 
-| Public page | Inertia component | Useful shape signal |
-| --- | --- | --- |
-| Discover marketplace | `Discover/Index` | `search_results.products` has `36` cards, `tags_data` has `8` entries, `filetypes_data` has `8` entries, and `taxonomies_for_nav` has `342` entries. |
+| Public page                  | Inertia component        | Useful shape signal                                                                                                                                        |
+| ---------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Discover marketplace         | `Discover/Index`         | `search_results.products` has `36` cards, `tags_data` has `8` entries, `filetypes_data` has `8` entries, and `taxonomies_for_nav` has `342` entries.       |
 | Product with Discover layout | `Products/Discover/Show` | `product` includes seller, cover, rating, summary, `description_html`, price, purchase-state fields, refund policy, public files, and taxonomy navigation. |
 
 ## How The Fixture Uses The Shape
@@ -58,7 +58,7 @@ shape with two different content policies:
   [Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search),
   preserving title, seller, price, ebook type, rating summary, and source link.
   Longer summary/body/FAQ text is rewritten for the demo.
-- `product_page` still includes media theme, description sections, included
+- `product_page` still includes local synthetic media, media theme, description sections, included
   files, FAQ, and recommendations so the benchmark includes SEO and
   conversion-sensitive copy.
 - Both the Inertia and RSC routes use the same presenter output, same host, same
@@ -82,8 +82,8 @@ This is not yet the final Gumroad adoption proof:
 - It does not claim the production Gumroad `Discover/Index` component itself has
   been ported to RSC.
 - It does not copy raw creator body copy or use real creator media.
-- It still needs PageSpeed API or field-data corroboration before making a
-  stronger adoption proposal.
+- It still needs production-equivalent media parity, then PageSpeed API or
+  field-data corroboration before making a stronger adoption proposal.
 - PageSpeed comparisons should target public URLs, not repositories: the hosted
   RSC demo URL versus the live Gumroad URL for the same surface.
 - A stronger follow-up would wire sanitized production-shaped props into the
