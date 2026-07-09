@@ -20,10 +20,22 @@ the page itself.
 
 The lab is intentionally shaped like an evidence article rather than a link
 directory. The persistent navigation stays on the primary story: home,
-performance lab, the two RSC candidates, and the deployed demo. Supporting
+performance lab, the two RSC candidates, and the stable deployed demo. Supporting
 source links, benchmark artifacts, and PageSpeed rerun links live in expandable
 reproducibility panels so a Gumroad reviewer can read the claim first and still
 get exact URLs for independent checks.
+
+Naming on the lab page should stay explicit:
+
+- "matched Inertia control" means the same-fixture baseline route inside this
+  demo app, not live Gumroad production.
+- "this host RSC demo" means the RSC route on the host currently in the address
+  bar, such as a review app or local server.
+- "stable deployed RSC demo" means
+  `https://gumroad.reactonrails.com/public_product/rsc_demo` and its Discover
+  counterpart.
+- "live Gumroad" means the real Gumroad product or Discover URL used for
+  PageSpeed-style external context, not the same-data A/B baseline.
 
 The headline routes use stable, logged-out, same-origin fixtures. The product
 fixture is now source-attributed to
@@ -107,19 +119,19 @@ media.
 The lab exposes ready-to-click PageSpeed links for the public URL pairs that
 matter for an upstream Gumroad issue:
 
-- Product detail current-app demo: `/public_product/rsc_demo` on the current host
-- Product detail deployed demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
+- Product detail this-host demo: `/public_product/rsc_demo` on the request host
+- Product detail stable deployed demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
 - Product detail live comparator: `https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search`
-- Discover current-app demo: `/public_product/discover_rsc_demo` on the current host
-- Discover deployed demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
+- Discover this-host demo: `/public_product/discover_rsc_demo` on the request host
+- Discover stable deployed demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
 - Discover live comparator: `https://gumroad.com/discover`
 
 Use mobile PageSpeed/Lighthouse results as the headline external proof and
 desktop as a sanity check. Treat these URL comparisons as external credibility
 evidence. The controlled architecture proof is still the alternating same-host
 Inertia-vs-RSC benchmark, where both variants use the same fixture data.
-On review apps, the lab generates current-app PageSpeed links from the request
-host and keeps separate deployed-demo links back to
+On review apps, the lab generates this-host PageSpeed links from the request
+host and keeps separate stable-deployed links back to
 `https://gumroad.reactonrails.com`, so reviewers can compare the PR, deployed
 demo, and live Gumroad status quo without editing URLs by hand.
 

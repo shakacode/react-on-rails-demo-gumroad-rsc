@@ -148,43 +148,367 @@ class PublicProductRscDemoPresenter
     { key: "software", doc_count: 860 },
   ].freeze
 
-  CARD_NAMES = [
-    ["Launch Metrics OS", "Metric Harbor", "business-and-money", "template", 4900],
-    ["Pixel Brush Studio Kit", "Palette Forge", "drawing-and-painting", "brush pack", 2200],
-    ["Indie SaaS Pricing Lab", "Lumen Works", "software-development", "workbook", 5900],
-    ["Creator Email Swipe File", "Small Bet Supply", "writing-and-publishing", "templates", 1900],
-    ["Sound Pack: Glass Cities", "Wave Table Club", "music-and-sound-design", "sample pack", 2800],
-    ["Notion Habit Dashboard", "Useful Systems", "self-improvement", "notion template", 1200],
-    ["Mobile Photo Presets", "Wildlight Lab", "photography", "preset pack", 2400],
-    ["Course Outline Builder", "Bright Stack", "education", "course template", 3400],
-    ["Portfolio Type System", "Signal Type Co.", "design", "font bundle", 4200],
-    ["API Client Starter", "Shipyard Code", "software-development", "starter kit", 6900],
-    ["Freelance Proposal Vault", "Paper Trail Studio", "business-and-money", "templates", 2700],
-    ["Storyboard Procreate Pack", "Frame Garden", "drawing-and-painting", "brush pack", 2500],
-    ["Yoga Class Planner", "Studio Reset", "fitness-and-health", "planner", 1800],
-    ["Synthwave Loop Library", "Neon Tape", "music-and-sound-design", "loops", 3600],
-    ["Newsletter Growth Map", "Tiny Audience", "business-and-money", "guide", 3100],
-    ["Rails Performance Notes", "Full Stack Field", "software-development", "ebook", 3900],
-    ["Editorial Mockup Kit", "Offset Objects", "design", "mockups", 2900],
-    ["Digital Product Tax Checklist", "Ledger Light", "business-and-money", "checklist", 1500],
-    ["Character Pose Reference", "Draw Daily", "drawing-and-painting", "reference pack", 2100],
-    ["Meditation Audio Starter", "Quiet Habit", "self-improvement", "audio course", 1700],
-    ["Customer Interview Script", "Research Bench", "business-and-money", "script pack", 1600],
-    ["Frontend Pattern Cards", "Interface Kitchen", "software-development", "reference deck", 3300],
-    ["Film LUT Collection", "Color Cabin", "films", "luts", 2600],
-    ["Micro Course Sales Page", "Launch Shelf", "education", "template", 4500],
-    ["Icon Grid System", "Vector Mill", "design", "asset pack", 2300],
-    ["Ambient Texture Library", "Field Audio Lab", "music-and-sound-design", "sound library", 3200],
-    ["Creator Finance Tracker", "Metric Harbor", "business-and-money", "spreadsheet", 2100],
-    ["3D Product Render Basics", "Render Room", "3d", "video lessons", 5300],
-    ["Writing Sprint Planner", "Inkline Studio", "writing-and-publishing", "planner", 900],
-    ["Landing Page Copy Blocks", "Conversion Cottage", "business-and-money", "copy kit", 3700],
-    ["Game UI Button Pack", "Sprite Foundry", "gaming", "asset pack", 1900],
-    ["Low Content Book Interiors", "Print Meadow", "writing-and-publishing", "templates", 2500],
-    ["Personal CRM Blueprint", "Useful Systems", "self-improvement", "notion template", 1400],
-    ["Podcast Edit Checklist", "Wave Table Club", "audio", "checklist", 1100],
-    ["Customer Support Macros", "Help Desk Garden", "business-and-money", "templates", 1800],
-    ["React Form Recipes", "Shipyard Code", "software-development", "code examples", 4100],
+  DISCOVER_PRODUCT_CARDS = [
+    {
+      name: "Launch Metrics OS",
+      seller_name: "Metric Harbor",
+      taxonomy: "business-and-money",
+      native_type: "notion template",
+      price_cents: 4900,
+      summary: "Track launch experiments, preorders, revenue, refunds, and cohort notes from one founder dashboard.",
+      format_label: "Notion + Sheets",
+      audience_label: "Creator operators",
+    },
+    {
+      name: "Pixel Brush Studio Kit",
+      seller_name: "Palette Forge",
+      taxonomy: "drawing-and-painting",
+      native_type: "brush pack",
+      price_cents: 2200,
+      summary: "Layered sketch, ink, grain, and paint brushes tuned for commercial illustration workflows.",
+      format_label: "Procreate",
+      audience_label: "Illustrators",
+    },
+    {
+      name: "Indie SaaS Pricing Lab",
+      seller_name: "Lumen Works",
+      taxonomy: "software-development",
+      native_type: "workbook",
+      price_cents: 5900,
+      summary: "A pricing worksheet, competitor matrix, and upgrade-path calculator for small software products.",
+      format_label: "PDF + spreadsheet",
+      audience_label: "SaaS founders",
+    },
+    {
+      name: "Creator Email Swipe File",
+      seller_name: "Small Bet Supply",
+      taxonomy: "writing-and-publishing",
+      native_type: "templates",
+      price_cents: 1900,
+      summary: "Launch, nurture, discount, and win-back email drafts with notes on when each message is useful.",
+      format_label: "Copy deck",
+      audience_label: "Newsletter sellers",
+    },
+    {
+      name: "Sound Pack: Glass Cities",
+      seller_name: "Wave Table Club",
+      taxonomy: "music-and-sound-design",
+      native_type: "sample pack",
+      price_cents: 2800,
+      summary: "Clean plucks, skyline pads, and rhythmic one-shots for cinematic synth-pop production.",
+      format_label: "WAV loops",
+      audience_label: "Producers",
+    },
+    {
+      name: "Notion Habit Dashboard",
+      seller_name: "Useful Systems",
+      taxonomy: "self-improvement",
+      native_type: "notion template",
+      price_cents: 1200,
+      summary: "Daily habit logs, energy check-ins, weekly reviews, and streak views for lightweight accountability.",
+      format_label: "Notion",
+      audience_label: "Self trackers",
+    },
+    {
+      name: "Mobile Photo Presets",
+      seller_name: "Wildlight Lab",
+      taxonomy: "photography",
+      native_type: "preset pack",
+      price_cents: 2400,
+      summary: "Warm editorial presets for mobile creators who need consistent product and travel imagery.",
+      format_label: "Lightroom",
+      audience_label: "Photographers",
+    },
+    {
+      name: "Course Outline Builder",
+      seller_name: "Bright Stack",
+      taxonomy: "education",
+      native_type: "course template",
+      price_cents: 3400,
+      summary: "Turn a rough teaching idea into modules, lessons, assessments, and a launch checklist.",
+      format_label: "Template kit",
+      audience_label: "Educators",
+    },
+    {
+      name: "Portfolio Type System",
+      seller_name: "Signal Type Co.",
+      taxonomy: "design",
+      native_type: "font bundle",
+      price_cents: 4200,
+      summary: "A restrained display and text pairing with licensing notes for portfolio and case-study pages.",
+      format_label: "OTF + WOFF",
+      audience_label: "Designers",
+    },
+    {
+      name: "API Client Starter",
+      seller_name: "Shipyard Code",
+      taxonomy: "software-development",
+      native_type: "starter kit",
+      price_cents: 6900,
+      summary: "Typed request helpers, retry policies, fixtures, and docs for shipping a polished API client faster.",
+      format_label: "TypeScript",
+      audience_label: "Developers",
+    },
+    {
+      name: "Freelance Proposal Vault",
+      seller_name: "Paper Trail Studio",
+      taxonomy: "business-and-money",
+      native_type: "templates",
+      price_cents: 2700,
+      summary: "Proposal, scope, pricing, and kickoff templates for repeatable client-service sales.",
+      format_label: "Docs",
+      audience_label: "Freelancers",
+    },
+    {
+      name: "Storyboard Procreate Pack",
+      seller_name: "Frame Garden",
+      taxonomy: "drawing-and-painting",
+      native_type: "brush pack",
+      price_cents: 2500,
+      summary: "Panel guides, pencil brushes, speech bubble stamps, and thumbnails for visual story planning.",
+      format_label: "Procreate",
+      audience_label: "Story artists",
+    },
+    {
+      name: "Yoga Class Planner",
+      seller_name: "Studio Reset",
+      taxonomy: "fitness-and-health",
+      native_type: "planner",
+      price_cents: 1800,
+      summary: "Sequence cards, class themes, music prompts, and seasonal planning pages for studio teachers.",
+      format_label: "PDF",
+      audience_label: "Instructors",
+    },
+    {
+      name: "Synthwave Loop Library",
+      seller_name: "Neon Tape",
+      taxonomy: "music-and-sound-design",
+      native_type: "loops",
+      price_cents: 3600,
+      summary: "Arps, basslines, fills, and drum loops inspired by retro soundtrack production.",
+      format_label: "Audio pack",
+      audience_label: "Musicians",
+    },
+    {
+      name: "Newsletter Growth Map",
+      seller_name: "Tiny Audience",
+      taxonomy: "business-and-money",
+      native_type: "guide",
+      price_cents: 3100,
+      summary: "A practical map for referral loops, content pillars, paid offers, and subscriber research.",
+      format_label: "PDF guide",
+      audience_label: "Writers",
+    },
+    {
+      name: "Rails Performance Notes",
+      seller_name: "Full Stack Field",
+      taxonomy: "software-development",
+      native_type: "ebook",
+      price_cents: 3900,
+      summary: "Field notes on request profiling, fragment caching, slow SQL, and production observability.",
+      format_label: "eBook",
+      audience_label: "Rails teams",
+    },
+    {
+      name: "Editorial Mockup Kit",
+      seller_name: "Offset Objects",
+      taxonomy: "design",
+      native_type: "mockups",
+      price_cents: 2900,
+      summary: "Magazine, booklet, poster, and social mockups for showing brand systems in context.",
+      format_label: "PSD scenes",
+      audience_label: "Brand designers",
+    },
+    {
+      name: "Digital Product Tax Checklist",
+      seller_name: "Ledger Light",
+      taxonomy: "business-and-money",
+      native_type: "checklist",
+      price_cents: 1500,
+      summary: "Plain-language prompts for collecting tax questions before a creator talks to an accountant.",
+      format_label: "Checklist",
+      audience_label: "Shop owners",
+    },
+    {
+      name: "Character Pose Reference",
+      seller_name: "Draw Daily",
+      taxonomy: "drawing-and-painting",
+      native_type: "reference pack",
+      price_cents: 2100,
+      summary: "Action, sitting, hand, and silhouette references for speeding up character studies.",
+      format_label: "Image pack",
+      audience_label: "Artists",
+    },
+    {
+      name: "Meditation Audio Starter",
+      seller_name: "Quiet Habit",
+      taxonomy: "self-improvement",
+      native_type: "audio course",
+      price_cents: 1700,
+      summary: "Short guided sessions, reflection prompts, and practice notes for building a daily routine.",
+      format_label: "MP3 + PDF",
+      audience_label: "Beginners",
+    },
+    {
+      name: "Customer Interview Script",
+      seller_name: "Research Bench",
+      taxonomy: "business-and-money",
+      native_type: "script pack",
+      price_cents: 1600,
+      summary: "Question banks, call agendas, and synthesis pages for validating a product idea.",
+      format_label: "Docs",
+      audience_label: "Product teams",
+    },
+    {
+      name: "Frontend Pattern Cards",
+      seller_name: "Interface Kitchen",
+      taxonomy: "software-development",
+      native_type: "reference deck",
+      price_cents: 3300,
+      summary: "Reusable interface patterns for forms, empty states, tables, and product onboarding flows.",
+      format_label: "Cards",
+      audience_label: "UI engineers",
+    },
+    {
+      name: "Film LUT Collection",
+      seller_name: "Color Cabin",
+      taxonomy: "films",
+      native_type: "luts",
+      price_cents: 2600,
+      summary: "Neutral, warm, and high-contrast looks for creators who need consistent video color.",
+      format_label: "LUT pack",
+      audience_label: "Video editors",
+    },
+    {
+      name: "Micro Course Sales Page",
+      seller_name: "Launch Shelf",
+      taxonomy: "education",
+      native_type: "template",
+      price_cents: 4500,
+      summary: "A sales-page wireframe, headline prompts, proof blocks, FAQ patterns, and offer checklist.",
+      format_label: "Figma + docs",
+      audience_label: "Course sellers",
+    },
+    {
+      name: "Icon Grid System",
+      seller_name: "Vector Mill",
+      taxonomy: "design",
+      native_type: "asset pack",
+      price_cents: 2300,
+      summary: "Grid rules, starter icons, stroke guidance, and export presets for a cohesive icon set.",
+      format_label: "SVG + Figma",
+      audience_label: "Product designers",
+    },
+    {
+      name: "Ambient Texture Library",
+      seller_name: "Field Audio Lab",
+      taxonomy: "music-and-sound-design",
+      native_type: "sound library",
+      price_cents: 3200,
+      summary: "Room tones, paper movement, field beds, and subtle loops for podcasts and video essays.",
+      format_label: "WAV",
+      audience_label: "Editors",
+    },
+    {
+      name: "Creator Finance Tracker",
+      seller_name: "Metric Harbor",
+      taxonomy: "business-and-money",
+      native_type: "spreadsheet",
+      price_cents: 2100,
+      summary: "Monthly revenue, expense, tax set-aside, and launch-cost tracking for solo digital shops.",
+      format_label: "Sheets",
+      audience_label: "Creators",
+    },
+    {
+      name: "3D Product Render Basics",
+      seller_name: "Render Room",
+      taxonomy: "3d",
+      native_type: "video lessons",
+      price_cents: 5300,
+      summary: "Short lessons on lighting, cameras, materials, and export settings for product mockups.",
+      format_label: "Video course",
+      audience_label: "3D learners",
+    },
+    {
+      name: "Writing Sprint Planner",
+      seller_name: "Inkline Studio",
+      taxonomy: "writing-and-publishing",
+      native_type: "planner",
+      price_cents: 900,
+      summary: "A compact planning system for drafting essays, newsletters, chapters, and product copy.",
+      format_label: "PDF",
+      audience_label: "Writers",
+    },
+    {
+      name: "Landing Page Copy Blocks",
+      seller_name: "Conversion Cottage",
+      taxonomy: "business-and-money",
+      native_type: "copy kit",
+      price_cents: 3700,
+      summary: "Benefit, proof, pricing, FAQ, and objection-handling blocks for lightweight sales pages.",
+      format_label: "Copy kit",
+      audience_label: "Founders",
+    },
+    {
+      name: "Game UI Button Pack",
+      seller_name: "Sprite Foundry",
+      taxonomy: "gaming",
+      native_type: "asset pack",
+      price_cents: 1900,
+      summary: "Menu buttons, states, sound cues, and export notes for polished casual-game interfaces.",
+      format_label: "PNG + SVG",
+      audience_label: "Game makers",
+    },
+    {
+      name: "Low Content Book Interiors",
+      seller_name: "Print Meadow",
+      taxonomy: "writing-and-publishing",
+      native_type: "templates",
+      price_cents: 2500,
+      summary: "Planner, journal, tracker, and workbook interiors prepared for print-on-demand workflows.",
+      format_label: "PDF + InDesign",
+      audience_label: "Publishers",
+    },
+    {
+      name: "Personal CRM Blueprint",
+      seller_name: "Useful Systems",
+      taxonomy: "self-improvement",
+      native_type: "notion template",
+      price_cents: 1400,
+      summary: "A relationship tracker with reminders, context notes, follow-up prompts, and weekly review views.",
+      format_label: "Notion",
+      audience_label: "Network builders",
+    },
+    {
+      name: "Podcast Edit Checklist",
+      seller_name: "Wave Table Club",
+      taxonomy: "audio",
+      native_type: "checklist",
+      price_cents: 1100,
+      summary: "Preflight, edit, mix, export, transcript, and publishing checks for consistent podcast releases.",
+      format_label: "Checklist",
+      audience_label: "Podcasters",
+    },
+    {
+      name: "Customer Support Macros",
+      seller_name: "Help Desk Garden",
+      taxonomy: "business-and-money",
+      native_type: "templates",
+      price_cents: 1800,
+      summary: "Refund, access, billing, bug, and onboarding replies written for small product support teams.",
+      format_label: "Macros",
+      audience_label: "Support teams",
+    },
+    {
+      name: "React Form Recipes",
+      seller_name: "Shipyard Code",
+      taxonomy: "software-development",
+      native_type: "code examples",
+      price_cents: 4100,
+      summary: "Accessible form patterns for validation, optimistic submission, file fields, and error recovery.",
+      format_label: "React",
+      audience_label: "Frontend teams",
+    },
   ].freeze
 
   THEME_PAIRS = [
@@ -244,6 +568,10 @@ class PublicProductRscDemoPresenter
 
   def self.deployed_benchmark
     @deployed_benchmark ||= read_benchmark(DEPLOYED_BENCHMARK_ARTIFACT_PATH)
+  end
+
+  def self.lighthouse_comparator
+    @lighthouse_comparator ||= read_benchmark(LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH)
   end
 
   def route_source_links(page_kind)
@@ -333,6 +661,44 @@ class PublicProductRscDemoPresenter
         live_url: GUMROAD_DISCOVER_REFERENCE_URL
       ),
     ]
+  end
+
+  def comparison_terms
+    [
+      {
+        label: "Matched Inertia control",
+        eyebrow: "Same-fixture A/B baseline",
+        description: "The before route inside this demo app. It uses the same fixture data, same host, and same ShakaPerf harness as the RSC candidate. It is not live gumroad.com production.",
+        href: public_product_inertia_demo_path,
+      },
+      {
+        label: "This host RSC demo",
+        eyebrow: "Review app, local app, or deployed app",
+        description: "The RSC candidate served from the host in your address bar. On a review app, PageSpeed links point at that review app; locally they point at your local host.",
+        href: current_demo_url(public_product_rsc_demo_path),
+      },
+      {
+        label: "Stable deployed RSC demo",
+        eyebrow: HOSTED_DEMO_BASE_URL,
+        description: "The public demo deployment used for the headline hosted ShakaPerf and Lighthouse artifacts. This is the stable URL to share when the review app is gone.",
+        href: hosted_demo_url(public_product_rsc_demo_path),
+      },
+      {
+        label: "Live Gumroad reference",
+        eyebrow: "External status quo",
+        description: "The real Gumroad product or Discover page used for PageSpeed-style context. It is useful evidence, but not the same-data A/B baseline.",
+        href: GUMROAD_PRODUCT_REFERENCE_URL,
+      },
+    ]
+  end
+
+  def performance_evidence_cards
+    [
+      shakaperf_evidence_card(:product, "Product navigation"),
+      shakaperf_evidence_card(:discover, "Discover navigation"),
+      lighthouse_evidence_card(:product, "Product PageSpeed-style score"),
+      lighthouse_evidence_card(:discover, "Discover PageSpeed-style score"),
+    ].compact
   end
 
   def deployed_performance_demo_url
@@ -427,6 +793,48 @@ class PublicProductRscDemoPresenter
       end
     end
 
+    def benchmark_result(key)
+      (self.class.deployed_benchmark&.fetch(:results, []) || []).find { |result| result[:key] == key.to_s }
+    end
+
+    def lighthouse_variant(surface, variant)
+      (self.class.lighthouse_comparator&.fetch(:variants, []) || []).find do |entry|
+        entry[:surface] == surface.to_s && entry[:strategy] == "mobile" && entry[:variant] == variant
+      end
+    end
+
+    def shakaperf_evidence_card(key, label)
+      result = benchmark_result(key)
+      navigation = result&.fetch(:median_navigation_duration_ms, nil)
+      return if navigation.blank?
+
+      {
+        eyebrow: "Same-host ShakaPerf",
+        label:,
+        value: "#{format_metric(navigation[:inertia], :ms)} -> #{format_metric(navigation[:rsc], :ms)}",
+        delta: format_delta_percent(navigation[:delta_percent]),
+        note: "Matched Inertia control to React on Rails Pro RSC on #{HOSTED_DEMO_BASE_URL}.",
+      }
+    end
+
+    def lighthouse_evidence_card(surface, label)
+      demo = lighthouse_variant(surface, "demo-rsc")
+      live = lighthouse_variant(surface, "live-gumroad")
+      return if demo.blank? || live.blank?
+
+      live_medians = live.fetch(:medians)
+      demo_medians = demo.fetch(:medians)
+      score_delta = ((demo_medians.fetch(:score).to_f - live_medians.fetch(:score).to_f) * 100).round
+
+      {
+        eyebrow: "Live Gumroad -> stable demo",
+        label:,
+        value: "#{format_lighthouse_score(live_medians.fetch(:score))} -> #{format_lighthouse_score(demo_medians.fetch(:score))}",
+        delta: "+#{score_delta} pts",
+        note: "Mobile LCP #{format_seconds(live_medians.fetch(:lcpMs))} -> #{format_seconds(demo_medians.fetch(:lcpMs))}.",
+      }
+    end
+
     def benchmark_rows(result)
       rows = BENCHMARK_METRICS.filter_map do |metric|
         pair = result[metric[:key]]
@@ -498,6 +906,14 @@ class PublicProductRscDemoPresenter
       "#{value.to_i} B"
     end
 
+    def format_lighthouse_score(value)
+      format("%.2f", value.to_f)
+    end
+
+    def format_seconds(milliseconds)
+      "#{trim_number(milliseconds.to_f / 1000.0, 1)}s"
+    end
+
     def trim_number(value, precision = 2)
       rounded = value.to_f.round(precision)
       rounded == rounded.to_i ? rounded.to_i.to_s : rounded.to_s
@@ -562,12 +978,16 @@ class PublicProductRscDemoPresenter
     end
 
     def discover_products
-      CARD_NAMES.each_with_index.map do |(name, seller_name, taxonomy, native_type, price_cents), index|
+      DISCOVER_PRODUCT_CARDS.each_with_index.map do |card, index|
         theme_start, theme_end = THEME_PAIRS[index % THEME_PAIRS.length]
+        seller_name = card.fetch(:seller_name)
         {
           id: "synthetic-product-#{index + 1}",
-          permalink: name.parameterize,
-          name:,
+          permalink: card.fetch(:name).parameterize,
+          name: card.fetch(:name),
+          summary: card.fetch(:summary),
+          audience_label: card.fetch(:audience_label),
+          format_label: card.fetch(:format_label),
           seller: {
             id: "synthetic-seller-#{seller_name.parameterize}",
             name: seller_name,
@@ -583,9 +1003,9 @@ class PublicProductRscDemoPresenter
             end: theme_end,
             accent: THEME_PAIRS[(index + 2) % THEME_PAIRS.length].first,
           },
-          taxonomy:,
-          native_type:,
-          price_cents:,
+          taxonomy: card.fetch(:taxonomy),
+          native_type: card.fetch(:native_type),
+          price_cents: card.fetch(:price_cents),
           currency_code: "usd",
           is_pay_what_you_want: index % 11 == 0,
           sales_count_label: "#{(index + 2) * 113}+ sales",

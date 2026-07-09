@@ -320,6 +320,8 @@
 <% gumroad_discover_reference_url = PublicProductRscDemoPresenter::GUMROAD_DISCOVER_REFERENCE_URL %>
 <% public_home_path = about_path %>
 <% deployed_performance_url = @presenter.deployed_performance_demo_url %>
+<% evidence_cards = @presenter.performance_evidence_cards %>
+<% comparison_terms = @presenter.comparison_terms %>
 
 <div class="dd dd-performance" data-rsc-performance-lab>
   <aside class="dd-side">
@@ -333,7 +335,7 @@
       <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
       <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
       <a href="<%= public_product_discover_rsc_demo_path %>">Discover RSC</a>
-      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Deployed demo</a>
+      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Stable deployed demo</a>
     </nav>
 
     <footer class="dd-meta">
@@ -360,10 +362,24 @@
 
       <div class="dd-actions">
         <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
-        <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Compare deployed demo</a>
+        <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Open stable deployed demo</a>
         <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
     </header>
+
+    <% if evidence_cards.any? %>
+      <section class="dd-evidence-strip" aria-label="Headline performance evidence">
+        <% evidence_cards.each do |card| %>
+          <article class="dd-evidence-card">
+            <p class="dd-eyebrow"><%= card[:eyebrow] %></p>
+            <h2><%= card[:label] %></h2>
+            <strong><%= card[:value] %></strong>
+            <span class="dd-evidence-delta"><%= card[:delta] %></span>
+            <p><%= card[:note] %></p>
+          </article>
+        <% end %>
+      </section>
+    <% end %>
 
     <div class="dd-body">
       <p class="dd-note">
@@ -375,51 +391,32 @@
         expose <code>Products/Discover/Show</code> product, seller, cover, rating, purchase, section, and taxonomy props.
       </p>
 
-      <% stack_versions = @presenter.react_stack_versions %>
-      <section class="dd-section" id="react-on-rails-pro-17-audit">
+      <section class="dd-section dd-terms-section" id="comparison-vocabulary">
         <header>
-          <h2>React on Rails Pro 17 / React 19.2 audit</h2>
+          <h2>What current, deployed, and live mean here</h2>
           <p>
-            This pass checked the demo against the current Pro 17 RC line and the public Gumroad upstream delta on
-            July 8, 2026.
+            The lab avoids the overloaded word &ldquo;current&rdquo; in the evidence below. Use these names when comparing
+            the review app, the stable demo, and the real Gumroad site.
           </p>
         </header>
 
-        <div class="dd-list">
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Runtime stack:</strong>
-              React <code><%= stack_versions[:react] || "unknown" %></code>,
-              React DOM <code><%= stack_versions[:react_dom] || "unknown" %></code>,
-              React on Rails Pro gem <code><%= stack_versions[:react_on_rails_pro_gem] || "unknown" %></code>,
-              React on Rails Pro npm <code><%= stack_versions[:react_on_rails_pro_npm] || "unknown" %></code>,
-              and <code>react-on-rails-rsc</code> <code><%= stack_versions[:react_on_rails_rsc] || "unknown" %></code>.
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Streaming now active:</strong>
-              the public RSC routes opt into Pro stream observability, so the live race can expose
-              <code>ror_stream_shell</code> and <code>ror_renderer_prepare</code> timing when the renderer returns them.
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Static caching boundary:</strong>
-              Pro 17 adds buffered/static RSC helpers for cacheable public shells, but this headline route pair stays
-              matched and uncached. A cached static RSC variant should be measured as a separate claim.
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Latest Gumroad shape check:</strong>
-              upstream now includes buyer-local currency, richer public product/profile JSON, custom HTML product pages,
-              and Discover category fixes. Those are useful adoption context, but a broad upstream merge would pull in
-              the unrelated Vite migration and is not part of this focused demo pass.
-            </p>
-          </article>
+        <div class="dd-term-grid">
+          <% comparison_terms.each do |term| %>
+            <article class="dd-term-card">
+              <span><%= term[:eyebrow] %></span>
+              <h3><%= term[:label] %></h3>
+              <p><%= term[:description] %></p>
+              <% if term[:href].to_s.start_with?("http") %>
+                <a href="<%= term[:href] %>" target="_blank" rel="noopener">Open reference</a>
+              <% else %>
+                <a href="<%= term[:href] %>">Open reference</a>
+              <% end %>
+            </article>
+          <% end %>
         </div>
       </section>
+
+      <% stack_versions = @presenter.react_stack_versions %>
 
       <% verdict_labels = {
         rsc_wins: ["React on Rails Pro RSC wins", "dd-verdict--win"],
@@ -429,7 +426,7 @@
 
       <section class="dd-section" id="current-shakaperf-result">
         <header>
-          <h2>Deployed ShakaPerf A/B result</h2>
+          <h2>Stable deployed same-fixture ShakaPerf A/B</h2>
           <p><%= @presenter.deployed_benchmark_method_note %></p>
           <details class="dd-link-panel">
             <summary>Reproducibility artifacts and source</summary>
@@ -459,9 +456,10 @@
         </header>
 
         <p class="dd-note is-info">
-          <strong>How to read this:</strong> the control (column A) is Gumroad's current <strong>Inertia</strong> route; the
-          candidate (column B) is the <strong>React on Rails Pro RSC</strong> route. Same fixture data, same host, same harness.
-          Every metric is lower-is-better. The verdict only names a winner when the gap exceeds
+          <strong>How to read this:</strong> column A is the matched <strong>Inertia</strong> control inside this demo app,
+          not the live Gumroad production site. Column B is the <strong>React on Rails Pro RSC</strong> candidate on the
+          same host, with the same fixture data and same ShakaPerf harness. Every metric is lower-is-better. The verdict
+          only names a winner when the gap exceeds
           &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
         </p>
 
@@ -495,11 +493,11 @@
                   <% surface[:rows].each do |row| %>
                     <% label, klass = verdict_labels.fetch(row[:verdict]) %>
                     <tr>
-                      <th scope="row"><%= row[:label] %></th>
-                      <td><code><%= row[:inertia] %></code></td>
-                      <td><code><%= row[:rsc] %></code></td>
-                      <td><code><%= row[:delta] %></code></td>
-                      <td><span class="dd-verdict <%= klass %>"><%= label %></span></td>
+                      <th scope="row" data-label="Metric"><%= row[:label] %></th>
+                      <td data-label="A &middot; Inertia control"><code><%= row[:inertia] %></code></td>
+                      <td data-label="B &middot; React on Rails Pro RSC"><code><%= row[:rsc] %></code></td>
+                      <td data-label="Change (B vs A)"><code><%= row[:delta] %></code></td>
+                      <td data-label="Verdict"><span class="dd-verdict <%= klass %>"><%= label %></span></td>
                     </tr>
                   <% end %>
                 </tbody>
@@ -544,14 +542,14 @@
         <header>
           <h2>PageSpeed comparator pairs</h2>
           <p>
-            Point PageSpeed at these public URL pairs to compare this React on Rails RSC build with the live Gumroad
-            status quo. On a review app, the demo links target the review app; the deployed-demo links target the current
-            production demo at <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %>. Use mobile as the headline result
-            and desktop as a sanity check; the matched Inertia-vs-RSC route-pair data above remains the controlled A/B proof.
-            A local Lighthouse matrix is linked above because the PageSpeed Insights API returned HTTP 429 from this
-            environment. The deployed rerun found live Gumroad to deployed demo product mobile score moving from
-            0.57 to 0.98 with LCP moving from 15.6s to 2.4s, and live Gumroad to deployed demo Discover mobile score
-            moving from 0.58 to 0.97 with LCP moving from 27.2s to 2.5s.
+            These links are for external credibility checks, not the same-fixture A/B proof. Point PageSpeed at
+            <strong>this host RSC demo</strong> when reviewing a PR, <strong>stable deployed RSC demo</strong> when you
+            need a durable public URL, and <strong>live Gumroad</strong> when you want the production status quo.
+            Use mobile as the headline result and desktop as a sanity check. A local Lighthouse matrix is linked above
+            because the PageSpeed Insights API returned HTTP 429 from this environment. The deployed rerun found live
+            Gumroad to stable demo product mobile score moving from 0.57 to 0.98 with LCP moving from 15.6s to 2.4s,
+            and live Gumroad to stable demo Discover mobile score moving from 0.58 to 0.97 with LCP moving from 27.2s
+            to 2.5s.
           </p>
         </header>
 
@@ -570,20 +568,20 @@
                 <div class="dd-source-grid">
                   <p class="dd-source-links">
                     <span>Mobile headline:</span>
-                    <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener">current app mobile</a>
-                    <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">deployed demo mobile</a>
+                    <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener">this host mobile</a>
+                    <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">stable deployed mobile</a>
                     <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad mobile</a>
                   </p>
                   <p class="dd-source-links">
                     <span>Desktop sanity:</span>
-                    <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener">current app desktop</a>
-                    <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">deployed demo desktop</a>
+                    <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener">this host desktop</a>
+                    <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">stable deployed desktop</a>
                     <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad desktop</a>
                   </p>
                   <p class="dd-source-links">
                     <span>Direct URLs:</span>
-                    <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener">deployed RSC demo</a>
-                    <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">current RSC demo</a>
+                    <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener">stable deployed RSC route</a>
+                    <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">this host RSC route</a>
                   </p>
                 </div>
               </details>
@@ -619,6 +617,52 @@
             <p class="dd-copy">
               <strong>For ShakaCode prospects:</strong> use this as a concrete performance consulting artifact, then
               <a href="<%= consultation_url %>" target="_blank" rel="noopener">book a consultation</a> if your Rails app has similar public-page constraints.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="dd-section" id="react-on-rails-pro-17-audit">
+        <header>
+          <h2>React on Rails Pro 17 / React 19.2 audit</h2>
+          <p>
+            This pass checked the demo against the Pro 17 RC line and the public Gumroad upstream delta on July 8, 2026.
+            The Gumroad upstream issue should wait until React on Rails Pro <code>17.0.0</code> is final; until then,
+            this page is the reproducible evidence pack.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Runtime stack:</strong>
+              React <code><%= stack_versions[:react] || "unknown" %></code>,
+              React DOM <code><%= stack_versions[:react_dom] || "unknown" %></code>,
+              React on Rails Pro gem <code><%= stack_versions[:react_on_rails_pro_gem] || "unknown" %></code>,
+              React on Rails Pro npm <code><%= stack_versions[:react_on_rails_pro_npm] || "unknown" %></code>,
+              and <code>react-on-rails-rsc</code> <code><%= stack_versions[:react_on_rails_rsc] || "unknown" %></code>.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Streaming now active:</strong>
+              the public RSC routes opt into Pro stream observability, so the live race can expose
+              <code>ror_stream_shell</code> and <code>ror_renderer_prepare</code> timing when the renderer returns them.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Static caching boundary:</strong>
+              Pro 17 adds buffered/static RSC helpers for cacheable public shells, but this headline route pair stays
+              matched and uncached. A cached static RSC variant should be measured as a separate claim.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Latest Gumroad shape check:</strong>
+              upstream now includes buyer-local currency, richer public product/profile JSON, custom HTML product pages,
+              and Discover category fixes. Those are useful adoption context, but a broad upstream merge would pull in
+              the unrelated Vite migration and is not part of this focused demo pass.
             </p>
           </article>
         </div>

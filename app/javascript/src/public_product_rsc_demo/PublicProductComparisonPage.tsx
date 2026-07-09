@@ -33,7 +33,9 @@ type CoverStyle = React.CSSProperties & {
 };
 
 type ProductCard = {
+  audience_label: string;
   currency_code: CurrencyCode;
+  format_label: string;
   id: string;
   is_pay_what_you_want?: boolean;
   name: string;
@@ -43,6 +45,7 @@ type ProductCard = {
   ratings: Ratings;
   sales_count_label: string;
   seller: Seller;
+  summary: string;
   taxonomy: string;
   thumbnail_theme: Theme;
 };
@@ -224,6 +227,7 @@ const ProductCardView = ({
         {card.seller.name}
         {card.seller.is_verified ? " - verified" : ""}
       </p>
+      <p className="dd-card-summary">{card.summary}</p>
       <div className="dd-card-meta">
         <strong>
           {card.is_pay_what_you_want ? "Pay what you want" : formatPrice(card.currency_code, card.price_cents)}
@@ -232,6 +236,8 @@ const ProductCardView = ({
       </div>
       <div className="dd-chip-row">
         <span className="dd-chip">{card.taxonomy.replace(/-/gu, " ")}</span>
+        <span className="dd-chip">{card.format_label}</span>
+        <span className="dd-chip">{card.audience_label}</span>
         <span className="dd-chip">{card.sales_count_label}</span>
         {eager ? <span className="dd-chip">above the fold</span> : null}
       </div>
@@ -396,7 +402,7 @@ const DiscoverBenchmark = ({
     <div className="dd-body">
       <section className="dd-discover-hero">
         <div>
-          <p className="dd-eyebrow">Synthetic Discover listing</p>
+          <p className="dd-eyebrow">Production-shaped Discover fixture</p>
           <h2>{discover.title}</h2>
           <p>{discover.subtitle}</p>
           <div className="dd-chip-row">
@@ -535,7 +541,7 @@ export default function PublicProductComparisonPage({
               {copy.compareLabel}
             </a>
             <a href={comparison.deployed_performance_url} className="dd-btn" rel="noreferrer" target="_blank">
-              Compare deployed demo
+              Open stable deployed demo
             </a>
           </div>
         </header>

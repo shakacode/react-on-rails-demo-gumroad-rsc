@@ -133,6 +133,59 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#discover_props" do
+    it "renders realistic production-shaped synthetic cards without Gumroad URLs" do
+      discover = presenter.discover_props.fetch(:discover_page)
+      first_product = discover.fetch(:products).first
+
+      expect(discover.fetch(:products).length).to eq(36)
+      expect(first_product).to include(
+        name: "Launch Metrics OS",
+        summary: include("preorders"),
+        format_label: "Notion + Sheets",
+        audience_label: "Creator operators"
+      )
+      expect(first_product.fetch(:seller).fetch(:name)).to eq("Metric Harbor")
+      expect(discover.to_json).not_to include("gumroad.com")
+    end
+  end
+
+  describe "#comparison_terms" do
+    it "defines the page vocabulary for demo, deployed, and live comparisons" do
+      terms = presenter.comparison_terms
+
+      expect(terms.map { |term| term[:label] }).to include(
+        "Matched Inertia control",
+        "This host RSC demo",
+        "Stable deployed RSC demo",
+        "Live Gumroad reference"
+      )
+      expect(terms.find { |term| term[:label] == "Matched Inertia control" }[:description])
+        .to include("not live gumroad.com production")
+    end
+  end
+
+  describe "#performance_evidence_cards" do
+    it "summarizes same-host ShakaPerf and live-Gumroad Lighthouse evidence" do
+      cards = presenter.performance_evidence_cards
+
+      expect(cards.map { |card| card[:label] }).to include(
+        "Product navigation",
+        "Discover navigation",
+        "Product PageSpeed-style score",
+        "Discover PageSpeed-style score"
+      )
+      expect(cards.find { |card| card[:label] == "Product navigation" }).to include(
+        value: "883.9 ms -> 267.25 ms",
+        delta: "-69.8%"
+      )
+      expect(cards.find { |card| card[:label] == "Discover PageSpeed-style score" }).to include(
+        value: "0.58 -> 0.97",
+        delta: "+39 pts"
+      )
+    end
+  end
+
   describe "#page_speed_comparator_pairs" do
     it "returns reproducible PageSpeed comparator links for the live Gumroad surfaces" do
       pairs = presenter.page_speed_comparator_pairs

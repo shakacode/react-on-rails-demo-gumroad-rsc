@@ -8,6 +8,10 @@ The right upstream goal is narrow:
 - avoid proposing a broad migration
 - ask whether Gumroad would review a focused experiment branch or PR if the public-page performance case becomes stronger
 
+Do not post this upstream yet. Hold until React on Rails Pro `17.0.0` is final,
+then refresh the deployed demo, PageSpeed/PageSpeed-style evidence, and package
+version references before opening the issue.
+
 The current best candidates are the logged-out public product and Discover comparisons:
 
 - product `Inertia` control: `/public_product/inertia_demo`
