@@ -333,20 +333,20 @@
 }
 
 @media (max-width: 639px) {
-  .dd-table {
+  .dd-table--responsive {
     overflow-x: visible;
   }
 
-  .dd-table table,
-  .dd-table thead,
-  .dd-table tbody,
-  .dd-table tr,
-  .dd-table th,
-  .dd-table td {
+  .dd-table--responsive table,
+  .dd-table--responsive thead,
+  .dd-table--responsive tbody,
+  .dd-table--responsive tr,
+  .dd-table--responsive th,
+  .dd-table--responsive td {
     display: block;
   }
 
-  .dd-table thead {
+  .dd-table--responsive thead {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -355,27 +355,27 @@
     white-space: nowrap;
   }
 
-  .dd-table tr {
+  .dd-table--responsive tr {
     display: grid;
     gap: spacer(2);
     padding: spacer(3);
     border-top: $border-width solid $border-color;
   }
 
-  .dd-table tbody tr:first-child {
+  .dd-table--responsive tbody tr:first-child {
     border-top: 0;
   }
 
-  .dd-table th,
-  .dd-table td {
+  .dd-table--responsive th,
+  .dd-table--responsive td {
     display: grid;
     gap: spacer(1);
     padding: 0;
     border-top: 0;
   }
 
-  .dd-table th::before,
-  .dd-table td::before {
+  .dd-table--responsive th::before,
+  .dd-table--responsive td::before {
     content: attr(data-label);
     color: rgb(var(--color) / 0.65);
     font-weight: 600;

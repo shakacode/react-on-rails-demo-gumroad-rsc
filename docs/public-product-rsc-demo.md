@@ -142,7 +142,9 @@ demo, and live Gumroad status quo without editing URLs by hand.
 
 Current artifacts:
 
-- Same-fixture deployed ShakaPerf:
+- Current PR 69 media-bearing same-fixture ShakaPerf:
+  [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json)
+- Stable deployed pre-media same-fixture ShakaPerf:
   [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json)
 - Same-fixture local ShakaPerf:
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)

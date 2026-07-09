@@ -3,6 +3,9 @@
 This artifact captures the deployed public demo after the public buyer-page work
 landed on `https://gumroad.reactonrails.com`.
 
+It predates the PR 69 local synthetic media fixtures, so keep it as stable
+deployed pre-media support rather than the current headline same-fixture result.
+
 Method:
 
 - `scripts/perf/compare_dashboard_routes.rb`

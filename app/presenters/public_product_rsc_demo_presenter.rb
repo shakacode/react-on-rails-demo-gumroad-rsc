@@ -18,6 +18,7 @@ class PublicProductRscDemoPresenter
   LOCAL_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json"
   HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
   DEPLOYED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json"
+  MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json"
   LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH = "docs/performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json"
   BENCHMARK_TIE_BAND_PERCENT = 5
 
@@ -583,6 +584,10 @@ class PublicProductRscDemoPresenter
     @deployed_benchmark ||= read_benchmark(DEPLOYED_BENCHMARK_ARTIFACT_PATH)
   end
 
+  def self.media_review_benchmark
+    @media_review_benchmark ||= read_benchmark(MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH)
+  end
+
   def self.lighthouse_comparator
     @lighthouse_comparator ||= read_benchmark(LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH)
   end
@@ -621,8 +626,16 @@ class PublicProductRscDemoPresenter
     "#{REPO_SOURCE_BASE_URL}/#{DEPLOYED_BENCHMARK_ARTIFACT_PATH}"
   end
 
+  def media_review_benchmark_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH}"
+  end
+
   def lighthouse_comparator_artifact_url
     "#{REPO_SOURCE_BASE_URL}/#{LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH}"
+  end
+
+  def media_review_benchmark_method_note
+    benchmark_method_note(self.class.media_review_benchmark)
   end
 
   def local_benchmark_method_note
@@ -643,6 +656,10 @@ class PublicProductRscDemoPresenter
 
   def deployed_benchmark_caveats
     self.class.deployed_benchmark&.dig(:caveats) || []
+  end
+
+  def media_review_benchmark_caveats
+    self.class.media_review_benchmark&.dig(:caveats) || []
   end
 
   def hosted_benchmark_caveats
@@ -725,6 +742,10 @@ class PublicProductRscDemoPresenter
     benchmark_surfaces(self.class.deployed_benchmark)
   end
 
+  def media_review_benchmark_surfaces
+    benchmark_surfaces(self.class.media_review_benchmark)
+  end
+
   def hosted_benchmark_surfaces
     benchmark_surfaces(self.class.hosted_benchmark)
   end
@@ -805,8 +826,8 @@ class PublicProductRscDemoPresenter
       end
     end
 
-    def benchmark_result(key)
-      (self.class.deployed_benchmark&.fetch(:results, []) || []).find { |result| result[:key] == key.to_s }
+    def benchmark_result(key, data: self.class.media_review_benchmark)
+      (data&.fetch(:results, []) || []).find { |result| result[:key] == key.to_s }
     end
 
     def shakaperf_evidence_card(key, label)
@@ -815,11 +836,11 @@ class PublicProductRscDemoPresenter
       return if navigation.blank?
 
       {
-        eyebrow: "Same-host ShakaPerf",
+        eyebrow: "Media-bearing ShakaPerf",
         label:,
         value: "#{format_metric(navigation[:inertia], :ms)} -> #{format_metric(navigation[:rsc], :ms)}",
         delta: format_delta_percent(navigation[:delta_percent]),
-        note: "Matched Inertia control to React on Rails Pro RSC on #{HOSTED_DEMO_BASE_URL}.",
+        note: "Matched Inertia control to React on Rails Pro RSC on the PR 69 review app after adding local media.",
       }
     end
 

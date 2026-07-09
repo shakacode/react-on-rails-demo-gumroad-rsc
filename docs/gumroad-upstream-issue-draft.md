@@ -58,14 +58,14 @@ The current branch A/B result is favorable enough to keep testing on the page ty
 - browse-to-product discovery
 - client JavaScript reduction
 
-Deployed ShakaPerf results from `2026-07-09 UTC`:
+Current media-bearing ShakaPerf results from `2026-07-09 UTC` on the PR 69 review app:
 
-| Public surface       |                 Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
-| -------------------- | ----------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       | `883.90ms` -> `267.25ms` (`-69.8%`) |  `206.45ms` -> `206.60ms` (`+0.1%`) | `354.00ms` -> `304.00ms` (`-14.1%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `867.15ms` -> `300.30ms` (`-65.4%`) | `201.70ms` -> `243.30ms` (`+20.6%`) |  `362.00ms` -> `350.00ms` (`-3.3%`) | `9` -> `1` (`-88.9%`) |
+| Public surface       |                   Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
+| -------------------- | ------------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
+| Product detail       |  `1292.15ms` -> `731.70ms` (`-43.4%`) | `137.10ms` -> `170.15ms` (`+24.1%`) | `992.00ms` -> `382.00ms` (`-61.5%`) | `9` -> `1` (`-88.9%`) |
+| Discover marketplace | `1423.70ms` -> `1054.30ms` (`-25.9%`) | `140.65ms` -> `261.60ms` (`+86.0%`) | `960.00ms` -> `602.00ms` (`-37.3%`) | `9` -> `1` (`-88.9%`) |
 
-The deployed result is useful because it compares both route pairs on the stable public demo host after the public buyer-page work landed. It also keeps the important tradeoff visible: RSC streams more complete HTML, so the claim is faster browser completion and less client JavaScript, not universally lower server TTLB.
+This result is useful because it compares both route pairs after the demo gained local media fixtures. It also keeps the important tradeoff visible: RSC streams more complete HTML, so the claim is faster browser completion, faster LCP, and fewer JavaScript requests, not universally lower server TTLB or lower JavaScript bytes.
 
 The live-Gumroad-versus-demo PageSpeed/Lighthouse links remain in the lab for diagnostics, but I am not quoting the current scores as evidence. The earlier URL-pair run looked favorable, but a timeline review showed the comparison was not apples-to-apples: live Gumroad loaded production product imagery and chrome that the demo did not yet match. The next proof step is to document production-equivalent media parity, rerun PageSpeed API or pinned Lighthouse reports on those same public URL pairs, and capture field-data corroboration where possible, especially for `INP` and mobile score.
 
@@ -78,8 +78,8 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 - the comparison uses logged-out public product and Discover routes rather than admin/dashboard routes
 - the RSC routes can be benchmarked against matched Inertia controls on the same data
 - the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
-- the next measurement step is straightforward: production-equivalent media parity, then PageSpeed API or field-data corroboration on the same public URL pairs
-- the deployed same-fixture browser-navigation result is already large enough to justify that next step
+- the next measurement step is straightforward: redeploy the media-bearing demo to the stable public host, add production-equivalent media parity, then capture PageSpeed API or field-data corroboration on the same public URL pairs
+- the media-bearing same-fixture browser-navigation and LCP result is already large enough to justify that next step
 
 ## What I am not claiming
 

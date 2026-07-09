@@ -55,7 +55,7 @@ describe PublicProductRscDemoPresenter do
       expect(surfaces.map { |surface| surface[:page_kind] }).to include(:product, :discover)
     end
 
-    it "uses the deployed run as the hosted headline benchmark" do
+    it "keeps the stable deployed pre-media run available as supporting evidence" do
       product = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
       navigation = product[:rows].find { |row| row[:label] == "Navigation duration" }
       response_end = product[:rows].find { |row| row[:label] == "Response end (server TTLB)" }
@@ -81,6 +81,19 @@ describe PublicProductRscDemoPresenter do
       expect(total[:inertia]).to eq("164.43 KB")
       expect(total[:rsc]).to eq("90.22 KB")
       expect(total[:verdict]).to eq(:rsc_wins)
+    end
+  end
+
+  describe "#media_review_benchmark_surfaces" do
+    it "uses the PR 69 media-bearing run as the current headline benchmark" do
+      product = presenter.media_review_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
+      navigation = product[:rows].find { |row| row[:label] == "Navigation duration" }
+      lcp = product[:rows].find { |row| row[:label] == "LCP start" }
+
+      expect(navigation[:verdict]).to eq(:rsc_wins)
+      expect(navigation[:inertia]).to eq("1292.15 ms")
+      expect(navigation[:rsc]).to eq("731.7 ms")
+      expect(lcp[:verdict]).to eq(:rsc_wins)
     end
   end
 
@@ -179,8 +192,8 @@ describe PublicProductRscDemoPresenter do
       )
       expect(cards.map { |card| card[:label] }).not_to include("Product PageSpeed-style score", "Discover PageSpeed-style score")
       expect(cards.find { |card| card[:label] == "Product navigation" }).to include(
-        value: "883.9 ms -> 267.25 ms",
-        delta: "-69.8%"
+        value: "1292.15 ms -> 731.7 ms",
+        delta: "-43.4%"
       )
       expect(cards.find { |card| card[:label] == "Diagnostic only" }).to include(
         value: "Needs media parity",

@@ -15,26 +15,33 @@ pages because those are SEO-sensitive, conversion-sensitive, mobile-heavy, and
 visible without a demo account. Dashboard routes remain technical integration
 proof only.
 
-## Deployed Public Result
+## Current PR 69 Media-Bearing Result
 
-Captured on `2026-07-09 UTC` against `https://gumroad.reactonrails.com`
-with local headless Chrome `150`, `8` alternating cycles per route pair, and
-`2` warmup requests per measured run.
+Captured on `2026-07-09 UTC` against the PR 69 review app
+`https://rails-6rbrymb4tqrb6.cpln.app` with local headless Chrome `150`, `8`
+alternating cycles per route pair, and `2` warmup requests per measured run.
+This run includes the local synthetic media fixtures added to the product and
+Discover pages.
 
-| Surface              |                 Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
-| -------------------- | ----------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       | `883.90ms` -> `267.25ms` (`-69.8%`) |  `206.45ms` -> `206.60ms` (`+0.1%`) | `354.00ms` -> `304.00ms` (`-14.1%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `867.15ms` -> `300.30ms` (`-65.4%`) | `201.70ms` -> `243.30ms` (`+20.6%`) |  `362.00ms` -> `350.00ms` (`-3.3%`) | `9` -> `1` (`-88.9%`) |
+| Surface              |                   Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
+| -------------------- | ------------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
+| Product detail       |  `1292.15ms` -> `731.70ms` (`-43.4%`) | `137.10ms` -> `170.15ms` (`+24.1%`) | `992.00ms` -> `382.00ms` (`-61.5%`) | `9` -> `1` (`-88.9%`) |
+| Discover marketplace | `1423.70ms` -> `1054.30ms` (`-25.9%`) | `140.65ms` -> `261.60ms` (`+86.0%`) | `960.00ms` -> `602.00ms` (`-37.3%`) | `9` -> `1` (`-88.9%`) |
 
-This is the current headline same-fixture hosted evidence. It shows a large
-browser-navigation and client-JavaScript reduction on both public route pairs.
-The tradeoff is still visible: Discover response-end is slower under RSC
-because the route streams more complete server-rendered HTML.
+This is the current headline same-fixture evidence because it measures the
+media-bearing fixture. It shows median navigation, median LCP, and JavaScript
+request-count wins on both public route pairs. The tradeoff is also clearer:
+RSC sends much larger HTML, has a larger media-bearing route bundle in this run,
+and has slower response-end because the route streams more complete
+server-rendered HTML.
 
-## Supporting Local And Review-App Results
+## Supporting Stable, Local, And Review-App Results
 
-The earlier local and PR 63 review-app results remain useful chronology and
-reproducibility context, but they are no longer the hosted headline evidence.
+The stable deployed, earlier local, and PR 63 review-app results remain useful
+chronology and reproducibility context, but they predate the local media fixture
+change or were captured on earlier PRs. Rerun against
+`https://gumroad.reactonrails.com` after this PR lands before calling the stable
+deployment current again.
 
 ## Deployed Lighthouse URL-Pair Diagnostic
 
@@ -61,7 +68,9 @@ request and transfer deltas, but it predates the Tendon Book fixture.
 - The public RSC routes opt into React on Rails Pro stream observability, so
   `Server-Timing` can expose streamed shell and Node renderer prepare
   attribution when available.
-- Current result details are in
+- Current PR 69 media-bearing result details are in
+  [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json).
+- Stable deployed pre-media result details are in
   [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
 - Supporting local result details are in
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json).
@@ -80,9 +89,9 @@ request and transfer deltas, but it predates the Tendon Book fixture.
   the local Lighthouse fallback does not provide field data.
 - If using Pro 17 static RSC caching, add it as a separately named cached static
   route variant rather than folding it into the headline matched route pair.
-- Rerun the benchmark after the new local media fixtures are deployed, and add
-  production-equivalent responsive image/CDN parity before using live PageSpeed
-  numbers as evidence.
+- Rerun the media-bearing benchmark against the stable deployed demo after this
+  PR lands, and add production-equivalent responsive image/CDN parity before
+  using live PageSpeed numbers as evidence.
 - For a stronger Gumroad-maintainer case, wire sanitized production-shaped props
   into the real public `Discover/Index` and `Products/Discover/Show` components
   where feasible, then compare those with an RSC equivalent.

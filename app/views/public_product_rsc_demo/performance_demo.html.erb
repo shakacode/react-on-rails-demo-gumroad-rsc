@@ -426,14 +426,15 @@
 
       <section class="dd-section" id="current-shakaperf-result">
         <header>
-          <h2>Stable deployed same-fixture ShakaPerf A/B</h2>
-          <p><%= @presenter.deployed_benchmark_method_note %></p>
+          <h2>PR 69 media-bearing same-fixture ShakaPerf A/B</h2>
+          <p><%= @presenter.media_review_benchmark_method_note %></p>
           <details class="dd-link-panel">
             <summary>Reproducibility artifacts and source</summary>
             <div class="dd-source-grid">
               <p class="dd-source-links">
                 <span>Benchmark artifacts:</span>
-                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">deployed A/B summary</a>
+                <a href="<%= @presenter.media_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 69 media-bearing A/B summary</a>
+                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">stable deployed pre-media A/B summary</a>
                 <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">diagnostic Lighthouse URL-pair summary</a>
                 <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">local branch A/B summary</a>
                 <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 63 review-app A/B summary</a>
@@ -463,7 +464,7 @@
           &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
         </p>
 
-        <% @presenter.deployed_benchmark_surfaces.each do |surface| %>
+        <% @presenter.media_review_benchmark_surfaces.each do |surface| %>
           <% sources = @presenter.route_source_links(surface[:page_kind]) %>
           <div class="dd-surface-block">
             <header class="dd-surface-head">
@@ -478,7 +479,7 @@
               </p>
             </header>
 
-            <div class="dd-table">
+            <div class="dd-table dd-table--responsive">
               <table>
                 <thead>
                   <tr>
@@ -507,19 +508,19 @@
         <% end %>
 
         <div class="dd-note is-info">
-          <strong>What this shows:</strong> on the deployed Tendon Book fixture, RSC wins median navigation and route
-          JavaScript request count on both same-host route pairs. Product LCP improves; Discover median LCP is about tied
-          while p95 LCP favors RSC. The tradeoff is larger streamed HTML, and Discover still pays a response-end cost
-          because the server-rendered content is present in the document.
-          <% if @presenter.deployed_benchmark_caveats.any? %>
+          <strong>What this shows:</strong> after adding local product and card media, RSC still wins median navigation,
+          median LCP, and JavaScript request count on both same-host route pairs. The tradeoff is larger streamed HTML,
+          larger media-bearing RSC route JavaScript in this review-app run, and slower response-end because the
+          server-rendered content is present in the document.
+          <% if @presenter.media_review_benchmark_caveats.any? %>
             <br />
             <strong>Caveats from the run:</strong>
           <% end %>
         </div>
 
-        <% if @presenter.deployed_benchmark_caveats.any? %>
+        <% if @presenter.media_review_benchmark_caveats.any? %>
           <ul class="dd-caveats">
-            <% @presenter.deployed_benchmark_caveats.each do |caveat| %>
+            <% @presenter.media_review_benchmark_caveats.each do |caveat| %>
               <li><%= caveat %></li>
             <% end %>
           </ul>
@@ -527,9 +528,9 @@
 
         <p class="dd-note">
           <strong>Supporting ShakaPerf runs:</strong>
-          the local branch run and the PR 63 review-app run remain linked above for chronology and reproducibility.
-          They show the same overall direction, but the deployed run is now the headline hosted A/B evidence because it
-          targets <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %> after the public buyer-page work landed.
+          the stable deployed run, local branch run, and PR 63 review-app run remain linked above for chronology and
+          reproducibility. They show the same overall direction, but the PR 69 review-app run is now the headline A/B
+          evidence because it measures the media-bearing fixture in this PR.
           <br />
           <strong>Historical hosted run:</strong>
           the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
@@ -600,7 +601,7 @@
         <header>
           <h2>What this report is allowed to claim</h2>
           <p>
-            The deployed ShakaPerf A/B run shows a meaningful browser-navigation win on the right public surfaces.
+            The current media-bearing ShakaPerf A/B run shows a meaningful browser-navigation and LCP win on the right public surfaces.
             The PageSpeed URL pairs are useful for finding production gaps, but they are not part of the performance
             claim until image/media, production chrome, and third-party-service differences are comparable.
           </p>
