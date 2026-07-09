@@ -7,6 +7,8 @@ require "optparse"
 require "pathname"
 require_relative "measure_dashboard"
 
+REPO_ROOT = Pathname(__dir__).join("..", "..").expand_path.freeze
+
 COMPARE_DEFAULTS = {
   base_url: DEFAULTS[:base_url],
   measure_base_url: nil,
@@ -118,7 +120,9 @@ def measurement_summary_path(output_dir:, run_label:, path:)
 end
 
 def repo_relative_path(path)
-  Pathname(path).relative_path_from(Rails.root).to_s
+  path_name = Pathname(path)
+  absolute_path = path_name.absolute? ? path_name : REPO_ROOT.join(path_name)
+  absolute_path.cleanpath.relative_path_from(REPO_ROOT).to_s
 rescue ArgumentError
   path
 end
