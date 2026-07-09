@@ -798,6 +798,16 @@
           </article>
           <article class="dd-row">
             <p class="dd-copy">
+              <strong>Media parity gate:</strong>
+              these public demo routes are presenter-backed fixtures, not database-seeded products. Before using PageSpeed
+              or a deployed ShakaPerf result, run
+              <code>node scripts/perf/assert_public_demo_media_parity.mjs --base-url <%= request.base_url %></code>
+              and confirm the RSC pages expose product and Discover images from the initial HTML. Stable deployed
+              PageSpeed reports taken before PR 69 lands still show the pre-media fixture and are diagnostic only.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
               <strong>Hosted result docs:</strong>
               the commands above reproduce the hosted public buyer-page run, while the headline table includes the
               supporting caveat: this is a headless Chrome navigation result, not the final mobile Lighthouse claim.

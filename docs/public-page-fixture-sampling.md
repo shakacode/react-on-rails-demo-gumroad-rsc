@@ -64,6 +64,20 @@ shape with two different content policies:
 - Both the Inertia and RSC routes use the same presenter output, same host, same
   route CSS, and same benchmark harness.
 
+This is not a database seed today. The reproducible fixture source is the
+presenter plus committed local media files. A future production-component
+migration might create real `Link`, `Thumbnail`, and `ProductFile` seed records,
+but that would be a separate fixture architecture and should keep the same
+public-page parity contract. For the current demo, verify the deployed fixture
+with:
+
+```bash
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+```
+
+The check requires local media refs on both route pairs, plus initial `<img>`
+tags on the RSC pages so PageSpeed can observe the same media-bearing surface.
+
 ## What This Comparison Proves
 
 This is a legitimate same-data rendering comparison:

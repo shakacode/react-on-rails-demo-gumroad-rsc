@@ -49,6 +49,21 @@ identify field and layout shape.
 See [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) for
 the source-attribution and fixture sanitation policy.
 
+These public demo routes are not populated from database product rows. The
+fixture contract currently lives in `PublicProductRscDemoPresenter` and committed
+local files under `public/public-product-rsc-demo/media/`. For this branch,
+"seeded correctly" means the deployed host is running the same presenter data
+and static media assets as the measured branch. Before quoting PageSpeed or a
+deployed ShakaPerf run, check the target host:
+
+```bash
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+```
+
+The command should pass for the host being measured. It is expected to fail on a
+stable deployment that predates PR 69's media fixture because those pages expose
+no local image refs.
+
 ## Why this page matters
 
 Dashboard routes are useful technical proofs, but they are not the strongest product proof.
@@ -152,6 +167,17 @@ Current artifacts:
   [performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json)
 - Diagnostic deployed-demo-vs-live Lighthouse comparator, not valid claim evidence until media parity:
   [performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)
+
+Before rerunning the current artifact against any host, run the media parity
+gate:
+
+```bash
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+```
+
+If it fails, the target still has the pre-media fixture and PageSpeed screenshots
+without product/card images are expected. Merge and deploy the media-bearing
+fixture first, then rerun ShakaPerf and PageSpeed.
 
 The PageSpeed Insights API returned HTTP `429` from the benchmark environment
 on July 9, 2026 UTC, so the external URL-pair artifact uses a pinned local

@@ -57,6 +57,20 @@ What still needs proof:
 - production-grade renderer and streaming-path profiling for the public routes
 - that the measured public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad despite the larger streamed HTML, larger media-bearing RSC route bundle in this run, and hosted response-end tradeoff
 
+Media parity is an explicit gate, not a visual assumption. The public demo does
+not read these benchmark fixtures from database seed rows; `PublicProductRscDemoPresenter`
+emits deterministic product and Discover props, and local media assets are
+committed under `public/public-product-rsc-demo/media/`. Before treating any
+host as current media-bearing evidence, run:
+
+```bash
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+```
+
+If the command fails, the host is still serving the pre-media fixture. PageSpeed
+reports for that host should be labeled diagnostic only, and the ShakaPerf
+headline should stay on the latest host that passes the parity check.
+
 ## Current PR 69 Media-Bearing Public Buyer-Page Result
 
 Captured on `2026-07-09 UTC` against PR 69 review app
@@ -109,6 +123,7 @@ Interpretation:
 - keep this stable deployed run as chronology and reproducibility support, not the current headline claim
 - it predates the local synthetic media fixtures added in PR 69
 - rerun the same media-bearing benchmark against `https://gumroad.reactonrails.com` after PR 69 lands before calling the stable deployment current again
+- require `node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com` to pass before calling the stable deployment media-bearing
 
 ## Supporting PR 63 Review-App Public Buyer-Page Result
 
