@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic habit dashboard thumbnail</title>
+  <desc id="desc">A locally generated marketplace thumbnail for benchmark fixture cards.</desc>
+  <rect width="640" height="420" fill="#e7f7f1"/>
+  <rect x="76" y="54" width="488" height="312" rx="18" fill="#fff" stroke="#111" stroke-width="10"/>
+  <rect x="116" y="96" width="164" height="28" rx="14" fill="#23a094"/>
+  <rect x="116" y="156" width="408" height="34" rx="12" fill="#f5f5f0" stroke="#111" stroke-width="6"/>
+  <rect x="116" y="216" width="408" height="34" rx="12" fill="#f5f5f0" stroke="#111" stroke-width="6"/>
+  <rect x="116" y="276" width="408" height="34" rx="12" fill="#f5f5f0" stroke="#111" stroke-width="6"/>
+  <path d="M138 172l20 18 38-42" fill="none" stroke="#23a094" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M138 232l20 18 38-42" fill="none" stroke="#ff90e8" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M138 292l20 18 38-42" fill="none" stroke="#ffc900" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

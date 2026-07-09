@@ -320,6 +320,9 @@
 <% gumroad_discover_reference_url = PublicProductRscDemoPresenter::GUMROAD_DISCOVER_REFERENCE_URL %>
 <% public_home_path = about_path %>
 <% deployed_performance_url = @presenter.deployed_performance_demo_url %>
+<% evidence_cards = @presenter.performance_evidence_cards %>
+<% claim_status_cards = @presenter.performance_claim_status_cards %>
+<% comparison_terms = @presenter.comparison_terms %>
 
 <div class="dd dd-performance" data-rsc-performance-lab>
   <aside class="dd-side">
@@ -328,12 +331,19 @@
       <p>React Server Components via React on Rails Pro lab</p>
     </div>
 
-    <nav class="dd-nav" aria-label="Public performance lab routes">
+    <nav class="dd-nav" aria-label="Public performance lab sections">
+      <span class="dd-nav-label">Read the evidence</span>
+      <a href="#claim-status" aria-current="page">Claim status</a>
+      <a href="#comparison-vocabulary">Vocabulary</a>
+      <a href="#current-shakaperf-result">ShakaPerf A/B</a>
+      <a href="#pagespeed-comparator-pairs">PageSpeed diagnostics</a>
+      <a href="#reproduce-with-shakaperf">Reproduce</a>
+
+      <span class="dd-nav-label">Open routes</span>
       <a href="<%= public_home_path %>">Home</a>
-      <a href="<%= public_product_performance_demo_path %>" aria-current="page">Performance lab</a>
       <a href="<%= public_product_rsc_demo_path %>">Product RSC</a>
       <a href="<%= public_product_discover_rsc_demo_path %>">Discover RSC</a>
-      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Deployed demo</a>
+      <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">Stable deployed demo</a>
     </nav>
 
     <footer class="dd-meta">
@@ -360,12 +370,51 @@
 
       <div class="dd-actions">
         <button type="button" class="dd-btn" data-rerun-race>Rerun both A/B races</button>
-        <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Compare deployed demo</a>
+        <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener" class="dd-btn">Open stable deployed demo</a>
         <a href="<%= consultation_url %>" target="_blank" rel="noopener" class="dd-btn">Book a consultation</a>
       </div>
     </header>
 
+    <% if evidence_cards.any? %>
+      <section class="dd-evidence-strip" aria-label="Headline performance evidence">
+        <% evidence_cards.each do |card| %>
+          <article class="dd-evidence-card<%= " dd-evidence-card--#{card[:tone]}" if card[:tone].present? %>">
+            <p class="dd-eyebrow"><%= card[:eyebrow] %></p>
+            <h2><%= card[:label] %></h2>
+            <strong><%= card[:value] %></strong>
+            <span class="dd-evidence-delta"><%= card[:delta] %></span>
+            <p><%= card[:note] %></p>
+          </article>
+        <% end %>
+      </section>
+    <% end %>
+
     <div class="dd-body">
+      <section class="dd-section" id="claim-status">
+        <header>
+          <h2>Read this evidence in order</h2>
+          <p>
+            The demo has one defensible performance claim today: same-host, same-fixture ShakaPerf A/B results for the
+            public product and Discover routes. PageSpeed links stay on the page to make the caution reproducible, not
+            to imply that the live Gumroad comparison is ready to cite.
+          </p>
+        </header>
+
+        <div class="dd-claim-grid">
+          <% claim_status_cards.each do |card| %>
+            <article class="dd-claim-card<%= " dd-claim-card--#{card[:tone]}" if card[:tone].present? %>">
+              <span><%= card[:step] %></span>
+              <div>
+                <p class="dd-eyebrow"><%= card[:label] %></p>
+                <h3><%= card[:title] %></h3>
+                <p><%= card[:body] %></p>
+                <a href="<%= card[:href] %>"><%= card[:link_label] %></a>
+              </div>
+            </article>
+          <% end %>
+        </div>
+      </section>
+
       <p class="dd-note">
         The product fixture is source-attributed to
         <a href="<%= gumroad_product_reference_url %>" target="_blank" rel="noopener">Tendon Book by Jacked Athlete</a>:
@@ -375,13 +424,252 @@
         expose <code>Products/Discover/Show</code> product, seller, cover, rating, purchase, section, and taxonomy props.
       </p>
 
+      <section class="dd-section dd-terms-section" id="comparison-vocabulary">
+        <header>
+          <h2>What current, deployed, and live mean here</h2>
+          <p>
+            The lab avoids the overloaded word &ldquo;current&rdquo; in the evidence below. Use these names when comparing
+            the review app, the stable demo, and the real Gumroad site.
+          </p>
+        </header>
+
+        <div class="dd-term-grid">
+          <% comparison_terms.each do |term| %>
+            <article class="dd-term-card">
+              <span><%= term[:eyebrow] %></span>
+              <h3><%= term[:label] %></h3>
+              <p><%= term[:description] %></p>
+              <% if term[:href].to_s.start_with?("http") %>
+                <a href="<%= term[:href] %>" target="_blank" rel="noopener">Open reference</a>
+              <% else %>
+                <a href="<%= term[:href] %>">Open reference</a>
+              <% end %>
+            </article>
+          <% end %>
+        </div>
+      </section>
+
       <% stack_versions = @presenter.react_stack_versions %>
+
+      <% verdict_labels = {
+        rsc_wins: ["React on Rails Pro RSC wins", "dd-verdict--win"],
+        inertia_wins: ["Inertia wins", "dd-verdict--loss"],
+        tie: ["About the same", "dd-verdict--tie"],
+      } %>
+
+      <section class="dd-section" id="current-shakaperf-result">
+        <header>
+          <h2>PR 69 media-bearing same-fixture ShakaPerf A/B</h2>
+          <p><%= @presenter.media_review_benchmark_method_note %></p>
+          <details class="dd-link-panel">
+            <summary>Reproducibility artifacts and source</summary>
+            <div class="dd-source-grid">
+              <p class="dd-source-links">
+                <span>Benchmark artifacts:</span>
+                <a href="<%= @presenter.media_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 69 media-bearing A/B summary</a>
+                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">stable deployed pre-media A/B summary</a>
+                <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">diagnostic Lighthouse URL-pair summary</a>
+                <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">local branch A/B summary</a>
+                <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 63 review-app A/B summary</a>
+                <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
+              </p>
+              <p class="dd-source-links">
+                <span>Implementation:</span>
+                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
+                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
+                <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
+              </p>
+              <p class="dd-source-links">
+                <span>External:</span>
+                <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">deployed performance lab</a>
+                <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
+                <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
+              </p>
+            </div>
+          </details>
+        </header>
+
+        <p class="dd-note is-info">
+          <strong>How to read this:</strong> column A is the matched <strong>Inertia</strong> control inside this demo app,
+          not the live Gumroad production site. Column B is the <strong>React on Rails Pro RSC</strong> candidate on the
+          same host, with the same fixture data and same ShakaPerf harness. Every metric is lower-is-better. The verdict
+          only names a winner when the gap exceeds
+          &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
+        </p>
+
+        <% @presenter.media_review_benchmark_surfaces.each do |surface| %>
+          <% sources = @presenter.route_source_links(surface[:page_kind]) %>
+          <div class="dd-surface-block">
+            <header class="dd-surface-head">
+              <h3><%= surface[:surface] %></h3>
+              <p class="dd-source-links">
+                <span>A &middot; Inertia route source:</span>
+                <% sources[:inertia].each do |link| %><a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a><% end %>
+              </p>
+              <p class="dd-source-links">
+                <span>B &middot; React on Rails Pro RSC route source:</span>
+                <% sources[:rsc].each do |link| %><a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a><% end %>
+              </p>
+            </header>
+
+            <div class="dd-table dd-table--responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Metric (lower is better)</th>
+                    <th scope="col">A &middot; Inertia control</th>
+                    <th scope="col">B &middot; React on Rails Pro RSC</th>
+                    <th scope="col">Change (B vs A)</th>
+                    <th scope="col">Verdict</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% surface[:rows].each do |row| %>
+                    <% label, klass = verdict_labels.fetch(row[:verdict]) %>
+                    <tr>
+                      <th scope="row" data-label="Metric"><%= row[:label] %></th>
+                      <td data-label="A &middot; Inertia control"><code><%= row[:inertia] %></code></td>
+                      <td data-label="B &middot; React on Rails Pro RSC"><code><%= row[:rsc] %></code></td>
+                      <td data-label="Change (B vs A)"><code><%= row[:delta] %></code></td>
+                      <td data-label="Verdict"><span class="dd-verdict <%= klass %>"><%= label %></span></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="dd-note is-info">
+          <strong>What this shows:</strong> after adding local product and card media, RSC still wins median navigation,
+          median LCP, and JavaScript request count on both same-host route pairs. The tradeoff is larger streamed HTML,
+          larger media-bearing RSC route JavaScript in this review-app run, and slower response-end because the
+          server-rendered content is present in the document.
+          <% if @presenter.media_review_benchmark_caveats.any? %>
+            <br />
+            <strong>Caveats from the run:</strong>
+          <% end %>
+        </div>
+
+        <% if @presenter.media_review_benchmark_caveats.any? %>
+          <ul class="dd-caveats">
+            <% @presenter.media_review_benchmark_caveats.each do |caveat| %>
+              <li><%= caveat %></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <p class="dd-note">
+          <strong>Supporting ShakaPerf runs:</strong>
+          the stable deployed run, local branch run, and PR 63 review-app run remain linked above for chronology and
+          reproducibility. They show the same overall direction, but the PR 69 review-app run is now the headline A/B
+          evidence because it measures the media-bearing fixture in this PR; the ShakaPerf commands below use the host
+          you are viewing so review-app reruns do not measure the stable deployed pre-media fixture by accident.
+          <br />
+          <strong>Historical hosted run:</strong>
+          the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
+          transfer and request-count evidence. It predates the Tendon Book fixture, so it is supporting context rather than
+          the headline current result.
+        </p>
+      </section>
+
+      <section class="dd-section" id="pagespeed-comparator-pairs">
+        <header>
+          <h2>PageSpeed comparator pairs</h2>
+          <p>
+            These links are diagnostics, not current proof. The screenshot timeline check exposed the important caveat:
+            live Gumroad loads production product imagery and chrome that this demo does not yet match byte-for-byte.
+            Point PageSpeed at
+            <strong>this host RSC demo</strong> when reviewing a PR, <strong>stable deployed RSC demo</strong> when you
+            need a durable public URL, and <strong>live Gumroad</strong> when you want the production status quo.
+            Use the reports to inspect remaining gaps, then only quote them after the fixture has media and production
+            surface parity.
+          </p>
+        </header>
+
+        <p class="dd-note is-warning">
+          <strong>Known invalid comparison today:</strong> the earlier live-Gumroad-to-demo Lighthouse score table looked
+          favorable, but it is not evidence because the compared pages did not load the same media surface. This PR keeps
+          the PageSpeed links visible for reproducibility and review, while the headline claim stays on same-host
+          ShakaPerf A/B measurements.
+        </p>
+
+        <div class="dd-list">
+          <% @presenter.page_speed_comparator_pairs.each do |pair| %>
+            <article class="dd-row">
+              <p class="dd-copy">
+                <strong><%= pair[:surface] %>:</strong>
+                diagnose
+                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">this RSC build</a>
+                against
+                <a href="<%= pair[:live_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> live URL</a>.
+              </p>
+              <details class="dd-link-panel dd-link-panel--nested">
+                <summary>Open PageSpeed links</summary>
+                <div class="dd-source-grid">
+                  <p class="dd-source-links">
+                    <span>Mobile headline:</span>
+                    <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener">this host mobile</a>
+                    <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">stable deployed mobile</a>
+                    <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad mobile</a>
+                  </p>
+                  <p class="dd-source-links">
+                    <span>Desktop sanity:</span>
+                    <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener">this host desktop</a>
+                    <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">stable deployed desktop</a>
+                    <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad desktop</a>
+                  </p>
+                  <p class="dd-source-links">
+                    <span>Direct URLs:</span>
+                    <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener">stable deployed RSC route</a>
+                    <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">this host RSC route</a>
+                  </p>
+                </div>
+              </details>
+            </article>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="dd-section">
+        <header>
+          <h2>What this report is allowed to claim</h2>
+          <p>
+            The current media-bearing ShakaPerf A/B run shows a meaningful browser-navigation and LCP win on the right public surfaces.
+            The PageSpeed URL pairs are useful for finding production gaps, but they are not part of the performance
+            claim until image/media, production chrome, and third-party-service differences are comparable.
+          </p>
+        </header>
+
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>For Gumroad maintainers:</strong> judge public product and Discover pages first because they are
+              SEO-sensitive, conversion-sensitive, logged out, and mobile-heavy.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>For React on Rails evaluators:</strong> inspect how Rails can stream React Server Components while
+              keeping interactive work isolated instead of making the whole public page client-rendered.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>For ShakaCode prospects:</strong> use this as a concrete performance consulting artifact, then
+              <a href="<%= consultation_url %>" target="_blank" rel="noopener">book a consultation</a> if your Rails app has similar public-page constraints.
+            </p>
+          </article>
+        </div>
+      </section>
+
       <section class="dd-section" id="react-on-rails-pro-17-audit">
         <header>
           <h2>React on Rails Pro 17 / React 19.2 audit</h2>
           <p>
-            This pass checked the demo against the current Pro 17 RC line and the public Gumroad upstream delta on
-            July 8, 2026.
+            This pass checked the demo against the Pro 17 RC line and the public Gumroad upstream delta on July 8, 2026.
+            The Gumroad upstream issue should wait until React on Rails Pro <code>17.0.0</code> is final; until then,
+            this page is the reproducible evidence pack.
           </p>
         </header>
 
@@ -416,209 +704,6 @@
               upstream now includes buyer-local currency, richer public product/profile JSON, custom HTML product pages,
               and Discover category fixes. Those are useful adoption context, but a broad upstream merge would pull in
               the unrelated Vite migration and is not part of this focused demo pass.
-            </p>
-          </article>
-        </div>
-      </section>
-
-      <% verdict_labels = {
-        rsc_wins: ["React on Rails Pro RSC wins", "dd-verdict--win"],
-        inertia_wins: ["Inertia wins", "dd-verdict--loss"],
-        tie: ["About the same", "dd-verdict--tie"],
-      } %>
-
-      <section class="dd-section" id="current-shakaperf-result">
-        <header>
-          <h2>Deployed ShakaPerf A/B result</h2>
-          <p><%= @presenter.deployed_benchmark_method_note %></p>
-          <details class="dd-link-panel">
-            <summary>Reproducibility artifacts and source</summary>
-            <div class="dd-source-grid">
-              <p class="dd-source-links">
-                <span>Benchmark artifacts:</span>
-                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">deployed A/B summary</a>
-                <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">deployed Lighthouse URL-pair summary</a>
-                <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">local branch A/B summary</a>
-                <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 63 review-app A/B summary</a>
-                <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
-              </p>
-              <p class="dd-source-links">
-                <span>Implementation:</span>
-                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
-                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
-                <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
-              </p>
-              <p class="dd-source-links">
-                <span>External:</span>
-                <a href="<%= deployed_performance_url %>" target="_blank" rel="noopener">deployed performance lab</a>
-                <a href="<%= react_on_rails_url %>" target="_blank" rel="noopener">React on Rails</a>
-                <a href="<%= shakacode_url %>" target="_blank" rel="noopener">ShakaCode</a>
-              </p>
-            </div>
-          </details>
-        </header>
-
-        <p class="dd-note is-info">
-          <strong>How to read this:</strong> the control (column A) is Gumroad's current <strong>Inertia</strong> route; the
-          candidate (column B) is the <strong>React on Rails Pro RSC</strong> route. Same fixture data, same host, same harness.
-          Every metric is lower-is-better. The verdict only names a winner when the gap exceeds
-          &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
-        </p>
-
-        <% @presenter.deployed_benchmark_surfaces.each do |surface| %>
-          <% sources = @presenter.route_source_links(surface[:page_kind]) %>
-          <div class="dd-surface-block">
-            <header class="dd-surface-head">
-              <h3><%= surface[:surface] %></h3>
-              <p class="dd-source-links">
-                <span>A &middot; Inertia route source:</span>
-                <% sources[:inertia].each do |link| %><a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a><% end %>
-              </p>
-              <p class="dd-source-links">
-                <span>B &middot; React on Rails Pro RSC route source:</span>
-                <% sources[:rsc].each do |link| %><a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a><% end %>
-              </p>
-            </header>
-
-            <div class="dd-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th scope="col">Metric (lower is better)</th>
-                    <th scope="col">A &middot; Inertia control</th>
-                    <th scope="col">B &middot; React on Rails Pro RSC</th>
-                    <th scope="col">Change (B vs A)</th>
-                    <th scope="col">Verdict</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% surface[:rows].each do |row| %>
-                    <% label, klass = verdict_labels.fetch(row[:verdict]) %>
-                    <tr>
-                      <th scope="row"><%= row[:label] %></th>
-                      <td><code><%= row[:inertia] %></code></td>
-                      <td><code><%= row[:rsc] %></code></td>
-                      <td><code><%= row[:delta] %></code></td>
-                      <td><span class="dd-verdict <%= klass %>"><%= label %></span></td>
-                    </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        <% end %>
-
-        <div class="dd-note is-info">
-          <strong>What this shows:</strong> on the deployed Tendon Book fixture, RSC wins median navigation and route
-          JavaScript request count on both same-host route pairs. Product LCP improves; Discover median LCP is about tied
-          while p95 LCP favors RSC. The tradeoff is larger streamed HTML, and Discover still pays a response-end cost
-          because the server-rendered content is present in the document.
-          <% if @presenter.deployed_benchmark_caveats.any? %>
-            <br />
-            <strong>Caveats from the run:</strong>
-          <% end %>
-        </div>
-
-        <% if @presenter.deployed_benchmark_caveats.any? %>
-          <ul class="dd-caveats">
-            <% @presenter.deployed_benchmark_caveats.each do |caveat| %>
-              <li><%= caveat %></li>
-            <% end %>
-          </ul>
-        <% end %>
-
-        <p class="dd-note">
-          <strong>Supporting ShakaPerf runs:</strong>
-          the local branch run and the PR 63 review-app run remain linked above for chronology and reproducibility.
-          They show the same overall direction, but the deployed run is now the headline hosted A/B evidence because it
-          targets <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %> after the public buyer-page work landed.
-          <br />
-          <strong>Historical hosted run:</strong>
-          the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
-          transfer and request-count evidence. It predates the Tendon Book fixture, so it is supporting context rather than
-          the headline current result.
-        </p>
-      </section>
-
-      <section class="dd-section" id="pagespeed-comparator-pairs">
-        <header>
-          <h2>PageSpeed comparator pairs</h2>
-          <p>
-            Point PageSpeed at these public URL pairs to compare this React on Rails RSC build with the live Gumroad
-            status quo. On a review app, the demo links target the review app; the deployed-demo links target the current
-            production demo at <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %>. Use mobile as the headline result
-            and desktop as a sanity check; the matched Inertia-vs-RSC route-pair data above remains the controlled A/B proof.
-            A local Lighthouse matrix is linked above because the PageSpeed Insights API returned HTTP 429 from this
-            environment. The deployed rerun found live Gumroad to deployed demo product mobile score moving from
-            0.57 to 0.98 with LCP moving from 15.6s to 2.4s, and live Gumroad to deployed demo Discover mobile score
-            moving from 0.58 to 0.97 with LCP moving from 27.2s to 2.5s.
-          </p>
-        </header>
-
-        <div class="dd-list">
-          <% @presenter.page_speed_comparator_pairs.each do |pair| %>
-            <article class="dd-row">
-              <p class="dd-copy">
-                <strong><%= pair[:surface] %>:</strong>
-                compare
-                <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">this RSC build</a>
-                with
-                <a href="<%= pair[:live_url] %>" target="_blank" rel="noopener"><%= pair[:surface] %> live URL</a>.
-              </p>
-              <details class="dd-link-panel dd-link-panel--nested">
-                <summary>Open PageSpeed links</summary>
-                <div class="dd-source-grid">
-                  <p class="dd-source-links">
-                    <span>Mobile headline:</span>
-                    <a href="<%= pair[:mobile_demo_page_speed_url] %>" target="_blank" rel="noopener">current app mobile</a>
-                    <a href="<%= pair[:mobile_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">deployed demo mobile</a>
-                    <a href="<%= pair[:mobile_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad mobile</a>
-                  </p>
-                  <p class="dd-source-links">
-                    <span>Desktop sanity:</span>
-                    <a href="<%= pair[:desktop_demo_page_speed_url] %>" target="_blank" rel="noopener">current app desktop</a>
-                    <a href="<%= pair[:desktop_deployed_demo_page_speed_url] %>" target="_blank" rel="noopener">deployed demo desktop</a>
-                    <a href="<%= pair[:desktop_live_page_speed_url] %>" target="_blank" rel="noopener">live Gumroad desktop</a>
-                  </p>
-                  <p class="dd-source-links">
-                    <span>Direct URLs:</span>
-                    <a href="<%= pair[:deployed_demo_url] %>" target="_blank" rel="noopener">deployed RSC demo</a>
-                    <a href="<%= pair[:demo_url] %>" target="_blank" rel="noopener">current RSC demo</a>
-                  </p>
-                </div>
-              </details>
-            </article>
-          <% end %>
-        </div>
-      </section>
-
-      <section class="dd-section">
-        <header>
-          <h2>What this report is allowed to claim</h2>
-          <p>
-            The deployed ShakaPerf A/B run shows a meaningful browser-navigation win on the right public surfaces.
-            The deployed ShakaPerf and Lighthouse URL-pair reruns add public-network evidence, but a Gumroad adoption
-            proposal still needs PageSpeed API or field-data corroboration for INP and mobile score.
-          </p>
-        </header>
-
-        <div class="dd-list">
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>For Gumroad maintainers:</strong> judge public product and Discover pages first because they are
-              SEO-sensitive, conversion-sensitive, logged out, and mobile-heavy.
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>For React on Rails evaluators:</strong> inspect how Rails can stream React Server Components while
-              keeping interactive work isolated instead of making the whole public page client-rendered.
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>For ShakaCode prospects:</strong> use this as a concrete performance consulting artifact, then
-              <a href="<%= consultation_url %>" target="_blank" rel="noopener">book a consultation</a> if your Rails app has similar public-page constraints.
             </p>
           </article>
         </div>
@@ -665,28 +750,26 @@
         inertia_sources: discover_sources[:inertia],
         rsc_sources: discover_sources[:rsc] %>
 
-      <section class="dd-section">
+      <section class="dd-section" id="reproduce-with-shakaperf">
         <header>
           <h2>Reproduce with ShakaPerf</h2>
           <p>
             Use alternating cycles so route order is balanced. The public Gumroad pages are useful external references,
             but the defensible before/after comparison is same data, same host, matched Inertia versus RSC routes.
+            The commands below target this host, <code><%= request.base_url %></code>, so a review app does not
+            accidentally reproduce the stable deployed pre-media run.
           </p>
         </header>
 
         <div class="dd-list">
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Product detail pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/inertia_demo --path /public_product/rsc_demo --label hosted-public-product-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Discover pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label hosted-public-discover-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
-            </p>
-          </article>
+          <% @presenter.shakaperf_reproduction_commands.each do |command| %>
+            <article class="dd-row">
+              <p class="dd-copy">
+                <strong><%= command[:label] %>:</strong>
+                <code><%= command[:command] %></code>
+              </p>
+            </article>
+          <% end %>
           <article class="dd-row">
             <p class="dd-copy">
               <strong>External product reference:</strong>
@@ -708,8 +791,19 @@
               8 tag buckets, 8 filetype buckets, and taxonomy navigation, plus
               <code>Products/Discover/Show</code> with product seller, cover, rating, price, purchase, description,
               and taxonomy fields. The product fixture preserves the approved source identity for title, seller, price,
-              type, rating summary, and source URL; supporting copy is rewritten. The Discover fixture remains synthetic
-              and production-shaped, with no creator URLs, seller URLs, product URLs, or image URLs committed.
+              type, rating summary, and source URL; supporting copy is rewritten. Local synthetic media files are committed
+              for product and Discover cards so the demo loads image elements without copying creator media. The Discover
+              fixture remains synthetic and production-shaped, with no creator URLs, seller URLs, or product URLs committed.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Media parity gate:</strong>
+              these public demo routes are presenter-backed fixtures, not database-seeded products. Before using PageSpeed
+              or a deployed ShakaPerf result, run
+              <code>node scripts/perf/assert_public_demo_media_parity.mjs --base-url <%= request.base_url %></code>
+              and confirm the RSC pages expose product and Discover images from the initial HTML. Stable deployed
+              PageSpeed reports taken before PR 69 lands still show the pre-media fixture and are diagnostic only.
             </p>
           </article>
           <article class="dd-row">

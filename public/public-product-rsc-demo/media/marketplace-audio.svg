@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic audio pack thumbnail</title>
+  <desc id="desc">A locally generated marketplace thumbnail for benchmark fixture cards.</desc>
+  <rect width="640" height="420" fill="#111"/>
+  <circle cx="186" cy="210" r="118" fill="#23a094"/>
+  <circle cx="454" cy="210" r="118" fill="#ff90e8"/>
+  <circle cx="186" cy="210" r="38" fill="#111"/>
+  <circle cx="454" cy="210" r="38" fill="#111"/>
+  <rect x="294" y="86" width="52" height="248" rx="26" fill="#ffc900"/>
+  <path d="M82 354c72-48 144-48 216 0s144 48 216 0" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round"/>
+</svg>

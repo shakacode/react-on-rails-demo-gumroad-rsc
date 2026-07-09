@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic email templates thumbnail</title>
+  <desc id="desc">A locally generated marketplace thumbnail for benchmark fixture cards.</desc>
+  <rect width="640" height="420" fill="#f5f5f0"/>
+  <rect x="72" y="76" width="496" height="268" rx="24" fill="#fff" stroke="#111" stroke-width="12"/>
+  <path d="M88 104l232 144 232-144" fill="none" stroke="#111" stroke-width="14" stroke-linejoin="round"/>
+  <rect x="132" y="260" width="148" height="28" rx="14" fill="#23a094"/>
+  <rect x="132" y="306" width="246" height="18" rx="9" fill="#ddd"/>
+  <circle cx="506" cy="290" r="60" fill="#ff90e8"/>
+  <text x="476" y="306" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="800">@</text>
+</svg>

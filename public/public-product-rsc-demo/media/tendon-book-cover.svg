@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="960" viewBox="0 0 720 960" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic Tendon Book demo cover</title>
+  <desc id="desc">A locally generated product cover used for the React on Rails Gumroad benchmark demo.</desc>
+  <rect width="720" height="960" fill="#f7f0d8"/>
+  <path d="M0 0h720v285H0z" fill="#111"/>
+  <path d="M0 684h720v276H0z" fill="#23a094"/>
+  <circle cx="560" cy="172" r="108" fill="#ffc900"/>
+  <circle cx="160" cy="760" r="132" fill="#ff90e8"/>
+  <path d="M112 405c86-78 175-78 266 0 66 56 129 56 190 0" fill="none" stroke="#111" stroke-width="22" stroke-linecap="round"/>
+  <path d="M112 514c86-78 175-78 266 0 66 56 129 56 190 0" fill="none" stroke="#111" stroke-width="22" stroke-linecap="round"/>
+  <text x="72" y="118" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" letter-spacing="3">JACKED ATHLETE</text>
+  <text x="72" y="220" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="800">Tendon</text>
+  <text x="72" y="300" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="76" font-weight="800">Book</text>
+  <text x="72" y="626" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">Load progressions</text>
+  <text x="72" y="672" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="700">for resilient training</text>
+  <rect x="438" y="728" width="176" height="104" rx="12" fill="#fff"/>
+  <text x="466" y="770" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">ebook</text>
+  <text x="466" y="812" fill="#111" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="800">$47</text>
+</svg>

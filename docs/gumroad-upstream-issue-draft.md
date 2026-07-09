@@ -8,6 +8,10 @@ The right upstream goal is narrow:
 - avoid proposing a broad migration
 - ask whether Gumroad would review a focused experiment branch or PR if the public-page performance case becomes stronger
 
+Do not post this upstream yet. Hold until React on Rails Pro `17.0.0` is final,
+then refresh the deployed demo, media-parity evidence, PageSpeed/PageSpeed-style
+diagnostics, and package version references before opening the issue.
+
 The current best candidates are the logged-out public product and Discover comparisons:
 
 - product `Inertia` control: `/public_product/inertia_demo`
@@ -42,6 +46,7 @@ The hosted lab now has production-shaped synthetic fixtures for the public pages
 - both route pairs are logged out and visible without a demo account
 - both route pairs use the same fixture data for Inertia and React Server Components
 - the fixtures were shaped from public Gumroad page structure without committing copied creator content
+- the fixture now uses local synthetic media so the demo pages load image elements without copying creator-owned images
 - the current control route is a custom Inertia benchmark surface, not yet the production `Discover/Index` or `Products/Discover/Show` component migrated one-for-one
 
 The current branch A/B result is favorable enough to keep testing on the page type that matters most for Gumroad:
@@ -53,23 +58,18 @@ The current branch A/B result is favorable enough to keep testing on the page ty
 - browse-to-product discovery
 - client JavaScript reduction
 
-Deployed ShakaPerf results from `2026-07-09 UTC`:
+Current media-bearing ShakaPerf results from `2026-07-09 UTC` on the PR 69 review app:
 
-| Public surface       |                 Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
-| -------------------- | ----------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       | `883.90ms` -> `267.25ms` (`-69.8%`) |  `206.45ms` -> `206.60ms` (`+0.1%`) | `354.00ms` -> `304.00ms` (`-14.1%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `867.15ms` -> `300.30ms` (`-65.4%`) | `201.70ms` -> `243.30ms` (`+20.6%`) |  `362.00ms` -> `350.00ms` (`-3.3%`) | `9` -> `1` (`-88.9%`) |
+| Public surface       |                   Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
+| -------------------- | ------------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
+| Product detail       |  `1292.15ms` -> `731.70ms` (`-43.4%`) | `137.10ms` -> `170.15ms` (`+24.1%`) | `992.00ms` -> `382.00ms` (`-61.5%`) | `9` -> `1` (`-88.9%`) |
+| Discover marketplace | `1423.70ms` -> `1054.30ms` (`-25.9%`) | `140.65ms` -> `261.60ms` (`+86.0%`) | `960.00ms` -> `602.00ms` (`-37.3%`) | `9` -> `1` (`-88.9%`) |
 
-The deployed result is useful because it compares both route pairs on the stable public demo host after the public buyer-page work landed. It also keeps the important tradeoff visible: RSC streams more complete HTML, so the claim is faster browser completion and less client JavaScript, not universally lower server TTLB.
+This result is useful because it compares both route pairs after the demo gained local media fixtures. It also keeps the important tradeoff visible: RSC streams more complete HTML, so the claim is faster browser completion, faster LCP, and fewer JavaScript requests, not universally lower server TTLB or lower JavaScript bytes.
 
-The external URL-pair comparator is also favorable. The PageSpeed Insights API returned HTTP `429` from my environment, so I used pinned local `lighthouse@12.8.2` with `3` runs per URL/strategy:
+The live-Gumroad-versus-demo PageSpeed/Lighthouse links remain in the lab for diagnostics, but I am not quoting the current scores as evidence. The earlier URL-pair run looked favorable, but a timeline review showed the comparison was not apples-to-apples: live Gumroad loaded production product imagery and chrome that the demo did not yet match. The next proof step is to document production-equivalent media parity, rerun PageSpeed API or pinned Lighthouse reports on those same public URL pairs, and capture field-data corroboration where possible, especially for `INP` and mobile score.
 
-| Public surface                      |           Live -> demo score |                         Live -> demo LCP |       Live -> demo TBT |          Live -> demo mobile byte weight |
-| ----------------------------------- | ---------------------------: | ---------------------------------------: | ---------------------: | ---------------------------------------: |
-| Product detail live Gumroad -> demo | `0.57` -> `0.98` (`+41 pts`) | `15,590.34ms` -> `2,422.79ms` (`-84.5%`) |  `74.00ms` -> `0.00ms` |  `4,053,575 B` -> `242,140 B` (`-94.0%`) |
-| Discover live Gumroad -> demo       | `0.58` -> `0.97` (`+39 pts`) | `27,210.88ms` -> `2,476.85ms` (`-90.9%`) | `149.00ms` -> `0.00ms` | `12,584,127 B` -> `246,901 B` (`-98.0%`) |
-
-The supporting local and review-app ShakaPerf runs are linked from the demo docs for reproducibility. This is not the final adoption claim yet. The next proof step should be PageSpeed API or field-data corroboration, especially for `INP` and mobile score.
+The supporting local and review-app ShakaPerf runs are linked from the demo docs for reproducibility. This is not the final adoption claim yet.
 
 The dashboard comparison remains useful as a technical proof, but it should not carry the Gumroad value case because logged-in dashboard pages are not the public buyer path.
 
@@ -78,14 +78,14 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 - the comparison uses logged-out public product and Discover routes rather than admin/dashboard routes
 - the RSC routes can be benchmarked against matched Inertia controls on the same data
 - the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
-- the next measurement step is straightforward: PageSpeed API or field-data corroboration on the same public URL pairs
-- the deployed same-fixture browser-navigation result is already large enough to justify that next step
+- the next measurement step is straightforward: redeploy the media-bearing demo to the stable public host, add production-equivalent media parity, then capture PageSpeed API or field-data corroboration on the same public URL pairs
+- the media-bearing same-fixture browser-navigation and LCP result is already large enough to justify that next step
 
 ## What I am not claiming
 
 - that the full Gumroad dashboard is already faster under RSC
 - that RSC is a better fit for every Inertia page
-- that the deployed same-fixture and Lighthouse results are enough to justify adoption by themselves without PageSpeed API or field-data corroboration
+- that the current live-Gumroad-versus-demo PageSpeed/Lighthouse numbers are valid proof before media and production surface parity are documented
 
 ## What I want feedback on
 
@@ -125,7 +125,8 @@ Recommended PR summary:
 
 ## What would make the upstream case stronger
 
-- PageSpeed API or field-data reports for the public product and Discover URL pairs
+- production-equivalent responsive media fixtures, cache headers, and CDN behavior in the demo
+- PageSpeed API or field-data reports for the public product and Discover URL pairs after media parity
 - measured `LCP`, `TBT`, `INP`, client JavaScript, payload, and navigation wins on the public routes
 - a cleaner explanation of where the remaining server cost comes from
 - one short screen recording showing the side-by-side difference

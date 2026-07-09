@@ -1,0 +1,129 @@
+{
+  "captured_at_utc": "2026-07-09T05:05:27Z",
+  "review_app_url": "https://rails-6rbrymb4tqrb6.cpln.app",
+  "pr": 69,
+  "head_sha": "774c46e52c6533648ac1ce11e7ed501293282bc5",
+  "method": {
+    "harness": "scripts/perf/compare_dashboard_routes.rb",
+    "cycles_per_pair": 8,
+    "server_warmup_requests_per_run": 2,
+    "public": true,
+    "require_driver_match": true,
+    "base_url": "https://rails-6rbrymb4tqrb6.cpln.app",
+    "measure_base_url": "https://rails-6rbrymb4tqrb6.cpln.app",
+    "browser": "chrome 150 / ChromeDriver 150"
+  },
+  "source_fixture": {
+    "product_reference_url": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+    "media_policy": "Local synthetic SVG media fixtures are loaded through img elements; creator-owned Gumroad media is not copied.",
+    "copy_policy": "Preserve source identity fields and source link; lightly rewrite long descriptive copy."
+  },
+  "results": [
+    {
+      "surface": "Product detail",
+      "key": "product",
+      "baseline_path": "/public_product/inertia_demo",
+      "candidate_path": "/public_product/rsc_demo",
+      "comparison_artifact": "hosted-review-pr69-media-product-2026-07-09-comparison.json",
+      "median_navigation_duration_ms": {
+        "inertia": 1292.15,
+        "rsc": 731.7,
+        "delta_percent": -43.4
+      },
+      "median_response_end_ms": {
+        "inertia": 137.1,
+        "rsc": 170.15,
+        "delta_percent": 24.1
+      },
+      "median_lcp_start_ms": {
+        "inertia": 992.0,
+        "rsc": 382.0,
+        "delta_percent": -61.5
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 19944.0,
+        "rsc": 76743.0,
+        "delta_percent": 284.8
+      },
+      "median_js_transfer_bytes": {
+        "inertia": 162707.0,
+        "rsc": 254321.0
+      },
+      "median_js_request_count": {
+        "inertia": 9.0,
+        "rsc": 1.0,
+        "delta_percent": -88.9
+      },
+      "p95_navigation_duration_ms": {
+        "inertia": 1765.5,
+        "rsc": 742.44,
+        "delta_percent": -57.9
+      },
+      "p95_lcp_start_ms": {
+        "inertia": 1207.0,
+        "rsc": 647.4,
+        "delta_percent": -46.4
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 2.38,
+        "ror_stream_shell": 34.61
+      }
+    },
+    {
+      "surface": "Discover marketplace",
+      "key": "discover",
+      "baseline_path": "/public_product/discover_inertia_demo",
+      "candidate_path": "/public_product/discover_rsc_demo",
+      "comparison_artifact": "hosted-review-pr69-media-discover-2026-07-09-comparison.json",
+      "median_navigation_duration_ms": {
+        "inertia": 1423.7,
+        "rsc": 1054.3,
+        "delta_percent": -25.9
+      },
+      "median_response_end_ms": {
+        "inertia": 140.65,
+        "rsc": 261.6,
+        "delta_percent": 86.0
+      },
+      "median_lcp_start_ms": {
+        "inertia": 960.0,
+        "rsc": 602.0,
+        "delta_percent": -37.3
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 38894.0,
+        "rsc": 193638.5,
+        "delta_percent": 397.9
+      },
+      "median_js_transfer_bytes": {
+        "inertia": 162707.0,
+        "rsc": 254321.0
+      },
+      "median_js_request_count": {
+        "inertia": 9.0,
+        "rsc": 1.0,
+        "delta_percent": -88.9
+      },
+      "p95_navigation_duration_ms": {
+        "inertia": 1784.12,
+        "rsc": 1105.79,
+        "delta_percent": -38.0
+      },
+      "p95_lcp_start_ms": {
+        "inertia": 1028.4,
+        "rsc": 633.0,
+        "delta_percent": -38.4
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 3.4,
+        "ror_stream_shell": 120.95
+      }
+    }
+  ],
+  "caveats": [
+    "Review-app run against PR 69 after adding local synthetic media fixtures; use this as the current media-bearing ShakaPerf evidence until the stable demo is redeployed.",
+    "RSC wins median navigation, median LCP, and JavaScript request count on both media-bearing route pairs.",
+    "RSC sends substantially larger HTML and has slower response-end because the rendered document is streamed server-side.",
+    "This is desktop headless Chrome, not mobile-throttled PageSpeed field data; live Gumroad PageSpeed comparisons remain diagnostic until production-equivalent media/CDN parity is documented."
+  ]
+}

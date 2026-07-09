@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic course builder thumbnail</title>
+  <desc id="desc">A locally generated marketplace thumbnail for benchmark fixture cards.</desc>
+  <rect width="640" height="420" fill="#fff0c2"/>
+  <rect x="68" y="70" width="212" height="280" rx="18" fill="#111"/>
+  <rect x="316" y="70" width="256" height="280" rx="18" fill="#fff" stroke="#111" stroke-width="10"/>
+  <rect x="102" y="112" width="144" height="26" rx="13" fill="#ffc900"/>
+  <rect x="102" y="168" width="106" height="18" rx="9" fill="#fff"/>
+  <rect x="102" y="212" width="134" height="18" rx="9" fill="#fff"/>
+  <rect x="102" y="256" width="88" height="18" rx="9" fill="#fff"/>
+  <circle cx="404" cy="164" r="46" fill="#23a094"/>
+  <path d="M388 146l48 30-48 30z" fill="#111"/>
+  <rect x="358" y="250" width="156" height="24" rx="12" fill="#ff90e8"/>
+  <rect x="358" y="296" width="116" height="18" rx="9" fill="#ddd"/>
+</svg>

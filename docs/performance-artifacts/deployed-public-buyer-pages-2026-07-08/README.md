@@ -3,6 +3,9 @@
 This artifact captures the deployed public demo after the public buyer-page work
 landed on `https://gumroad.reactonrails.com`.
 
+It predates the PR 69 local synthetic media fixtures, so keep it as stable
+deployed pre-media support rather than the current headline same-fixture result.
+
 Method:
 
 - `scripts/perf/compare_dashboard_routes.rb`
@@ -23,7 +26,7 @@ Interpretation:
 - RSC wins median browser navigation and route JavaScript request count on both public route pairs.
 - Product detail also wins median LCP; Discover median LCP is about tied under the 5% benchmark band while p95 LCP favors RSC.
 - RSC response-end is essentially tied on product and slower on Discover because the rendered document is streamed server-side.
-- This is deployed desktop headless Chrome evidence. Use the deployed Lighthouse URL-pair artifact for mobile PageSpeed-style evidence against live Gumroad.
+- This is deployed desktop headless Chrome evidence. Treat the deployed Lighthouse URL-pair artifact as diagnostic only; mobile PageSpeed evidence against live Gumroad still needs media parity and reruns.
 
 See `summary.json` for the readable rollup and the `*-comparison.json` files
 plus `*-runs/` folders for full ShakaPerf output. The raw ShakaPerf JSON files

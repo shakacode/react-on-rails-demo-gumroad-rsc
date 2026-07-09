@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Synthetic brush pack thumbnail</title>
+  <desc id="desc">A locally generated marketplace thumbnail for benchmark fixture cards.</desc>
+  <rect width="640" height="420" fill="#ffe3f7"/>
+  <circle cx="118" cy="96" r="56" fill="#ff90e8"/>
+  <circle cx="514" cy="318" r="76" fill="#ffc900"/>
+  <path d="M116 286c96-144 228-187 396-128" fill="none" stroke="#111" stroke-width="36" stroke-linecap="round"/>
+  <path d="M172 312c92-84 196-104 312-58" fill="none" stroke="#23a094" stroke-width="28" stroke-linecap="round"/>
+  <path d="M238 152l214 132" stroke="#ff7051" stroke-width="20" stroke-linecap="round"/>
+  <rect x="52" y="52" width="536" height="316" rx="20" fill="none" stroke="#111" stroke-width="12"/>
+</svg>

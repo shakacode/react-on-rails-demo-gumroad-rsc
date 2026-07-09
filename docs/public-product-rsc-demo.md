@@ -20,21 +20,52 @@ the page itself.
 
 The lab is intentionally shaped like an evidence article rather than a link
 directory. The persistent navigation stays on the primary story: home,
-performance lab, the two RSC candidates, and the deployed demo. Supporting
+performance lab, the two RSC candidates, and the stable deployed demo. Supporting
 source links, benchmark artifacts, and PageSpeed rerun links live in expandable
 reproducibility panels so a Gumroad reviewer can read the claim first and still
 get exact URLs for independent checks.
 
+Naming on the lab page should stay explicit:
+
+- "matched Inertia control" means the same-fixture baseline route inside this
+  demo app, not live Gumroad production.
+- "this host RSC demo" means the RSC route on the host currently in the address
+  bar, such as a review app or local server.
+- "stable deployed RSC demo" means
+  `https://gumroad.reactonrails.com/public_product/rsc_demo` and its Discover
+  counterpart.
+- "live Gumroad" means the real Gumroad product or Discover URL used for
+  PageSpeed diagnostics, not the same-data A/B baseline.
+
 The headline routes use stable, logged-out, same-origin fixtures. The product
 fixture is now source-attributed to
 [Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search):
-title, seller, price, ebook type, rating summary, and source link are preserved,
-while longer descriptive copy is lightly rewritten for this public demo. The
-Discover fixture remains synthetic but production-shaped. A small shape sampler
+title, seller, price, ebook type, rating summary, source link, and a synthetic
+local cover image are preserved or represented, while longer descriptive copy is
+lightly rewritten for this public demo. The Discover fixture remains synthetic
+but production-shaped and now includes local synthetic card media. A small shape sampler
 inspected public Gumroad `Discover/Index` and `Products/Discover/Show` pages to
 identify field and layout shape.
 See [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) for
 the source-attribution and fixture sanitation policy.
+
+These public demo routes are not populated from database product rows. The
+fixture contract currently lives in `PublicProductRscDemoPresenter` and committed
+local files under `public/public-product-rsc-demo/media/`. For this branch,
+"seeded correctly" means the deployed host is running the same presenter data
+and static media assets as the measured branch. Before quoting PageSpeed or a
+deployed ShakaPerf run, check the target host:
+
+```bash
+TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
+```
+
+The command should pass for the host being measured. It is expected to fail on a
+stable deployment that predates PR 69's media fixture because those pages expose
+no local image refs. After PR 69 is merged and deployed, set `TARGET_BASE_URL` to
+`https://gumroad.reactonrails.com` and rerun the same check before treating the
+stable deployment as current.
 
 ## Why this page matters
 
@@ -83,7 +114,7 @@ The early small product route was useful for validating the rendering path, but
 it was too small to settle whether Gumroad should consider adopting this stack.
 The current comparison uses real-page-shaped fixtures:
 
-- Discover listing page: a dense grid of product cards, categories, synthetic cover placeholders, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
+- Discover listing page: a dense grid of product cards, categories, local synthetic cover images, prices, ratings, and recommendation context comparable to `https://gumroad.com/discover`
 - Product detail page: an attributed fixture based on [Tendon Book by Jacked Athlete](https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search), preserving the source title, seller, price, ebook type, rating summary, and source link while rewriting long body copy
 - Matched implementations: one route rendered with the current Inertia approach and one route rendered with React Server Components via React on Rails Pro
 - Same data, same host, same measurement harness, so benchmark results reflect rendering architecture rather than fixture differences
@@ -97,48 +128,68 @@ easy to measure while proving the React on Rails Pro rendering path. It should
 not be overclaimed as a completed production component migration. A stronger
 follow-up is to reuse the existing public Gumroad components with sanitized
 production-shaped props where feasible, then compare those to an RSC equivalent.
-Another stronger follow-up is to add sanitized local image/media fixtures and
-rerun the benchmark, because the current committed route links to the live
-source but still uses synthetic cover placeholders rather than real creator
-media.
+The current branch adds sanitized local image/media fixtures so the buyer pages
+visibly load image elements without copying creator media. The next stronger
+follow-up is production-equivalent media parity: representative responsive image
+sizes, cache headers, and CDN behavior should be documented before quoting
+live-Gumroad-versus-demo PageSpeed numbers.
 
-## Reproducible PageSpeed Comparator Pairs
+## Reproducible PageSpeed Diagnostic Pairs
 
 The lab exposes ready-to-click PageSpeed links for the public URL pairs that
-matter for an upstream Gumroad issue:
+will matter for an upstream Gumroad issue after media parity is validated:
 
-- Product detail current-app demo: `/public_product/rsc_demo` on the current host
-- Product detail deployed demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
+- Product detail this-host demo: `/public_product/rsc_demo` on the request host
+- Product detail stable deployed demo: `https://gumroad.reactonrails.com/public_product/rsc_demo`
 - Product detail live comparator: `https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search`
-- Discover current-app demo: `/public_product/discover_rsc_demo` on the current host
-- Discover deployed demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
+- Discover this-host demo: `/public_product/discover_rsc_demo` on the request host
+- Discover stable deployed demo: `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
 - Discover live comparator: `https://gumroad.com/discover`
 
-Use mobile PageSpeed/Lighthouse results as the headline external proof and
-desktop as a sanity check. Treat these URL comparisons as external credibility
-evidence. The controlled architecture proof is still the alternating same-host
-Inertia-vs-RSC benchmark, where both variants use the same fixture data.
-On review apps, the lab generates current-app PageSpeed links from the request
-host and keeps separate deployed-demo links back to
+Use mobile PageSpeed/Lighthouse reports to inspect remaining production gaps and
+desktop as a sanity check. Do not quote the current live-Gumroad-versus-demo
+scores as performance evidence: the earlier timeline comparison was not
+apples-to-apples because the demo and live Gumroad page did not load equivalent
+media and production chrome. The controlled architecture proof is still the
+alternating same-host Inertia-vs-RSC benchmark, where both variants use the same
+fixture data.
+On review apps, the lab generates this-host PageSpeed links from the request
+host and keeps separate stable-deployed links back to
 `https://gumroad.reactonrails.com`, so reviewers can compare the PR, deployed
 demo, and live Gumroad status quo without editing URLs by hand.
 
 Current artifacts:
 
-- Same-fixture deployed ShakaPerf:
+- Current PR 69 media-bearing same-fixture ShakaPerf:
+  [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json)
+- Stable deployed pre-media same-fixture ShakaPerf:
   [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json)
 - Same-fixture local ShakaPerf:
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)
 - Same-fixture supporting PR 63 review-app ShakaPerf:
   [performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json)
-- External deployed-demo-vs-live Lighthouse comparator:
+- Diagnostic deployed-demo-vs-live Lighthouse comparator, not valid claim evidence until media parity:
   [performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)
+
+Before rerunning the current artifact against any host, run the media parity
+gate:
+
+```bash
+TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
+node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
+```
+
+If it fails, the target still has the pre-media fixture and PageSpeed screenshots
+without product/card images are expected. Merge and deploy the media-bearing
+fixture first, then rerun the parity gate, ShakaPerf, and PageSpeed against that
+same host.
 
 The PageSpeed Insights API returned HTTP `429` from the benchmark environment
 on July 9, 2026 UTC, so the external URL-pair artifact uses a pinned local
 `lighthouse@12.8.2` run. The deployed Lighthouse artifact includes
-`pagespeed-api-probe.json` with the API response. Use the ready-made PageSpeed
-links in the lab when API quota is available.
+`pagespeed-api-probe.json` with the API response. Keep that artifact for
+reproducibility and audit trail, but treat it as a diagnostic until the fixture
+has production-equivalent media and the PageSpeed reports are rerun.
 
 To re-sample public page shape without committing scraped content:
 

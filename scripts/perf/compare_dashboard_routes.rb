@@ -4,7 +4,10 @@ require "fileutils"
 require "json"
 require "open3"
 require "optparse"
+require "pathname"
 require_relative "measure_dashboard"
+
+REPO_ROOT = Pathname(__dir__).join("..", "..").expand_path.freeze
 
 COMPARE_DEFAULTS = {
   base_url: DEFAULTS[:base_url],
@@ -114,6 +117,14 @@ end
 
 def measurement_summary_path(output_dir:, run_label:, path:)
   File.join(output_dir, "#{run_label}-#{path_slug(path)}-metrics.json")
+end
+
+def repo_relative_path(path)
+  path_name = Pathname(path)
+  absolute_path = path_name.absolute? ? path_name : REPO_ROOT.join(path_name)
+  absolute_path.cleanpath.relative_path_from(REPO_ROOT).to_s
+rescue ArgumentError
+  path
 end
 
 def load_measurement_summary(summary_path:, path:, cycle_index:, position_index:)
@@ -312,7 +323,7 @@ def main
         positionInCycle: position_index + 1,
         path:,
         label: result[:summary]["label"],
-        summaryPath: result[:summary_path],
+        summaryPath: repo_relative_path(result[:summary_path]),
         reusedExisting: result[:reused_existing]
       }
     end

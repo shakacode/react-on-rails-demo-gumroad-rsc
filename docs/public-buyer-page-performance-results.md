@@ -10,11 +10,11 @@ Browser: local headless Chrome `149.0.7827.158` with ChromeDriver `149.0.7827.15
 
 Method: `8` alternating cycles per route pair, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
 
-These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence for JavaScript request and transfer deltas, not the current headline same-fixture result. The current deployed artifact is [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
+These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence for JavaScript request and transfer deltas, not the current headline same-fixture result. The current media-bearing artifact is [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json); the stable deployed pre-media artifact is [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
 
-Note: this run predates the React on Rails Pro 17 stream observability toggle now enabled on the public RSC routes. The current deployed run preserves the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
+Note: this run predates the React on Rails Pro 17 stream observability toggle now enabled on the public RSC routes. The current PR 69 media-bearing run preserves the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
 
-Fixture provenance: [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) documents the sanitized public Gumroad shape sampling used to build the synthetic Discover and product fixtures. The benchmark does not commit creator copy, seller URLs, product URLs, image URLs, or real product names.
+Fixture provenance: [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) documents the sanitized public Gumroad shape sampling used to build the synthetic Discover and product fixtures. The benchmark does not commit creator copy, seller URLs, product URLs, or real product names. Newer branches add local synthetic image fixtures; this historical run predates that media.
 
 ## Historical Results
 
@@ -80,9 +80,9 @@ ruby scripts/perf/compare_dashboard_routes.rb \
 
 ## Next Proof Gates
 
-- Repeat with PageSpeed API or field data when quota is available so the report includes `INP` and mobile score beyond local Lighthouse.
+- Repeat with PageSpeed API or field data after production-equivalent media parity so the report includes `INP` and mobile score beyond local Lighthouse.
 - Profile the React on Rails Pro renderer and streaming path beyond the top-level streamed shell and Node renderer prepare timing now captured in `Server-Timing`.
 - Add any Pro 17 static RSC caching as a separately labeled route variant rather than folding it into this matched uncached result.
-- Repeat after adding a more realistic product-media payload, because images and responsive media are a major public product-page cost.
+- Rerun after deploying the local synthetic media fixtures, then add production-equivalent responsive media/CDN parity before using live PageSpeed numbers as evidence.
 - If the mobile run preserves the navigation/LCP/client-JS advantage, convert this into a Gumroad-facing proposal focused on public product and Discover pages.
 - For a stronger Gumroad-maintainer proof, wire sanitized production-shaped props into the real public `Discover/Index` and `Products/Discover/Show` components where feasible, then compare those pages with an RSC equivalent.

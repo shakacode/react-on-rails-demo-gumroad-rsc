@@ -33,7 +33,9 @@ type CoverStyle = React.CSSProperties & {
 };
 
 type ProductCard = {
+  audience_label: string;
   currency_code: CurrencyCode;
+  format_label: string;
   id: string;
   is_pay_what_you_want?: boolean;
   name: string;
@@ -43,13 +45,16 @@ type ProductCard = {
   ratings: Ratings;
   sales_count_label: string;
   seller: Seller;
+  summary: string;
   taxonomy: string;
+  thumbnail_image_url: string;
   thumbnail_theme: Theme;
 };
 
 type ProductPage = {
   bullets: string[];
   call_to_action: string;
+  cover_image_url: string;
   cover_theme: Theme;
   currency_code: CurrencyCode;
   description_sections: { body: string; heading: string }[];
@@ -215,6 +220,13 @@ const ProductCardView = ({
 }) => (
   <a href={detailUrl} className="dd-product-card">
     <div className="dd-card-cover" style={coverStyle(card.thumbnail_theme)} aria-hidden="true">
+      <img
+        alt=""
+        decoding="async"
+        fetchPriority={eager ? "high" : "auto"}
+        loading={eager ? "eager" : "lazy"}
+        src={card.thumbnail_image_url}
+      />
       <span>{card.seller.avatar_initials}</span>
     </div>
     <div className="dd-card-body">
@@ -224,6 +236,7 @@ const ProductCardView = ({
         {card.seller.name}
         {card.seller.is_verified ? " - verified" : ""}
       </p>
+      <p className="dd-card-summary">{card.summary}</p>
       <div className="dd-card-meta">
         <strong>
           {card.is_pay_what_you_want ? "Pay what you want" : formatPrice(card.currency_code, card.price_cents)}
@@ -232,6 +245,8 @@ const ProductCardView = ({
       </div>
       <div className="dd-chip-row">
         <span className="dd-chip">{card.taxonomy.replace(/-/gu, " ")}</span>
+        <span className="dd-chip">{card.format_label}</span>
+        <span className="dd-chip">{card.audience_label}</span>
         <span className="dd-chip">{card.sales_count_label}</span>
         {eager ? <span className="dd-chip">above the fold</span> : null}
       </div>
@@ -291,6 +306,13 @@ const ProductDetailBenchmark = ({
         </div>
 
         <div className="dd-product-media" style={coverStyle(product.cover_theme)}>
+          <img
+            alt={`${product.name} synthetic demo cover`}
+            decoding="async"
+            fetchPriority="high"
+            loading="eager"
+            src={product.cover_image_url}
+          />
           <span>{product.seller.avatar_initials}</span>
           <strong>{product.name}</strong>
         </div>
@@ -396,7 +418,7 @@ const DiscoverBenchmark = ({
     <div className="dd-body">
       <section className="dd-discover-hero">
         <div>
-          <p className="dd-eyebrow">Synthetic Discover listing</p>
+          <p className="dd-eyebrow">Production-shaped Discover fixture</p>
           <h2>{discover.title}</h2>
           <p>{discover.subtitle}</p>
           <div className="dd-chip-row">
@@ -535,7 +557,7 @@ export default function PublicProductComparisonPage({
               {copy.compareLabel}
             </a>
             <a href={comparison.deployed_performance_url} className="dd-btn" rel="noreferrer" target="_blank">
-              Compare deployed demo
+              Open stable deployed demo
             </a>
           </div>
         </header>
@@ -547,7 +569,8 @@ export default function PublicProductComparisonPage({
             <a href={product_page.source_url} rel="noreferrer" target="_blank">
               {product_page.source_label}
             </a>
-            . Longer product copy is lightly rewritten for a reproducible public benchmark.
+            . Longer product copy is lightly rewritten, and local synthetic media is used so the fixture loads images
+            without copying creator-owned media.
           </p>
         ) : (
           <p className="dd-note dd-fixture-note">

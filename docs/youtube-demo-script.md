@@ -51,10 +51,10 @@ Same public marketplace data, different rendering model.
 ### State the measured result
 
 ```text
-On the deployed same-fixture ShakaPerf run, the Discover RSC route cuts median navigation duration from about 867ms to 300ms.
-The product detail route shows a larger win: about 884ms to 267ms median navigation duration.
-The same deployed run keeps the direction honest: JavaScript requests drop from nine to one, while streamed RSC response-end is slower on Discover.
-The deployed Lighthouse URL-pair fallback is also favorable against comparable live Gumroad pages, but PageSpeed API quota blocked a real PageSpeed capture from this environment.
+On the current media-bearing ShakaPerf run, the Discover RSC route cuts median navigation duration from about 1424ms to 1054ms.
+The product detail route shows a larger win: about 1292ms to 732ms median navigation duration.
+The same run keeps the direction honest: JavaScript requests drop from nine to one, while streamed RSC response-end is slower on both public route pairs.
+The PageSpeed links are still useful, but the current live-versus-demo Lighthouse fallback is diagnostic only because the pages did not load equivalent media and production chrome.
 That is not a universal win, but it is a real buyer-page win on bounded public surfaces.
 ```
 
@@ -62,7 +62,7 @@ That is not a universal win, but it is a real buyer-page win on bounded public s
 
 ```text
 That makes this interesting for product positioning and for a narrow upstream discussion.
-The next honest proof gate is PageSpeed API or field-data corroboration, especially for INP.
+The next honest proof gate is deploying this media-bearing fixture to the stable host, then adding production-equivalent media and CDN parity before PageSpeed API or field-data corroboration, especially for INP.
 ```
 
 ## Full version script
@@ -93,9 +93,9 @@ Both use the same production-shaped synthetic fixture, so we are measuring rende
 ### 4. Explain the actual result
 
 ```text
-Both public RSC routes win hard on median navigation duration and reduce client JavaScript from nine requests to one.
-Product detail improves median LCP from 354ms to 304ms; Discover is roughly tied at 362ms to 350ms while p95 LCP favors RSC.
-The tradeoff is larger HTML transfer because RSC streams rendered content instead of shipping a serialized Inertia payload.
+Both public RSC routes still win on median navigation duration after adding local media fixtures, and route JavaScript requests drop from nine to one.
+Product detail improves median LCP from 992ms to 382ms; Discover improves from 960ms to 602ms.
+The tradeoff is larger HTML transfer and slower response-end because RSC streams rendered content instead of shipping a smaller initial document plus client-side work.
 ```
 
 ### 5. Separate the two stories
@@ -117,7 +117,7 @@ It is meant to help decide what should be positioned, what should be optimized n
 ### 7. Close with the honest ask
 
 ```text
-If PageSpeed API or field data corroborates the Lighthouse fallback, especially for INP, this becomes a credible Gumroad-facing proposal.
+If PageSpeed API or field data corroborates the media-bearing same-fixture result after production-equivalent media and CDN parity, especially for INP, this becomes a credible Gumroad-facing proposal.
 If not, it is still valuable because it tells us where the tradeoff actually lives.
 ```
 
