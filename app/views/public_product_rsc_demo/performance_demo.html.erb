@@ -530,7 +530,8 @@
           <strong>Supporting ShakaPerf runs:</strong>
           the stable deployed run, local branch run, and PR 63 review-app run remain linked above for chronology and
           reproducibility. They show the same overall direction, but the PR 69 review-app run is now the headline A/B
-          evidence because it measures the media-bearing fixture in this PR.
+          evidence because it measures the media-bearing fixture in this PR; the ShakaPerf commands below use the host
+          you are viewing so review-app reruns do not measure the stable deployed pre-media fixture by accident.
           <br />
           <strong>Historical hosted run:</strong>
           the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
@@ -722,22 +723,20 @@
           <p>
             Use alternating cycles so route order is balanced. The public Gumroad pages are useful external references,
             but the defensible before/after comparison is same data, same host, matched Inertia versus RSC routes.
+            The commands below target this host, <code><%= request.base_url %></code>, so a review app does not
+            accidentally reproduce the stable deployed pre-media run.
           </p>
         </header>
 
         <div class="dd-list">
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Product detail pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/inertia_demo --path /public_product/rsc_demo --label hosted-public-product-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
-            </p>
-          </article>
-          <article class="dd-row">
-            <p class="dd-copy">
-              <strong>Discover pair:</strong>
-              <code>ruby scripts/perf/compare_dashboard_routes.rb --public --base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo --label hosted-public-discover-alternating-8 --cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90</code>
-            </p>
-          </article>
+          <% @presenter.shakaperf_reproduction_commands.each do |command| %>
+            <article class="dd-row">
+              <p class="dd-copy">
+                <strong><%= command[:label] %>:</strong>
+                <code><%= command[:command] %></code>
+              </p>
+            </article>
+          <% end %>
           <article class="dd-row">
             <p class="dd-copy">
               <strong>External product reference:</strong>

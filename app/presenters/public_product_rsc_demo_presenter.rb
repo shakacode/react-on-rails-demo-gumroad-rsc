@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "shellwords"
+
 class PublicProductRscDemoPresenter
   include Rails.application.routes.url_helpers
 
@@ -732,6 +734,27 @@ class PublicProductRscDemoPresenter
     ].compact
   end
 
+  def shakaperf_reproduction_commands
+    method = self.class.media_review_benchmark&.dig(:method) || {}
+
+    [
+      shakaperf_reproduction_command(
+        label: "Product detail pair",
+        inertia_path: public_product_inertia_demo_path,
+        rsc_path: public_product_rsc_demo_path,
+        label_slug: "current-host-public-product-alternating-8",
+        method:
+      ),
+      shakaperf_reproduction_command(
+        label: "Discover pair",
+        inertia_path: public_product_discover_inertia_demo_path,
+        rsc_path: public_product_discover_rsc_demo_path,
+        label_slug: "current-host-public-discover-alternating-8",
+        method:
+      ),
+    ]
+  end
+
   def deployed_performance_demo_url
     hosted_demo_url(public_product_performance_demo_path)
   end
@@ -858,6 +881,28 @@ class PublicProductRscDemoPresenter
         delta: "Not evidence yet",
         note: "Live Gumroad loads production imagery and chrome; use PageSpeed links to inspect gaps, not as the current proof.",
         tone: "warning",
+      }
+    end
+
+    def shakaperf_reproduction_command(label:, inertia_path:, rsc_path:, label_slug:, method:)
+      command = [
+        "ruby", "scripts/perf/compare_dashboard_routes.rb",
+        "--public",
+        "--base-url", request.base_url,
+        "--measure-base-url", request.base_url,
+        "--path", inertia_path,
+        "--path", rsc_path,
+        "--label", label_slug,
+        "--cycles", (method[:cycles_per_pair] || method[:cycles] || 8).to_s,
+        "--server-warmup-requests", (method[:server_warmup_requests_per_run] || 2).to_s,
+      ]
+      command << "--require-driver-match" if method[:require_driver_match] != false
+      command.concat(["--timeout", "90"])
+
+      {
+        label:,
+        host: request.base_url,
+        command: Shellwords.join(command),
       }
     end
 

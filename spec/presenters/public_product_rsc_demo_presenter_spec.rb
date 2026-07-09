@@ -208,6 +208,25 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#shakaperf_reproduction_commands" do
+    it "targets the current request host instead of the stable deployed host" do
+      commands = presenter.shakaperf_reproduction_commands
+
+      product = commands.find { |command| command[:label] == "Product detail pair" }
+      discover = commands.find { |command| command[:label] == "Discover pair" }
+
+      expect(product[:host]).to eq("http://test.host")
+      expect(product[:command]).to include("--base-url http://test.host --measure-base-url http://test.host")
+      expect(product[:command]).to include("--path /public_product/inertia_demo --path /public_product/rsc_demo")
+      expect(product[:command]).to include("--cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90")
+      expect(product[:command]).not_to include("https://gumroad.reactonrails.com")
+
+      expect(discover[:command]).to include(
+        "--path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo"
+      )
+    end
+  end
+
   describe "#page_speed_comparator_pairs" do
     it "returns reproducible PageSpeed comparator links for the live Gumroad surfaces" do
       pairs = presenter.page_speed_comparator_pairs
