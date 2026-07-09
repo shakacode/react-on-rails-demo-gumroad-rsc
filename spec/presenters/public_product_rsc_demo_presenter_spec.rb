@@ -95,6 +95,11 @@ describe PublicProductRscDemoPresenter do
       expect(navigation[:rsc]).to eq("731.7 ms")
       expect(lcp[:verdict]).to eq(:rsc_wins)
     end
+
+    it "links PR-only benchmark artifacts to the PR branch outside the stable host" do
+      expect(presenter.media_review_benchmark_artifact_url)
+        .to start_with(PublicProductRscDemoPresenter::REPO_PR_SOURCE_BASE_URL)
+    end
   end
 
   it "keeps the historical hosted benchmark available for JavaScript transfer context" do

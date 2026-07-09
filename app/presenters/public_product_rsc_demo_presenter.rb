@@ -14,6 +14,8 @@ class PublicProductRscDemoPresenter
   DEMO_MEDIA_BASE_PATH = "/public-product-rsc-demo/media"
 
   REPO_SOURCE_BASE_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
+  REPO_PR_SOURCE_BASE_URL =
+    "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/clarify-rsc-demo-performance"
   HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
   LOCAL_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json"
   HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
@@ -627,7 +629,7 @@ class PublicProductRscDemoPresenter
   end
 
   def media_review_benchmark_artifact_url
-    "#{REPO_SOURCE_BASE_URL}/#{MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH}"
+    "#{review_safe_repo_source_base_url}/#{MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH}"
   end
 
   def lighthouse_comparator_artifact_url
@@ -800,6 +802,10 @@ class PublicProductRscDemoPresenter
 
     def source_link(label, path)
       { label:, url: "#{REPO_SOURCE_BASE_URL}/#{path}" }
+    end
+
+    def review_safe_repo_source_base_url
+      request.base_url == HOSTED_DEMO_BASE_URL ? REPO_SOURCE_BASE_URL : REPO_PR_SOURCE_BASE_URL
     end
 
     def package_dependency_version(name)
