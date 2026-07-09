@@ -429,16 +429,17 @@
 
       <section class="dd-section" id="current-shakaperf-result">
         <header>
-          <h2>Current branch ShakaPerf A/B result</h2>
-          <p><%= @presenter.local_benchmark_method_note %></p>
+          <h2>Deployed ShakaPerf A/B result</h2>
+          <p><%= @presenter.deployed_benchmark_method_note %></p>
           <details class="dd-link-panel">
             <summary>Reproducibility artifacts and source</summary>
             <div class="dd-source-grid">
               <p class="dd-source-links">
                 <span>Benchmark artifacts:</span>
-                <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">current branch A/B summary</a>
-                <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">hosted review-app A/B summary</a>
-                <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">Lighthouse URL-pair summary</a>
+                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">deployed A/B summary</a>
+                <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">deployed Lighthouse URL-pair summary</a>
+                <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">local branch A/B summary</a>
+                <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 63 review-app A/B summary</a>
                 <a href="<%= @presenter.hosted_benchmark_artifact_url %>" target="_blank" rel="noopener">historical hosted A/B summary</a>
               </p>
               <p class="dd-source-links">
@@ -464,7 +465,7 @@
           &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
         </p>
 
-        <% @presenter.local_benchmark_surfaces.each do |surface| %>
+        <% @presenter.deployed_benchmark_surfaces.each do |surface| %>
           <% sources = @presenter.route_source_links(surface[:page_kind]) %>
           <div class="dd-surface-block">
             <header class="dd-surface-head">
@@ -508,32 +509,29 @@
         <% end %>
 
         <div class="dd-note is-info">
-          <strong>What this shows:</strong> on the current Tendon Book fixture, RSC wins median navigation, response-end,
-          and LCP on both same-host route pairs. The tradeoff is larger streamed HTML because the server-rendered content
-          is present in the document; the hosted review-app and Lighthouse reruns below add public-network JavaScript,
-          LCP, and mobile-score context.
-          <% if @presenter.local_benchmark_caveats.any? %>
+          <strong>What this shows:</strong> on the deployed Tendon Book fixture, RSC wins median navigation and route
+          JavaScript request count on both same-host route pairs. Product LCP improves; Discover median LCP is about tied
+          while p95 LCP favors RSC. The tradeoff is larger streamed HTML, and Discover still pays a response-end cost
+          because the server-rendered content is present in the document.
+          <% if @presenter.deployed_benchmark_caveats.any? %>
             <br />
             <strong>Caveats from the run:</strong>
           <% end %>
         </div>
 
-        <% if @presenter.local_benchmark_caveats.any? %>
+        <% if @presenter.deployed_benchmark_caveats.any? %>
           <ul class="dd-caveats">
-            <% @presenter.local_benchmark_caveats.each do |caveat| %>
+            <% @presenter.deployed_benchmark_caveats.each do |caveat| %>
               <li><%= caveat %></li>
             <% end %>
           </ul>
         <% end %>
 
         <p class="dd-note">
-          <strong>Hosted review-app rerun:</strong>
-          the PR 63 review app confirms the same direction on both public route pairs. Product detail median navigation
-          moved from 602.75ms to 502.20ms, LCP from 500ms to 394ms, and route JavaScript requests from 7 to 1.
-          Discover median navigation moved from 605.30ms to 529.25ms, LCP from 508ms to 430ms, and route JavaScript
-          requests from 7 to 1. It also makes the server tradeoff clearer: streamed RSC response-end and HTML transfer
-          are higher on the review app, so the honest claim is faster browser completion and less client JavaScript, not
-          lower server TTLB everywhere.
+          <strong>Supporting ShakaPerf runs:</strong>
+          the local branch run and the PR 63 review-app run remain linked above for chronology and reproducibility.
+          They show the same overall direction, but the deployed run is now the headline hosted A/B evidence because it
+          targets <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %> after the public buyer-page work landed.
           <br />
           <strong>Historical hosted run:</strong>
           the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
@@ -551,8 +549,9 @@
             production demo at <%= PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL %>. Use mobile as the headline result
             and desktop as a sanity check; the matched Inertia-vs-RSC route-pair data above remains the controlled A/B proof.
             A local Lighthouse matrix is linked above because the PageSpeed Insights API returned HTTP 429 from this
-            environment. That fallback found the product mobile score moving from 0.56 to 0.99 with LCP moving from 14.7s to
-            2.1s, and Discover mobile moving from 0.58 to 0.96 with LCP moving from 12.0s to 2.6s.
+            environment. The deployed rerun found live Gumroad to deployed demo product mobile score moving from
+            0.57 to 0.98 with LCP moving from 15.6s to 2.4s, and live Gumroad to deployed demo Discover mobile score
+            moving from 0.58 to 0.97 with LCP moving from 27.2s to 2.5s.
           </p>
         </header>
 
@@ -597,8 +596,8 @@
         <header>
           <h2>What this report is allowed to claim</h2>
           <p>
-            The current branch ShakaPerf A/B run shows a meaningful browser-navigation win on the right public surfaces.
-            The hosted review app and Lighthouse URL-pair reruns add public-network evidence, but a Gumroad adoption
+            The deployed ShakaPerf A/B run shows a meaningful browser-navigation win on the right public surfaces.
+            The deployed ShakaPerf and Lighthouse URL-pair reruns add public-network evidence, but a Gumroad adoption
             proposal still needs PageSpeed API or field-data corroboration for INP and mobile score.
           </p>
         </header>

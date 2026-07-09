@@ -47,6 +47,43 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#deployed_benchmark_surfaces" do
+    it "labels the product and discover surfaces from the deployed artifact" do
+      surfaces = presenter.deployed_benchmark_surfaces
+
+      expect(surfaces.map { |surface| surface[:surface] }).to include("Product detail", "Discover marketplace")
+      expect(surfaces.map { |surface| surface[:page_kind] }).to include(:product, :discover)
+    end
+
+    it "uses the deployed run as the hosted headline benchmark" do
+      product = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
+      navigation = product[:rows].find { |row| row[:label] == "Navigation duration" }
+      response_end = product[:rows].find { |row| row[:label] == "Response end (server TTLB)" }
+
+      expect(navigation[:verdict]).to eq(:rsc_wins)
+      expect(navigation[:inertia]).to eq("883.9 ms")
+      expect(navigation[:rsc]).to eq("267.25 ms")
+      expect(response_end[:verdict]).to eq(:tie)
+    end
+
+    it "keeps the deployed Discover response-end tradeoff visible" do
+      discover = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :discover }
+      response_end = discover[:rows].find { |row| row[:label] == "Response end (server TTLB)" }
+
+      expect(response_end[:verdict]).to eq(:inertia_wins)
+      expect(response_end[:delta]).to eq("+20.6%")
+    end
+
+    it "surfaces deployed JavaScript transfer in the total wire weight row" do
+      product = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
+      total = product[:rows].find { |row| row[:label] == "Total wire weight (HTML + JavaScript)" }
+
+      expect(total[:inertia]).to eq("164.43 KB")
+      expect(total[:rsc]).to eq("90.22 KB")
+      expect(total[:verdict]).to eq(:rsc_wins)
+    end
+  end
+
   it "keeps the historical hosted benchmark available for JavaScript transfer context" do
     product = presenter.hosted_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
     total = product[:rows].find { |row| row[:label] == "Total wire weight (HTML + JavaScript)" }
@@ -119,12 +156,15 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "artifact links" do
-    it "links the hosted review-app and Lighthouse comparator artifacts" do
+    it "links the deployed, hosted review-app, and Lighthouse comparator artifacts" do
+      expect(presenter.deployed_benchmark_artifact_url).to include(
+        "deployed-public-buyer-pages-2026-07-08/summary.json"
+      )
       expect(presenter.hosted_review_benchmark_artifact_url).to include(
         "hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
       )
       expect(presenter.lighthouse_comparator_artifact_url).to include(
-        "lighthouse-public-comparator-2026-07-08/summary.json"
+        "lighthouse-public-comparator-deployed-2026-07-08/summary.json"
       )
     end
   end

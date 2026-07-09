@@ -51,10 +51,10 @@ Same public marketplace data, different rendering model.
 ### State the measured result
 
 ```text
-On the current same-fixture ShakaPerf run, the Discover RSC route cuts median navigation duration from about 375ms to 304ms.
-The product detail route shows a larger win: about 393ms to 213ms median navigation duration.
-The PR 63 hosted review-app rerun keeps the direction honest: navigation, LCP, and JavaScript request count improve, while streamed RSC response-end is slower.
-The Lighthouse URL-pair fallback is also favorable against comparable live Gumroad pages, but PageSpeed API quota blocked a real PageSpeed capture from this environment.
+On the deployed same-fixture ShakaPerf run, the Discover RSC route cuts median navigation duration from about 867ms to 300ms.
+The product detail route shows a larger win: about 884ms to 267ms median navigation duration.
+The same deployed run keeps the direction honest: JavaScript requests drop from nine to one, while streamed RSC response-end is slower on Discover.
+The deployed Lighthouse URL-pair fallback is also favorable against comparable live Gumroad pages, but PageSpeed API quota blocked a real PageSpeed capture from this environment.
 That is not a universal win, but it is a real buyer-page win on bounded public surfaces.
 ```
 
@@ -93,8 +93,8 @@ Both use the same production-shaped synthetic fixture, so we are measuring rende
 ### 4. Explain the actual result
 
 ```text
-Both public RSC routes win hard on median navigation duration and reduce client JavaScript from seven requests to one.
-Product detail improves median LCP from 368ms to 304ms; Discover improves median LCP from 360ms to 322ms.
+Both public RSC routes win hard on median navigation duration and reduce client JavaScript from nine requests to one.
+Product detail improves median LCP from 354ms to 304ms; Discover is roughly tied at 362ms to 350ms while p95 LCP favors RSC.
 The tradeoff is larger HTML transfer because RSC streams rendered content instead of shipping a serialized Inertia payload.
 ```
 

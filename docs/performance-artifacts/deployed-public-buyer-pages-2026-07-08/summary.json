@@ -1,0 +1,138 @@
+{
+  "captured_at_utc": "2026-07-09T00:23:11Z",
+  "deployed_url": "https://gumroad.reactonrails.com",
+  "deployed_revision_header": "react-on-rails-demo-gumroad-rsc-staging",
+  "local_repo_main_commit": "34d8236ff6a5328fb62379c808d3262b7b7b8146",
+  "method": {
+    "harness": "scripts/perf/compare_dashboard_routes.rb",
+    "cycles_per_pair": 8,
+    "server_warmup_requests_per_run": 2,
+    "public": true,
+    "require_driver_match": true,
+    "base_url": "https://gumroad.reactonrails.com",
+    "measure_base_url": "https://gumroad.reactonrails.com",
+    "browser": "chrome 150.0.7871.49 / ChromeDriver 150.0.7871.115"
+  },
+  "source_fixture": {
+    "product_reference_url": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+    "product_identity": {
+      "title": "Tendon Book",
+      "seller": "Jacked Athlete",
+      "type": "ebook",
+      "price_cents": 4700,
+      "rating_average": 5,
+      "rating_count": 10
+    },
+    "copy_policy": "Preserve source identity fields and source link; lightly rewrite long descriptive copy."
+  },
+  "results": [
+    {
+      "surface": "Product detail",
+      "key": "product",
+      "baseline_path": "/public_product/inertia_demo",
+      "candidate_path": "/public_product/rsc_demo",
+      "comparison_artifact": "deployed-public-product-2026-07-08-comparison.json",
+      "median_navigation_duration_ms": {
+        "inertia": 883.9,
+        "rsc": 267.25,
+        "delta_percent": -69.8
+      },
+      "median_response_end_ms": {
+        "inertia": 206.45,
+        "rsc": 206.6,
+        "delta_percent": 0.1
+      },
+      "median_lcp_start_ms": {
+        "inertia": 354,
+        "rsc": 304,
+        "delta_percent": -14.1
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 5794.5,
+        "rsc": 10127.5,
+        "delta_percent": 74.8
+      },
+      "median_js_transfer_bytes": {
+        "inertia": 162582,
+        "rsc": 82254.5,
+        "delta_percent": -49.4
+      },
+      "median_js_request_count": {
+        "inertia": 9,
+        "rsc": 1,
+        "delta_percent": -88.9
+      },
+      "p95_navigation_duration_ms": {
+        "inertia": 1140.27,
+        "rsc": 629.46,
+        "delta_percent": -44.8
+      },
+      "p95_lcp_start_ms": {
+        "inertia": 1111.4,
+        "rsc": 337,
+        "delta_percent": -69.7
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 2.82,
+        "ror_stream_shell": 34.02
+      }
+    },
+    {
+      "surface": "Discover marketplace",
+      "key": "discover",
+      "baseline_path": "/public_product/discover_inertia_demo",
+      "candidate_path": "/public_product/discover_rsc_demo",
+      "comparison_artifact": "deployed-public-discover-2026-07-08-comparison.json",
+      "median_navigation_duration_ms": {
+        "inertia": 867.15,
+        "rsc": 300.3,
+        "delta_percent": -65.4
+      },
+      "median_response_end_ms": {
+        "inertia": 201.7,
+        "rsc": 243.3,
+        "delta_percent": 20.6
+      },
+      "median_lcp_start_ms": {
+        "inertia": 362,
+        "rsc": 350,
+        "delta_percent": -3.3
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 7397.5,
+        "rsc": 14852,
+        "delta_percent": 100.8
+      },
+      "median_js_transfer_bytes": {
+        "inertia": 162582,
+        "rsc": 82251,
+        "delta_percent": -49.4
+      },
+      "median_js_request_count": {
+        "inertia": 9,
+        "rsc": 1,
+        "delta_percent": -88.9
+      },
+      "p95_navigation_duration_ms": {
+        "inertia": 884.57,
+        "rsc": 361.86,
+        "delta_percent": -59.1
+      },
+      "p95_lcp_start_ms": {
+        "inertia": 814,
+        "rsc": 423.4,
+        "delta_percent": -48
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 2.9,
+        "ror_stream_shell": 83.47
+      }
+    }
+  ],
+  "caveats": [
+    "Deployed production demo run against https://gumroad.reactonrails.com, not a temporary review app.",
+    "RSC wins median navigation and JavaScript request count on both route pairs; product LCP improves, while Discover median LCP is within the 5% tie band.",
+    "RSC response-end is essentially tied on product and slower on Discover because the rendered document is streamed server-side.",
+    "This is desktop headless Chrome, not mobile-throttled PageSpeed field data. Use the Lighthouse URL-pair artifact for mobile comparator evidence while PageSpeed API quota is unavailable."
+  ]
+}

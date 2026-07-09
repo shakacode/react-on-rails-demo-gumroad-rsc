@@ -14,29 +14,34 @@ Filed:
 - Emit hydration / interactivity performance marks for client islands →
   https://github.com/shakacode/react_on_rails/issues/4207
 
-Shared evidence now has two layers:
+Shared evidence now has three layers:
 
-- Current branch ShakaPerf run (`2026-07-08 UTC`, local headless Chrome, 6
-  alternating cycles, same Tendon Book fixture, see
-  [summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)):
-  product navigation `392.70ms` -> `212.80ms` (`-45.8%`), product
-  `responseEnd` `337.40ms` -> `171.30ms` (`-49.2%`), product LCP
-  `416.00ms` -> `224.00ms` (`-46.2%`); Discover navigation `375.45ms` ->
-  `303.70ms` (`-19.1%`), Discover `responseEnd` `313.60ms` -> `245.25ms`
-  (`-21.8%`), and Discover LCP `400.00ms` -> `322.00ms` (`-19.5%`).
-- Historical hosted headless-Chrome run (`2026-06-24 UTC`, 8 alternating cycles
-  against `https://gumroad.reactonrails.com`, see
-  [summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json)):
-  JavaScript request count moved from `7` to `1` on both public route pairs and
-  transfer dropped about `54%`, but this run predates the Tendon Book fixture and
-  should be treated as supporting context rather than the current headline.
+- Deployed ShakaPerf run (`2026-07-09 UTC`, headless Chrome 150, 8 alternating
+  cycles against `https://gumroad.reactonrails.com`, same Tendon Book fixture,
+  see
+  [summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json)):
+  product navigation `883.90ms` -> `267.25ms` (`-69.8%`), product
+  `responseEnd` `206.45ms` -> `206.60ms` (`+0.1%`), product LCP
+  `354.00ms` -> `304.00ms` (`-14.1%`), and product JS requests `9` -> `1`;
+  Discover navigation `867.15ms` -> `300.30ms` (`-65.4%`), Discover
+  `responseEnd` `201.70ms` -> `243.30ms` (`+20.6%`), Discover LCP
+  `362.00ms` -> `350.00ms` (`-3.3%`), and Discover JS requests `9` -> `1`.
+- Local and PR 63 review-app ShakaPerf runs from `2026-07-08 UTC`, linked from
+  [public-product-rsc-demo.md](./public-product-rsc-demo.md), preserve the
+  same overall direction and explain the response-end tradeoff.
+- Deployed Lighthouse URL-pair run (`lighthouse@12.8.2`, 3 runs per URL and
+  strategy, see
+  [summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)):
+  product mobile score `0.57` -> `0.98`, product mobile LCP `15.59s` ->
+  `2.42s`; Discover mobile score `0.58` -> `0.97`, Discover mobile LCP
+  `27.21s` -> `2.48s`.
 
 The remaining gaps below are what still make the final Gumroad-facing proof
-harder: the current local run records stronger navigation/response/LCP evidence,
-the hosted review-app run records current public-network navigation/LCP/JS
-evidence with a response-end tradeoff, and the Lighthouse fallback is favorable;
-PageSpeed API or field-data scores, RSC payload timing, CDN-safe streaming
-timing, and hydration/interactivity marks still need first-class measurement.
+harder: the deployed run records strong public-network navigation and JS
+evidence with an honest response-end tradeoff, and the Lighthouse fallback is
+favorable; PageSpeed API or field-data scores, RSC payload timing, CDN-safe
+streaming timing, and hydration/interactivity marks still need first-class
+measurement.
 
 ---
 
@@ -81,10 +86,10 @@ marks are absent client-side.
 
 ### Why
 
-Server time-to-last-byte regressions (the demo shows a ~3.2% Discover
-`responseEnd` gap) can't be diagnosed without per-phase timing. Today there is no
-first-class way to see where streamed RSC server time goes once a CDN is in front
-of the app.
+Server time-to-last-byte regressions (the deployed run shows a `+20.6%`
+Discover `responseEnd` gap) can't be diagnosed without per-phase timing. Today
+there is no first-class way to see where streamed RSC server time goes once a
+CDN is in front of the app.
 
 ---
 
@@ -97,7 +102,7 @@ entries at hydration boundaries (when a streamed server component's client
 islands become interactive). The lab's live in-browser A/B race can measure
 first-streamed-bytes and full-response download, but not the JavaScript execution
 and hydration cost — which is exactly where the Inertia control is heaviest
-(179 KB JS across 7 requests vs 1 for RSC).
+(9 JS requests for Inertia vs 1 for RSC in the deployed ShakaPerf run).
 
 - Emit opt-in hydration marks (per island and/or per page) that a client-side
   benchmark can read.
