@@ -887,7 +887,10 @@ class PublicProductRscDemoPresenter
     end
 
     def current_repo_ref
-      ENV["REVISION"].presence || ENV["BRANCH"].presence || "main"
+      image_commit = [ENV["GITHUB_SHA"], ENV["GIT_COMMIT"]]
+        .find { |value| value.to_s.match?(/\A[0-9a-f]{40}\z/i) }
+
+      image_commit || ENV["SOURCE_REF"].presence || "main"
     end
 
     def package_dependency_version(name)

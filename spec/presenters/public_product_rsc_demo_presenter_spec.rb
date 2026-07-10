@@ -279,11 +279,14 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "artifact links" do
-    it "links current evidence and implementation to the deployed review revision" do
+    it "links current evidence and implementation to the image commit instead of the Control Plane app name" do
       allow(ENV).to receive(:[]).and_call_original
-      allow(ENV).to receive(:[]).with("REVISION").and_return("review-sha")
+      allow(ENV).to receive(:[]).with("GITHUB_SHA").and_return(nil)
+      allow(ENV).to receive(:[]).with("GIT_COMMIT").and_return("4b21dd4fc38655ef54c2a75825d86d809fadb08b")
+      allow(ENV).to receive(:[]).with("REVISION").and_return("react-on-rails-demo-gumroad-rsc-review-pr-70")
+      allow(ENV).to receive(:[]).with("BRANCH").and_return("react-on-rails-demo-gumroad-rsc-review-pr-70")
 
-      review_source_base_url = "#{described_class::REPO_URL}/blob/review-sha"
+      review_source_base_url = "#{described_class::REPO_URL}/blob/4b21dd4fc38655ef54c2a75825d86d809fadb08b"
 
       expect(presenter.deployed_benchmark_artifact_url).to start_with(review_source_base_url)
       expect(presenter.route_source_links(:product).values.flatten.pluck(:url))
@@ -294,6 +297,9 @@ describe PublicProductRscDemoPresenter do
 
     it "uses canonical main links when no deployed revision metadata is available" do
       allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with("GITHUB_SHA").and_return(nil)
+      allow(ENV).to receive(:[]).with("GIT_COMMIT").and_return(nil)
+      allow(ENV).to receive(:[]).with("SOURCE_REF").and_return(nil)
       allow(ENV).to receive(:[]).with("REVISION").and_return(nil)
       allow(ENV).to receive(:[]).with("BRANCH").and_return(nil)
 
