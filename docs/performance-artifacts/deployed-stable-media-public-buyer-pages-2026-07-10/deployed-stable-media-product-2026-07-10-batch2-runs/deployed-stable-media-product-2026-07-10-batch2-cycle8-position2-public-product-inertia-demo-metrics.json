@@ -1,0 +1,559 @@
+{
+  "label": "deployed-stable-media-product-2026-07-10-batch2-cycle8-position2",
+  "baseUrl": "https://gumroad.reactonrails.com",
+  "measureBaseUrl": "https://gumroad.reactonrails.com",
+  "path": "/public_product/inertia_demo",
+  "targetUrl": "https://gumroad.reactonrails.com/public_product/inertia_demo",
+  "headed": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 2,
+  "environment": {
+    "measuredAt": "2026-07-09T17:47:22-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "150.0.7871.49",
+    "platformName": "mac",
+    "chromeDriverVersion": "150.0.7871.115",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 552.5,
+      "loadEventMs": 1108.6,
+      "responseEndMs": 502.4,
+      "durationMs": 1108.6,
+      "transferSize": 6803.0,
+      "encodedBodySize": 6503.0,
+      "decodedBodySize": 20474.0
+    },
+    "lcp": {
+      "startTime": 644.0,
+      "size": 125401.0
+    },
+    "inertiaDataPageBytes": 15040.0,
+    "htmlBytes": 44859.0,
+    "bodyTextBytes": 5983.0,
+    "packs": {
+      "transferSize": 165537.0,
+      "encodedBodySize": 286406.0,
+      "decodedBodySize": 1034239.0,
+      "jsTransferSize": 162696.0,
+      "cssTransferSize": 2841.0,
+      "jsCount": 9.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "action_total": {
+        "durationMs": 9.94
+      },
+      "cfCacheStatus": {
+        "durationMs": 0.0,
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "durationMs": 1.0
+      },
+      "cfExtPri": {
+        "durationMs": 0.0
+      },
+      "cfOrigin": {
+        "durationMs": 0.0
+      },
+      "cfWorker": {
+        "durationMs": 389.0
+      },
+      "compare_product": {
+        "durationMs": 1.17
+      },
+      "compare_props": {
+        "durationMs": 1.17
+      },
+      "render_dispatch": {
+        "durationMs": 9.92
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 552.5,
+        "median": 552.5,
+        "p95": 552.5,
+        "max": 552.5,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 1108.6,
+        "median": 1108.6,
+        "p95": 1108.6,
+        "max": 1108.6,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 502.4,
+        "median": 502.4,
+        "p95": 502.4,
+        "max": 502.4,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 1108.6,
+        "median": 1108.6,
+        "p95": 1108.6,
+        "max": 1108.6,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 6803.0,
+        "median": 6803.0,
+        "p95": 6803.0,
+        "max": 6803.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 6503.0,
+        "median": 6503.0,
+        "p95": 6503.0,
+        "max": 6503.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 20474.0,
+        "median": 20474.0,
+        "p95": 20474.0,
+        "max": 20474.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 644.0,
+        "median": 644.0,
+        "p95": 644.0,
+        "max": 644.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 125401.0,
+        "median": 125401.0,
+        "p95": 125401.0,
+        "max": 125401.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": {
+      "count": 1,
+      "min": 15040.0,
+      "median": 15040.0,
+      "p95": 15040.0,
+      "max": 15040.0,
+      "stddev": 0.0
+    },
+    "htmlBytes": {
+      "count": 1,
+      "min": 44859.0,
+      "median": 44859.0,
+      "p95": 44859.0,
+      "max": 44859.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 5983.0,
+      "median": 5983.0,
+      "p95": 5983.0,
+      "max": 5983.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 165537.0,
+        "median": 165537.0,
+        "p95": 165537.0,
+        "max": 165537.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 286406.0,
+        "median": 286406.0,
+        "p95": 286406.0,
+        "max": 286406.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 1034239.0,
+        "median": 1034239.0,
+        "p95": 1034239.0,
+        "max": 1034239.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 162696.0,
+        "median": 162696.0,
+        "p95": 162696.0,
+        "max": 162696.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 2841.0,
+        "median": 2841.0,
+        "p95": 2841.0,
+        "max": 2841.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 9.0,
+        "median": 9.0,
+        "p95": 9.0,
+        "max": 9.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "action_total": {
+        "stats": {
+          "count": 1,
+          "min": 9.94,
+          "median": 9.94,
+          "p95": 9.94,
+          "max": 9.94,
+          "stddev": 0.0
+        }
+      },
+      "cfCacheStatus": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        },
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "stats": {
+          "count": 1,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0,
+          "stddev": 0.0
+        }
+      },
+      "cfExtPri": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfOrigin": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfWorker": {
+        "stats": {
+          "count": 1,
+          "min": 389.0,
+          "median": 389.0,
+          "p95": 389.0,
+          "max": 389.0,
+          "stddev": 0.0
+        }
+      },
+      "compare_product": {
+        "stats": {
+          "count": 1,
+          "min": 1.17,
+          "median": 1.17,
+          "p95": 1.17,
+          "max": 1.17,
+          "stddev": 0.0
+        }
+      },
+      "compare_props": {
+        "stats": {
+          "count": 1,
+          "min": 1.17,
+          "median": 1.17,
+          "p95": 1.17,
+          "max": 1.17,
+          "stddev": 0.0
+        }
+      },
+      "render_dispatch": {
+        "stats": {
+          "count": 1,
+          "min": 9.92,
+          "median": 9.92,
+          "p95": 9.92,
+          "max": 9.92,
+          "stddev": 0.0
+        }
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 5983,
+      "heading": "Tendon Book",
+      "htmlBytes": 44859,
+      "inertiaDataPageBytes": 15040,
+      "lcp": {
+        "loadTime": 595.5,
+        "renderTime": 644,
+        "size": 125401,
+        "startTime": 644,
+        "url": "https://gumroad.reactonrails.com/public-product-rsc-demo/media/tendon-book-cover.svg"
+      },
+      "navigation": {
+        "decodedBodySize": 20474,
+        "domContentLoadedMs": 552.5,
+        "durationMs": 1108.6000000014901,
+        "encodedBodySize": 6503,
+        "loadEventMs": 1108.6000000014901,
+        "responseEndMs": 502.4000000022352,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": null,
+            "duration": 1.17,
+            "name": "compare_product"
+          },
+          {
+            "description": null,
+            "duration": 1.17,
+            "name": "compare_props"
+          },
+          {
+            "description": null,
+            "duration": 9.92,
+            "name": "render_dispatch"
+          },
+          {
+            "description": null,
+            "duration": 9.94,
+            "name": "action_total"
+          },
+          {
+            "description": "DYNAMIC",
+            "duration": 0,
+            "name": "cfCacheStatus"
+          },
+          {
+            "description": null,
+            "duration": 1,
+            "name": "cfEdge"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfOrigin"
+          },
+          {
+            "description": null,
+            "duration": 389,
+            "name": "cfWorker"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfExtPri"
+          }
+        ],
+        "transferSize": 6803
+      },
+      "packs": {
+        "all": {
+          "count": 13,
+          "decodedBodySize": 1034239,
+          "encodedBodySize": 286406,
+          "transferSize": 165537
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 182342,
+          "encodedBodySize": 25298,
+          "transferSize": 2841
+        },
+        "js": {
+          "count": 9,
+          "decodedBodySize": 750785,
+          "encodedBodySize": 159996,
+          "transferSize": 162696
+        },
+        "largest": [
+          {
+            "decodedBodySize": 407904,
+            "duration": 29.300000000745058,
+            "encodedBodySize": 110571,
+            "name": "https://gumroad.reactonrails.com/packs/js/624-9883503b83e5c999.js",
+            "transferSize": 110871
+          },
+          {
+            "decodedBodySize": 257265,
+            "duration": 24.200000002980232,
+            "encodedBodySize": 24780,
+            "name": "https://gumroad.reactonrails.com/packs/js/webpack-commons-eb8581aafb9aef55.js",
+            "transferSize": 25080
+          },
+          {
+            "decodedBodySize": 26160,
+            "duration": 15.800000000745058,
+            "encodedBodySize": 7975,
+            "name": "https://gumroad.reactonrails.com/packs/js/800-1f6839b4b874fb64.js",
+            "transferSize": 8275
+          },
+          {
+            "decodedBodySize": 10578,
+            "duration": 13.899999998509884,
+            "encodedBodySize": 4657,
+            "name": "https://gumroad.reactonrails.com/packs/js/webpack-runtime-2727a1e80e547941.js",
+            "transferSize": 4957
+          },
+          {
+            "decodedBodySize": 16575,
+            "duration": 14.699999999254942,
+            "encodedBodySize": 4184,
+            "name": "https://gumroad.reactonrails.com/packs/js/2531-90fba57db01f1fb6.chunk.js",
+            "transferSize": 4484
+          },
+          {
+            "decodedBodySize": 20415,
+            "duration": 15.600000001490116,
+            "encodedBodySize": 3759,
+            "name": "https://gumroad.reactonrails.com/packs/js/3627-1b15e5d0218213e2.js",
+            "transferSize": 4059
+          },
+          {
+            "decodedBodySize": 8543,
+            "duration": 30.100000001490116,
+            "encodedBodySize": 2607,
+            "name": "https://gumroad.reactonrails.com/packs/js/3631-61187b3a27a3392b.js",
+            "transferSize": 2907
+          },
+          {
+            "decodedBodySize": 13955,
+            "duration": 14.5,
+            "encodedBodySize": 2541,
+            "name": "https://gumroad.reactonrails.com/packs/css/dashboard_rsc_demo_styles-82fe50c3.css",
+            "transferSize": 2841
+          },
+          {
+            "decodedBodySize": 3015,
+            "duration": 14.700000002980232,
+            "encodedBodySize": 1207,
+            "name": "https://gumroad.reactonrails.com/packs/js/base-17d82ef1ed76e87e.js",
+            "transferSize": 1507
+          },
+          {
+            "decodedBodySize": 330,
+            "duration": 13.899999998509884,
+            "encodedBodySize": 256,
+            "name": "https://gumroad.reactonrails.com/packs/js/5238-daf01b4e71700c3c.chunk.js",
+            "transferSize": 556
+          }
+        ]
+      },
+      "pageTitle": "Tendon Book",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-07-10T03:47:21.824Z",
+      "url": "https://gumroad.reactonrails.com/public_product/inertia_demo",
+      "run": 1
+    }
+  ]
+}

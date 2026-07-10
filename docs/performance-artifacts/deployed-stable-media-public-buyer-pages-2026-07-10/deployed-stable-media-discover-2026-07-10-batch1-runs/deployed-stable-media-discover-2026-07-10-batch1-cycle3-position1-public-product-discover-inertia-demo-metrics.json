@@ -1,0 +1,559 @@
+{
+  "label": "deployed-stable-media-discover-2026-07-10-batch1-cycle3-position1",
+  "baseUrl": "https://gumroad.reactonrails.com",
+  "measureBaseUrl": "https://gumroad.reactonrails.com",
+  "path": "/public_product/discover_inertia_demo",
+  "targetUrl": "https://gumroad.reactonrails.com/public_product/discover_inertia_demo",
+  "headed": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 2,
+  "environment": {
+    "measuredAt": "2026-07-09T17:48:01-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "150.0.7871.49",
+    "platformName": "mac",
+    "chromeDriverVersion": "150.0.7871.115",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 575.6,
+      "loadEventMs": 1179.9,
+      "responseEndMs": 504.6,
+      "durationMs": 1179.9,
+      "transferSize": 10065.0,
+      "encodedBodySize": 9765.0,
+      "decodedBodySize": 39424.0
+    },
+    "lcp": {
+      "startTime": 872.0,
+      "size": 44936.0
+    },
+    "inertiaDataPageBytes": 33966.0,
+    "htmlBytes": 86067.0,
+    "bodyTextBytes": 10677.0,
+    "packs": {
+      "transferSize": 165537.0,
+      "encodedBodySize": 286406.0,
+      "decodedBodySize": 1034240.0,
+      "jsTransferSize": 162696.0,
+      "cssTransferSize": 2841.0,
+      "jsCount": 9.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "action_total": {
+        "durationMs": 40.0
+      },
+      "cfCacheStatus": {
+        "durationMs": 0.0,
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "durationMs": 2.0
+      },
+      "cfExtPri": {
+        "durationMs": 0.0
+      },
+      "cfOrigin": {
+        "durationMs": 0.0
+      },
+      "cfWorker": {
+        "durationMs": 385.0
+      },
+      "compare_discover": {
+        "durationMs": 12.01
+      },
+      "compare_props": {
+        "durationMs": 12.02
+      },
+      "render_dispatch": {
+        "durationMs": 39.99
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 575.6,
+        "median": 575.6,
+        "p95": 575.6,
+        "max": 575.6,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 1179.9,
+        "median": 1179.9,
+        "p95": 1179.9,
+        "max": 1179.9,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 504.6,
+        "median": 504.6,
+        "p95": 504.6,
+        "max": 504.6,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 1179.9,
+        "median": 1179.9,
+        "p95": 1179.9,
+        "max": 1179.9,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 10065.0,
+        "median": 10065.0,
+        "p95": 10065.0,
+        "max": 10065.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 9765.0,
+        "median": 9765.0,
+        "p95": 9765.0,
+        "max": 9765.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 39424.0,
+        "median": 39424.0,
+        "p95": 39424.0,
+        "max": 39424.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 872.0,
+        "median": 872.0,
+        "p95": 872.0,
+        "max": 872.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 44936.0,
+        "median": 44936.0,
+        "p95": 44936.0,
+        "max": 44936.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": {
+      "count": 1,
+      "min": 33966.0,
+      "median": 33966.0,
+      "p95": 33966.0,
+      "max": 33966.0,
+      "stddev": 0.0
+    },
+    "htmlBytes": {
+      "count": 1,
+      "min": 86067.0,
+      "median": 86067.0,
+      "p95": 86067.0,
+      "max": 86067.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 10677.0,
+      "median": 10677.0,
+      "p95": 10677.0,
+      "max": 10677.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 165537.0,
+        "median": 165537.0,
+        "p95": 165537.0,
+        "max": 165537.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 286406.0,
+        "median": 286406.0,
+        "p95": 286406.0,
+        "max": 286406.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 1034240.0,
+        "median": 1034240.0,
+        "p95": 1034240.0,
+        "max": 1034240.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 162696.0,
+        "median": 162696.0,
+        "p95": 162696.0,
+        "max": 162696.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 2841.0,
+        "median": 2841.0,
+        "p95": 2841.0,
+        "max": 2841.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 9.0,
+        "median": 9.0,
+        "p95": 9.0,
+        "max": 9.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "action_total": {
+        "stats": {
+          "count": 1,
+          "min": 40.0,
+          "median": 40.0,
+          "p95": 40.0,
+          "max": 40.0,
+          "stddev": 0.0
+        }
+      },
+      "cfCacheStatus": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        },
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "stats": {
+          "count": 1,
+          "min": 2.0,
+          "median": 2.0,
+          "p95": 2.0,
+          "max": 2.0,
+          "stddev": 0.0
+        }
+      },
+      "cfExtPri": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfOrigin": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfWorker": {
+        "stats": {
+          "count": 1,
+          "min": 385.0,
+          "median": 385.0,
+          "p95": 385.0,
+          "max": 385.0,
+          "stddev": 0.0
+        }
+      },
+      "compare_discover": {
+        "stats": {
+          "count": 1,
+          "min": 12.01,
+          "median": 12.01,
+          "p95": 12.01,
+          "max": 12.01,
+          "stddev": 0.0
+        }
+      },
+      "compare_props": {
+        "stats": {
+          "count": 1,
+          "min": 12.02,
+          "median": 12.02,
+          "p95": 12.02,
+          "max": 12.02,
+          "stddev": 0.0
+        }
+      },
+      "render_dispatch": {
+        "stats": {
+          "count": 1,
+          "min": 39.99,
+          "median": 39.99,
+          "p95": 39.99,
+          "max": 39.99,
+          "stddev": 0.0
+        }
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 10677,
+      "heading": "Discover creator-made products",
+      "htmlBytes": 86067,
+      "inertiaDataPageBytes": 33966,
+      "lcp": {
+        "loadTime": 0,
+        "renderTime": 872,
+        "size": 44936,
+        "startTime": 872,
+        "url": ""
+      },
+      "navigation": {
+        "decodedBodySize": 39424,
+        "domContentLoadedMs": 575.6000000014901,
+        "durationMs": 1179.9000000022352,
+        "encodedBodySize": 9765,
+        "loadEventMs": 1179.9000000022352,
+        "responseEndMs": 504.6000000014901,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": null,
+            "duration": 12.01,
+            "name": "compare_discover"
+          },
+          {
+            "description": null,
+            "duration": 12.02,
+            "name": "compare_props"
+          },
+          {
+            "description": null,
+            "duration": 39.99,
+            "name": "render_dispatch"
+          },
+          {
+            "description": null,
+            "duration": 40,
+            "name": "action_total"
+          },
+          {
+            "description": "DYNAMIC",
+            "duration": 0,
+            "name": "cfCacheStatus"
+          },
+          {
+            "description": null,
+            "duration": 2,
+            "name": "cfEdge"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfOrigin"
+          },
+          {
+            "description": null,
+            "duration": 385,
+            "name": "cfWorker"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfExtPri"
+          }
+        ],
+        "transferSize": 10065
+      },
+      "packs": {
+        "all": {
+          "count": 13,
+          "decodedBodySize": 1034240,
+          "encodedBodySize": 286406,
+          "transferSize": 165537
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 182342,
+          "encodedBodySize": 25298,
+          "transferSize": 2841
+        },
+        "js": {
+          "count": 9,
+          "decodedBodySize": 750786,
+          "encodedBodySize": 159996,
+          "transferSize": 162696
+        },
+        "largest": [
+          {
+            "decodedBodySize": 407904,
+            "duration": 35.80000000074506,
+            "encodedBodySize": 110571,
+            "name": "https://gumroad.reactonrails.com/packs/js/624-9883503b83e5c999.js",
+            "transferSize": 110871
+          },
+          {
+            "decodedBodySize": 257265,
+            "duration": 34.900000002235174,
+            "encodedBodySize": 24780,
+            "name": "https://gumroad.reactonrails.com/packs/js/webpack-commons-eb8581aafb9aef55.js",
+            "transferSize": 25080
+          },
+          {
+            "decodedBodySize": 26160,
+            "duration": 22.199999999254942,
+            "encodedBodySize": 7975,
+            "name": "https://gumroad.reactonrails.com/packs/js/800-1f6839b4b874fb64.js",
+            "transferSize": 8275
+          },
+          {
+            "decodedBodySize": 10578,
+            "duration": 20.400000002235174,
+            "encodedBodySize": 4657,
+            "name": "https://gumroad.reactonrails.com/packs/js/webpack-runtime-2727a1e80e547941.js",
+            "transferSize": 4957
+          },
+          {
+            "decodedBodySize": 16575,
+            "duration": 21.300000000745058,
+            "encodedBodySize": 4184,
+            "name": "https://gumroad.reactonrails.com/packs/js/2531-90fba57db01f1fb6.chunk.js",
+            "transferSize": 4484
+          },
+          {
+            "decodedBodySize": 20415,
+            "duration": 21.199999999254942,
+            "encodedBodySize": 3759,
+            "name": "https://gumroad.reactonrails.com/packs/js/3627-1b15e5d0218213e2.js",
+            "transferSize": 4059
+          },
+          {
+            "decodedBodySize": 8543,
+            "duration": 28.199999999254942,
+            "encodedBodySize": 2607,
+            "name": "https://gumroad.reactonrails.com/packs/js/3631-61187b3a27a3392b.js",
+            "transferSize": 2907
+          },
+          {
+            "decodedBodySize": 13955,
+            "duration": 23.300000000745058,
+            "encodedBodySize": 2541,
+            "name": "https://gumroad.reactonrails.com/packs/css/dashboard_rsc_demo_styles-82fe50c3.css",
+            "transferSize": 2841
+          },
+          {
+            "decodedBodySize": 3015,
+            "duration": 23.5,
+            "encodedBodySize": 1207,
+            "name": "https://gumroad.reactonrails.com/packs/js/base-17d82ef1ed76e87e.js",
+            "transferSize": 1507
+          },
+          {
+            "decodedBodySize": 331,
+            "duration": 22.399999998509884,
+            "encodedBodySize": 256,
+            "name": "https://gumroad.reactonrails.com/packs/js/2187-503086a018ef1402.chunk.js",
+            "transferSize": 556
+          }
+        ]
+      },
+      "pageTitle": "Gumroad Discover RSC benchmark",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-07-10T03:48:01.674Z",
+      "url": "https://gumroad.reactonrails.com/public_product/discover_inertia_demo",
+      "run": 1
+    }
+  ]
+}

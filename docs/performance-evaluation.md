@@ -34,100 +34,64 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 
 ## Current Conclusion
 
-The production-shaped public buyer-page result is **directionally favorable on
-the current media-bearing PR 69 review app**, but it is not yet the final
-Gumroad adoption proof.
+The stable media-bearing result supports a bounded end-to-end RSC navigation
+win, but it is not yet a Gumroad adoption proof.
 
-What is already true:
+What is independently verified:
 
-- product and Discover pages now have matched Inertia and React Server Components via React on Rails Pro routes
-- both route pairs use the same synthetic production-shaped fixture data, host, route-scoped CSS, and measurement harness
-- the fixtures were shaped from public Gumroad `Discover/Index` and `Products/Discover/Show` page structure without committing copied creator content
-- the sanitized shape sampling notes are documented in [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md)
-- all public comparison routes are logged out, so the comparison can be evaluated without a demo account
-- these public buyer pages are the correct surfaces for SEO, conversion-sensitive loading, client JavaScript cost, and mobile buyer performance
-- the current PR 69 ShakaPerf A/B run shows same-fixture median navigation, median LCP, and JavaScript request-count wins on both public route pairs after adding local media fixtures
-- the local branch and hosted PR 63 review-app ShakaPerf runs remain useful supporting evidence and chronology
-- the deployed Lighthouse URL-pair run remains a diagnostic artifact, but it is not valid claim evidence until media and production-surface parity are documented
-- the stable deployed headless-Chrome A/B run remains supporting evidence, but it predates the local media fixtures and should not be treated as the current headline result
+- PR 69 is merged and deployed; the stable media gate passes.
+- Both route pairs use the same deterministic presenter props and shared UI.
+- Two independent stable-deployment batches show clear full-navigation wins,
+  about half the JavaScript transfer, and one route script instead of nine.
+- Product LCP is modestly better. Discover LCP is directionally better but
+  noisy. Response end is a tie/inconclusive and must not be claimed as a win.
+- The live Gumroad PageSpeed comparison remains diagnostic because media,
+  chrome, caching/CDN behavior, fonts, and third-party requests differ sharply.
 
-What still needs proof:
+The causal limit is important: the RSC route intentionally skips legacy
+application JavaScript and uses an isolated client bundle, while the Inertia
+route also loads analytics/tag-manager resources omitted from RSC. Bundle
+isolation is part of the candidate architecture; third-party omission is a
+parity gap. The result should be described as “these deployed routes” rather
+than “RSC alone.”
 
-- PageSpeed Insights API or field-data corroboration for `INP` and mobile score once API quota is available and media parity is documented; the latest API probe returned HTTP `429`
-- production-grade renderer and streaming-path profiling for the public routes
-- that the measured public-route win is large enough to justify React Server Components via React on Rails Pro complexity for Gumroad despite the larger streamed HTML, larger media-bearing RSC route bundle in this run, and hosted response-end tradeoff
-
-Media parity is an explicit gate, not a visual assumption. The public demo does
-not read these benchmark fixtures from database seed rows; `PublicProductRscDemoPresenter`
-emits deterministic product and Discover props, and local media assets are
-committed under `public/public-product-rsc-demo/media/`. Before treating any
-host as current media-bearing evidence, run:
+Before measuring a deployment, run:
 
 ```bash
-TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
+node scripts/perf/assert_public_demo_media_parity.mjs \
+  --base-url "${TARGET_BASE_URL:-https://gumroad.reactonrails.com}"
 ```
 
-If the command fails, the host is still serving the pre-media fixture. PageSpeed
-reports for that host should be labeled diagnostic only, and the ShakaPerf
-headline should stay on the latest host that passes the parity check. Use the
-review-app host while reviewing PR 69, then switch `TARGET_BASE_URL` to
-`https://gumroad.reactonrails.com` only after the media-bearing branch is
-merged and deployed there.
+A first cold probe received a transient `503`, then the exact command passed
+after deployment warm-up. Record HTTP failures and keep the two explicit
+warmups in every measured run.
 
-## Current PR 69 Media-Bearing Public Buyer-Page Result
+## Current Stable Media-Bearing Public Buyer-Page Result
 
-Captured on `2026-07-09 UTC` against PR 69 review app
-`https://rails-6rbrymb4tqrb6.cpln.app` with headless Chrome `150`, `8`
-alternating cycles per pair, `2` server warmup requests per measured run,
-`--public`, and `--require-driver-match`. This is the current headline
-same-fixture evidence because it measures the product and Discover pages after
-adding local synthetic media fixtures.
+Captured July 10, 2026 UTC against `https://gumroad.reactonrails.com` at main
+commit `cc61125b02ec0282ec455c044240e97b6a33b741`. Environment: Chrome
+`150.0.7871.49`, ChromeDriver `150.0.7871.115`, Selenium `4.45.0`, Ruby `3.4.3`,
+Apple M5 Max, 128 GiB, macOS 26.5.1. Method: two independent batches, eight
+alternating cycles per batch, two warmups per measured run, public mode, and
+required Chrome/driver major-version match.
 
-| Surface              |                   Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
-| -------------------- | ------------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       |  `1292.15ms` -> `731.70ms` (`-43.4%`) | `137.10ms` -> `170.15ms` (`+24.1%`) | `992.00ms` -> `382.00ms` (`-61.5%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `1423.70ms` -> `1054.30ms` (`-25.9%`) | `140.65ms` -> `261.60ms` (`+86.0%`) | `960.00ms` -> `602.00ms` (`-37.3%`) | `9` -> `1` (`-88.9%`) |
+| Surface | Median navigation | Median response end | Median LCP | JS transfer | Inertia payload |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Product | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
+| Discover | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
 
-Supporting details are in
-[performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json).
+The combined-median encoded HTML body (compressed, headers excluded) is larger
+(`+80.4%` Product, `+100.2%` Discover), while combined-median decoded
+JavaScript + CSS is `53.2%` lower. Product renderer-prepare / stream-shell
+medians are `2.3ms` / `33.03ms`; Discover medians are `3.62ms` / `130.65ms`.
 
-Interpretation:
+The summary, four batch manifests, 64 underlying run files, and desktop/mobile
+resource audits are in
+[performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
 
-- the public-page RSC path remains worth continuing because the media-bearing same-fixture route pairs still show browser-navigation, LCP, and client-JavaScript request-count wins
-- RSC sends much larger HTML because it streams rendered content in the document
-- RSC response-end is slower, especially on Discover, because the server streams more complete HTML
-- the media-bearing RSC route bundle is larger than the Inertia route JavaScript in this run, so the honest client-side claim is fewer JS requests and faster measured navigation/LCP, not lower JS bytes
-- this is headless desktop Chrome; use the Lighthouse section below only as a media-parity diagnostic, not as proof
-
-## Supporting Stable Deployed Pre-Media Public Buyer-Page Result
-
-Captured on `2026-07-09 UTC` against `https://gumroad.reactonrails.com`
-with headless Chrome `150`, `8` alternating cycles per pair, `2` server warmup
-requests per measured run, `--public`, and `--require-driver-match`.
-
-| Surface              |                 Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
-| -------------------- | ----------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       | `883.90ms` -> `267.25ms` (`-69.8%`) |  `206.45ms` -> `206.60ms` (`+0.1%`) | `354.00ms` -> `304.00ms` (`-14.1%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `867.15ms` -> `300.30ms` (`-65.4%`) | `201.70ms` -> `243.30ms` (`+20.6%`) |  `362.00ms` -> `350.00ms` (`-3.3%`) | `9` -> `1` (`-88.9%`) |
-
-Supporting details are in
-[performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
-The local branch run in
-[performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)
-and PR 63 review-app run in
-[performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json)
-remain useful chronology. The earlier hosted run in
-[performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json](./performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json)
-remains historical context for JavaScript transfer and request-count reduction,
-but it predates the Tendon Book fixture.
-
-Interpretation:
-
-- keep this stable deployed run as chronology and reproducibility support, not the current headline claim
-- it predates the local synthetic media fixtures added in PR 69
-- rerun the same media-bearing benchmark against `https://gumroad.reactonrails.com` after PR 69 lands before calling the stable deployment current again
-- require `node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"` to pass on the host being measured before calling that host media-bearing
+The PR 69 review-app artifact, pre-media stable artifact, local run, PR 63 run,
+and June hosted run remain historical chronology. They are not the current
+headline and must not be mixed with the stable aggregate.
 
 ## Supporting PR 63 Review-App Public Buyer-Page Result
 
@@ -164,9 +128,9 @@ Supporting details are in
 Interpretation:
 
 - do not quote the current live-Gumroad-versus-demo score or LCP deltas as evidence
-- a timeline review showed the comparison was not apples-to-apples because live Gumroad loaded production imagery and chrome that the demo did not yet match
-- use this artifact as an audit trail and a reproducible diagnostic until the fixture has production-equivalent media, cache headers, and CDN behavior
-- the next external proof step is media parity, then PageSpeed API or field-data capture, especially for `INP`
+- a resource audit confirmed the comparison is not apples-to-apples: live Gumroad loads far more mixed-format media, different chrome, caching/CDN policies, fonts, and third-party services
+- use this artifact as an audit trail and a reproducible diagnostic until those differences are controlled or explicitly documented
+- the next external proof step is a documented production-parity target plus mobile-throttled or field-relevant corroboration, especially for `INP`
 
 The dashboard RSC implementation is also **promising but not fully optimized**.
 
@@ -187,7 +151,7 @@ What is not yet proven:
 - measurement order affects cache state enough that grouped batches can overstate the gap
 - `p95 responseEnd` is still modestly worse for the RSC route on the production-like local run
 - the current route streams the RSC payload inline, so browser `/rsc_payload/` resource timing remains empty until we expose a separate resource or renderer timing
-- the new production-shaped product and Discover routes have supplied a media-bearing review-app headless-browser benchmark, but not yet valid mobile-throttled PageSpeed evidence with production-equivalent media parity
+- the production-shaped product and Discover routes now have stable media-bearing desktop evidence, but not valid mobile-throttled causal evidence against live Gumroad
 
 ## Latest production-like alternating local result
 
@@ -362,18 +326,18 @@ It does **not** yet prove the full upside of RSC as an architecture.
 If the next performance review should be high signal, focus here:
 
 1. Keep the review-app, deployed-demo, and live Gumroad PageSpeed URLs visible.
-   The PR 69 media-bearing ShakaPerf run is the current headline evidence; the stable deployed pre-media run and Lighthouse URL-pair artifact are supporting diagnostics. The lab now generates current-host PageSpeed links for review apps plus stable deployed-demo links for `https://gumroad.reactonrails.com`.
+   The July 10 stable media-bearing ShakaPerf run is the current headline evidence; the PR 69 review-app run, stable pre-media run, and Lighthouse URL-pair artifact are historical diagnostics. The lab generates current-host PageSpeed links for review apps plus stable deployed-demo links for `https://gumroad.reactonrails.com`.
 
-2. Instrument the React on Rails Pro renderer and streaming path.
-   We now have route-scoped Rails timing, but not renderer-internal timing.
+2. Deepen React on Rails Pro renderer and streaming-path instrumentation.
+   We now have route-scoped Rails timing plus renderer prepare and stream-shell timing, but not a full internal phase breakdown.
    The benchmark harness now also records `/rsc_payload/` resource duration, response start/end, transfer sizes, and resource-level `Server-Timing` when exposed by the browser.
    That does not replace renderer-internal profiling, but it gives evaluators a cleaner artifact for separating document navigation cost from the RSC payload path.
 
-3. Test whether finer-grained Suspense boundaries improve time-to-first-meaningful HTML without regressing final paint.
+3. Add separately named lab-clean and production-shaped variants so analytics/legacy-script asymmetry is controlled before trying to isolate an “RSC alone” effect.
 
-4. Move more section-level composition into server components instead of one relatively coarse route-level tree.
+4. Test whether finer-grained Suspense boundaries improve time-to-first-meaningful HTML without regressing final paint, using a real async workload rather than synthetic delay.
 
-5. Measure Node renderer overhead separately from React render time and Rails template/render overhead.
+5. Upgrade to React on Rails Pro `17.0.0` final, deploy, and rerun the same two-batch stable protocol before drafting a Gumroad issue.
 
 ## Documentation entry points
 

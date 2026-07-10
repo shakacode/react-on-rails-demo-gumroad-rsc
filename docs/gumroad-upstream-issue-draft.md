@@ -9,8 +9,9 @@ The right upstream goal is narrow:
 - ask whether Gumroad would review a focused experiment branch or PR if the public-page performance case becomes stronger
 
 Do not post this upstream yet. Hold until React on Rails Pro `17.0.0` is final,
-then refresh the deployed demo, media-parity evidence, PageSpeed/PageSpeed-style
-diagnostics, and package version references before opening the issue.
+then upgrade and redeploy the demo, repeat the two-batch stable ShakaPerf run,
+resolve or frame the analytics/legacy-bundle asymmetry, refresh mobile diagnostics,
+and update package version references before opening the issue.
 
 The current best candidates are the logged-out public product and Discover comparisons:
 
@@ -27,7 +28,8 @@ The current best candidates are the logged-out public product and Discover compa
 I put together a public experiment repo that tracks Gumroad and compares matched Inertia controls against bounded React Server Components implementations using `react_on_rails`, React on Rails Pro, and React 19 on logged-out public buyer-page surfaces:
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
-- Live demo: https://gumroad.reactonrails.com/rsc-demo
+- VP Engineering summary: https://gumroad.reactonrails.com/rsc-demo
+- Detailed evidence lab: https://gumroad.reactonrails.com/rsc-demo/evidence#current-shakaperf-result
 - Product Inertia control: https://gumroad.reactonrails.com/public_product/inertia_demo
 - Product React Server Components route: https://gumroad.reactonrails.com/public_product/rsc_demo
 - Discover Inertia control: https://gumroad.reactonrails.com/public_product/discover_inertia_demo
@@ -58,16 +60,18 @@ The current branch A/B result is favorable enough to keep testing on the page ty
 - browse-to-product discovery
 - client JavaScript reduction
 
-Current media-bearing ShakaPerf results from `2026-07-09 UTC` on the PR 69 review app:
+Current media-bearing ShakaPerf results from `2026-07-10 UTC` on the stable deployment (two independent 8-cycle batches):
 
 | Public surface       |                   Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
 | -------------------- | ------------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       |  `1292.15ms` -> `731.70ms` (`-43.4%`) | `137.10ms` -> `170.15ms` (`+24.1%`) | `992.00ms` -> `382.00ms` (`-61.5%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `1423.70ms` -> `1054.30ms` (`-25.9%`) | `140.65ms` -> `261.60ms` (`+86.0%`) | `960.00ms` -> `602.00ms` (`-37.3%`) | `9` -> `1` (`-88.9%`) |
+| Product detail       | `1123.50ms` -> `575.00ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662.00ms` -> `602.00ms` (`-9.1%`) | `9` -> `1` (`-88.9%`) |
+| Discover marketplace | `1097.90ms` -> `630.45ms` (`-42.6%`) | `473.90ms` -> `492.80ms` (`+4.0%`) | `768.00ms` -> `648.00ms` (`-15.6%`) | `9` -> `1` (`-88.9%`) |
 
-This result is useful because it compares both route pairs after the demo gained local media fixtures. It also keeps the important tradeoff visible: RSC streams more complete HTML, so the claim is faster browser completion, faster LCP, and fewer JavaScript requests, not universally lower server TTLB or lower JavaScript bytes.
+This result is useful because it compares both route pairs after the demo gained local media fixtures. It also narrows the claim: full navigation is clearly better, Product LCP is modestly better, Discover LCP is noisy, response end is not a win, and RSC sends more HTML while cutting JavaScript transfer roughly in half.
 
-The live-Gumroad-versus-demo PageSpeed/Lighthouse links remain in the lab for diagnostics, but I am not quoting the current scores as evidence. The earlier URL-pair run looked favorable, but a timeline review showed the comparison was not apples-to-apples: live Gumroad loaded production product imagery and chrome that the demo did not yet match. The next proof step is to document production-equivalent media parity, rerun PageSpeed API or pinned Lighthouse reports on those same public URL pairs, and capture field-data corroboration where possible, especially for `INP` and mobile score.
+This is an end-to-end route result, not an estimate of RSC alone. The RSC route intentionally skips legacy application JavaScript and uses an isolated bundle; the Inertia route also loads analytics/tag-manager scripts omitted by RSC. A clean pair and a production-shaped third-party-matched pair are still required before making a causal claim.
+
+The live-Gumroad-versus-demo PageSpeed/Lighthouse links remain in the lab for diagnostics, but I am not quoting the current scores as evidence. Resource audits confirm that live Gumroad loads far more mixed-format media, different chrome, caching/CDN behavior, fonts, and third-party services. The next proof step is to document a production-parity target and capture mobile-throttled or field-relevant corroboration, especially for `INP` and mobile score.
 
 The supporting local and review-app ShakaPerf runs are linked from the demo docs for reproducibility. This is not the final adoption claim yet.
 
@@ -78,8 +82,8 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 - the comparison uses logged-out public product and Discover routes rather than admin/dashboard routes
 - the RSC routes can be benchmarked against matched Inertia controls on the same data
 - the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
-- the next measurement step is straightforward: redeploy the media-bearing demo to the stable public host, add production-equivalent media parity, then capture PageSpeed API or field-data corroboration on the same public URL pairs
-- the media-bearing same-fixture browser-navigation and LCP result is already large enough to justify that next step
+- the next measurement step is explicit: wait for Pro 17 final, upgrade and redeploy, control the third-party asymmetry, repeat stable ShakaPerf, then add mobile/field corroboration
+- the media-bearing same-fixture full-navigation result is large enough to justify that next step; the LCP result should be described as modest/noisy rather than uniformly large
 
 ## What I am not claiming
 

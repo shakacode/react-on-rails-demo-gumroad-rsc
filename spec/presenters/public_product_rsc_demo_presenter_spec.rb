@@ -31,9 +31,9 @@ describe PublicProductRscDemoPresenter do
       expect(navigation[:rsc]).to eq("212.8 ms")
     end
 
-    it "calls the larger RSC HTML transfer an Inertia win" do
+    it "calls the larger RSC encoded HTML body an Inertia win" do
       product = presenter.local_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
-      html_transfer = product[:rows].find { |row| row[:label] == "HTML transfer (over the wire)" }
+      html_transfer = product[:rows].find { |row| row[:label] == "HTML encoded body (headers excluded)" }
 
       expect(html_transfer[:verdict]).to eq(:inertia_wins)
     end
@@ -55,37 +55,37 @@ describe PublicProductRscDemoPresenter do
       expect(surfaces.map { |surface| surface[:page_kind] }).to include(:product, :discover)
     end
 
-    it "keeps the stable deployed pre-media run available as supporting evidence" do
+    it "uses the stable media-bearing run as the current headline evidence" do
       product = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
       navigation = product[:rows].find { |row| row[:label] == "Navigation duration" }
       response_end = product[:rows].find { |row| row[:label] == "Response end (server TTLB)" }
 
       expect(navigation[:verdict]).to eq(:rsc_wins)
-      expect(navigation[:inertia]).to eq("883.9 ms")
-      expect(navigation[:rsc]).to eq("267.25 ms")
+      expect(navigation[:inertia]).to eq("1123.5 ms")
+      expect(navigation[:rsc]).to eq("575 ms")
       expect(response_end[:verdict]).to eq(:tie)
     end
 
-    it "keeps the deployed Discover response-end tradeoff visible" do
+    it "keeps the noisy deployed Discover response-end result within the tie band" do
       discover = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :discover }
       response_end = discover[:rows].find { |row| row[:label] == "Response end (server TTLB)" }
 
-      expect(response_end[:verdict]).to eq(:inertia_wins)
-      expect(response_end[:delta]).to eq("+20.6%")
+      expect(response_end[:verdict]).to eq(:tie)
+      expect(response_end[:delta]).to eq("+4%")
     end
 
     it "surfaces deployed JavaScript transfer in the total wire weight row" do
       product = presenter.deployed_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
       total = product[:rows].find { |row| row[:label] == "Total wire weight (HTML + JavaScript)" }
 
-      expect(total[:inertia]).to eq("164.43 KB")
-      expect(total[:rsc]).to eq("90.22 KB")
+      expect(total[:inertia]).to eq("165.16 KB")
+      expect(total[:rsc]).to eq("91.62 KB")
       expect(total[:verdict]).to eq(:rsc_wins)
     end
   end
 
   describe "#media_review_benchmark_surfaces" do
-    it "uses the PR 69 media-bearing run as the current headline benchmark" do
+    it "keeps the PR 69 media-bearing review-app run as historical evidence" do
       product = presenter.media_review_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
       navigation = product[:rows].find { |row| row[:label] == "Navigation duration" }
       lcp = product[:rows].find { |row| row[:label] == "LCP start" }
@@ -96,9 +96,9 @@ describe PublicProductRscDemoPresenter do
       expect(lcp[:verdict]).to eq(:rsc_wins)
     end
 
-    it "links PR-only benchmark artifacts to the PR branch outside the stable host" do
+    it "links the historical PR 69 artifact to the canonical main branch" do
       expect(presenter.media_review_benchmark_artifact_url)
-        .to start_with(PublicProductRscDemoPresenter::REPO_PR_SOURCE_BASE_URL)
+        .to start_with(PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL)
     end
   end
 
@@ -118,7 +118,7 @@ describe PublicProductRscDemoPresenter do
       expect(links[:inertia].map { |link| link[:label] }).to include("Controller", "Inertia page", "Fixtures")
       expect(links[:rsc].map { |link| link[:url] }).to include(a_string_ending_with("PublicDiscoverRscDemoPage.tsx"))
       expect(links[:rsc].map { |link| link[:url] })
-        .to all(start_with("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/"))
+        .to all(start_with("#{described_class::REPO_URL}/blob/"))
     end
   end
 
@@ -171,6 +171,13 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#discover_title" do
+    it "uses a neutral equal-byte title for both benchmark arms" do
+      expect(presenter.discover_title).to eq("Gumroad Discover A/B benchmark")
+      expect(presenter.discover_title.bytesize).to eq("Gumroad Discover RSC benchmark".bytesize)
+    end
+  end
+
   describe "#comparison_terms" do
     it "defines the page vocabulary for demo, deployed, and live comparisons" do
       terms = presenter.comparison_terms
@@ -197,14 +204,34 @@ describe PublicProductRscDemoPresenter do
       )
       expect(cards.map { |card| card[:label] }).not_to include("Product PageSpeed-style score", "Discover PageSpeed-style score")
       expect(cards.find { |card| card[:label] == "Product navigation" }).to include(
-        value: "1292.15 ms -> 731.7 ms",
-        delta: "-43.4%"
+        value: "1123.5 ms -> 575 ms",
+        delta: "-48.8%"
       )
       expect(cards.find { |card| card[:label] == "Diagnostic only" }).to include(
-        value: "Needs media parity",
+        value: "Needs controlled parity",
         delta: "Not evidence yet",
         tone: "warning"
       )
+    end
+  end
+
+  describe "#executive_summary" do
+    it "derives the decision metrics and HTML cost from the stable benchmark artifact" do
+      summary = presenter.executive_summary
+
+      expect(summary.dig(:product, :navigation_delta)).to eq("-48.8%")
+      expect(summary.dig(:discover, :navigation_delta)).to eq("-42.6%")
+      expect(summary.dig(:product, :total_wire_delta)).to eq("-44.5%")
+      expect(summary.dig(:discover, :total_wire_delta)).to eq("-41%")
+      expect(summary.dig(:product, :html_cost)).to eq("+5.04 KB (+80.4%)")
+      expect(summary.dig(:discover, :html_cost)).to eq("+9.57 KB (+100.2%)")
+      expect(summary.dig(:product, :response_end)).to eq("About the same (+0.9%)")
+      expect(summary.dig(:discover, :response_end)).to eq("Inconclusive (+4%)")
+    end
+
+
+    it "formats an HTML reduction without a double sign" do
+      expect(presenter.send(:format_signed_metric, -1024, :bytes)).to eq("-1 KB")
     end
   end
 
@@ -227,21 +254,32 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "#shakaperf_reproduction_commands" do
-    it "targets the current request host instead of the stable deployed host" do
+    it "targets the current request host and reproduces both independent batches" do
       commands = presenter.shakaperf_reproduction_commands
 
-      product = commands.find { |command| command[:label] == "Product detail pair" }
-      discover = commands.find { |command| command[:label] == "Discover pair" }
+      product = commands.find { |command| command[:label] == "Product detail pair, batch 1" }
+      discover = commands.find { |command| command[:label] == "Discover pair, batch 1" }
 
+      expect(commands.map { |command| command[:label] }).to eq(
+        [
+          "Product detail pair, batch 1",
+          "Product detail pair, batch 2",
+          "Discover pair, batch 1",
+          "Discover pair, batch 2",
+        ]
+      )
       expect(product[:host]).to eq("http://test.host")
       expect(product[:command]).to include("--base-url http://test.host --measure-base-url http://test.host")
       expect(product[:command]).to include("--path /public_product/inertia_demo --path /public_product/rsc_demo")
+      expect(product[:command]).to include("--label current-host-public-product-alternating-8-batch1")
       expect(product[:command]).to include("--cycles 8 --server-warmup-requests 2 --require-driver-match --timeout 90")
       expect(product[:command]).not_to include("https://gumroad.reactonrails.com")
 
       expect(discover[:command]).to include(
         "--path /public_product/discover_inertia_demo --path /public_product/discover_rsc_demo"
       )
+      expect(commands.second[:command]).to include("--label current-host-public-product-alternating-8-batch2")
+      expect(commands.fourth[:command]).to include("--label current-host-public-discover-alternating-8-batch2")
     end
   end
 
@@ -268,8 +306,40 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "artifact links" do
+    it "links current evidence and implementation to the image commit instead of the Control Plane app name" do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with("GITHUB_SHA").and_return(nil)
+      allow(ENV).to receive(:[]).with("GIT_COMMIT").and_return("4b21dd4fc38655ef54c2a75825d86d809fadb08b")
+      allow(ENV).to receive(:[]).with("REVISION").and_return("react-on-rails-demo-gumroad-rsc-review-pr-70")
+      allow(ENV).to receive(:[]).with("BRANCH").and_return("react-on-rails-demo-gumroad-rsc-review-pr-70")
+
+      review_source_base_url = "#{described_class::REPO_URL}/blob/4b21dd4fc38655ef54c2a75825d86d809fadb08b"
+
+      expect(presenter.deployed_benchmark_artifact_url).to start_with(review_source_base_url)
+      expect(presenter.route_source_links(:product).values.flatten.pluck(:url))
+        .to all(start_with(review_source_base_url))
+      expect(presenter.implementation_source_links.pluck(:url)).to all(start_with(review_source_base_url))
+      expect(presenter.media_review_benchmark_artifact_url).to start_with(described_class::REPO_SOURCE_BASE_URL)
+    end
+
+    it "uses canonical main links when no deployed revision metadata is available" do
+      allow(ENV).to receive(:[]).and_call_original
+      allow(ENV).to receive(:[]).with("GITHUB_SHA").and_return(nil)
+      allow(ENV).to receive(:[]).with("GIT_COMMIT").and_return(nil)
+      allow(ENV).to receive(:[]).with("SOURCE_REF").and_return(nil)
+      allow(ENV).to receive(:[]).with("REVISION").and_return(nil)
+      allow(ENV).to receive(:[]).with("BRANCH").and_return(nil)
+
+      expect(presenter.deployed_benchmark_artifact_url).to start_with(described_class::REPO_SOURCE_BASE_URL)
+      expect(presenter.route_source_links(:product).values.flatten.pluck(:url))
+        .to all(start_with(described_class::REPO_SOURCE_BASE_URL))
+    end
+
     it "links the deployed, hosted review-app, and Lighthouse comparator artifacts" do
       expect(presenter.deployed_benchmark_artifact_url).to include(
+        "deployed-stable-media-public-buyer-pages-2026-07-10/summary.json"
+      )
+      expect(presenter.pre_media_deployed_benchmark_artifact_url).to include(
         "deployed-public-buyer-pages-2026-07-08/summary.json"
       )
       expect(presenter.hosted_review_benchmark_artifact_url).to include(

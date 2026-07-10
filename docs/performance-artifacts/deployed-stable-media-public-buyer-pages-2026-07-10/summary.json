@@ -1,0 +1,205 @@
+{
+  "captured_at_utc": "2026-07-10T03:50:01.656Z",
+  "deployment_url": "https://gumroad.reactonrails.com",
+  "main_sha": "cc61125b02ec0282ec455c044240e97b6a33b741",
+  "method": {
+    "harness": "scripts/perf/compare_dashboard_routes.rb",
+    "cycles_per_pair": 8,
+    "independent_batches": 2,
+    "samples_per_route": 16,
+    "server_warmup_requests_per_run": 2,
+    "public": true,
+    "require_driver_match": true,
+    "base_url": "https://gumroad.reactonrails.com",
+    "measure_base_url": "https://gumroad.reactonrails.com",
+    "browser": "Chrome 150.0.7871.49 / ChromeDriver 150.0.7871.115",
+    "host": "Apple M5 Max, 128 GiB, macOS 26.5.1, arm64",
+    "ruby": "3.4.3",
+    "selenium": "4.45.0",
+    "network_profile": "Unthrottled public network from Hawaii; desktop headless Chrome"
+  },
+  "source_fixture": {
+    "product_reference_url": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+    "discover_reference_url": "https://gumroad.com/discover",
+    "media_policy": "Committed synthetic SVG fixtures are loaded through img elements; no creator-owned media was copied.",
+    "resource_audits": [
+      "public-page-resource-audit-mobile.json",
+      "public-page-resource-audit-desktop.json"
+    ]
+  },
+  "results": [
+    {
+      "surface": "Product detail",
+      "key": "product",
+      "baseline_path": "/public_product/inertia_demo",
+      "candidate_path": "/public_product/rsc_demo",
+      "comparison_artifacts": [
+        "deployed-stable-media-product-2026-07-10-batch1-comparison.json",
+        "deployed-stable-media-product-2026-07-10-batch2-comparison.json"
+      ],
+      "median_navigation_duration_ms": {
+        "inertia": 1123.5,
+        "rsc": 575.0,
+        "delta_percent": -48.8
+      },
+      "median_response_end_ms": {
+        "inertia": 504.85,
+        "rsc": 509.55,
+        "delta_percent": 0.9
+      },
+      "median_lcp_start_ms": {
+        "inertia": 662.0,
+        "rsc": 602.0,
+        "delta_percent": -9.1
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 6426.0,
+        "rsc": 11590.5,
+        "delta_percent": 80.4
+      },
+      "median_js_transfer_bytes": {
+        "inertia": 162696.0,
+        "rsc": 82228.5,
+        "delta_percent": -49.5
+      },
+      "median_js_request_count": {
+        "inertia": 9.0,
+        "rsc": 1.0,
+        "delta_percent": -88.9
+      },
+      "median_decoded_js_css_bytes": {
+        "inertia": 933127.0,
+        "rsc": 436363.0,
+        "delta_percent": -53.2
+      },
+      "inertia_data_page_bytes": {
+        "inertia": 15040.0,
+        "rsc": 0.0,
+        "delta_percent": -100.0
+      },
+      "p95_navigation_duration_ms": {
+        "inertia": 1160.13,
+        "rsc": 592.5,
+        "delta_percent": -48.9
+      },
+      "p95_lcp_start_ms": {
+        "inertia": 676.0,
+        "rsc": 624.0,
+        "delta_percent": -7.7
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 2.3,
+        "ror_stream_shell": 33.03
+      },
+      "p95_stream_timing_ms": {
+        "ror_renderer_prepare": 3.46,
+        "ror_stream_shell": 79.53
+      },
+      "batch_medians": [
+        {
+          "batch": 1,
+          "navigation_ms": { "inertia": 1119.35, "rsc": 570.5 },
+          "response_end_ms": { "inertia": 504.95, "rsc": 508.45 },
+          "lcp_start_ms": { "inertia": 662.0, "rsc": 590.0 }
+        },
+        {
+          "batch": 2,
+          "navigation_ms": { "inertia": 1124.4, "rsc": 587.8 },
+          "response_end_ms": { "inertia": 504.7, "rsc": 510.4 },
+          "lcp_start_ms": { "inertia": 664.0, "rsc": 610.0 }
+        }
+      ]
+    },
+    {
+      "surface": "Discover marketplace",
+      "key": "discover",
+      "baseline_path": "/public_product/discover_inertia_demo",
+      "candidate_path": "/public_product/discover_rsc_demo",
+      "comparison_artifacts": [
+        "deployed-stable-media-discover-2026-07-10-batch1-comparison.json",
+        "deployed-stable-media-discover-2026-07-10-batch2-comparison.json"
+      ],
+      "median_navigation_duration_ms": {
+        "inertia": 1097.9,
+        "rsc": 630.45,
+        "delta_percent": -42.6
+      },
+      "median_response_end_ms": {
+        "inertia": 473.9,
+        "rsc": 492.8,
+        "delta_percent": 4.0
+      },
+      "median_lcp_start_ms": {
+        "inertia": 768.0,
+        "rsc": 648.0,
+        "delta_percent": -15.6
+      },
+      "median_html_transfer_bytes": {
+        "inertia": 9780.0,
+        "rsc": 19580.0,
+        "delta_percent": 100.2
+      },
+      "median_js_transfer_bytes": {
+        "inertia": 162696.0,
+        "rsc": 82223.0,
+        "delta_percent": -49.5
+      },
+      "median_js_request_count": {
+        "inertia": 9.0,
+        "rsc": 1.0,
+        "delta_percent": -88.9
+      },
+      "median_decoded_js_css_bytes": {
+        "inertia": 933128.0,
+        "rsc": 436363.0,
+        "delta_percent": -53.2
+      },
+      "inertia_data_page_bytes": {
+        "inertia": 33966.0,
+        "rsc": 0.0,
+        "delta_percent": -100.0
+      },
+      "p95_navigation_duration_ms": {
+        "inertia": 1248.18,
+        "rsc": 786.65,
+        "delta_percent": -37.0
+      },
+      "p95_lcp_start_ms": {
+        "inertia": 937.0,
+        "rsc": 733.0,
+        "delta_percent": -21.8
+      },
+      "median_stream_timing_ms": {
+        "ror_renderer_prepare": 3.62,
+        "ror_stream_shell": 130.65
+      },
+      "p95_stream_timing_ms": {
+        "ror_renderer_prepare": 5.15,
+        "ror_stream_shell": 193.27
+      },
+      "batch_medians": [
+        {
+          "batch": 1,
+          "navigation_ms": { "inertia": 1080.0, "rsc": 670.45 },
+          "response_end_ms": { "inertia": 469.1, "rsc": 503.5 },
+          "lcp_start_ms": { "inertia": 766.0, "rsc": 682.0 }
+        },
+        {
+          "batch": 2,
+          "navigation_ms": { "inertia": 1097.9, "rsc": 581.35 },
+          "response_end_ms": { "inertia": 473.9, "rsc": 406.5 },
+          "lcp_start_ms": { "inertia": 768.0, "rsc": 556.0 }
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    "The same-host result supports a clear full-navigation win for this bounded RSC candidate, but it does not isolate RSC as the sole cause: the RSC route intentionally skips the legacy application bundle and third-party analytics while the Inertia route loads them.",
+    "Product LCP improves modestly. Discover LCP is directionally better but noisier: two of sixteen cycle-paired samples regressed, and the two batch medians differ materially.",
+    "Response end is a tie on Product and inconclusive on Discover; it should not be claimed as an RSC win.",
+    "RSC sends 80-100% more HTML while sending about half the JavaScript and no duplicated Inertia data-page payload.",
+    "The run is unthrottled desktop headless Chrome, not mobile PageSpeed or field data. Live Gumroad comparisons remain diagnostic because media, chrome, caching, CDN, and third-party services are not matched.",
+    "The first media-gate request received a transient 503 while the deployment woke; the exact gate passed after warm-up. Each measured run used two explicit server warmups.",
+    "The harness opens the common host root before each measured target. This warms a shared connection and common resources equally, but differs from a fully cold first visit."
+  ]
+}

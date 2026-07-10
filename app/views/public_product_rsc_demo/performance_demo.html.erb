@@ -7,6 +7,9 @@
       const pairElements = Array.from(root.querySelectorAll("[data-route-pair]"));
       const runButtons = Array.from(root.querySelectorAll("[data-rerun-race]"));
       const runStatus = root.querySelector("[data-run-status]");
+      const initialHashTarget = window.location.hash
+        ? document.getElementById(decodeURIComponent(window.location.hash.slice(1)))
+        : null;
 
       const numberFormatter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
 
@@ -58,9 +61,12 @@
       const encodedByteLength = (value) => new TextEncoder().encode(value).byteLength;
 
       const inertiaPayloadBytes = (html) => {
-        const match = html.match(/data-page="([^"]*)"/);
-        if (!match) return 0;
-        return encodedByteLength(htmlDecode(match[1]));
+        const scriptMatch = html.match(/<script\b[^>]*data-page="app"[^>]*>([\s\S]*?)<\/script>/);
+        if (scriptMatch) return encodedByteLength(scriptMatch[1]);
+
+        const attributeMatch = html.match(/data-page="([^"]*)"/);
+        if (!attributeMatch) return 0;
+        return encodedByteLength(htmlDecode(attributeMatch[1]));
       };
 
       const routeScriptSources = (html) => {
@@ -215,7 +221,7 @@
         const wireKnown = Number.isFinite(inertia.wireBytes) && Number.isFinite(rsc.wireBytes);
         const inertiaHtml = wireKnown ? inertia.wireBytes : inertia.decodedBytes;
         const rscHtml = wireKnown ? rsc.wireBytes : rsc.decodedBytes;
-        const htmlBasis = wireKnown ? "over the wire" : "in this fetch";
+        const htmlBasis = wireKnown ? "as an encoded body (headers excluded)" : "in this fetch";
         const htmlDelta = inertiaHtml - rscHtml;
         const firstChunkDelta = inertia.firstChunkMs - rsc.firstChunkMs;
         const scriptDelta = inertia.scriptBytes - rsc.scriptBytes;
@@ -307,7 +313,11 @@
       };
 
       runButtons.forEach((button) => button.addEventListener("click", runAll));
-      runAll();
+      runAll().finally(() => {
+        if (initialHashTarget) {
+          requestAnimationFrame(() => initialHashTarget.scrollIntoView({ block: "start" }));
+        }
+      });
     })();
   </script>
 <% end %>
@@ -333,6 +343,7 @@
 
     <nav class="dd-nav" aria-label="Public performance lab sections">
       <span class="dd-nav-label">Read the evidence</span>
+      <a href="<%= rsc_executive_summary_path %>">VP Engineering summary</a>
       <a href="#claim-status" aria-current="page">Claim status</a>
       <a href="#comparison-vocabulary">Vocabulary</a>
       <a href="#current-shakaperf-result">ShakaPerf A/B</a>
@@ -459,15 +470,16 @@
 
       <section class="dd-section" id="current-shakaperf-result">
         <header>
-          <h2>PR 69 media-bearing same-fixture ShakaPerf A/B</h2>
-          <p><%= @presenter.media_review_benchmark_method_note %></p>
+          <h2>Stable media-bearing same-fixture ShakaPerf A/B</h2>
+          <p><%= @presenter.deployed_benchmark_method_note %></p>
           <details class="dd-link-panel">
             <summary>Reproducibility artifacts and source</summary>
             <div class="dd-source-grid">
               <p class="dd-source-links">
                 <span>Benchmark artifacts:</span>
-                <a href="<%= @presenter.media_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 69 media-bearing A/B summary</a>
-                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">stable deployed pre-media A/B summary</a>
+                <a href="<%= @presenter.deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">stable media-bearing A/B summary</a>
+                <a href="<%= @presenter.media_review_benchmark_artifact_url %>" target="_blank" rel="noopener">historical PR 69 review-app A/B summary</a>
+                <a href="<%= @presenter.pre_media_deployed_benchmark_artifact_url %>" target="_blank" rel="noopener">historical stable pre-media A/B summary</a>
                 <a href="<%= @presenter.lighthouse_comparator_artifact_url %>" target="_blank" rel="noopener">diagnostic Lighthouse URL-pair summary</a>
                 <a href="<%= @presenter.local_benchmark_artifact_url %>" target="_blank" rel="noopener">local branch A/B summary</a>
                 <a href="<%= @presenter.hosted_review_benchmark_artifact_url %>" target="_blank" rel="noopener">PR 63 review-app A/B summary</a>
@@ -475,8 +487,9 @@
               </p>
               <p class="dd-source-links">
                 <span>Implementation:</span>
-                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">controller</a>
-                <a href="<%= "#{PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL}/#{PublicProductRscDemoPresenter::PRESENTER_SOURCE_PATH}" %>" target="_blank" rel="noopener">fixtures</a>
+                <% @presenter.implementation_source_links.each do |link| %>
+                  <a href="<%= link[:url] %>" target="_blank" rel="noopener"><%= link[:label] %></a>
+                <% end %>
                 <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails source</a>
               </p>
               <p class="dd-source-links">
@@ -497,7 +510,7 @@
           &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
         </p>
 
-        <% @presenter.media_review_benchmark_surfaces.each do |surface| %>
+        <% @presenter.deployed_benchmark_surfaces.each do |surface| %>
           <% sources = @presenter.route_source_links(surface[:page_kind]) %>
           <div class="dd-surface-block">
             <header class="dd-surface-head">
@@ -541,19 +554,19 @@
         <% end %>
 
         <div class="dd-note is-info">
-          <strong>What this shows:</strong> after adding local product and card media, RSC still wins median navigation,
-          median LCP, and JavaScript request count on both same-host route pairs. The tradeoff is larger streamed HTML,
-          larger media-bearing RSC route JavaScript in this review-app run, and slower response-end because the
-          server-rendered content is present in the document.
-          <% if @presenter.media_review_benchmark_caveats.any? %>
+          <strong>What this shows:</strong> across two stable-deployment batches, RSC clearly wins full-navigation duration
+          and JavaScript transfer/request count on both pairs. Product LCP improves modestly; Discover LCP improves in the
+          combined median but is noisier. Response-end is not an RSC win. RSC sends more HTML while sending about half the
+          JavaScript and no duplicated Inertia data-page payload.
+          <% if @presenter.deployed_benchmark_caveats.any? %>
             <br />
             <strong>Caveats from the run:</strong>
           <% end %>
         </div>
 
-        <% if @presenter.media_review_benchmark_caveats.any? %>
+        <% if @presenter.deployed_benchmark_caveats.any? %>
           <ul class="dd-caveats">
-            <% @presenter.media_review_benchmark_caveats.each do |caveat| %>
+            <% @presenter.deployed_benchmark_caveats.each do |caveat| %>
               <li><%= caveat %></li>
             <% end %>
           </ul>
@@ -561,10 +574,10 @@
 
         <p class="dd-note">
           <strong>Supporting ShakaPerf runs:</strong>
-          the stable deployed run, local branch run, and PR 63 review-app run remain linked above for chronology and
-          reproducibility. They show the same overall direction, but the PR 69 review-app run is now the headline A/B
-          evidence because it measures the media-bearing fixture in this PR; the ShakaPerf commands below use the host
-          you are viewing so review-app reruns do not measure the stable deployed pre-media fixture by accident.
+          the PR 69 review-app run, pre-media stable run, local branch run, and PR 63 review-app run remain linked above
+          for chronology and reproducibility. The July 10 stable media-bearing run is the headline because it measures the
+          merged fixture on the durable public host. The ShakaPerf commands below still use the host you are viewing so
+          review-app validation measures the candidate build rather than stable by accident.
           <br />
           <strong>Historical hosted run:</strong>
           the June 24, 2026 hosted headless-Chrome artifact is still linked above because it includes public-host JavaScript
@@ -577,19 +590,19 @@
         <header>
           <h2>PageSpeed comparator pairs</h2>
           <p>
-            These links are diagnostics, not current proof. The screenshot timeline check exposed the important caveat:
-            live Gumroad loads production product imagery and chrome that this demo does not yet match byte-for-byte.
+            These links are diagnostics, not current proof. Desktop and mobile resource audits exposed the important caveat:
+            live Gumroad loads different production imagery, chrome, caching, fonts, and third-party services.
             Point PageSpeed at
             <strong>this host RSC demo</strong> when reviewing a PR, <strong>stable deployed RSC demo</strong> when you
             need a durable public URL, and <strong>live Gumroad</strong> when you want the production status quo.
-            Use the reports to inspect remaining gaps, then only quote them after the fixture has media and production
-            surface parity.
+            Use the reports to inspect remaining gaps. Do not quote them as causal evidence unless those differences are
+            controlled or explicitly documented.
           </p>
         </header>
 
         <p class="dd-note is-warning">
-          <strong>Known invalid comparison today:</strong> the earlier live-Gumroad-to-demo Lighthouse score table looked
-          favorable, but it is not evidence because the compared pages did not load the same media surface. This PR keeps
+          <strong>Known invalid comparison:</strong> the earlier live-Gumroad-to-demo Lighthouse score table looked
+          favorable, but it is not evidence because the compared pages did not load the same media surface. This lab keeps
           the PageSpeed links visible for reproducibility and review, while the headline claim stays on same-host
           ShakaPerf A/B measurements.
         </p>
@@ -667,7 +680,7 @@
         <header>
           <h2>React on Rails Pro 17 / React 19.2 audit</h2>
           <p>
-            This pass checked the demo against the Pro 17 RC line and the public Gumroad upstream delta on July 8, 2026.
+            This pass checked the demo against React 19.2 and the Pro 17 RC line on July 10, 2026.
             The Gumroad upstream issue should wait until React on Rails Pro <code>17.0.0</code> is final; until then,
             this page is the reproducible evidence pack.
           </p>
@@ -686,24 +699,34 @@
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>Streaming now active:</strong>
-              the public RSC routes opt into Pro stream observability, so the live race can expose
-              <code>ror_stream_shell</code> and <code>ror_renderer_prepare</code> timing when the renderer returns them.
+              <strong>Actually used:</strong>
+              the RSC routes stream one server component through the Node renderer, enable Pro stream observability, use
+              isolated client/server/RSC bundles, and skip the legacy application JavaScript. The measured median renderer
+              prepare cost is small; shell timing is larger and more variable, especially on Discover.
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>Static caching boundary:</strong>
-              Pro 17 adds buffered/static RSC helpers for cacheable public shells, but this headline route pair stays
-              matched and uncached. A cached static RSC variant should be measured as a separate claim.
+              <strong>Available but unused:</strong>
+              there are no Suspense boundaries, async server-component fetches, client islands, or cached stream helper on
+              these routes. Pro static-stream caching, React cache APIs, and progressive Suspense reveals need separate
+              variants with workloads that can actually exercise them.
             </p>
           </article>
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>Latest Gumroad shape check:</strong>
-              upstream now includes buyer-local currency, richer public product/profile JSON, custom HTML product pages,
-              and Discover category fixes. Those are useful adoption context, but a broad upstream merge would pull in
-              the unrelated Vite migration and is not part of this focused demo pass.
+              <strong>Release boundary:</strong>
+              this deployment is pinned to Pro <code>17.0.0.rc.7</code>. Public <code>rc.8</code> exists, but its deferred
+              RSC error handling and Rspack-resolution fixes do not exercise this simple Webpack initial-route benchmark.
+              Upgrade, redeploy, and rerun after Pro <code>17.0.0</code> final before posting a Gumroad issue.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Causal limit:</strong>
+              the dedicated RSC bundle is a valid architecture benefit, but the Inertia control also loads analytics and
+              legacy scripts that the RSC route omits. Report the result as an end-to-end route comparison, then add clean
+              and production-shaped variants if the goal is to isolate RSC from third-party execution.
             </p>
           </article>
         </div>
@@ -757,7 +780,7 @@
             Use alternating cycles so route order is balanced. The public Gumroad pages are useful external references,
             but the defensible before/after comparison is same data, same host, matched Inertia versus RSC routes.
             The commands below target this host, <code><%= request.base_url %></code>, so a review app does not
-            accidentally reproduce the stable deployed pre-media run.
+            accidentally measure the stable deployment instead of the review candidate.
           </p>
         </header>
 
@@ -802,8 +825,9 @@
               these public demo routes are presenter-backed fixtures, not database-seeded products. Before using PageSpeed
               or a deployed ShakaPerf result, run
               <code>node scripts/perf/assert_public_demo_media_parity.mjs --base-url <%= request.base_url %></code>
-              and confirm the RSC pages expose product and Discover images from the initial HTML. Stable deployed
-              PageSpeed reports taken before PR 69 lands still show the pre-media fixture and are diagnostic only.
+              and confirm the RSC pages expose product and Discover images from the initial HTML. PR 69 is merged and the
+              stable deployment passes this gate; historical PageSpeed reports from before the deployment remain
+              diagnostic only.
             </p>
           </article>
           <article class="dd-row">

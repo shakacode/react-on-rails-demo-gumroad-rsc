@@ -143,7 +143,7 @@ const variantCopy = {
   rsc: {
     badge: "After: React Server Components",
     compareLabel: "Open Inertia route",
-    lead: "React Server Components via React on Rails Pro stream public page content from Rails before client islands hydrate.",
+    lead: "React Server Components via React on Rails Pro stream public page content from Rails without the client page shell.",
   },
 } satisfies Record<BenchmarkVariant, { badge: string; compareLabel: string; lead: string }>;
 

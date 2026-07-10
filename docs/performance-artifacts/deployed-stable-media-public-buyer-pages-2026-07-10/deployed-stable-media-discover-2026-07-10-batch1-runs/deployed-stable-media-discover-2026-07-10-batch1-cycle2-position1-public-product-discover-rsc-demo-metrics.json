@@ -1,0 +1,485 @@
+{
+  "label": "deployed-stable-media-discover-2026-07-10-batch1-cycle2-position1",
+  "baseUrl": "https://gumroad.reactonrails.com",
+  "measureBaseUrl": "https://gumroad.reactonrails.com",
+  "path": "/public_product/discover_rsc_demo",
+  "targetUrl": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+  "headed": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 2,
+  "environment": {
+    "measuredAt": "2026-07-09T17:47:49-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "150.0.7871.49",
+    "platformName": "mac",
+    "chromeDriverVersion": "150.0.7871.115",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 711.0,
+      "loadEventMs": 711.0,
+      "responseEndMs": 505.5,
+      "durationMs": 711.0,
+      "transferSize": 20583.0,
+      "encodedBodySize": 20283.0,
+      "decodedBodySize": 194176.0
+    },
+    "lcp": {
+      "startTime": 728.0,
+      "size": 44936.0
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": 190549.0,
+    "bodyTextBytes": 10718.0,
+    "packs": {
+      "transferSize": 85032.0,
+      "encodedBodySize": 208301.0,
+      "decodedBodySize": 537475.0,
+      "jsTransferSize": 82191.0,
+      "cssTransferSize": 2841.0,
+      "jsCount": 1.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "cfCacheStatus": {
+        "durationMs": 0.0,
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "durationMs": 1.0
+      },
+      "cfExtPri": {
+        "durationMs": 0.0
+      },
+      "cfOrigin": {
+        "durationMs": 0.0
+      },
+      "cfWorker": {
+        "durationMs": 391.0
+      },
+      "ror_renderer_prepare": {
+        "durationMs": 3.6,
+        "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+      },
+      "ror_stream_shell": {
+        "durationMs": 134.24,
+        "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 711.0,
+        "median": 711.0,
+        "p95": 711.0,
+        "max": 711.0,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 711.0,
+        "median": 711.0,
+        "p95": 711.0,
+        "max": 711.0,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 505.5,
+        "median": 505.5,
+        "p95": 505.5,
+        "max": 505.5,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 711.0,
+        "median": 711.0,
+        "p95": 711.0,
+        "max": 711.0,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 20583.0,
+        "median": 20583.0,
+        "p95": 20583.0,
+        "max": 20583.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 20283.0,
+        "median": 20283.0,
+        "p95": 20283.0,
+        "max": 20283.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 194176.0,
+        "median": 194176.0,
+        "p95": 194176.0,
+        "max": 194176.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 728.0,
+        "median": 728.0,
+        "p95": 728.0,
+        "max": 728.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 44936.0,
+        "median": 44936.0,
+        "p95": 44936.0,
+        "max": 44936.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": {
+      "count": 1,
+      "min": 190549.0,
+      "median": 190549.0,
+      "p95": 190549.0,
+      "max": 190549.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 10718.0,
+      "median": 10718.0,
+      "p95": 10718.0,
+      "max": 10718.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 85032.0,
+        "median": 85032.0,
+        "p95": 85032.0,
+        "max": 85032.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 208301.0,
+        "median": 208301.0,
+        "p95": 208301.0,
+        "max": 208301.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 537475.0,
+        "median": 537475.0,
+        "p95": 537475.0,
+        "max": 537475.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 82191.0,
+        "median": 82191.0,
+        "p95": 82191.0,
+        "max": 82191.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 2841.0,
+        "median": 2841.0,
+        "p95": 2841.0,
+        "max": 2841.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 1.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "max": 1.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "cfCacheStatus": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        },
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "stats": {
+          "count": 1,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.0,
+          "max": 1.0,
+          "stddev": 0.0
+        }
+      },
+      "cfExtPri": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfOrigin": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfWorker": {
+        "stats": {
+          "count": 1,
+          "min": 391.0,
+          "median": 391.0,
+          "p95": 391.0,
+          "max": 391.0,
+          "stddev": 0.0
+        }
+      },
+      "ror_renderer_prepare": {
+        "stats": {
+          "count": 1,
+          "min": 3.6,
+          "median": 3.6,
+          "p95": 3.6,
+          "max": 3.6,
+          "stddev": 0.0
+        },
+        "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+      },
+      "ror_stream_shell": {
+        "stats": {
+          "count": 1,
+          "min": 134.24,
+          "median": 134.24,
+          "p95": 134.24,
+          "max": 134.24,
+          "stddev": 0.0
+        },
+        "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 10718,
+      "heading": "Discover creator-made products",
+      "htmlBytes": 190549,
+      "inertiaDataPageBytes": null,
+      "lcp": {
+        "loadTime": 0,
+        "renderTime": 728,
+        "size": 44936,
+        "startTime": 728,
+        "url": ""
+      },
+      "navigation": {
+        "decodedBodySize": 194176,
+        "domContentLoadedMs": 711,
+        "durationMs": 711,
+        "encodedBodySize": 20283,
+        "loadEventMs": 711,
+        "responseEndMs": 505.5,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)",
+            "duration": 134.238,
+            "name": "ror_stream_shell"
+          },
+          {
+            "description": "Node renderer prepare (bundle sync + exec context build + render start)",
+            "duration": 3.601,
+            "name": "ror_renderer_prepare"
+          },
+          {
+            "description": "DYNAMIC",
+            "duration": 0,
+            "name": "cfCacheStatus"
+          },
+          {
+            "description": null,
+            "duration": 1,
+            "name": "cfEdge"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfOrigin"
+          },
+          {
+            "description": null,
+            "duration": 391,
+            "name": "cfWorker"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfExtPri"
+          }
+        ],
+        "transferSize": 20583
+      },
+      "packs": {
+        "all": {
+          "count": 5,
+          "decodedBodySize": 537475,
+          "encodedBodySize": 208301,
+          "transferSize": 85032
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 182342,
+          "encodedBodySize": 25298,
+          "transferSize": 2841
+        },
+        "js": {
+          "count": 1,
+          "decodedBodySize": 254021,
+          "encodedBodySize": 81891,
+          "transferSize": 82191
+        },
+        "largest": [
+          {
+            "decodedBodySize": 254021,
+            "duration": 23.299999997019768,
+            "encodedBodySize": 81891,
+            "name": "https://gumroad.reactonrails.com/packs/public_product_rsc_demo.js",
+            "transferSize": 82191
+          },
+          {
+            "decodedBodySize": 13955,
+            "duration": 14,
+            "encodedBodySize": 2541,
+            "name": "https://gumroad.reactonrails.com/packs/css/dashboard_rsc_demo_styles-82fe50c3.css",
+            "transferSize": 2841
+          },
+          {
+            "decodedBodySize": 168387,
+            "duration": 0,
+            "encodedBodySize": 22757,
+            "name": "https://gumroad.reactonrails.com/packs/css/design-290c57e5.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 49868,
+            "duration": 0,
+            "encodedBodySize": 49868,
+            "name": "https://gumroad.reactonrails.com/packs/static/c5b6753f20ce2ddf.woff2",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 51244,
+            "duration": 0,
+            "encodedBodySize": 51244,
+            "name": "https://gumroad.reactonrails.com/packs/static/41e564656a0745c3.woff2",
+            "transferSize": 0
+          }
+        ]
+      },
+      "pageTitle": "Gumroad Discover RSC benchmark",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-07-10T03:47:49.275Z",
+      "url": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+      "run": 1
+    }
+  ]
+}

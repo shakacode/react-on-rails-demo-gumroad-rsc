@@ -23,11 +23,12 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Stable deployed RSC demo")
     expect(page).to have_text("Live Gumroad reference")
     expect(page).to have_text("React on Rails Pro 17 / React 19.2 audit")
-    expect(page).to have_text("Static caching boundary")
-    expect(page).to have_text("PR 69 media-bearing same-fixture ShakaPerf A/B")
+    expect(page).to have_text("Available but unused")
+    expect(page).to have_text("Release boundary")
+    expect(page).to have_text("Stable media-bearing same-fixture ShakaPerf A/B")
     expect(page).to have_text("Historical hosted run")
-    expect(page).to have_text("-43.4%")
-    expect(page).to have_text("-25.9%")
+    expect(page).to have_text("-48.8%")
+    expect(page).to have_text("-42.6%")
     expect(page).to have_text("Fixture provenance")
     expect(page).to have_text("Product detail A/B route pair")
     expect(page).to have_text("Discover marketplace A/B route pair")
@@ -36,16 +37,16 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("Route script bytes")
     expect(page).to have_text("Serialized Inertia payload")
     expect(page).to have_text("Supporting ShakaPerf runs")
-    expect(page).to have_text("1292.15 ms")
-    expect(page).to have_text("Needs media parity")
-    expect(page).to have_text("Known invalid comparison today")
+    expect(page).to have_text("1123.5 ms")
+    expect(page).to have_text("Needs controlled parity")
+    expect(page).to have_text("Known invalid comparison")
     expect(page).not_to have_text("0.57 to 0.98")
     expect(page).to have_text("PageSpeed comparator pairs")
     expect(page).to have_text("PageSpeed links visible for reproducibility")
     expect(page).to have_text("Reproducibility artifacts and source")
     find("summary", text: "Reproducibility artifacts and source").click
-    expect(page).to have_link("PR 69 media-bearing A/B summary")
-    expect(page).to have_link("stable deployed pre-media A/B summary")
+    expect(page).to have_link("historical PR 69 review-app A/B summary")
+    expect(page).to have_link("historical stable pre-media A/B summary")
     expect(page).to have_link("diagnostic Lighthouse URL-pair summary")
     expect(page).to have_link("Product detail live URL", href: PublicProductRscDemoPresenter::GUMROAD_PRODUCT_REFERENCE_URL)
 
@@ -71,9 +72,28 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_link("Discover RSC", href: public_product_discover_rsc_demo_path)
     expect(page).to have_link("react_on_rails source", href: "https://github.com/shakacode/react_on_rails")
     expect(page).to have_link("Book a consultation", href: "https://meetings.hubspot.com/justingordon/30-minute-consultation")
+    expect(page).to have_text("Product detail pair, batch 1")
+    expect(page).to have_text("Product detail pair, batch 2")
+    expect(page).to have_text("Discover pair, batch 1")
+    expect(page).to have_text("Discover pair, batch 2")
     expect(page).to have_text("For Gumroad maintainers")
     expect(page).to have_text("For React on Rails evaluators")
     expect(page).to have_text("For ShakaCode prospects")
+  end
+
+  it "renders a short executive landing before the detailed evidence lab" do
+    visit rsc_executive_summary_path
+
+    expect(page).to have_current_path(rsc_executive_summary_path, ignore_query: true)
+    expect(page).to have_selector("h1", text: "RSC is the stronger bounded public-page candidate")
+    expect(page).to have_text("VP Engineering brief")
+    expect(page).to have_text("hypothesis, not a demonstrated production result")
+    expect(page).to have_link(
+      "Read the detailed ShakaPerf evidence",
+      href: "#{rsc_performance_demo_path}#current-shakaperf-result",
+      count: 2
+    )
+    expect(page).to have_no_selector("[data-rerun-race]")
   end
 
   it "renders the product Inertia control while logged out" do
@@ -111,6 +131,8 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).not_to have_current_path(login_path, ignore_query: true)
     expect(page).to have_selector("h1", text: "Tendon Book")
     expect(page).to have_text("After: React Server Components")
+    expect(page).to have_text("stream public page content from Rails without the client page shell")
+    expect(page).not_to have_text("before client islands hydrate")
     expect(page).to have_text("Product story rendered before purchase intent")
     expect(page).to have_text("Jacked Athlete")
     expect(page).to have_text("$47")

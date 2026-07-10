@@ -144,7 +144,8 @@ def perform_request(http, request_uri, request, cookies)
 end
 
 def extract_data_page_props(html)
-  data_page = html[/data-page="([^"]+)"/m, 1]
+  data_page = html[/<script\b[^>]*data-page="app"[^>]*>(.*?)<\/script>/m, 1]
+  data_page ||= html[/data-page="([^"]+)"/m, 1]
   return nil unless data_page
 
   parsed = JSON.parse(CGI.unescapeHTML(data_page))
@@ -275,7 +276,10 @@ def maybe_complete_two_factor(driver, timeout:)
 
   page_props = wait_for(driver, timeout:, message: "two-factor props did not load") do
     props = driver.execute_script(<<~JS)
-      const pageData = document.querySelector("[data-page]")?.getAttribute("data-page");
+      const pageData =
+        document.querySelector('script[data-page="app"][type="application/json"]')?.textContent ??
+        document.querySelector("#app[data-page]")?.getAttribute("data-page") ??
+        null;
       if (!pageData) return null;
 
       const parsed = JSON.parse(pageData);
@@ -325,7 +329,10 @@ def page_metrics(driver)
     const jsResources = packsResources.filter((entry) => entry.name.endsWith(".js"));
     const cssResources = packsResources.filter((entry) => entry.name.endsWith(".css"));
     const rscPayloadResources = resources.filter((entry) => entry.name.includes("/rsc_payload/"));
-    const dataPage = document.querySelector("[data-page]")?.getAttribute("data-page") ?? null;
+    const dataPage =
+      document.querySelector('script[data-page="app"][type="application/json"]')?.textContent ??
+      document.querySelector("#app[data-page]")?.getAttribute("data-page") ??
+      null;
     const heading = document.querySelector("h1")?.textContent?.trim() ?? null;
     const pageTitle = document.title ?? null;
     const htmlBytes = document.documentElement?.outerHTML?.length ?? null;
@@ -373,7 +380,7 @@ def page_metrics(driver)
       url: window.location.href,
       heading,
       pageTitle,
-      inertiaDataPageBytes: dataPage?.length ?? null,
+      inertiaDataPageBytes: dataPage ? new TextEncoder().encode(dataPage).byteLength : null,
       htmlBytes,
       bodyTextBytes,
       navigation: navigation ? {

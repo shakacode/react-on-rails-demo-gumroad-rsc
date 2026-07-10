@@ -15,13 +15,13 @@ class PublicProductRscDemoPresenter
   PAGE_SPEED_INSIGHTS_URL = "https://pagespeed.web.dev/analysis"
   DEMO_MEDIA_BASE_PATH = "/public-product-rsc-demo/media"
 
-  REPO_SOURCE_BASE_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main"
-  REPO_PR_SOURCE_BASE_URL =
-    "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/jg-codex/clarify-rsc-demo-performance"
+  REPO_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc"
+  REPO_SOURCE_BASE_URL = "#{REPO_URL}/blob/main"
   HOSTED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-public-buyer-pages-2026-06-24/summary.json"
   LOCAL_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json"
   HOSTED_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json"
-  DEPLOYED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json"
+  DEPLOYED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json"
+  PRE_MEDIA_DEPLOYED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json"
   MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json"
   LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH = "docs/performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json"
   BENCHMARK_TIE_BAND_PERCENT = 5
@@ -40,7 +40,7 @@ class PublicProductRscDemoPresenter
     { key: :median_navigation_duration_ms, label: "Navigation duration", unit: :ms },
     { key: :median_lcp_start_ms, label: "LCP start", unit: :ms },
     { key: :median_response_end_ms, label: "Response end (server TTLB)", unit: :ms },
-    { key: :median_html_transfer_bytes, label: "HTML transfer (over the wire)", unit: :bytes },
+    { key: :median_html_transfer_bytes, label: "HTML encoded body (headers excluded)", unit: :bytes },
     { key: :median_js_transfer_bytes, label: "JavaScript transfer (over the wire)", unit: :bytes },
     { key: :median_js_request_count, label: "JavaScript requests", unit: :count },
     { key: :median_decoded_js_css_bytes, label: "Decoded JavaScript + CSS", unit: :bytes },
@@ -569,7 +569,7 @@ class PublicProductRscDemoPresenter
   end
 
   def discover_title
-    "Gumroad Discover RSC benchmark"
+    "Gumroad Discover A/B benchmark"
   end
 
   def discover_description
@@ -614,6 +614,13 @@ class PublicProductRscDemoPresenter
     }
   end
 
+  def implementation_source_links
+    [
+      source_link("controller", CONTROLLER_SOURCE_PATH),
+      source_link("fixtures", PRESENTER_SOURCE_PATH),
+    ]
+  end
+
   def hosted_benchmark_artifact_url
     "#{REPO_SOURCE_BASE_URL}/#{HOSTED_BENCHMARK_ARTIFACT_PATH}"
   end
@@ -627,11 +634,15 @@ class PublicProductRscDemoPresenter
   end
 
   def deployed_benchmark_artifact_url
-    "#{REPO_SOURCE_BASE_URL}/#{DEPLOYED_BENCHMARK_ARTIFACT_PATH}"
+    "#{current_repo_source_base_url}/#{DEPLOYED_BENCHMARK_ARTIFACT_PATH}"
+  end
+
+  def pre_media_deployed_benchmark_artifact_url
+    "#{REPO_SOURCE_BASE_URL}/#{PRE_MEDIA_DEPLOYED_BENCHMARK_ARTIFACT_PATH}"
   end
 
   def media_review_benchmark_artifact_url
-    "#{review_safe_repo_source_base_url}/#{MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH}"
+    "#{REPO_SOURCE_BASE_URL}/#{MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH}"
   end
 
   def lighthouse_comparator_artifact_url
@@ -734,13 +745,39 @@ class PublicProductRscDemoPresenter
     ].compact
   end
 
+  def executive_summary
+    %i[product discover].to_h do |key|
+      result = benchmark_result(key)
+      next [key, {}] if result.nil?
+
+      navigation = result.fetch(:median_navigation_duration_ms)
+      response_end = result.fetch(:median_response_end_ms)
+      html = result.fetch(:median_html_transfer_bytes)
+      javascript = result.fetch(:median_js_transfer_bytes)
+      inertia_wire_bytes = html.fetch(:inertia) + javascript.fetch(:inertia)
+      rsc_wire_bytes = html.fetch(:rsc) + javascript.fetch(:rsc)
+      html_cost_bytes = html.fetch(:rsc) - html.fetch(:inertia)
+      response_label = response_end.fetch(:delta_percent).abs <= 1 ? "About the same" : "Inconclusive"
+
+      [
+        key,
+        {
+          navigation_delta: format_delta_percent(navigation.fetch(:delta_percent)),
+          total_wire_delta: format_delta_percent(computed_percent(inertia_wire_bytes, rsc_wire_bytes)),
+          html_cost: "#{format_signed_metric(html_cost_bytes, :bytes)} (#{format_delta_percent(html.fetch(:delta_percent))})",
+          response_end: "#{response_label} (#{format_delta_percent(response_end.fetch(:delta_percent))})",
+        },
+      ]
+    end
+  end
+
   def performance_claim_status_cards
     [
       {
         step: "1",
         label: "Valid headline claim",
         title: "Same-host ShakaPerf A/B",
-        body: "Matched Inertia control versus React on Rails Pro RSC on the same host, with the same fixture data, committed local media, alternating cycles, and current PR artifacts.",
+        body: "Matched Inertia control versus React on Rails Pro RSC on the stable host, with the same fixture data, committed local media, two independent batches, and alternating route order.",
         href: "#current-shakaperf-result",
         link_label: "Read the ShakaPerf table",
       },
@@ -748,7 +785,7 @@ class PublicProductRscDemoPresenter
         step: "2",
         label: "Diagnostic only",
         title: "PageSpeed against live Gumroad",
-        body: "Useful for inspecting production gaps, but not proof today. The timeline screenshot showed the demo and live Gumroad did not load the same media surface.",
+        body: "Useful for inspecting production gaps, but not proof today. Resource audits show different media, chrome, caching, fonts, and third-party services.",
         href: "#pagespeed-comparator-pairs",
         link_label: "Open comparator links",
         tone: "warning",
@@ -765,24 +802,34 @@ class PublicProductRscDemoPresenter
   end
 
   def shakaperf_reproduction_commands
-    method = self.class.media_review_benchmark&.dig(:method) || {}
-
-    [
-      shakaperf_reproduction_command(
+    method = self.class.deployed_benchmark&.dig(:method) || {}
+    batch_count = method[:independent_batches] || 1
+    surfaces = [
+      {
         label: "Product detail pair",
         inertia_path: public_product_inertia_demo_path,
         rsc_path: public_product_rsc_demo_path,
         label_slug: "current-host-public-product-alternating-8",
-        method:
-      ),
-      shakaperf_reproduction_command(
+      },
+      {
         label: "Discover pair",
         inertia_path: public_product_discover_inertia_demo_path,
         rsc_path: public_product_discover_rsc_demo_path,
         label_slug: "current-host-public-discover-alternating-8",
-        method:
-      ),
+      },
     ]
+
+    surfaces.flat_map do |surface|
+      1.upto(batch_count).map do |batch|
+        shakaperf_reproduction_command(
+          label: "#{surface[:label]}, batch #{batch}",
+          inertia_path: surface[:inertia_path],
+          rsc_path: surface[:rsc_path],
+          label_slug: "#{surface[:label_slug]}-batch#{batch}",
+          method:
+        )
+      end
+    end
   end
 
   def deployed_performance_demo_url
@@ -821,9 +868,11 @@ class PublicProductRscDemoPresenter
       captured_at = data[:captured_at_utc] || data[:captured_at_utc_date]
       host = method[:measure_base_url] || method[:base_url] || data[:host]
       cycles = method[:cycles_per_pair] || method[:cycles]
+      batches = method[:independent_batches]
       browser_label = method[:browser] || [browser[:name], browser[:version]].compact.join(" ")
+      cycle_label = batches ? "#{batches} independent batches of #{cycles} alternating cycles" : "#{cycles} alternating cycles"
       "Captured #{captured_at} against #{host} with headless #{browser_label}, " \
-        "#{cycles} alternating cycles, and #{method[:server_warmup_requests_per_run]} warmup requests per measured run."
+        "#{cycle_label}, and #{method[:server_warmup_requests_per_run]} warmup requests per measured run."
     end
 
     def hosted_demo_url(path)
@@ -854,11 +903,20 @@ class PublicProductRscDemoPresenter
     end
 
     def source_link(label, path)
-      { label:, url: "#{REPO_SOURCE_BASE_URL}/#{path}" }
+      { label:, url: "#{current_repo_source_base_url}/#{path}" }
     end
 
-    def review_safe_repo_source_base_url
-      request.base_url == HOSTED_DEMO_BASE_URL ? REPO_SOURCE_BASE_URL : REPO_PR_SOURCE_BASE_URL
+    def current_repo_source_base_url
+      return REPO_SOURCE_BASE_URL if request.base_url == HOSTED_DEMO_BASE_URL
+
+      "#{REPO_URL}/blob/#{current_repo_ref}"
+    end
+
+    def current_repo_ref
+      image_commit = [ENV["GITHUB_SHA"], ENV["GIT_COMMIT"]]
+        .find { |value| value.to_s.match?(/\A[0-9a-f]{40}\z/i) }
+
+      image_commit || ENV["SOURCE_REF"].presence || "main"
     end
 
     def package_dependency_version(name)
@@ -885,7 +943,7 @@ class PublicProductRscDemoPresenter
       end
     end
 
-    def benchmark_result(key, data: self.class.media_review_benchmark)
+    def benchmark_result(key, data: self.class.deployed_benchmark)
       (data&.fetch(:results, []) || []).find { |result| result[:key] == key.to_s }
     end
 
@@ -895,11 +953,11 @@ class PublicProductRscDemoPresenter
       return if navigation.blank?
 
       {
-        eyebrow: "Media-bearing ShakaPerf",
+        eyebrow: "Stable media-bearing ShakaPerf",
         label:,
         value: "#{format_metric(navigation[:inertia], :ms)} -> #{format_metric(navigation[:rsc], :ms)}",
         delta: format_delta_percent(navigation[:delta_percent]),
-        note: "Matched Inertia control to React on Rails Pro RSC on the PR 69 review app after adding local media.",
+        note: "Matched Inertia control to React on Rails Pro RSC across two independent stable-deployment batches.",
       }
     end
 
@@ -907,9 +965,9 @@ class PublicProductRscDemoPresenter
       {
         eyebrow: "External PageSpeed",
         label: "Diagnostic only",
-        value: "Needs media parity",
+        value: "Needs controlled parity",
         delta: "Not evidence yet",
-        note: "Live Gumroad loads production imagery and chrome; use PageSpeed links to inspect gaps, not as the current proof.",
+        note: "Live Gumroad loads different media, chrome, caching, and third parties; inspect gaps without treating scores as proof.",
         tone: "warning",
       }
     end
@@ -996,6 +1054,11 @@ class PublicProductRscDemoPresenter
       when :count then value.to_i.to_s
       else value.to_s
       end
+    end
+
+    def format_signed_metric(value, unit)
+      sign = value.negative? ? "-" : "+"
+      "#{sign}#{format_metric(value.abs, unit)}"
     end
 
     def format_bytes(value)

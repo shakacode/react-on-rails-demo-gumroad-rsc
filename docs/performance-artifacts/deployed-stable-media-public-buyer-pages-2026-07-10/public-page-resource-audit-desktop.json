@@ -1,0 +1,1373 @@
+{
+  "capturedAtUtc": "2026-07-10T04:30:50Z",
+  "method": "Chrome DevTools Network.responseReceived + Network.loadingFinished with a fresh browser per URL",
+  "viewport": {
+    "width": 1440,
+    "height": 1100
+  },
+  "emulation": {
+    "mobile": false,
+    "deviceScaleFactor": 1,
+    "touch": false
+  },
+  "settleSeconds": 3.0,
+  "requireDriverMatch": true,
+  "pages": [
+    {
+      "sourceUrl": "https://gumroad.reactonrails.com/public_product/inertia_demo",
+      "finalUrl": "https://gumroad.reactonrails.com/public_product/inertia_demo",
+      "browser": {
+        "browserName": "chrome",
+        "browserVersion": "150.0.7871.49",
+        "chromeDriverVersion": "150.0.7871.115",
+        "platformName": "mac"
+      },
+      "document": {
+        "bodyWidth": {
+          "client": 1440,
+          "scroll": 1440
+        },
+        "controls": {
+          "buttons": 0,
+          "forms": 0,
+          "iframes": 0,
+          "inputs": 0,
+          "links": 22
+        },
+        "heading": "Tendon Book",
+        "images": {
+          "completeCount": 5,
+          "elementCount": 9,
+          "fetchPriority": {
+            "auto": 4,
+            "high": 5
+          },
+          "hosts": {
+            "gumroad.reactonrails.com": 9
+          },
+          "inViewportCount": 1,
+          "loading": {
+            "eager": 5,
+            "lazy": 4
+          },
+          "naturalSizes": {
+            "0x0": 4,
+            "640x420": 4,
+            "720x960": 1
+          },
+          "renderedSizes": {
+            "344x365": 1,
+            "568x176": 4,
+            "568x373": 4
+          },
+          "sizesCount": 0,
+          "srcsetCount": 0,
+          "uniqueSourceCount": 9
+        },
+        "landmarks": {
+          "footers": 1,
+          "headers": 5,
+          "mains": 2,
+          "navs": 1
+        },
+        "title": "Tendon Book",
+        "viewport": {
+          "height": 1100,
+          "width": 1440
+        }
+      },
+      "resources": {
+        "requestCount": 29,
+        "transferBytes": 709151,
+        "byType": {
+          "Document": {
+            "requestCount": 1,
+            "transferBytes": 9454
+          },
+          "Script": {
+            "requestCount": 15,
+            "transferBytes": 551103
+          },
+          "Stylesheet": {
+            "requestCount": 2,
+            "transferBytes": 28737
+          },
+          "Font": {
+            "requestCount": 2,
+            "transferBytes": 104567
+          },
+          "Image": {
+            "requestCount": 5,
+            "transferBytes": 11074
+          },
+          "XHR": {
+            "requestCount": 1,
+            "transferBytes": 469
+          },
+          "Other": {
+            "requestCount": 2,
+            "transferBytes": 3192
+          },
+          "Fetch": {
+            "requestCount": 1,
+            "transferBytes": 555
+          }
+        },
+        "byHost": {
+          "gumroad.reactonrails.com": {
+            "requestCount": 23,
+            "transferBytes": 372457,
+            "types": {
+              "Document": 1,
+              "Script": 10,
+              "Stylesheet": 2,
+              "Font": 2,
+              "Image": 5,
+              "XHR": 1,
+              "Other": 2
+            }
+          },
+          "static.cloudflareinsights.com": {
+            "requestCount": 1,
+            "transferBytes": 11577,
+            "types": {
+              "Script": 1
+            }
+          },
+          "www.googletagmanager.com": {
+            "requestCount": 2,
+            "transferBytes": 237121,
+            "types": {
+              "Script": 2
+            }
+          },
+          "connect.facebook.net": {
+            "requestCount": 2,
+            "transferBytes": 87441,
+            "types": {
+              "Script": 2
+            }
+          },
+          "www.google-analytics.com": {
+            "requestCount": 1,
+            "transferBytes": 555,
+            "types": {
+              "Fetch": 1
+            }
+          }
+        },
+        "images": {
+          "requestCount": 5,
+          "transferBytes": 11074,
+          "mimes": {
+            "image/svg+xml": 5
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": "zstd",
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 5,
+              "transferBytes": 11074,
+              "ageRangeSeconds": [
+                4720,
+                4720
+              ]
+            }
+          ]
+        },
+        "fonts": {
+          "requestCount": 2,
+          "transferBytes": 104567,
+          "mimes": {
+            "font/woff2": 2
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "font/woff2",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 104567,
+              "ageRangeSeconds": [
+                2599,
+                2599
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+      "finalUrl": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+      "browser": {
+        "browserName": "chrome",
+        "browserVersion": "150.0.7871.49",
+        "chromeDriverVersion": "150.0.7871.115",
+        "platformName": "mac"
+      },
+      "document": {
+        "bodyWidth": {
+          "client": 1425,
+          "scroll": 1425
+        },
+        "controls": {
+          "buttons": 0,
+          "forms": 0,
+          "iframes": 0,
+          "inputs": 0,
+          "links": 22
+        },
+        "heading": "Tendon Book",
+        "images": {
+          "completeCount": 5,
+          "elementCount": 9,
+          "fetchPriority": {
+            "auto": 4,
+            "high": 5
+          },
+          "hosts": {
+            "gumroad.reactonrails.com": 9
+          },
+          "inViewportCount": 1,
+          "loading": {
+            "eager": 5,
+            "lazy": 4
+          },
+          "naturalSizes": {
+            "0x0": 4,
+            "640x420": 4,
+            "720x960": 1
+          },
+          "renderedSizes": {
+            "338x365": 1,
+            "561x176": 4,
+            "561x368": 4
+          },
+          "sizesCount": 0,
+          "srcsetCount": 0,
+          "uniqueSourceCount": 9
+        },
+        "landmarks": {
+          "footers": 1,
+          "headers": 5,
+          "mains": 1,
+          "navs": 1
+        },
+        "title": "Tendon Book",
+        "viewport": {
+          "height": 1100,
+          "width": 1440
+        }
+      },
+      "resources": {
+        "requestCount": 14,
+        "transferBytes": 257804,
+        "byType": {
+          "Document": {
+            "requestCount": 1,
+            "transferBytes": 14518
+          },
+          "Image": {
+            "requestCount": 5,
+            "transferBytes": 11114
+          },
+          "Stylesheet": {
+            "requestCount": 2,
+            "transferBytes": 28735
+          },
+          "Script": {
+            "requestCount": 2,
+            "transferBytes": 95219
+          },
+          "Font": {
+            "requestCount": 2,
+            "transferBytes": 104558
+          },
+          "XHR": {
+            "requestCount": 1,
+            "transferBytes": 468
+          },
+          "Other": {
+            "requestCount": 1,
+            "transferBytes": 3192
+          }
+        },
+        "byHost": {
+          "gumroad.reactonrails.com": {
+            "requestCount": 13,
+            "transferBytes": 246227,
+            "types": {
+              "Document": 1,
+              "Image": 5,
+              "Stylesheet": 2,
+              "Script": 1,
+              "Font": 2,
+              "XHR": 1,
+              "Other": 1
+            }
+          },
+          "static.cloudflareinsights.com": {
+            "requestCount": 1,
+            "transferBytes": 11577,
+            "types": {
+              "Script": 1
+            }
+          }
+        },
+        "images": {
+          "requestCount": 5,
+          "transferBytes": 11114,
+          "mimes": {
+            "image/svg+xml": 5
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": "zstd",
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 5,
+              "transferBytes": 11114,
+              "ageRangeSeconds": [
+                4725,
+                4726
+              ]
+            }
+          ]
+        },
+        "fonts": {
+          "requestCount": 2,
+          "transferBytes": 104558,
+          "mimes": {
+            "font/woff2": 2
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "font/woff2",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 104558,
+              "ageRangeSeconds": [
+                2604,
+                2604
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://gumroad.reactonrails.com/public_product/discover_inertia_demo",
+      "finalUrl": "https://gumroad.reactonrails.com/public_product/discover_inertia_demo",
+      "browser": {
+        "browserName": "chrome",
+        "browserVersion": "150.0.7871.49",
+        "chromeDriverVersion": "150.0.7871.115",
+        "platformName": "mac"
+      },
+      "document": {
+        "bodyWidth": {
+          "client": 1440,
+          "scroll": 1440
+        },
+        "controls": {
+          "buttons": 0,
+          "forms": 0,
+          "iframes": 0,
+          "inputs": 0,
+          "links": 47
+        },
+        "heading": "Discover creator-made products",
+        "images": {
+          "completeCount": 8,
+          "elementCount": 36,
+          "fetchPriority": {
+            "auto": 28,
+            "high": 8
+          },
+          "hosts": {
+            "gumroad.reactonrails.com": 36
+          },
+          "inViewportCount": 0,
+          "loading": {
+            "eager": 8,
+            "lazy": 28
+          },
+          "naturalSizes": {
+            "640x420": 36
+          },
+          "renderedSizes": {
+            "374x245": 33,
+            "374x264": 3
+          },
+          "sizesCount": 0,
+          "srcsetCount": 0,
+          "uniqueSourceCount": 8
+        },
+        "landmarks": {
+          "footers": 1,
+          "headers": 4,
+          "mains": 2,
+          "navs": 1
+        },
+        "title": "Gumroad Discover RSC benchmark",
+        "viewport": {
+          "height": 1100,
+          "width": 1440
+        }
+      },
+      "resources": {
+        "requestCount": 32,
+        "transferBytes": 722696,
+        "byType": {
+          "Document": {
+            "requestCount": 1,
+            "transferBytes": 12780
+          },
+          "Stylesheet": {
+            "requestCount": 2,
+            "transferBytes": 28784
+          },
+          "Script": {
+            "requestCount": 15,
+            "transferBytes": 555125
+          },
+          "Font": {
+            "requestCount": 2,
+            "transferBytes": 104567
+          },
+          "Image": {
+            "requestCount": 8,
+            "transferBytes": 17228
+          },
+          "XHR": {
+            "requestCount": 1,
+            "transferBytes": 471
+          },
+          "Other": {
+            "requestCount": 2,
+            "transferBytes": 3186
+          },
+          "Fetch": {
+            "requestCount": 1,
+            "transferBytes": 555
+          }
+        },
+        "byHost": {
+          "gumroad.reactonrails.com": {
+            "requestCount": 26,
+            "transferBytes": 381954,
+            "types": {
+              "Document": 1,
+              "Stylesheet": 2,
+              "Script": 10,
+              "Font": 2,
+              "Image": 8,
+              "XHR": 1,
+              "Other": 2
+            }
+          },
+          "static.cloudflareinsights.com": {
+            "requestCount": 1,
+            "transferBytes": 11576,
+            "types": {
+              "Script": 1
+            }
+          },
+          "www.googletagmanager.com": {
+            "requestCount": 2,
+            "transferBytes": 241170,
+            "types": {
+              "Script": 2
+            }
+          },
+          "connect.facebook.net": {
+            "requestCount": 2,
+            "transferBytes": 87441,
+            "types": {
+              "Script": 2
+            }
+          },
+          "www.google-analytics.com": {
+            "requestCount": 1,
+            "transferBytes": 555,
+            "types": {
+              "Fetch": 1
+            }
+          }
+        },
+        "images": {
+          "requestCount": 8,
+          "transferBytes": 17228,
+          "mimes": {
+            "image/svg+xml": 8
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": "zstd",
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 8,
+              "transferBytes": 17228,
+              "ageRangeSeconds": [
+                4525,
+                4730
+              ]
+            }
+          ]
+        },
+        "fonts": {
+          "requestCount": 2,
+          "transferBytes": 104567,
+          "mimes": {
+            "font/woff2": 2
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "font/woff2",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 104567,
+              "ageRangeSeconds": [
+                2609,
+                2609
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+      "finalUrl": "https://gumroad.reactonrails.com/public_product/discover_rsc_demo",
+      "browser": {
+        "browserName": "chrome",
+        "browserVersion": "150.0.7871.49",
+        "chromeDriverVersion": "150.0.7871.115",
+        "platformName": "mac"
+      },
+      "document": {
+        "bodyWidth": {
+          "client": 1425,
+          "scroll": 1425
+        },
+        "controls": {
+          "buttons": 0,
+          "forms": 0,
+          "iframes": 0,
+          "inputs": 0,
+          "links": 47
+        },
+        "heading": "Discover creator-made products",
+        "images": {
+          "completeCount": 36,
+          "elementCount": 36,
+          "fetchPriority": {
+            "auto": 28,
+            "high": 8
+          },
+          "hosts": {
+            "gumroad.reactonrails.com": 36
+          },
+          "inViewportCount": 0,
+          "loading": {
+            "eager": 8,
+            "lazy": 28
+          },
+          "naturalSizes": {
+            "640x420": 36
+          },
+          "renderedSizes": {
+            "369x242": 34,
+            "369x260": 2
+          },
+          "sizesCount": 0,
+          "srcsetCount": 0,
+          "uniqueSourceCount": 8
+        },
+        "landmarks": {
+          "footers": 1,
+          "headers": 4,
+          "mains": 1,
+          "navs": 1
+        },
+        "title": "Gumroad Discover RSC benchmark",
+        "viewport": {
+          "height": 1100,
+          "width": 1440
+        }
+      },
+      "resources": {
+        "requestCount": 17,
+        "transferBytes": 272040,
+        "byType": {
+          "Document": {
+            "requestCount": 1,
+            "transferBytes": 22564
+          },
+          "Image": {
+            "requestCount": 8,
+            "transferBytes": 17260
+          },
+          "Script": {
+            "requestCount": 2,
+            "transferBytes": 95271
+          },
+          "Stylesheet": {
+            "requestCount": 2,
+            "transferBytes": 28733
+          },
+          "Font": {
+            "requestCount": 2,
+            "transferBytes": 104560
+          },
+          "XHR": {
+            "requestCount": 1,
+            "transferBytes": 465
+          },
+          "Other": {
+            "requestCount": 1,
+            "transferBytes": 3187
+          }
+        },
+        "byHost": {
+          "gumroad.reactonrails.com": {
+            "requestCount": 16,
+            "transferBytes": 260463,
+            "types": {
+              "Document": 1,
+              "Image": 8,
+              "Stylesheet": 2,
+              "Script": 1,
+              "Font": 2,
+              "XHR": 1,
+              "Other": 1
+            }
+          },
+          "static.cloudflareinsights.com": {
+            "requestCount": 1,
+            "transferBytes": 11577,
+            "types": {
+              "Script": 1
+            }
+          }
+        },
+        "images": {
+          "requestCount": 8,
+          "transferBytes": 17260,
+          "mimes": {
+            "image/svg+xml": 8
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": "zstd",
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 8,
+              "transferBytes": 17260,
+              "ageRangeSeconds": [
+                4530,
+                4736
+              ]
+            }
+          ]
+        },
+        "fonts": {
+          "requestCount": 2,
+          "transferBytes": 104560,
+          "mimes": {
+            "font/woff2": 2
+          },
+          "cacheProfiles": [
+            {
+              "host": "gumroad.reactonrails.com",
+              "mime": "font/woff2",
+              "cacheControl": "max-age=14400",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 104560,
+              "ageRangeSeconds": [
+                2614,
+                2615
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+      "finalUrl": "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search",
+      "browser": {
+        "browserName": "chrome",
+        "browserVersion": "150.0.7871.49",
+        "chromeDriverVersion": "150.0.7871.115",
+        "platformName": "mac"
+      },
+      "document": {
+        "bodyWidth": {
+          "client": 1425,
+          "scroll": 1438
+        },
+        "controls": {
+          "buttons": 2,
+          "forms": 0,
+          "iframes": 1,
+          "inputs": 1,
+          "links": 18
+        },
+        "heading": "Tendon Book",
+        "images": {
+          "completeCount": 13,
+          "elementCount": 13,
+          "fetchPriority": {
+            "unspecified": 13
+          },
+          "hosts": {
+            "assets.gumroad.com": 6,
+            "public-files.gumroad.com": 7
+          },
+          "inViewportCount": 3,
+          "loading": {
+            "unspecified": 13
+          },
+          "naturalSizes": {
+            "1027x157": 1,
+            "128x128": 1,
+            "128x85": 1,
+            "1320x707": 1,
+            "180x180": 6,
+            "2667x1461": 1,
+            "3024x4032": 1,
+            "5000x2812": 1
+          },
+          "renderedSizes": {
+            "1138x640": 1,
+            "20x20": 8,
+            "710x108": 1,
+            "710x380": 1,
+            "710x389": 1,
+            "710x946": 1
+          },
+          "sizesCount": 0,
+          "srcsetCount": 0,
+          "uniqueSourceCount": 8
+        },
+        "landmarks": {
+          "footers": 0,
+          "headers": 3,
+          "mains": 0,
+          "navs": 0
+        },
+        "title": "Tendon Book",
+        "viewport": {
+          "height": 1100,
+          "width": 1440
+        }
+      },
+      "resources": {
+        "requestCount": 153,
+        "transferBytes": 4920118,
+        "byType": {
+          "Document": {
+            "requestCount": 3,
+            "transferBytes": 21151
+          },
+          "Image": {
+            "requestCount": 11,
+            "transferBytes": 3161070
+          },
+          "Stylesheet": {
+            "requestCount": 3,
+            "transferBytes": 42886
+          },
+          "Script": {
+            "requestCount": 128,
+            "transferBytes": 1583010
+          },
+          "Other": {
+            "requestCount": 2,
+            "transferBytes": 3616
+          },
+          "XHR": {
+            "requestCount": 1,
+            "transferBytes": 200
+          },
+          "Font": {
+            "requestCount": 2,
+            "transferBytes": 102176
+          },
+          "Fetch": {
+            "requestCount": 3,
+            "transferBytes": 6009
+          }
+        },
+        "byHost": {
+          "jaketuura.gumroad.com": {
+            "requestCount": 5,
+            "transferBytes": 24682,
+            "types": {
+              "Document": 1,
+              "Script": 1,
+              "XHR": 1,
+              "Fetch": 2
+            }
+          },
+          "public-files.gumroad.com": {
+            "requestCount": 9,
+            "transferBytes": 3146749,
+            "types": {
+              "Image": 8,
+              "Other": 1
+            }
+          },
+          "assets.gumroad.com": {
+            "requestCount": 130,
+            "transferBytes": 1240468,
+            "types": {
+              "Stylesheet": 3,
+              "Script": 121,
+              "Other": 1,
+              "Image": 3,
+              "Font": 2
+            }
+          },
+          "static.cloudflareinsights.com": {
+            "requestCount": 2,
+            "transferBytes": 11577,
+            "types": {
+              "Script": 2
+            }
+          },
+          "gumroad.com": {
+            "requestCount": 2,
+            "transferBytes": 9214,
+            "types": {
+              "Document": 1,
+              "Script": 1
+            }
+          },
+          "www.googletagmanager.com": {
+            "requestCount": 2,
+            "transferBytes": 241170,
+            "types": {
+              "Script": 2
+            }
+          },
+          "js.stripe.com": {
+            "requestCount": 2,
+            "transferBytes": 245705,
+            "types": {
+              "Script": 1,
+              "Document": 1
+            }
+          },
+          "www.google-analytics.com": {
+            "requestCount": 1,
+            "transferBytes": 553,
+            "types": {
+              "Fetch": 1
+            }
+          }
+        },
+        "images": {
+          "requestCount": 11,
+          "transferBytes": 3161070,
+          "mimes": {
+            "image/webp": 9,
+            "image/svg+xml": 1,
+            "image/png": 1
+          },
+          "cacheProfiles": [
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h2",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 69684,
+              "ageRangeSeconds": [
+                1448972,
+                1448972
+              ]
+            },
+            {
+              "host": "assets.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=3600",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 12442,
+              "ageRangeSeconds": [
+                60,
+                60
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": true,
+              "requestCount": 1,
+              "transferBytes": 0,
+              "ageRangeSeconds": [
+                2425519,
+                2425519
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 6,
+              "transferBytes": 3075220,
+              "ageRangeSeconds": [
+                85740,
+                475683
+              ]
+            },
+            {
+              "host": "assets.gumroad.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "public, max-age=3600",
+              "contentEncoding": "br",
+              "cdnCacheStatus": "REVALIDATED",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 1407,
+              "ageRangeSeconds": null
+            },
+            {
+              "host": "assets.gumroad.com",
+              "mime": "image/png",
+              "cacheControl": "public, max-age=3600",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 2317,
+              "ageRangeSeconds": [
+                282,
+                282
+              ]
+            }
+          ]
+        },
+        "fonts": {
+          "requestCount": 2,
+          "transferBytes": 102176,
+          "mimes": {
+            "binary/octet-stream": 2
+          },
+          "cacheProfiles": [
+            {
+              "host": "assets.gumroad.com",
+              "mime": "binary/octet-stream",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 102176,
+              "ageRangeSeconds": [
+                2319896,
+                3662178
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "sourceUrl": "https://gumroad.com/discover",
+      "finalUrl": "https://gumroad.com/discover",
+      "browser": {
+        "browserName": "chrome",
+        "browserVersion": "150.0.7871.49",
+        "chromeDriverVersion": "150.0.7871.115",
+        "platformName": "mac"
+      },
+      "document": {
+        "bodyWidth": {
+          "client": 1425,
+          "scroll": 1425
+        },
+        "controls": {
+          "buttons": 7,
+          "forms": 1,
+          "iframes": 1,
+          "inputs": 20,
+          "links": 133
+        },
+        "heading": null,
+        "images": {
+          "completeCount": 109,
+          "elementCount": 109,
+          "fetchPriority": {
+            "unspecified": 109
+          },
+          "hosts": {
+            "": 1,
+            "assets.gumroad.com": 1,
+            "public-files.gumroad.com": 107
+          },
+          "inViewportCount": 19,
+          "loading": {
+            "unspecified": 109
+          },
+          "naturalSizes": {
+            "1005x1005": 1,
+            "1005x503": 1,
+            "1005x528": 1,
+            "1005x565": 3,
+            "1005x643": 1,
+            "1005x754": 1,
+            "110x128": 1,
+            "128x111": 2,
+            "128x115": 2,
+            "128x123": 2,
+            "128x127": 2,
+            "128x128": 31,
+            "128x72": 1,
+            "128x85": 6,
+            "364x364": 1,
+            "500x500": 1,
+            "570x700": 1,
+            "600x600": 43,
+            "668x418": 2,
+            "720x1080": 1,
+            "756x1144": 1,
+            "81x81": 1,
+            "842x493": 1,
+            "93x128": 1,
+            "968x957": 1
+          },
+          "renderedSizes": {
+            "20x20": 48,
+            "24x24": 1,
+            "296x295": 36,
+            "377x378": 8,
+            "94x94": 16
+          },
+          "sizesCount": 0,
+          "srcsetCount": 0,
+          "uniqueSourceCount": 98
+        },
+        "landmarks": {
+          "footers": 48,
+          "headers": 52,
+          "mains": 0,
+          "navs": 0
+        },
+        "title": "Gumroad",
+        "viewport": {
+          "height": 1100,
+          "width": 1440
+        }
+      },
+      "resources": {
+        "requestCount": 187,
+        "transferBytes": 13162400,
+        "byType": {
+          "Document": {
+            "requestCount": 3,
+            "transferBytes": 24783
+          },
+          "Stylesheet": {
+            "requestCount": 2,
+            "transferBytes": 25268
+          },
+          "Script": {
+            "requestCount": 77,
+            "transferBytes": 1309309
+          },
+          "Other": {
+            "requestCount": 1,
+            "transferBytes": 1771
+          },
+          "XHR": {
+            "requestCount": 2,
+            "transferBytes": 6741
+          },
+          "Image": {
+            "requestCount": 99,
+            "transferBytes": 11743579
+          },
+          "Font": {
+            "requestCount": 2,
+            "transferBytes": 50403
+          },
+          "Fetch": {
+            "requestCount": 1,
+            "transferBytes": 546
+          }
+        },
+        "byHost": {
+          "gumroad.com": {
+            "requestCount": 6,
+            "transferBytes": 34559,
+            "types": {
+              "Document": 2,
+              "Script": 2,
+              "XHR": 2
+            }
+          },
+          "assets.gumroad.com": {
+            "requestCount": 78,
+            "transferBytes": 901299,
+            "types": {
+              "Stylesheet": 2,
+              "Script": 70,
+              "Other": 1,
+              "Image": 3,
+              "Font": 2
+            }
+          },
+          "static.cloudflareinsights.com": {
+            "requestCount": 2,
+            "transferBytes": 11577,
+            "types": {
+              "Script": 2
+            }
+          },
+          "public-files.gumroad.com": {
+            "requestCount": 96,
+            "transferBytes": 11727539,
+            "types": {
+              "Image": 96
+            }
+          },
+          "js.stripe.com": {
+            "requestCount": 2,
+            "transferBytes": 245710,
+            "types": {
+              "Script": 1,
+              "Document": 1
+            }
+          },
+          "www.googletagmanager.com": {
+            "requestCount": 2,
+            "transferBytes": 241170,
+            "types": {
+              "Script": 2
+            }
+          },
+          "www.google-analytics.com": {
+            "requestCount": 1,
+            "transferBytes": 546,
+            "types": {
+              "Fetch": 1
+            }
+          }
+        },
+        "images": {
+          "requestCount": 99,
+          "transferBytes": 11743579,
+          "mimes": {
+            "image/svg+xml": 2,
+            "image/webp": 77,
+            "image/gif": 2,
+            "image/jpeg": 5,
+            "image/png": 13
+          },
+          "cacheProfiles": [
+            {
+              "host": "assets.gumroad.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "public, max-age=3600",
+              "contentEncoding": "br",
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 1405,
+              "ageRangeSeconds": [
+                142,
+                142
+              ]
+            },
+            {
+              "host": "assets.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=3600",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 12445,
+              "ageRangeSeconds": [
+                65,
+                65
+              ]
+            },
+            {
+              "host": "assets.gumroad.com",
+              "mime": "image/svg+xml",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": "br",
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 1,
+              "transferBytes": 2190,
+              "ageRangeSeconds": [
+                2215600,
+                2215600
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h2",
+              "fromDiskCache": false,
+              "requestCount": 6,
+              "transferBytes": 85475,
+              "ageRangeSeconds": [
+                3530008,
+                7241425
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/webp",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 70,
+              "transferBytes": 1894572,
+              "ageRangeSeconds": [
+                1050879,
+                11070132
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/gif",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 5856443,
+              "ageRangeSeconds": [
+                2820845,
+                3491785
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/jpeg",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 5,
+              "transferBytes": 511563,
+              "ageRangeSeconds": [
+                2649179,
+                12056297
+              ]
+            },
+            {
+              "host": "public-files.gumroad.com",
+              "mime": "image/png",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 13,
+              "transferBytes": 3379486,
+              "ageRangeSeconds": [
+                2556167,
+                10396039
+              ]
+            }
+          ]
+        },
+        "fonts": {
+          "requestCount": 2,
+          "transferBytes": 50403,
+          "mimes": {
+            "binary/octet-stream": 2
+          },
+          "cacheProfiles": [
+            {
+              "host": "assets.gumroad.com",
+              "mime": "binary/octet-stream",
+              "cacheControl": "public, max-age=31536000",
+              "contentEncoding": null,
+              "cdnCacheStatus": "HIT",
+              "protocol": "h3",
+              "fromDiskCache": false,
+              "requestCount": 2,
+              "transferBytes": 50403,
+              "ageRangeSeconds": [
+                2645437,
+                2645437
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

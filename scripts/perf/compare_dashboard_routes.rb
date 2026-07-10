@@ -30,7 +30,7 @@ PRIMARY_COMPARISON_METRICS = {
   navigationDurationMs: %i[navigation durationMs],
   responseEndMs: %i[navigation responseEndMs],
   lcpStartTime: %i[lcp startTime],
-  htmlTransferBytes: %i[navigation encodedBodySize],
+  htmlEncodedBodyBytes: %i[navigation encodedBodySize],
   jsRequestCount: %i[packs jsCount],
   rscPayloadDurationMs: %i[rscPayload durationMs],
   rscPayloadResponseEndMs: %i[rscPayload responseEndMs],

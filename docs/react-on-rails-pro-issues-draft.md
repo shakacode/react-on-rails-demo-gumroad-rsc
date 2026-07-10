@@ -16,21 +16,16 @@ Filed:
 
 Shared evidence now has three layers:
 
-- PR 69 media-bearing ShakaPerf run (`2026-07-09 UTC`, headless Chrome 150, 8
-  alternating cycles against `https://rails-6rbrymb4tqrb6.cpln.app`, same
-  Tendon Book fixture plus local synthetic media, see
-  [summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json)):
-  product navigation `1292.15ms` -> `731.70ms` (`-43.4%`), product
-  `responseEnd` `137.10ms` -> `170.15ms` (`+24.1%`), product LCP
-  `992.00ms` -> `382.00ms` (`-61.5%`), and product JS requests `9` -> `1`;
-  Discover navigation `1423.70ms` -> `1054.30ms` (`-25.9%`), Discover
-  `responseEnd` `140.65ms` -> `261.60ms` (`+86.0%`), Discover LCP
-  `960.00ms` -> `602.00ms` (`-37.3%`), and Discover JS requests `9` -> `1`.
-- Stable deployed, local, and PR 63 review-app ShakaPerf runs from
-  `2026-07-08` and `2026-07-09 UTC`, linked from
-  [public-product-rsc-demo.md](./public-product-rsc-demo.md), remain useful
-  chronology but predate the current media-bearing fixture or were captured on
-  earlier PRs.
+- Stable media-bearing ShakaPerf run (`2026-07-10 UTC`, headless Chrome 150,
+  two independent batches of 8 alternating cycles, see
+  [summary.json](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json)):
+  Product navigation `1123.50ms` -> `575.00ms` (`-48.8%`), response end
+  `504.85ms` -> `509.55ms` (`+0.9%`), LCP `662ms` -> `602ms` (`-9.1%`),
+  and JS requests `9` -> `1`; Discover navigation `1097.90ms` -> `630.45ms`
+  (`-42.6%`), response end `473.90ms` -> `492.80ms` (`+4.0%`), LCP
+  `768ms` -> `648ms` (`-15.6%`), and JS requests `9` -> `1`.
+- The PR 69 review app, stable pre-media, local, and PR 63 runs remain useful
+  historical chronology. They are not the current headline.
 - Deployed Lighthouse URL-pair diagnostic (`lighthouse@12.8.2`, 3 runs per URL
   and strategy, see
   [summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)):
@@ -39,8 +34,9 @@ Shared evidence now has three layers:
   the demo did not yet match.
 
 The remaining gaps below are what still make the final Gumroad-facing proof
-harder: the media-bearing run records strong browser navigation, LCP, and JS
-request-count evidence with honest response-end and payload-size tradeoffs.
+harder: the media-bearing run records strong browser navigation and JS
+request-count evidence, but only modest/noisy LCP improvements and no
+response-end win. The analytics/legacy-bundle asymmetry also limits causal attribution.
 PageSpeed API or field-data scores after production-equivalent media parity,
 RSC payload timing, CDN-safe streaming timing, and hydration/interactivity marks
 still need first-class measurement.
@@ -88,10 +84,10 @@ marks are absent client-side.
 
 ### Why
 
-Server time-to-last-byte regressions (the PR 69 media-bearing run shows a
-`+86.0%` Discover `responseEnd` gap) can't be diagnosed without per-phase
-timing. Today there is no first-class way to see where streamed RSC server time
-goes once a CDN is in front of the app.
+Server time-to-last-byte behavior cannot be fully diagnosed without per-phase
+timing. The current stable Discover aggregate is within the 5% tie band, but
+its batch direction flips and stream-shell timing is variable. A first-class
+phase breakdown is still useful once a CDN is in front of the app.
 
 ---
 
@@ -101,7 +97,9 @@ goes once a CDN is in front of the app.
 
 React on Rails Pro does not emit standardized `performance.mark` / `measure`
 entries at hydration boundaries (when a streamed server component's client
-islands become interactive). The lab's live in-browser A/B race can measure
+islands become interactive). The current public demo has no client islands, so
+this is not a blocker for its present headline. A future interactive variant's
+live in-browser A/B race can measure
 first-streamed-bytes and full-response download, but not the JavaScript execution
 and hydration cost — which is exactly where the Inertia control is heaviest
 (9 JS requests for Inertia vs 1 for RSC in the PR 69 media-bearing ShakaPerf run).
