@@ -10,6 +10,8 @@ require "uri"
 module PublicPageResourceAudit
   module_function
 
+  MACOS_CHROME_BINARY = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
   DEFAULTS = {
     urls: [],
     output: nil,
@@ -187,7 +189,7 @@ module PublicPageResourceAudit
 
   def chrome_options(width:, height:)
     Selenium::WebDriver::Chrome::Options.new.tap do |options|
-      options.binary = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+      options.binary = MACOS_CHROME_BINARY if File.exist?(MACOS_CHROME_BINARY)
       options.add_argument("--headless=new")
       options.add_argument("--window-size=#{width},#{height}")
       options.add_argument("--disable-popup-blocking")

@@ -19,6 +19,20 @@ class AuditPublicPageResourcesTest < Minitest::Test
     assert_includes user_agent, "Chrome/150.0.7871.49 Mobile"
   end
 
+  def test_only_pins_the_macos_chrome_binary_when_it_exists
+    File.stub(:exist?, false) do
+      options = PublicPageResourceAudit.chrome_options(width: 390, height: 844)
+
+      assert_nil options.binary
+    end
+
+    File.stub(:exist?, true) do
+      options = PublicPageResourceAudit.chrome_options(width: 390, height: 844)
+
+      assert_equal PublicPageResourceAudit::MACOS_CHROME_BINARY, options.binary
+    end
+  end
+
   def test_parses_repeatable_urls_and_browser_capture_options
     options = PublicPageResourceAudit.parse_options(
       [
