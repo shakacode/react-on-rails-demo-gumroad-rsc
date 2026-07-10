@@ -57,15 +57,14 @@ and static media assets as the measured branch. Before quoting PageSpeed or a
 deployed ShakaPerf run, check the target host:
 
 ```bash
-TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
+node scripts/perf/assert_public_demo_media_parity.mjs \
+  --base-url https://gumroad.reactonrails.com
 ```
 
-The command should pass for the host being measured. It is expected to fail on a
-stable deployment that predates PR 69's media fixture because those pages expose
-no local image refs. After PR 69 is merged and deployed, set `TARGET_BASE_URL` to
-`https://gumroad.reactonrails.com` and rerun the same check before treating the
-stable deployment as current.
+PR 69 is merged and the stable deployment passes this check. A first cold probe
+received a transient `503` while the deployment woke, so warm the host and record
+any failure before benchmarking; do not reinterpret a failed gate as proof that
+the fixture has disappeared.
 
 ## Why this page matters
 
@@ -96,15 +95,23 @@ The comparison should include:
 - route-scoped demo assets so unrelated Gumroad pages do not pay for the experiment
 - no login requirement, dashboard state, admin-only data, or seller-only controls
 
-The RSC route should demonstrate server/client composition where it matters: product facts, purchase framing, and mostly static content can be server-rendered, while genuinely interactive controls stay client-side.
+The current RSC route demonstrates a bounded streamed server tree and bundle
+isolation. It does not contain client islands or Suspense boundaries today. Add
+genuinely interactive controls only in a separately reviewed iteration so the
+benchmark workload change is explicit.
 
 ## React on Rails Pro 17 / React 19.2 Notes
 
-As of July 8, 2026, this demo is aligned with the React on Rails Pro 17 RC RSC line: React 19.2.7, React DOM 19.2.7, React on Rails Pro 17.0.0-rc.7, and `react-on-rails-rsc` 19.2.1-rc.0.
+As of July 10, 2026, this demo is pinned to React 19.2.7, React DOM 19.2.7, React on Rails Pro 17.0.0-rc.7, and `react-on-rails-rsc` 19.2.1-rc.0. Public Pro `17.0.0.rc.8` exists, but the final `17.0.0` release does not yet.
 
 The public RSC routes opt into `rsc_stream_observability`, so the lab and external benchmark harnesses can inspect Pro stream attribution in `Server-Timing`, including streamed shell and Node renderer prepare timing when available. This replaces the older caveat that streamed RSC had no browser-visible renderer timing.
 
-Pro 17's buffered/static RSC helpers are relevant to Gumroad-style public marketplace pages, but they change the benchmark claim. The headline route pair should stay matched and uncached; if the demo adds `cached_static_rsc_component`, it should be exposed as a separately named cached static RSC variant and measured against an appropriately labeled control.
+Pro 17's buffered/static RSC helpers are relevant to Gumroad-style public marketplace pages, but they change the benchmark claim. The headline route pair should stay matched and uncached; if the demo adds a cached stream helper, it should be exposed as a separately named cached static RSC variant and measured against an appropriately labeled control.
+
+There are no Suspense boundaries, async server-component data fetches, or
+client islands in this route tree. React 19.2 Suspense batching, request cache
+APIs, partial pre-rendering/resume, and Activity therefore cannot explain the
+current result. They should only be tested with a workload that exercises them.
 
 The public Gumroad upstream has moved since the fixture was first sampled. Useful status-quo context now includes buyer-local currency, richer public product/profile JSON endpoints, custom HTML product pages, and Discover category fixes. Those are fixture/adoption inputs, not a reason to merge upstream wholesale into this demo branch because upstream also carries broad unrelated Vite and product-editor churn.
 
@@ -160,9 +167,11 @@ demo, and live Gumroad status quo without editing URLs by hand.
 
 Current artifacts:
 
-- Current PR 69 media-bearing same-fixture ShakaPerf:
+- Current stable media-bearing same-fixture ShakaPerf and resource audits:
+  [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md)
+- Historical PR 69 review-app media-bearing ShakaPerf:
   [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json)
-- Stable deployed pre-media same-fixture ShakaPerf:
+- Historical stable pre-media same-fixture ShakaPerf:
   [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json)
 - Same-fixture local ShakaPerf:
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)
@@ -175,14 +184,12 @@ Before rerunning the current artifact against any host, run the media parity
 gate:
 
 ```bash
-TARGET_BASE_URL=https://rails-6rbrymb4tqrb6.cpln.app
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url "$TARGET_BASE_URL"
+node scripts/perf/assert_public_demo_media_parity.mjs \
+  --base-url https://gumroad.reactonrails.com
 ```
 
-If it fails, the target still has the pre-media fixture and PageSpeed screenshots
-without product/card images are expected. Merge and deploy the media-bearing
-fixture first, then rerun the parity gate, ShakaPerf, and PageSpeed against that
-same host.
+The stable host currently passes. If a future check fails, capture the HTTP
+status and warm the deployment before concluding that media parity regressed.
 
 The PageSpeed Insights API returned HTTP `429` from the benchmark environment
 on July 9, 2026 UTC, so the external URL-pair artifact uses a pinned local

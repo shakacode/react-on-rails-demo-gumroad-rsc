@@ -1,5 +1,34 @@
 # Public Buyer-Page Performance Results
 
+## Current Stable Media-Bearing A/B Run
+
+Captured July 10, 2026 UTC from `https://gumroad.reactonrails.com` at main
+commit `cc61125b02ec0282ec455c044240e97b6a33b741`.
+
+Method: two independent batches per surface, eight alternating cycles per
+batch, two server warmups per measured run, public mode, and an enforced Chrome
+`150.0.7871.49` / ChromeDriver `150.0.7871.115` major-version match. The run is
+unthrottled desktop headless Chrome, not mobile field data.
+
+| Public surface | Median navigation | Median response end | Median LCP | JS transfer | Inertia payload |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Product detail | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
+| Discover marketplace | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
+
+Verdict: full navigation is clearly faster for the RSC candidate. Product LCP
+is modestly better; Discover LCP is directionally better but noisy. Response
+end is a tie/inconclusive, not an RSC win. RSC sends 80-100% more HTML while
+cutting JavaScript transfer roughly in half.
+
+This is an end-to-end route result, not a clean estimate of RSC in isolation.
+The RSC route uses an isolated bundle and skips legacy application JavaScript;
+the Inertia control also loads analytics and tag-manager resources omitted by
+the RSC route. Preserve that limitation when quoting the result.
+
+The summary, four comparison manifests, 64 underlying run files, and desktop/mobile
+resource audits are in
+[performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
+
 ## Historical Hosted A/B Run
 
 Captured: `2026-06-23 23:56-23:58 HST` (`2026-06-24 UTC`)
@@ -10,9 +39,9 @@ Browser: local headless Chrome `149.0.7827.158` with ChromeDriver `149.0.7827.15
 
 Method: `8` alternating cycles per route pair, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
 
-These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence for JavaScript request and transfer deltas, not the current headline same-fixture result. The current media-bearing artifact is [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json); the stable deployed pre-media artifact is [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
+These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence for JavaScript request and transfer deltas, not the current headline same-fixture result. The current stable media-bearing artifact is [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json); the previous stable pre-media artifact remains historical at [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
 
-Note: this run predates the React on Rails Pro 17 stream observability toggle now enabled on the public RSC routes. The current PR 69 media-bearing run preserves the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
+Note: this run predates the React on Rails Pro 17 stream observability toggle now enabled on the public RSC routes. The current stable media-bearing run preserves the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
 
 Fixture provenance: [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) documents the sanitized public Gumroad shape sampling used to build the synthetic Discover and product fixtures. The benchmark does not commit creator copy, seller URLs, product URLs, or real product names. Newer branches add local synthetic image fixtures; this historical run predates that media.
 
@@ -83,6 +112,8 @@ ruby scripts/perf/compare_dashboard_routes.rb \
 - Repeat with PageSpeed API or field data after production-equivalent media parity so the report includes `INP` and mobile score beyond local Lighthouse.
 - Profile the React on Rails Pro renderer and streaming path beyond the top-level streamed shell and Node renderer prepare timing now captured in `Server-Timing`.
 - Add any Pro 17 static RSC caching as a separately labeled route variant rather than folding it into this matched uncached result.
-- Rerun after deploying the local synthetic media fixtures, then add production-equivalent responsive media/CDN parity before using live PageSpeed numbers as evidence.
+- Add separately named lab-clean and production-shaped variants to control the current third-party/legacy-script asymmetry.
+- Upgrade, deploy, and rerun after React on Rails Pro `17.0.0` final before posting an upstream Gumroad issue.
+- Document production-equivalent responsive media/CDN/chrome parity before using live PageSpeed numbers as evidence.
 - If the mobile run preserves the navigation/LCP/client-JS advantage, convert this into a Gumroad-facing proposal focused on public product and Discover pages.
 - For a stronger Gumroad-maintainer proof, wire sanitized production-shaped props into the real public `Discover/Index` and `Products/Discover/Show` components where feasible, then compare those pages with an RSC equivalent.

@@ -1,0 +1,485 @@
+{
+  "label": "deployed-stable-media-product-2026-07-10-batch1-cycle1-position2",
+  "baseUrl": "https://gumroad.reactonrails.com",
+  "measureBaseUrl": "https://gumroad.reactonrails.com",
+  "path": "/public_product/rsc_demo",
+  "targetUrl": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+  "headed": false,
+  "public": true,
+  "requireDriverMatch": true,
+  "runs": 1,
+  "serverWarmupRequests": 2,
+  "environment": {
+    "measuredAt": "2026-07-09T17:44:15-10:00",
+    "rubyVersion": "3.4.3",
+    "rubyPlatform": "arm64-darwin24",
+    "seleniumVersion": "4.45.0",
+    "ci": false
+  },
+  "browser": {
+    "browserName": "chrome",
+    "browserVersion": "150.0.7871.49",
+    "platformName": "mac",
+    "chromeDriverVersion": "150.0.7871.115",
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/150.0.0.0 Safari/537.36"
+  },
+  "averages": {
+    "navigation": {
+      "domContentLoadedMs": 571.4,
+      "loadEventMs": 572.9,
+      "responseEndMs": 511.3,
+      "durationMs": 572.9,
+      "transferSize": 11930.0,
+      "encodedBodySize": 11630.0,
+      "decodedBodySize": 77280.0
+    },
+    "lcp": {
+      "startTime": 596.0,
+      "size": 123211.0
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": 75961.0,
+    "bodyTextBytes": 6024.0,
+    "packs": {
+      "transferSize": 85139.0,
+      "encodedBodySize": 208408.0,
+      "decodedBodySize": 537475.0,
+      "jsTransferSize": 82298.0,
+      "cssTransferSize": 2841.0,
+      "jsCount": 1.0,
+      "cssCount": 2.0
+    },
+    "serverTiming": {
+      "cfCacheStatus": {
+        "durationMs": 0.0,
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "durationMs": 2.0
+      },
+      "cfExtPri": {
+        "durationMs": 0.0
+      },
+      "cfOrigin": {
+        "durationMs": 0.0
+      },
+      "cfWorker": {
+        "durationMs": 392.0
+      },
+      "ror_renderer_prepare": {
+        "durationMs": 1.96,
+        "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+      },
+      "ror_stream_shell": {
+        "durationMs": 33.82,
+        "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+      }
+    },
+    "rscPayload": {
+      "transferSize": 0.0,
+      "encodedBodySize": 0.0,
+      "decodedBodySize": 0.0,
+      "count": 0.0,
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "distributions": {
+    "navigation": {
+      "domContentLoadedMs": {
+        "count": 1,
+        "min": 571.4,
+        "median": 571.4,
+        "p95": 571.4,
+        "max": 571.4,
+        "stddev": 0.0
+      },
+      "loadEventMs": {
+        "count": 1,
+        "min": 572.9,
+        "median": 572.9,
+        "p95": 572.9,
+        "max": 572.9,
+        "stddev": 0.0
+      },
+      "responseEndMs": {
+        "count": 1,
+        "min": 511.3,
+        "median": 511.3,
+        "p95": 511.3,
+        "max": 511.3,
+        "stddev": 0.0
+      },
+      "durationMs": {
+        "count": 1,
+        "min": 572.9,
+        "median": 572.9,
+        "p95": 572.9,
+        "max": 572.9,
+        "stddev": 0.0
+      },
+      "transferSize": {
+        "count": 1,
+        "min": 11930.0,
+        "median": 11930.0,
+        "p95": 11930.0,
+        "max": 11930.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 11630.0,
+        "median": 11630.0,
+        "p95": 11630.0,
+        "max": 11630.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 77280.0,
+        "median": 77280.0,
+        "p95": 77280.0,
+        "max": 77280.0,
+        "stddev": 0.0
+      }
+    },
+    "lcp": {
+      "startTime": {
+        "count": 1,
+        "min": 596.0,
+        "median": 596.0,
+        "p95": 596.0,
+        "max": 596.0,
+        "stddev": 0.0
+      },
+      "size": {
+        "count": 1,
+        "min": 123211.0,
+        "median": 123211.0,
+        "p95": 123211.0,
+        "max": 123211.0,
+        "stddev": 0.0
+      }
+    },
+    "inertiaDataPageBytes": null,
+    "htmlBytes": {
+      "count": 1,
+      "min": 75961.0,
+      "median": 75961.0,
+      "p95": 75961.0,
+      "max": 75961.0,
+      "stddev": 0.0
+    },
+    "bodyTextBytes": {
+      "count": 1,
+      "min": 6024.0,
+      "median": 6024.0,
+      "p95": 6024.0,
+      "max": 6024.0,
+      "stddev": 0.0
+    },
+    "packs": {
+      "transferSize": {
+        "count": 1,
+        "min": 85139.0,
+        "median": 85139.0,
+        "p95": 85139.0,
+        "max": 85139.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 208408.0,
+        "median": 208408.0,
+        "p95": 208408.0,
+        "max": 208408.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 537475.0,
+        "median": 537475.0,
+        "p95": 537475.0,
+        "max": 537475.0,
+        "stddev": 0.0
+      },
+      "jsTransferSize": {
+        "count": 1,
+        "min": 82298.0,
+        "median": 82298.0,
+        "p95": 82298.0,
+        "max": 82298.0,
+        "stddev": 0.0
+      },
+      "cssTransferSize": {
+        "count": 1,
+        "min": 2841.0,
+        "median": 2841.0,
+        "p95": 2841.0,
+        "max": 2841.0,
+        "stddev": 0.0
+      },
+      "jsCount": {
+        "count": 1,
+        "min": 1.0,
+        "median": 1.0,
+        "p95": 1.0,
+        "max": 1.0,
+        "stddev": 0.0
+      },
+      "cssCount": {
+        "count": 1,
+        "min": 2.0,
+        "median": 2.0,
+        "p95": 2.0,
+        "max": 2.0,
+        "stddev": 0.0
+      }
+    },
+    "serverTiming": {
+      "cfCacheStatus": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        },
+        "description": "DYNAMIC"
+      },
+      "cfEdge": {
+        "stats": {
+          "count": 1,
+          "min": 2.0,
+          "median": 2.0,
+          "p95": 2.0,
+          "max": 2.0,
+          "stddev": 0.0
+        }
+      },
+      "cfExtPri": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfOrigin": {
+        "stats": {
+          "count": 1,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "max": 0.0,
+          "stddev": 0.0
+        }
+      },
+      "cfWorker": {
+        "stats": {
+          "count": 1,
+          "min": 392.0,
+          "median": 392.0,
+          "p95": 392.0,
+          "max": 392.0,
+          "stddev": 0.0
+        }
+      },
+      "ror_renderer_prepare": {
+        "stats": {
+          "count": 1,
+          "min": 1.96,
+          "median": 1.96,
+          "p95": 1.96,
+          "max": 1.96,
+          "stddev": 0.0
+        },
+        "description": "Node renderer prepare (bundle sync + exec context build + render start)"
+      },
+      "ror_stream_shell": {
+        "stats": {
+          "count": 1,
+          "min": 33.82,
+          "median": 33.82,
+          "p95": 33.82,
+          "max": 33.82,
+          "stddev": 0.0
+        },
+        "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)"
+      }
+    },
+    "rscPayload": {
+      "transferSize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "encodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "decodedBodySize": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "count": {
+        "count": 1,
+        "min": 0.0,
+        "median": 0.0,
+        "p95": 0.0,
+        "max": 0.0,
+        "stddev": 0.0
+      },
+      "durationMs": null,
+      "responseStartMs": null,
+      "responseEndMs": null,
+      "serverTiming": {}
+    }
+  },
+  "samples": [
+    {
+      "bodyTextBytes": 6024,
+      "heading": "Tendon Book",
+      "htmlBytes": 75961,
+      "inertiaDataPageBytes": null,
+      "lcp": {
+        "loadTime": 559.6999999992549,
+        "renderTime": 596,
+        "size": 123211,
+        "startTime": 596,
+        "url": "https://gumroad.reactonrails.com/public-product-rsc-demo/media/tendon-book-cover.svg"
+      },
+      "navigation": {
+        "decodedBodySize": 77280,
+        "domContentLoadedMs": 571.4000000022352,
+        "durationMs": 572.9000000022352,
+        "encodedBodySize": 11630,
+        "loadEventMs": 572.9000000022352,
+        "responseEndMs": 511.30000000074506,
+        "responseStatus": 200,
+        "serverTiming": [
+          {
+            "description": "RoR Pro streamed RSC shell render (includes first renderer chunk)",
+            "duration": 33.822,
+            "name": "ror_stream_shell"
+          },
+          {
+            "description": "Node renderer prepare (bundle sync + exec context build + render start)",
+            "duration": 1.962,
+            "name": "ror_renderer_prepare"
+          },
+          {
+            "description": "DYNAMIC",
+            "duration": 0,
+            "name": "cfCacheStatus"
+          },
+          {
+            "description": null,
+            "duration": 2,
+            "name": "cfEdge"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfOrigin"
+          },
+          {
+            "description": null,
+            "duration": 392,
+            "name": "cfWorker"
+          },
+          {
+            "description": null,
+            "duration": 0,
+            "name": "cfExtPri"
+          }
+        ],
+        "transferSize": 11930
+      },
+      "packs": {
+        "all": {
+          "count": 5,
+          "decodedBodySize": 537475,
+          "encodedBodySize": 208408,
+          "transferSize": 85139
+        },
+        "css": {
+          "count": 2,
+          "decodedBodySize": 182342,
+          "encodedBodySize": 25298,
+          "transferSize": 2841
+        },
+        "js": {
+          "count": 1,
+          "decodedBodySize": 254021,
+          "encodedBodySize": 81998,
+          "transferSize": 82298
+        },
+        "largest": [
+          {
+            "decodedBodySize": 254021,
+            "duration": 28.199999999254942,
+            "encodedBodySize": 81998,
+            "name": "https://gumroad.reactonrails.com/packs/public_product_rsc_demo.js",
+            "transferSize": 82298
+          },
+          {
+            "decodedBodySize": 13955,
+            "duration": 16.5,
+            "encodedBodySize": 2541,
+            "name": "https://gumroad.reactonrails.com/packs/css/dashboard_rsc_demo_styles-82fe50c3.css",
+            "transferSize": 2841
+          },
+          {
+            "decodedBodySize": 168387,
+            "duration": 0,
+            "encodedBodySize": 22757,
+            "name": "https://gumroad.reactonrails.com/packs/css/design-290c57e5.css",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 49868,
+            "duration": 0,
+            "encodedBodySize": 49868,
+            "name": "https://gumroad.reactonrails.com/packs/static/c5b6753f20ce2ddf.woff2",
+            "transferSize": 0
+          },
+          {
+            "decodedBodySize": 51244,
+            "duration": 0,
+            "encodedBodySize": 51244,
+            "name": "https://gumroad.reactonrails.com/packs/static/41e564656a0745c3.woff2",
+            "transferSize": 0
+          }
+        ]
+      },
+      "pageTitle": "Tendon Book",
+      "rscPayload": {
+        "count": 0,
+        "decodedBodySize": 0,
+        "encodedBodySize": 0,
+        "resources": [],
+        "transferSize": 0
+      },
+      "timestamp": "2026-07-10T03:44:14.978Z",
+      "url": "https://gumroad.reactonrails.com/public_product/rsc_demo",
+      "run": 1
+    }
+  ]
+}
