@@ -256,6 +256,7 @@ module PublicPageResourceAudit
       **device_metrics(width: options.fetch(:width), height: options.fetch(:height), mobile: options.fetch(:mobile))
     )
     enable_mobile_emulation(driver, browser.fetch(:browserVersion)) if options.fetch(:mobile)
+    driver.manage.timeouts.page_load = options.fetch(:timeout)
     driver.navigate.to(url)
     Selenium::WebDriver::Wait.new(timeout: options.fetch(:timeout)).until do
       driver.execute_script("return document.readyState") == "complete"

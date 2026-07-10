@@ -59,7 +59,7 @@ Before measuring a deployment, run:
 
 ```bash
 node scripts/perf/assert_public_demo_media_parity.mjs \
-  --base-url https://gumroad.reactonrails.com
+  --base-url "${TARGET_BASE_URL:-https://gumroad.reactonrails.com}"
 ```
 
 A first cold probe received a transient `503`, then the exact command passed
@@ -80,7 +80,8 @@ required Chrome/driver major-version match.
 | Product | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
 | Discover | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
 
-RSC HTML is larger (`+80.4%` Product, `+100.2%` Discover), while decoded
+The combined-median encoded HTML body (compressed, headers excluded) is larger
+(`+80.4%` Product, `+100.2%` Discover), while combined-median decoded
 JavaScript + CSS is `53.2%` lower. Product renderer-prepare / stream-shell
 medians are `2.3ms` / `33.03ms`; Discover medians are `3.62ms` / `130.65ms`.
 

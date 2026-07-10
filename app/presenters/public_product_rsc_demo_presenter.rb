@@ -40,7 +40,7 @@ class PublicProductRscDemoPresenter
     { key: :median_navigation_duration_ms, label: "Navigation duration", unit: :ms },
     { key: :median_lcp_start_ms, label: "LCP start", unit: :ms },
     { key: :median_response_end_ms, label: "Response end (server TTLB)", unit: :ms },
-    { key: :median_html_transfer_bytes, label: "HTML transfer (over the wire)", unit: :bytes },
+    { key: :median_html_transfer_bytes, label: "HTML encoded body (headers excluded)", unit: :bytes },
     { key: :median_js_transfer_bytes, label: "JavaScript transfer (over the wire)", unit: :bytes },
     { key: :median_js_request_count, label: "JavaScript requests", unit: :count },
     { key: :median_decoded_js_css_bytes, label: "Decoded JavaScript + CSS", unit: :bytes },
@@ -569,7 +569,7 @@ class PublicProductRscDemoPresenter
   end
 
   def discover_title
-    "Gumroad Discover RSC benchmark"
+    "Gumroad Discover A/B benchmark"
   end
 
   def discover_description
@@ -764,7 +764,7 @@ class PublicProductRscDemoPresenter
         {
           navigation_delta: format_delta_percent(navigation.fetch(:delta_percent)),
           total_wire_delta: format_delta_percent(computed_percent(inertia_wire_bytes, rsc_wire_bytes)),
-          html_cost: "+#{format_metric(html_cost_bytes, :bytes)} (#{format_delta_percent(html.fetch(:delta_percent))})",
+          html_cost: "#{format_signed_metric(html_cost_bytes, :bytes)} (#{format_delta_percent(html.fetch(:delta_percent))})",
           response_end: "#{response_label} (#{format_delta_percent(response_end.fetch(:delta_percent))})",
         },
       ]
@@ -1054,6 +1054,11 @@ class PublicProductRscDemoPresenter
       when :count then value.to_i.to_s
       else value.to_s
       end
+    end
+
+    def format_signed_metric(value, unit)
+      sign = value.negative? ? "-" : "+"
+      "#{sign}#{format_metric(value.abs, unit)}"
     end
 
     def format_bytes(value)

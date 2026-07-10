@@ -144,6 +144,7 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include("not database-seeded products")
       expect(response.body).to include("node scripts/perf/assert_public_demo_media_parity.mjs --base-url #{request.base_url}")
       expect(response.body).to include("The commands below target this host")
+      expect(response.body).to include("initialHashTarget.scrollIntoView")
       expect(response.body).to include("--base-url #{request.base_url} --measure-base-url #{request.base_url}")
       expect(response.body).not_to include("--base-url https://gumroad.reactonrails.com --measure-base-url https://gumroad.reactonrails.com --path /public_product/inertia_demo")
       expect(response.body).to include("Serialized Inertia payload")

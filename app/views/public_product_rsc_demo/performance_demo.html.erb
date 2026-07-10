@@ -7,6 +7,9 @@
       const pairElements = Array.from(root.querySelectorAll("[data-route-pair]"));
       const runButtons = Array.from(root.querySelectorAll("[data-rerun-race]"));
       const runStatus = root.querySelector("[data-run-status]");
+      const initialHashTarget = window.location.hash
+        ? document.getElementById(decodeURIComponent(window.location.hash.slice(1)))
+        : null;
 
       const numberFormatter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
 
@@ -218,7 +221,7 @@
         const wireKnown = Number.isFinite(inertia.wireBytes) && Number.isFinite(rsc.wireBytes);
         const inertiaHtml = wireKnown ? inertia.wireBytes : inertia.decodedBytes;
         const rscHtml = wireKnown ? rsc.wireBytes : rsc.decodedBytes;
-        const htmlBasis = wireKnown ? "over the wire" : "in this fetch";
+        const htmlBasis = wireKnown ? "as an encoded body (headers excluded)" : "in this fetch";
         const htmlDelta = inertiaHtml - rscHtml;
         const firstChunkDelta = inertia.firstChunkMs - rsc.firstChunkMs;
         const scriptDelta = inertia.scriptBytes - rsc.scriptBytes;
@@ -310,7 +313,11 @@
       };
 
       runButtons.forEach((button) => button.addEventListener("click", runAll));
-      runAll();
+      runAll().finally(() => {
+        if (initialHashTarget) {
+          requestAnimationFrame(() => initialHashTarget.scrollIntoView({ block: "start" }));
+        }
+      });
     })();
   </script>
 <% end %>

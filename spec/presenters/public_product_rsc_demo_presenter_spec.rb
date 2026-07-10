@@ -31,9 +31,9 @@ describe PublicProductRscDemoPresenter do
       expect(navigation[:rsc]).to eq("212.8 ms")
     end
 
-    it "calls the larger RSC HTML transfer an Inertia win" do
+    it "calls the larger RSC encoded HTML body an Inertia win" do
       product = presenter.local_benchmark_surfaces.find { |surface| surface[:page_kind] == :product }
-      html_transfer = product[:rows].find { |row| row[:label] == "HTML transfer (over the wire)" }
+      html_transfer = product[:rows].find { |row| row[:label] == "HTML encoded body (headers excluded)" }
 
       expect(html_transfer[:verdict]).to eq(:inertia_wins)
     end
@@ -171,6 +171,13 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#discover_title" do
+    it "uses a neutral equal-byte title for both benchmark arms" do
+      expect(presenter.discover_title).to eq("Gumroad Discover A/B benchmark")
+      expect(presenter.discover_title.bytesize).to eq("Gumroad Discover RSC benchmark".bytesize)
+    end
+  end
+
   describe "#comparison_terms" do
     it "defines the page vocabulary for demo, deployed, and live comparisons" do
       terms = presenter.comparison_terms
@@ -220,6 +227,11 @@ describe PublicProductRscDemoPresenter do
       expect(summary.dig(:discover, :html_cost)).to eq("+9.57 KB (+100.2%)")
       expect(summary.dig(:product, :response_end)).to eq("About the same (+0.9%)")
       expect(summary.dig(:discover, :response_end)).to eq("Inconclusive (+4%)")
+    end
+
+
+    it "formats an HTML reduction without a double sign" do
+      expect(presenter.send(:format_signed_metric, -1024, :bytes)).to eq("-1 KB")
     end
   end
 

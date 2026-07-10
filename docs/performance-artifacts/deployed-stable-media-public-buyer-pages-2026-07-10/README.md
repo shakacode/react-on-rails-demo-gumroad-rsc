@@ -20,6 +20,8 @@ These results establish an end-to-end result for the routes as deployed. They do
 
 The exact aggregate values and caveats are in [`summary.json`](summary.json). Each comparison JSON records cycle order, environment, browser versions, and paths to the 16 underlying run files.
 
+In the captured comparison manifests, the historical `htmlTransferBytes` key is sourced from `PerformanceNavigationTiming.encodedBodySize`: it is the compressed response-body size and excludes response headers. Future manifests use the more precise `htmlEncodedBodyBytes` key. The raw manifests are preserved rather than rewritten. Likewise, the raw Discover runs share the legacy title `Gumroad Discover RSC benchmark` across both arms; route paths are authoritative, and the source now uses the equal-byte neutral title `Gumroad Discover A/B benchmark` for future captures.
+
 ## Files
 
 - `deployed-stable-media-*-batch*-comparison.json`: four comparison manifests
@@ -32,7 +34,8 @@ The resource audit intentionally records only source URLs, hosts, MIME types, di
 ## Reproduction
 
 ```bash
-node scripts/perf/assert_public_demo_media_parity.mjs --base-url https://gumroad.reactonrails.com
+node scripts/perf/assert_public_demo_media_parity.mjs \
+  --base-url "${TARGET_BASE_URL:-https://gumroad.reactonrails.com}"
 
 ruby scripts/perf/compare_dashboard_routes.rb --public \
   --base-url https://gumroad.reactonrails.com \

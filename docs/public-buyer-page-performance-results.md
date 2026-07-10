@@ -17,8 +17,9 @@ unthrottled desktop headless Chrome, not mobile field data.
 
 Verdict: full navigation is clearly faster for the RSC candidate. Product LCP
 is modestly better; Discover LCP is directionally better but noisy. Response
-end is a tie/inconclusive, not an RSC win. RSC sends 80-100% more HTML while
-cutting JavaScript transfer roughly in half.
+end is a tie/inconclusive, not an RSC win. RSC's combined-median encoded HTML
+body (compressed, headers excluded) is 80.4% larger on Product and 100.2%
+larger on Discover, while JavaScript transfer is roughly halved.
 
 This is an end-to-end route result, not a clean estimate of RSC in isolation.
 The RSC route uses an isolated bundle and skips legacy application JavaScript;

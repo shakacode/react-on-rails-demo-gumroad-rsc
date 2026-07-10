@@ -23,7 +23,7 @@ The defensible conclusion is narrower than the previous PR 69 review-app result:
 - Full-navigation duration is clearly better for the deployed RSC candidate on both surfaces.
 - Product LCP is modestly better. Discover LCP is directionally better but noisier: two of 16 paired cycles regressed and the two batch medians differ materially.
 - Response end is not an RSC win.
-- RSC sends 80-100% more HTML, about half the JavaScript, one route script instead of nine, and no duplicated Inertia data-page payload.
+- RSC's combined-median encoded HTML body (compressed, headers excluded) is 80.4% larger on Product and 100.2% larger on Discover; it sends about half the JavaScript, one route script instead of nine, and no duplicated Inertia data-page payload.
 
 The current artifact and all 64 underlying measurements are in [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
 
