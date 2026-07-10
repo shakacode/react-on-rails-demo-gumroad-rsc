@@ -73,7 +73,7 @@ with:
 
 ```bash
 node scripts/perf/assert_public_demo_media_parity.mjs \
-  --base-url https://gumroad.reactonrails.com
+  --base-url "${TARGET_BASE_URL:-https://gumroad.reactonrails.com}"
 ```
 
 The check requires local media refs on both route pairs, plus initial `<img>`
