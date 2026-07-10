@@ -6,14 +6,17 @@ The next RSC comparison should make the value visible on a logged-out, public, p
 
 Implemented routes:
 
-- performance lab: `/rsc-demo` or `/public_product/performance_demo`
+- VP Engineering summary: `/rsc-demo`
+- performance lab: `/rsc-demo/evidence` or `/public_product/performance_demo`
 - product `Inertia` control: `/public_product/inertia_demo`
 - product React Server Components via React on Rails Pro demo: `/public_product/rsc_demo`
 - Discover `Inertia` control: `/public_product/discover_inertia_demo`
 - Discover React Server Components via React on Rails Pro demo: `/public_product/discover_rsc_demo`
 
-The lab and all implementation routes render without requiring login.
-The lab should be opened first because it auto-loads the matched product and
+The summary, lab, and all implementation routes render without requiring login.
+The summary should be opened first for the bounded recommendation, measured
+benefits, HTML and operational costs, evidence quality, and remaining production
+gates. It does not run a browser race. The detailed lab auto-loads the matched product and
 Discover route pairs, then shows first streamed bytes, complete response timing,
 HTML response size, route script bytes, and serialized Inertia payload size in
 the page itself.

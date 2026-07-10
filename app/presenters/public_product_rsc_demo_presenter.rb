@@ -745,6 +745,32 @@ class PublicProductRscDemoPresenter
     ].compact
   end
 
+  def executive_summary
+    %i[product discover].to_h do |key|
+      result = benchmark_result(key)
+      next [key, {}] if result.nil?
+
+      navigation = result.fetch(:median_navigation_duration_ms)
+      response_end = result.fetch(:median_response_end_ms)
+      html = result.fetch(:median_html_transfer_bytes)
+      javascript = result.fetch(:median_js_transfer_bytes)
+      inertia_wire_bytes = html.fetch(:inertia) + javascript.fetch(:inertia)
+      rsc_wire_bytes = html.fetch(:rsc) + javascript.fetch(:rsc)
+      html_cost_bytes = html.fetch(:rsc) - html.fetch(:inertia)
+      response_label = response_end.fetch(:delta_percent).abs <= 1 ? "About the same" : "Inconclusive"
+
+      [
+        key,
+        {
+          navigation_delta: format_delta_percent(navigation.fetch(:delta_percent)),
+          total_wire_delta: format_delta_percent(computed_percent(inertia_wire_bytes, rsc_wire_bytes)),
+          html_cost: "+#{format_metric(html_cost_bytes, :bytes)} (#{format_delta_percent(html.fetch(:delta_percent))})",
+          response_end: "#{response_label} (#{format_delta_percent(response_end.fetch(:delta_percent))})",
+        },
+      ]
+    end
+  end
+
   def performance_claim_status_cards
     [
       {

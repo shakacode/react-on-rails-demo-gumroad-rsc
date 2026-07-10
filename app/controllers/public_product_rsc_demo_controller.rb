@@ -8,13 +8,13 @@ class PublicProductRscDemoController < ApplicationController
 
   before_action :prepare_public_product_page, only: %i[inertia_demo rsc_demo]
   before_action :prepare_public_discover_page, only: %i[discover_inertia_demo discover_rsc_demo]
-  before_action :skip_legacy_application_javascript, only: %i[performance_demo rsc_demo discover_rsc_demo]
+  before_action :skip_legacy_application_javascript, only: %i[executive_summary performance_demo rsc_demo discover_rsc_demo]
   before_action :prepare_live_streaming_response, only: %i[rsc_demo discover_rsc_demo]
   prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
   write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
   helper_method :content_security_policy_nonce
 
-  layout "inertia", only: %i[inertia_demo discover_inertia_demo performance_demo]
+  layout "inertia", only: %i[inertia_demo discover_inertia_demo executive_summary performance_demo]
 
   def inertia_demo
     with_dashboard_comparison_timing("action_total") do
@@ -45,6 +45,19 @@ class PublicProductRscDemoController < ApplicationController
     set_meta_tag(
       name: "description",
       content: "A logged-out comparison lab for Gumroad's Inertia control and React Server Components via React on Rails Pro public product routes."
+    )
+  end
+
+  def executive_summary
+    @hide_layouts = true
+    @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+    @presenter = public_product_rsc_demo_presenter
+    @executive_summary = @presenter.executive_summary
+
+    set_meta_tag(title: "Gumroad RSC executive summary")
+    set_meta_tag(
+      name: "description",
+      content: "A VP Engineering brief on the measured benefits, costs, risks, and remaining production gates for bounded React Server Components."
     )
   end
 

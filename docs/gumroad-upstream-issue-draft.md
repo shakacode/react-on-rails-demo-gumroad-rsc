@@ -28,7 +28,8 @@ The current best candidates are the logged-out public product and Discover compa
 I put together a public experiment repo that tracks Gumroad and compares matched Inertia controls against bounded React Server Components implementations using `react_on_rails`, React on Rails Pro, and React 19 on logged-out public buyer-page surfaces:
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
-- Live demo: https://gumroad.reactonrails.com/rsc-demo
+- VP Engineering summary: https://gumroad.reactonrails.com/rsc-demo
+- Detailed evidence lab: https://gumroad.reactonrails.com/rsc-demo/evidence#current-shakaperf-result
 - Product Inertia control: https://gumroad.reactonrails.com/public_product/inertia_demo
 - Product React Server Components route: https://gumroad.reactonrails.com/public_product/rsc_demo
 - Discover Inertia control: https://gumroad.reactonrails.com/public_product/discover_inertia_demo

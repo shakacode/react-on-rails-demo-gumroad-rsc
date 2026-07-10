@@ -208,6 +208,21 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "#executive_summary" do
+    it "derives the decision metrics and HTML cost from the stable benchmark artifact" do
+      summary = presenter.executive_summary
+
+      expect(summary.dig(:product, :navigation_delta)).to eq("-48.8%")
+      expect(summary.dig(:discover, :navigation_delta)).to eq("-42.6%")
+      expect(summary.dig(:product, :total_wire_delta)).to eq("-44.5%")
+      expect(summary.dig(:discover, :total_wire_delta)).to eq("-41%")
+      expect(summary.dig(:product, :html_cost)).to eq("+5.04 KB (+80.4%)")
+      expect(summary.dig(:discover, :html_cost)).to eq("+9.57 KB (+100.2%)")
+      expect(summary.dig(:product, :response_end)).to eq("About the same (+0.9%)")
+      expect(summary.dig(:discover, :response_end)).to eq("Inconclusive (+4%)")
+    end
+  end
+
   describe "#performance_claim_status_cards" do
     it "keeps the valid claim, PageSpeed caveat, and next evidence gate explicit" do
       cards = presenter.performance_claim_status_cards

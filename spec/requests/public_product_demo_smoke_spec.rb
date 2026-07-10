@@ -81,6 +81,21 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("For ShakaCode prospects")
   end
 
+  it "renders a short executive landing before the detailed evidence lab" do
+    visit rsc_executive_summary_path
+
+    expect(page).to have_current_path(rsc_executive_summary_path, ignore_query: true)
+    expect(page).to have_selector("h1", text: "RSC is the stronger bounded public-page candidate")
+    expect(page).to have_text("VP Engineering brief")
+    expect(page).to have_text("hypothesis, not a demonstrated production result")
+    expect(page).to have_link(
+      "Read the detailed ShakaPerf evidence",
+      href: "#{rsc_performance_demo_path}#current-shakaperf-result",
+      count: 2
+    )
+    expect(page).to have_no_selector("[data-rerun-race]")
+  end
+
   it "renders the product Inertia control while logged out" do
     visit public_product_inertia_demo_path
 
@@ -116,6 +131,8 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).not_to have_current_path(login_path, ignore_query: true)
     expect(page).to have_selector("h1", text: "Tendon Book")
     expect(page).to have_text("After: React Server Components")
+    expect(page).to have_text("stream public page content from Rails without the client page shell")
+    expect(page).not_to have_text("before client islands hydrate")
     expect(page).to have_text("Product story rendered before purchase intent")
     expect(page).to have_text("Jacked Athlete")
     expect(page).to have_text("$47")

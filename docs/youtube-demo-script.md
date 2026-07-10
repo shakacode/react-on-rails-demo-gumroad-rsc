@@ -20,7 +20,8 @@ Do not claim:
 
 ## Recording setup
 
-- open the logged-out public lab at `https://gumroad.reactonrails.com/rsc-demo`
+- open the VP Engineering summary at `https://gumroad.reactonrails.com/rsc-demo`
+- have the detailed logged-out lab at `https://gumroad.reactonrails.com/rsc-demo/evidence` open in another tab
 - have [docs/public-buyer-page-performance-results.md](./public-buyer-page-performance-results.md) open in another tab
 - keep the repo README open in another tab
 - optionally keep the product and Discover route pairs open in separate tabs
@@ -125,11 +126,12 @@ If not, it is still valuable because it tells us where the tradeoff actually liv
 
 1. README top section with the hosted public result
 2. `/rsc-demo`
-3. `/public_product/discover_inertia_demo`
-4. `/public_product/discover_rsc_demo`
-5. `docs/public-buyer-page-performance-results.md` metrics table
-6. `docs/current-status.md` short answer and current result
-7. optional PR stack view on GitHub
+3. `/rsc-demo/evidence#current-shakaperf-result`
+4. `/public_product/discover_inertia_demo`
+5. `/public_product/discover_rsc_demo`
+6. `docs/public-buyer-page-performance-results.md` metrics table
+7. `docs/current-status.md` short answer and current result
+8. optional PR stack view on GitHub
 
 ## Good phrases to use
 

@@ -90,6 +90,8 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response).to be_successful
       expect(response).not_to redirect_to(login_path)
       expect(response.body).to include("Gumroad RSC performance lab")
+      expect(response.body).to include("VP Engineering summary")
+      expect(response.body).to include("href=\"#{rsc_executive_summary_path}\"")
       expect(response.body).to include(public_product_inertia_demo_path)
       expect(response.body).to include(public_product_rsc_demo_path)
       expect(response.body).to include(public_product_discover_inertia_demo_path)
@@ -148,6 +150,32 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.body).to include("React Server Components via React on Rails Pro, not Rspack")
       expect(response.body).not_to include("seller.gumroad.reactonrails.com")
       expect(response.body).not_to include("/l/demo")
+      expect(assigns(:hide_layouts)).to be(true)
+      expect(assigns(:skip_legacy_application_javascript)).to be(true)
+    end
+  end
+
+  describe "GET executive_summary" do
+    it "renders a short logged-out decision brief before the detailed evidence lab" do
+      expect(rsc_executive_summary_path).to eq("/rsc-demo")
+      expect(rsc_performance_demo_path).to eq("/rsc-demo/evidence")
+      expect(public_product_performance_demo_path).to eq("/public_product/performance_demo")
+
+      get :executive_summary
+
+      expect(response).to be_successful
+      expect(response).not_to redirect_to(login_path)
+      expect(response.body).to include("VP Engineering brief")
+      expect(response.body).to include("RSC is the stronger bounded public-page candidate")
+      expect(response.body).to include("-48.8%")
+      expect(response.body).to include("-42.6%")
+      expect(response.body).to include("+5.04 KB (+80.4%)")
+      expect(response.body).to include("+9.57 KB (+100.2%)")
+      expect(response.body).to include("About the same (+0.9%)")
+      expect(response.body).to include("Inconclusive (+4%)")
+      expect(response.body).to include("hypothesis, not a demonstrated production result")
+      expect(response.body).to include("#{rsc_performance_demo_path}#current-shakaperf-result")
+      expect(response.body).not_to include("data-rerun-race")
       expect(assigns(:hide_layouts)).to be(true)
       expect(assigns(:skip_legacy_application_javascript)).to be(true)
     end

@@ -28,7 +28,8 @@ The priority is consumer-facing performance: public product pages, Discover mark
 ### Start here
 
 - Hosted homepage with an explicit experiment callout: <https://gumroad.reactonrails.com>
-- Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo>
+- VP Engineering summary: <https://gumroad.reactonrails.com/rsc-demo>
+- Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo/evidence>
 - Product before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
 - Product after, React Server Components via React on Rails Pro route: <https://gumroad.reactonrails.com/public_product/rsc_demo>
 - Discover before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/discover_inertia_demo>
@@ -115,16 +116,18 @@ Open the hosted public demo first:
 
 - `https://gumroad.reactonrails.com`
 - `https://gumroad.reactonrails.com/rsc-demo`
+- `https://gumroad.reactonrails.com/rsc-demo/evidence`
 - `https://gumroad.reactonrails.com/public_product/inertia_demo`
 - `https://gumroad.reactonrails.com/public_product/rsc_demo`
 - `https://gumroad.reactonrails.com/public_product/discover_inertia_demo`
 - `https://gumroad.reactonrails.com/public_product/discover_rsc_demo`
 
-The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see how to run the comparison and why public buyer pages matter. The lab is logged out and runs same-origin browser races against the matched product-detail and Discover routes. It makes streaming, route-script, and serialized-payload differences visible immediately, then links to each implementation route for manual inspection.
+The hosted homepage is intentionally modified so Rails teams, ShakaCode prospects, and Gumroad maintainers immediately see why public buyer pages matter. The short `/rsc-demo` decision brief summarizes measured benefits, costs, risks, and production gates without running a browser race. The detailed logged-out lab at `/rsc-demo/evidence` runs same-origin browser races against the matched product-detail and Discover routes, then links to each implementation route for manual inspection.
 
 Local equivalents:
 
 - `https://gumroad.dev/rsc-demo`
+- `https://gumroad.dev/rsc-demo/evidence`
 - `https://gumroad.dev/public_product/performance_demo`
 - `https://gumroad.dev/public_product/inertia_demo`
 - `https://gumroad.dev/public_product/rsc_demo`
@@ -195,8 +198,10 @@ part of the public buyer-page value case.
    If port `3035` is already occupied by another local repo, start both Rails and the dev server with the same override, for example:
    `SHAKAPACKER_DEV_SERVER_PORT=3036 bundle exec rails s -b 0.0.0.0 -p 3000`
    `SHAKAPACKER_DEV_SERVER_PORT=3036 npm run setup && ./bin/shakapacker-dev-server`
-4. Open the performance lab first:
+4. Open the executive summary first:
    `/rsc-demo`
+   Then open the detailed performance lab:
+   `/rsc-demo/evidence`
    The lab auto-loads both matched public route pairs, shows first streamed bytes, complete response timing, HTML
    response size, route script bytes, and the serialized Inertia payload size.
 5. Open the product-detail routes and compare:
