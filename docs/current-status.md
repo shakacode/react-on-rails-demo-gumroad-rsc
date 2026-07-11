@@ -9,6 +9,8 @@ The stable public deployment now serves deterministic, media-bearing Product and
 
 PR 69 is merged and deployed. The exact media gate passes on `https://gumroad.reactonrails.com`; the first cold attempt received a transient `503`, so deployment warm-up remains a reproducibility concern.
 
+The versioned [RSC lab benchmark contract v1](./rsc-lab-benchmark-contract-v1.md) defines the fixture identity, serialized ShakaPerf protocol, evidence hierarchy, and the deferred final-release gates behind this result.
+
 ## Current stable result
 
 Captured July 10, 2026 UTC against the stable host with Chrome `150.0.7871.49`, ChromeDriver `150.0.7871.115`, two independent batches of eight alternating cycles per pair, and two server warmups before each measured run.
