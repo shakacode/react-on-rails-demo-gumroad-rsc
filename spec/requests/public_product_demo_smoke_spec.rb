@@ -45,6 +45,10 @@ describe "Public product RSC demo routes", type: :system, js: true do
     expect(page).to have_text("PageSpeed links visible for reproducibility")
     expect(page).to have_text("Reproducibility artifacts and source")
     find("summary", text: "Reproducibility artifacts and source").click
+    expect(page).to have_link(
+      "Benchmark contract v1",
+      href: "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/blob/main/docs/rsc-lab-benchmark-contract-v1.md"
+    )
     expect(page).to have_link("historical PR 69 review-app A/B summary")
     expect(page).to have_link("historical stable pre-media A/B summary")
     expect(page).to have_link("diagnostic Lighthouse URL-pair summary")

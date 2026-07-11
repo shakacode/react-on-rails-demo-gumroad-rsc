@@ -11,6 +11,8 @@ This repo contains two production-shaped public buyer-page comparisons:
 
 These are the value-proof surfaces because they are logged out, SEO-sensitive, conversion-sensitive, mobile-heavy, and visible without a demo account.
 
+The [RSC lab benchmark contract v1](./rsc-lab-benchmark-contract-v1.md) is the normative boundary for fixture identity, serialized execution, evidence classification, and deferred final-release validation. In particular, “production-shaped” describes a measurable fixture, not production traffic or a field-performance claim.
+
 Use `--public` with the benchmark runner for these pairs so measurements avoid login and dashboard cookies.
 
 The older dashboard comparison is still useful technical proof:
