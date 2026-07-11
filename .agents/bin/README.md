@@ -7,7 +7,7 @@ means that capability is n/a here.
 
 | Script | Purpose | This repo runs |
 | --- | --- | --- |
-| `setup` | Install dependencies | `bundle install` |
+| `setup` | Install dependencies | `bundle install` then `npm install` |
 | `validate` | Pre-push gate | `bundle exec rake` |
 | `test` | Run tests | `bundle exec rspec "$@"` |
 | `lint` | Lint / format | n/a |
