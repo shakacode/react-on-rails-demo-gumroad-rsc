@@ -84,6 +84,31 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
   end
 
   describe "GET performance_demo" do
+    it "renders the release boundary from the presenter stack versions" do
+      presenter = PublicProductRscDemoPresenter.new(request:)
+      allow(presenter).to receive(:react_stack_versions).and_return(
+        react: "19.2.7",
+        react_dom: "19.2.7",
+        react_on_rails_pro_gem: "17.0.0.rc.dynamic",
+        react_on_rails_pro_npm: "17.0.0-rc.dynamic",
+        react_on_rails_rsc: "19.2.1-rc.dynamic"
+      )
+      allow(controller).to receive(:public_product_rsc_demo_presenter).and_return(presenter)
+
+      get :performance_demo
+
+      release_boundary = Nokogiri::HTML(response.body).css(".dd-row").find do |row|
+        row.text.include?("Release boundary:")
+      end
+
+      expect(release_boundary).to be_present
+      expect(release_boundary.css("code").map(&:text)).to include(
+        "17.0.0.rc.dynamic",
+        "17.0.0-rc.dynamic",
+        "19.2.1-rc.dynamic"
+      )
+    end
+
     it "renders a logged-out public performance lab for product and Discover route pairs" do
       get :performance_demo
 

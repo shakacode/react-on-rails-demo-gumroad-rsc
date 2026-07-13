@@ -717,8 +717,11 @@
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Release boundary:</strong>
-              this candidate is pinned to Pro <code>17.0.0.rc.9</code> and
-              <code>react-on-rails-rsc 19.2.1-rc.1</code>. Validate the deployed artifact and rerun after Pro
+              this candidate is pinned to Pro gem
+              <code><%= stack_versions[:react_on_rails_pro_gem] || "unknown" %></code>, Pro npm
+              <code><%= stack_versions[:react_on_rails_pro_npm] || "unknown" %></code>, and
+              <code>react-on-rails-rsc</code> <code><%= stack_versions[:react_on_rails_rsc] || "unknown" %></code>.
+              Validate the deployed artifact and rerun after Pro
               <code>17.0.0</code> final before posting a Gumroad issue.
             </p>
           </article>
