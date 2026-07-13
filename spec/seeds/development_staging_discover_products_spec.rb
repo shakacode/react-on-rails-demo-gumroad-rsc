@@ -7,14 +7,29 @@ RSpec.describe "development/staging Discover product seeds" do
   let(:fixture_cards) { PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS }
   let(:fixture_names) { fixture_cards.map { _1.fetch(:name) } }
   let(:link_index) { Link.__elasticsearch__ }
+  let(:purchase_index) { Purchase.__elasticsearch__ }
+  let(:index_events) { [] }
 
   before do
     allow(DevTools).to receive(:delete_all_indices_and_reindex_all)
-    allow(Link).to receive(:import)
-    allow(link_index).to receive(:create_index!).and_raise(
-      Elasticsearch::Transport::Transport::Errors::BadRequest.new("resource_already_exists_exception")
-    )
-    allow(link_index).to receive(:index_exists?).and_return(true)
+    allow(Link).to receive(:import) { index_events << :link_import }
+    allow(Purchase).to receive(:import) { index_events << :purchase_import }
+    allow(link_index).to receive(:create_index!) do
+      index_events << :link_create
+      raise Elasticsearch::Transport::Transport::Errors::BadRequest.new("resource_already_exists_exception")
+    end
+    allow(link_index).to receive(:index_exists?) do
+      index_events << :link_exists
+      true
+    end
+    allow(purchase_index).to receive(:create_index!) do
+      index_events << :purchase_create
+      raise Elasticsearch::Transport::Transport::Errors::BadRequest.new("resource_already_exists_exception")
+    end
+    allow(purchase_index).to receive(:index_exists?) do
+      index_events << :purchase_exists
+      true
+    end
     load(Rails.root.join("db/seeds/010_development_staging_test/taxonomy_create.rb"), true)
   end
 
@@ -61,6 +76,31 @@ RSpec.describe "development/staging Discover product seeds" do
     expect(link_index).to have_received(:create_index!).exactly(3).times
     expect(link_index).to have_received(:index_exists?).exactly(3).times
     expect(Link).to have_received(:import).with(no_args).exactly(3).times
+    expect(purchase_index).to have_received(:create_index!).exactly(3).times
+    expect(purchase_index).to have_received(:index_exists?).exactly(3).times
+    expect(Purchase).to have_received(:import).with(no_args).exactly(3).times
+    expect(index_events).to eq(
+      %i[purchase_create purchase_exists purchase_import link_create link_exists link_import] * 3
+    )
+  end
+
+  it "fails closed when index creation errors are not verified as an existing index" do
+    failures = [
+      ["mapper_parsing_exception", true],
+      ["resource_already_exists_exception", false],
+    ]
+
+    failures.each do |message, index_exists|
+      error = Elasticsearch::Transport::Transport::Errors::BadRequest.new(message)
+      allow(purchase_index).to receive(:create_index!).and_raise(error)
+      allow(purchase_index).to receive(:index_exists?).and_return(index_exists)
+
+      expect { load(seed_file, true) }.to raise_error(error.class, message)
+    end
+
+    expect(Purchase).not_to have_received(:import)
+    expect(link_index).not_to have_received(:create_index!)
+    expect(Link).not_to have_received(:import)
   end
 
   it "refuses to overwrite a product that already owns a fixture permalink" do

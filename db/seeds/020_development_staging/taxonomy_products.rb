@@ -161,10 +161,16 @@ PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS.each_with_index do |card, 
   end
 end
 
-product_index = Link.__elasticsearch__
-begin
-  product_index.create_index!
-rescue Elasticsearch::Transport::Transport::Errors::BadRequest => error
-  raise unless error.message.include?("resource_already_exists_exception") && product_index.index_exists?
+def ensure_discover_demo_index!(model)
+  index = model.__elasticsearch__
+  begin
+    index.create_index!
+  rescue Elasticsearch::Transport::Transport::Errors::BadRequest => error
+    raise unless error.message.include?("resource_already_exists_exception") && index.index_exists?
+  end
 end
-Link.import
+
+[Purchase, Link].each do |model|
+  ensure_discover_demo_index!(model)
+  model.import
+end
