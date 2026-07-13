@@ -2,13 +2,18 @@
 
 DISCOVER_DEMO_MEDIA_BASE_PATH = "/public-product-rsc-demo/media"
 DISCOVER_DEMO_BUYER_COUNT = 10
-LEGACY_DISCOVER_DEMO_SELLER_EMAILS = %w[
-  film music writing education software comics drawing animation audio games
-  photography crafts design sports merchandise
-].map { "gumbo_#{_1}@gumroad.com" }.freeze
+DISCOVER_DEMO_FIXTURE_OWNER = "rsc-discover-demo"
+DISCOVER_DEMO_FIXTURE_OWNER_KEY = "discover_demo_fixture_owner"
+DISCOVER_DEMO_FIXTURE_VERSION = 1
+DISCOVER_DEMO_FIXTURE_VERSION_KEY = "discover_demo_fixture_version"
 
 def find_or_create_discover_demo_user(name:, username:, email:)
-  user = User.find_or_initialize_by(email:)
+  user = User.find_by(email:)
+  if user && user.json_data[DISCOVER_DEMO_FIXTURE_OWNER_KEY] != DISCOVER_DEMO_FIXTURE_OWNER
+    raise "Refusing to overwrite non-fixture user with email #{email.inspect}"
+  end
+
+  user ||= User.new(email:)
   user.assign_attributes(
     name:,
     username:,
@@ -16,6 +21,8 @@ def find_or_create_discover_demo_user(name:, username:, email:)
     confirmed_at: user.confirmed_at || Time.current,
     payment_address: email,
   )
+  user.json_data[DISCOVER_DEMO_FIXTURE_OWNER_KEY] = DISCOVER_DEMO_FIXTURE_OWNER
+  user.json_data[DISCOVER_DEMO_FIXTURE_VERSION_KEY] = DISCOVER_DEMO_FIXTURE_VERSION
   user.password = SecureRandom.hex(24) if user.new_record?
   user.save!
   user
@@ -78,11 +85,17 @@ def discover_demo_permalink(card, index)
   "discover_#{letters}_#{name}"
 end
 
-legacy_sellers = User.where(email: LEGACY_DISCOVER_DEMO_SELLER_EMAILS)
-legacy_sellers.find_each do |seller|
-  seller.links.where("name LIKE ?", "Beautiful % widget").find_each do |product|
-    product.update!(deleted_at: product.deleted_at || Time.current)
+def find_or_initialize_discover_demo_product(seller:, permalink:)
+  product = Link.find_by(unique_permalink: permalink)
+  return seller.links.build(unique_permalink: permalink) unless product
+
+  fixture_owned = product.user_id == seller.id &&
+    product.json_data[DISCOVER_DEMO_FIXTURE_OWNER_KEY] == DISCOVER_DEMO_FIXTURE_OWNER
+  unless fixture_owned
+    raise "Refusing to overwrite non-fixture product with permalink #{permalink.inspect}"
   end
+
+  product
 end
 
 buyers = DISCOVER_DEMO_BUYER_COUNT.times.map do |index|
@@ -102,7 +115,10 @@ PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS.each_with_index do |card, 
     email: "discover-#{seller_slug}@gumroad.com",
   )
 
-  product = Link.find_or_initialize_by(unique_permalink: discover_demo_permalink(card, index))
+  product = find_or_initialize_discover_demo_product(
+    seller:,
+    permalink: discover_demo_permalink(card, index),
+  )
   product.assign_attributes(
     user: seller,
     name: card.fetch(:name),
@@ -116,11 +132,13 @@ PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS.each_with_index do |card, 
     purchase_disabled_at: nil,
     deleted_at: nil,
   )
+  product.json_data[DISCOVER_DEMO_FIXTURE_OWNER_KEY] = DISCOVER_DEMO_FIXTURE_OWNER
+  product.json_data[DISCOVER_DEMO_FIXTURE_VERSION_KEY] = DISCOVER_DEMO_FIXTURE_VERSION
   product.save!
   product.save_tags!([
-    card.fetch(:format_label).downcase.first(20),
-    card.fetch(:audience_label).downcase.first(20),
-  ])
+                       card.fetch(:format_label).downcase.first(20),
+                       card.fetch(:audience_label).downcase.first(20),
+                     ])
 
   media_file = PublicProductRscDemoPresenter::DISCOVER_MEDIA_FILES.fetch(
     index % PublicProductRscDemoPresenter::DISCOVER_MEDIA_FILES.length
