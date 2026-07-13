@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "open3"
 
 describe "Public product RSC demo routes", type: :system, js: true do
   let(:deployed_performance_url) { "#{PublicProductRscDemoPresenter::HOSTED_DEMO_BASE_URL}#{public_product_performance_demo_path}" }
@@ -196,5 +197,35 @@ describe "Public product RSC demo routes", type: :system, js: true do
       expect(page).to have_link("Discover RSC", aria: { current: "page" })
       expect(page).to have_link("Discover Inertia", href: public_product_discover_inertia_demo_path)
     end
+  end
+
+  it "renders the same-host seller profile used by the branch Discover review flow" do
+    original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+    ENV["BRANCH_DEPLOYMENT"] = "true"
+    seller = create(:named_user, username: "drenderroom", name: "Render Room")
+    allow(GumroadDomainConstraint).to receive(:control_plane_branch_host?).and_return(true)
+
+    visit "/#{seller.username}?recommended_by=search"
+
+    expect(page).to have_current_path("/#{seller.username}", ignore_query: true)
+    expect(page).to have_link("Render Room")
+  ensure
+    original_branch_deployment.nil? ? ENV.delete("BRANCH_DEPLOYMENT") : ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+  end
+
+  it "keeps the profile page-name editor limited to plain-text extensions" do
+    script = <<~JAVASCRIPT
+      import StarterKit from "@tiptap/starter-kit";
+      import options from "./app/javascript/components/TiptapExtensions/plain_text_starter_kit_options.js";
+
+      const extension = StarterKit.configure(options);
+      const children = extension.config.addExtensions.call({ options: extension.options });
+      process.stdout.write(JSON.stringify(children.map(({ name }) => name)));
+    JAVASCRIPT
+
+    stdout, stderr, status = Open3.capture3("node", "--input-type=module", "-e", script, chdir: Rails.root.to_s)
+
+    expect(status).to be_success, stderr
+    expect(JSON.parse(stdout)).to eq(%w[doc paragraph text])
   end
 end
