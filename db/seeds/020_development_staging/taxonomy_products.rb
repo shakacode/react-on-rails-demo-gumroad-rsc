@@ -143,4 +143,10 @@ PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS.each_with_index do |card, 
   end
 end
 
-Link.import(force: true)
+product_index = Link.__elasticsearch__
+begin
+  product_index.create_index!
+rescue Elasticsearch::Transport::Transport::Errors::BadRequest => error
+  raise unless error.message.include?("resource_already_exists_exception") && product_index.index_exists?
+end
+Link.import
