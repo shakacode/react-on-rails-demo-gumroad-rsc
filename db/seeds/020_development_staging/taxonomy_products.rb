@@ -143,4 +143,4 @@ PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS.each_with_index do |card, 
   end
 end
 
-DevTools.delete_all_indices_and_reindex_all
+Link.import(force: true)

@@ -9,6 +9,7 @@ RSpec.describe "development/staging Discover product seeds" do
 
   before do
     allow(DevTools).to receive(:delete_all_indices_and_reindex_all)
+    allow(Link).to receive(:import)
     load(Rails.root.join("db/seeds/010_development_staging_test/taxonomy_create.rb"), true)
   end
 
@@ -45,5 +46,7 @@ RSpec.describe "development/staging Discover product seeds" do
 
     expect(partial_purchase.reload).to have_attributes(purchase_state: "successful", succeeded_at: be_present)
     expect(partial_purchase.product_review).to have_attributes(rating: 5)
+    expect(DevTools).not_to have_received(:delete_all_indices_and_reindex_all)
+    expect(Link).to have_received(:import).with(force: true).exactly(3).times
   end
 end
