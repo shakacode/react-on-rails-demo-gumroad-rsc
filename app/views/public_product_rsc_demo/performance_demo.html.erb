@@ -717,9 +717,12 @@
           <article class="dd-row">
             <p class="dd-copy">
               <strong>Release boundary:</strong>
-              this deployment is pinned to Pro <code>17.0.0.rc.7</code>. Public <code>rc.8</code> exists, but its deferred
-              RSC error handling and Rspack-resolution fixes do not exercise this simple Webpack initial-route benchmark.
-              Upgrade, redeploy, and rerun after Pro <code>17.0.0</code> final before posting a Gumroad issue.
+              this candidate is pinned to Pro gem
+              <code><%= stack_versions[:react_on_rails_pro_gem] || "unknown" %></code>, Pro npm
+              <code><%= stack_versions[:react_on_rails_pro_npm] || "unknown" %></code>, and
+              <code>react-on-rails-rsc</code> <code><%= stack_versions[:react_on_rails_rsc] || "unknown" %></code>.
+              Validate the deployed artifact and rerun after Pro
+              <code>17.0.0</code> final before posting a Gumroad issue.
             </p>
           </article>
           <article class="dd-row">

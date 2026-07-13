@@ -67,7 +67,7 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 
 ### July 2026 React on Rails Pro 17 / React 19.2 audit
 
-The demo is on the React on Rails Pro 17 RC line with React 19.2.7 and `react-on-rails-rsc` 19.2.1-rc.0, matching the current Pro RSC generator guidance during the RC soak. The public RSC routes now opt into Pro stream observability so `Server-Timing` can include streamed shell and Node renderer prepare attribution when the renderer returns it.
+The demo is on the React on Rails Pro 17 RC line with React 19.2.7, React on Rails Pro gem `17.0.0.rc.9`, React on Rails Pro npm `17.0.0-rc.9`, and `react-on-rails-rsc` `19.2.1-rc.1`. The public RSC routes now opt into Pro stream observability so `Server-Timing` can include streamed shell and Node renderer prepare attribution when the renderer returns it.
 
 React on Rails Pro 17 also adds buffered/static RSC helpers and static RSC cache diagnostics that are attractive for public marketplace shells. This repo keeps the headline `/public_product/*_demo` route pairs matched and uncached so the A/B result remains an architecture comparison; a cached static RSC route should be measured and labeled as a separate variant.
 

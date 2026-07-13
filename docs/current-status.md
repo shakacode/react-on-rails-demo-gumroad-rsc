@@ -58,7 +58,7 @@ The exact 390 x 844 and 1440 x 1100 captures are stored beside the benchmark. Th
 - Available but unused: Suspense boundaries, async server-component data fetching, cached stream helpers, React request-cache APIs, partial pre-rendering/resume, and client islands.
 - Inappropriate for the headline pair: adding static RSC caching or synthetic Suspense work would create a different experiment and must be a separately named variant.
 
-The deployment remains pinned to React on Rails Pro `17.0.0.rc.7`. Public `rc.8` exists, but its deferred RSC error handling and Rspack resolution fixes do not exercise this simple Webpack initial-route case. Upgrade, redeploy, and rerun after `17.0.0` final.
+The RC validation candidate is pinned to React on Rails Pro gem `17.0.0.rc.9`, React on Rails Pro npm `17.0.0-rc.9`, and `react-on-rails-rsc` `19.2.1-rc.1`. Validate that stack in the deployed artifact, then upgrade, redeploy, and rerun after Pro `17.0.0` final.
 
 ## Remaining gates before a Gumroad issue
 
