@@ -69,6 +69,35 @@ received a transient `503` while the deployment woke, so warm the host and recor
 any failure before benchmarking; do not reinterpret a failed gate as proof that
 the fixture has disappeared.
 
+### Native Discover branch review surface
+
+Control Plane branch apps also expose the application's native Inertia
+`/discover` and card-specific `Products/Discover/Show` pages as a review surface.
+Those pages are not another benchmark arm. A persistent branch-only notice labels
+them as native Inertia backed by staging data and committed synthetic media, with
+links back to the A/B evidence and the bounded RSC Discover candidate. Product and
+seller navigation stays on the branch host so reviewers do not silently leave the
+seeded environment; canonical production and non-branch staging redirects remain
+unchanged.
+
+The native seed is aligned to the versioned benchmark fixture without changing
+the four measured `/public_product/*` routes or their output:
+
+- 36 card-specific products with the benchmark names, sellers, prices,
+  descriptions, and taxonomy distribution
+- 10 deterministic synthetic reviews per product (360 total), producing the
+  benchmark's 4.2–4.8 rating range from real seeded review rows
+- 8 committed synthetic SVG covers reused in a deterministic round-robin, 7,572
+  raw bytes total, with no creator-owned media or external image dependency
+
+This makes the native page useful for identity, navigation, content-shape, and
+review-app smoke testing. It does not make it resource-equivalent to live
+Gumroad. Remaining production gaps include responsive image variants and formats,
+CDN/cache headers, production fonts and global chrome, buyer-local currency,
+live inventory and recommendation services, and third-party scripts. Live
+Gumroad PageSpeed remains diagnostic only; the controlled claim continues to be
+the same-host, same-fixture ShakaPerf A/B.
+
 ## Why this page matters
 
 Dashboard routes are useful technical proofs, but they are not the strongest product proof.

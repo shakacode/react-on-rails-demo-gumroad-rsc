@@ -1,97 +1,146 @@
 # frozen_string_literal: true
 
-def find_or_create_recommendable_user(category_name)
-  user = User.find_by(email: "gumbo_#{category_name}@gumroad.com")
-  return user if user
+DISCOVER_DEMO_MEDIA_BASE_PATH = "/public-product-rsc-demo/media"
+DISCOVER_DEMO_BUYER_COUNT = 10
+LEGACY_DISCOVER_DEMO_SELLER_EMAILS = %w[
+  film music writing education software comics drawing animation audio games
+  photography crafts design sports merchandise
+].map { "gumbo_#{_1}@gumroad.com" }.freeze
 
-  user = User.create!(
-    name: "Gumbo #{category_name}",
-    username: "gumbo#{category_name}",
-    email: "gumbo_#{category_name}@gumroad.com",
-    password: SecureRandom.hex(24),
+def find_or_create_discover_demo_user(name:, username:, email:)
+  user = User.find_or_initialize_by(email:)
+  user.assign_attributes(
+    name:,
+    username:,
     user_risk_state: "compliant",
-    confirmed_at: Time.current,
-    payment_address: "gumbo_#{category_name}@gumroad.com"
+    confirmed_at: user.confirmed_at || Time.current,
+    payment_address: email,
   )
-
-  # Skip validations to set a pwned but easy password
-  user.password = "password"
-  user.save!(validate: false)
-
+  user.password = SecureRandom.hex(24) if user.new_record?
+  user.save!
   user
 end
 
-def find_or_create_universal_free_offer_code_for(seller)
-  offer_code = seller.offer_codes
-    .universal
-    .alive
-    .find_by(amount_percentage: 100)
-  return offer_code if offer_code.present?
+def find_or_create_discover_demo_offer_code(seller)
+  seller.offer_codes.universal.alive.find_by(amount_percentage: 100) ||
+    OfferCode.create!(
+      user: seller,
+      universal: true,
+      amount_percentage: 100,
+      code: "discover-demo-#{seller.id}",
+    )
+end
 
-  OfferCode.create!(
+def ensure_discover_demo_review(product:, seller:, buyer:, rating:)
+  purchase = Purchase.find_or_initialize_by(link_id: product.id, purchaser_id: buyer.id)
+  unless purchase.persisted?
+    purchase.assign_attributes(
+      seller_id: seller.id,
+      price_cents: 0,
+      displayed_price_cents: 0,
+      tax_cents: 0,
+      gumroad_tax_cents: 0,
+      total_transaction_cents: 0,
+      email: buyer.email,
+      card_country: "US",
+      ip_address: "199.241.200.176",
+      offer_code: find_or_create_discover_demo_offer_code(seller),
+    )
+    purchase.send(:calculate_fees)
+    purchase.save!
+  end
+  unless purchase.purchase_state == "successful" && purchase.succeeded_at.present?
+    purchase.update!(purchase_state: "successful", succeeded_at: purchase.succeeded_at || Time.current)
+  end
+
+  review = purchase.product_review
+  review.present? ? review.update!(rating:) : purchase.post_review(rating:)
+end
+
+def discover_demo_native_type(card)
+  type = card.fetch(:native_type)
+  return Link::NATIVE_TYPE_COURSE if type.include?("course") || type.include?("video")
+  return Link::NATIVE_TYPE_EBOOK if type.include?("ebook") || type.include?("guide")
+  return Link::NATIVE_TYPE_AUDIOBOOK if type.include?("audio")
+
+  Link::NATIVE_TYPE_DIGITAL
+end
+
+def discover_demo_permalink(card, index)
+  letters = +""
+  number = index
+  loop do
+    letters.prepend(("a".ord + (number % 26)).chr)
+    number = (number / 26) - 1
+    break if number.negative?
+  end
+  name = card.fetch(:name).parameterize(separator: "_").gsub(/[^a-z_]/, "")
+  "discover_#{letters}_#{name}"
+end
+
+legacy_sellers = User.where(email: LEGACY_DISCOVER_DEMO_SELLER_EMAILS)
+legacy_sellers.find_each do |seller|
+  seller.links.where("name LIKE ?", "Beautiful % widget").find_each do |product|
+    product.update!(deleted_at: product.deleted_at || Time.current)
+  end
+end
+
+buyers = DISCOVER_DEMO_BUYER_COUNT.times.map do |index|
+  find_or_create_discover_demo_user(
+    name: "Discover Demo Buyer #{index + 1}",
+    username: "discoverbuyer#{index + 1}",
+    email: "discover-demo-buyer-#{index + 1}@gumroad.com",
+  )
+end
+
+PublicProductRscDemoPresenter::DISCOVER_PRODUCT_CARDS.each_with_index do |card, index|
+  seller_name = card.fetch(:seller_name)
+  seller_slug = seller_name.parameterize
+  seller = find_or_create_discover_demo_user(
+    name: seller_name,
+    username: "d#{seller_slug.delete("-").first(19)}",
+    email: "discover-#{seller_slug}@gumroad.com",
+  )
+
+  product = Link.find_or_initialize_by(unique_permalink: discover_demo_permalink(card, index))
+  product.assign_attributes(
     user: seller,
-    universal: true,
-    amount_percentage: 100,
-    code: "seed-#{seller.id}-#{SecureRandom.hex(3)}"
-  )
-end
-
-def create_purchase(seller, buyer, product)
-  purchase = Purchase.new(
-    link_id: product.id,
-    seller_id: seller.id,
-    price_cents: 0,
-    displayed_price_cents: 0,
-    tax_cents: 0,
-    gumroad_tax_cents: 0,
-    total_transaction_cents: 0,
-    purchaser_id: buyer.id,
-    email: buyer.email,
-    card_country: "US",
-    ip_address: "199.241.200.176",
-    offer_code: find_or_create_universal_free_offer_code_for(seller)
-  )
-  purchase.send(:calculate_fees)
-  purchase.save!
-  purchase.update!(purchase_state: "successful", succeeded_at: Time.current)
-
-  purchase.post_review(rating: 3)
-end
-
-def create_recommendable_product_if_not_exists(user, taxonomy_slug)
-  product_name = "Beautiful #{taxonomy_slug} widget"
-  product = user.links.find_by(name: product_name)
-
-  return if product.present?
-
-  product = user.links.create!(
-    name: product_name,
-    description: "Description for demo product",
+    name: card.fetch(:name),
+    description: card.fetch(:summary),
     filetype: "link",
-    price_cents: 500,
-    taxonomy: Taxonomy.find_by(slug: taxonomy_slug),
-    display_product_reviews: true
+    native_type: discover_demo_native_type(card),
+    price_cents: card.fetch(:price_cents),
+    taxonomy: Taxonomy.find_by!(slug: card.fetch(:taxonomy)),
+    display_product_reviews: true,
+    draft: false,
+    purchase_disabled_at: nil,
+    deleted_at: nil,
   )
-  product.tag!(taxonomy_slug[0..19])
+  product.save!
+  product.save_tags!([
+    card.fetch(:format_label).downcase.first(20),
+    card.fetch(:audience_label).downcase.first(20),
+  ])
 
-  buyer = User.find_by(email: "seller@gumroad.com")
-  create_purchase(user, buyer, product)
+  media_file = PublicProductRscDemoPresenter::DISCOVER_MEDIA_FILES.fetch(
+    index % PublicProductRscDemoPresenter::DISCOVER_MEDIA_FILES.length
+  )
+  thumbnail = Thumbnail.find_or_initialize_by(product:)
+  thumbnail.assign_attributes(
+    unsplash_url: "#{DISCOVER_DEMO_MEDIA_BASE_PATH}/#{media_file}",
+    deleted_at: nil,
+  )
+  thumbnail.save!
+
+  five_star_review_count = ((4.2 + ((index % 7) * 0.1) - 4) * DISCOVER_DEMO_BUYER_COUNT).round
+  buyers.each_with_index do |buyer, buyer_index|
+    ensure_discover_demo_review(
+      product:,
+      seller:,
+      buyer:,
+      rating: buyer_index < five_star_review_count ? 5 : 4,
+    )
+  end
 end
-
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("film"), "films")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("music"), "music-and-sound-design")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("writing"), "writing-and-publishing")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("education"), "education")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("software"), "software-development")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("comics"), "comics-and-graphic-novels")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("drawing"), "drawing-and-painting")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("animation"), "3d")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("audio"), "audio")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("games"), "gaming")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("photography"), "photography")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("crafts"), "self-improvement")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("design"), "design")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("sports"), "fitness-and-health")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("merchandise"), "fiction-books")
 
 DevTools.delete_all_indices_and_reindex_all

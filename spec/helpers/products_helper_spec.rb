@@ -147,6 +147,39 @@ describe ProductsHelper do
       include_examples "long url"
     end
 
+    context "when on a Control Plane branch deployment" do
+      let(:product) { create(:product, custom_permalink: "shared-card") }
+
+      around do |example|
+        original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+        ENV["BRANCH_DEPLOYMENT"] = "true"
+        example.run
+      ensure
+        original_branch_deployment.nil? ? ENV.delete("BRANCH_DEPLOYMENT") : ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+      end
+
+      before do
+        @request.host = "rails-d98bp9qhcc8be.cpln.app"
+        create(:product, user: create(:user), custom_permalink: product.custom_permalink, created_at: 1.day.ago)
+      end
+
+      it "uses the globally unique permalink and preserves attribution parameters" do
+        expect(
+          helper.url_for_product_page(
+            product,
+            request: @request,
+            recommended_by: "search",
+            layout: "discover",
+            query: "creator tools",
+            offer_code: "DEMO25"
+          )
+        ).to eq(
+          "http://rails-d98bp9qhcc8be.cpln.app/l/#{product.unique_permalink}" \
+          "?code=DEMO25&layout=discover&query=creator+tools&recommended_by=search"
+        )
+      end
+    end
+
     context "when on the user's subdomain" do
       before do
         @request.host = product.user.subdomain

@@ -55,14 +55,15 @@ module ProductsHelper
   def url_for_product_page(product, request:, recommended_by: nil, recommender_model_name: nil, layout: nil, affiliate_id: nil, query: nil, offer_code: nil)
     options = {}
     options[:code] = offer_code if offer_code.present?
-    if request.present? && user_by_domain(request.host) == product.user
+    branch_request = request.present? && GumroadDomainConstraint.control_plane_branch_host?(request.host)
+    if request.present? && (branch_request || user_by_domain(request.host) == product.user)
       options.merge!(host: request.host_with_port, protocol: request.protocol)
       options[:recommended_by] = recommended_by if recommended_by.present?
       options[:recommender_model_name] = recommender_model_name if recommender_model_name.present?
       options[:layout] = layout if layout.present?
       options[:affiliate_id] = affiliate_id if affiliate_id.present?
       options[:query] = query if query.present?
-      short_link_url(product.general_permalink, options)
+      short_link_url(branch_request ? product.unique_permalink : product.general_permalink, options)
     else
       options.merge!(recommended_by:, recommender_model_name:, layout:, affiliate_id:)
       product.long_url(**options)

@@ -47,6 +47,44 @@ describe ProductPresenter::Card do
         expect(data[:url]).to include("code=BLACKFRIDAY2025")
       end
 
+      it "keeps seller navigation on a Control Plane branch deployment" do
+        original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+        ENV["BRANCH_DEPLOYMENT"] = "true"
+        branch_request = instance_double(
+          ActionDispatch::Request,
+          host: "rails-d98bp9qhcc8be.cpln.app",
+          host_with_port: "rails-d98bp9qhcc8be.cpln.app",
+          protocol: "https://"
+        )
+
+        data = described_class.new(product:).for_web(request: branch_request, recommended_by: "discover")
+
+        expect(data.dig(:seller, :profile_url)).to eq(
+          "https://rails-d98bp9qhcc8be.cpln.app/testy?recommended_by=discover"
+        )
+      ensure
+        original_branch_deployment.nil? ? ENV.delete("BRANCH_DEPLOYMENT") : ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+      end
+
+      it "does not build a branch seller URL when the seller has no username" do
+        original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+        ENV["BRANCH_DEPLOYMENT"] = "true"
+        allow(creator).to receive(:username).and_return(nil)
+        branch_request = instance_double(
+          ActionDispatch::Request,
+          host: "rails-d98bp9qhcc8be.cpln.app",
+          host_with_port: "rails-d98bp9qhcc8be.cpln.app",
+          protocol: "https://"
+        )
+        presenter = described_class.new(product:)
+        expect(presenter).not_to receive(:user_url)
+
+        data = presenter.for_web(request: branch_request, recommended_by: "discover")
+
+        expect(data[:seller]).to be_nil
+      ensure
+        original_branch_deployment.nil? ? ENV.delete("BRANCH_DEPLOYMENT") : ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+      end
 
       it "does not return the URL of a deleted thumbnail" do
         create(:thumbnail, product:)
