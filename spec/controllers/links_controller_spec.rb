@@ -3514,6 +3514,38 @@ describe LinksController, :vcr, inertia: true do
           @request.host = DOMAIN
         end
 
+        context "when requested on a Control Plane branch deployment" do
+          around do |example|
+            original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+            ENV["BRANCH_DEPLOYMENT"] = "true"
+            example.run
+          ensure
+            original_branch_deployment.nil? ? ENV.delete("BRANCH_DEPLOYMENT") : ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+          end
+
+          it "renders the card-specific native Discover detail without redirecting" do
+            create(:product, custom_permalink: "launch_metrics_os", name: "Wrong seller product", created_at: 1.day.ago)
+            product = create(:product, user: @user, unique_permalink: "launch_metrics_os", name: "Launch Metrics OS")
+            @request.host = "rails-d98bp9qhcc8be.cpln.app"
+            request.headers["X-Inertia"] = "true"
+
+            get :show, params: {
+              id: product.unique_permalink,
+              layout: "discover",
+              recommended_by: "search",
+              query: "creator tools",
+              offer_code: "DEMO25"
+            }
+
+            expect(response).to be_successful
+            expect(inertia.component).to eq("Products/Discover/Show")
+            expect(response.parsed_body.dig("props", "product", "name")).to eq("Launch Metrics OS")
+            expect(response.parsed_body.dig("props", "product", "seller", "profile_url")).to eq(
+              "http://rails-d98bp9qhcc8be.cpln.app/#{@user.username}?recommended_by=search"
+            )
+          end
+        end
+
         context "when requested with unique permalink" do
           context "when custom permalink is not present" do
             it "redirects to the subdomain product URL with original query params" do

@@ -28,7 +28,7 @@ class ProductPresenter::Card
       id: product.external_id,
       permalink: product.unique_permalink,
       name: product.name,
-      seller: show_seller ? UserPresenter.new(user: product.user).author_byline_props(recommended_by:) : nil,
+      seller: show_seller ? UserPresenter.new(user: product.user).author_byline_props(custom_domain_url: branch_seller_profile_url(request), recommended_by:) : nil,
       ratings: product.display_product_reviews? ? {
         count: product.reviews_count,
         average: product.average_rating,
@@ -71,6 +71,13 @@ class ProductPresenter::Card
   end
 
   private
+    def branch_seller_profile_url(request)
+      return if product.user.username.blank?
+      return unless request.present? && GumroadDomainConstraint.control_plane_branch_host?(request.host)
+
+      user_url(product.user.username, host: request.host_with_port, protocol: request.protocol)
+    end
+
     def compute_discounted_price_cents(base_price_cents)
       offer_code = product.default_offer_code
       return base_price_cents unless offer_code.present?

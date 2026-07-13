@@ -119,6 +119,26 @@ describe UsersController do
         end
       end
 
+      context "when the request is from a Control Plane branch deployment" do
+        around do |example|
+          original_branch_deployment = ENV["BRANCH_DEPLOYMENT"]
+          ENV["BRANCH_DEPLOYMENT"] = "true"
+          example.run
+        ensure
+          original_branch_deployment.nil? ? ENV.delete("BRANCH_DEPLOYMENT") : ENV["BRANCH_DEPLOYMENT"] = original_branch_deployment
+        end
+
+        it "renders the seller profile on the branch host" do
+          @request.host = "rails-d98bp9qhcc8be.cpln.app"
+          request.headers["X-Inertia"] = "true"
+
+          get :show, params: { username: @user.username, recommended_by: "discover" }
+
+          expect(response).to be_successful
+          expect(response.parsed_body["component"]).to eq("Users/Show")
+        end
+      end
+
       context "when the request is for the profile page on the custom domain" do
         before do
           create(:custom_domain, domain: "example.com", user: @user)

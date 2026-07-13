@@ -122,6 +122,7 @@ export const Layout: React.FC<{
   forceDomain = false,
 }) => {
   const { discoverDomain, appDomain } = useDomains();
+  const isBranchDeployment = /^rails-[a-z0-9]+\.cpln\.app$/u.test(appDomain);
   const isDesktop = useIsAboveBreakpoint("lg");
   const currentSeller = useCurrentSeller();
 
@@ -186,6 +187,21 @@ export const Layout: React.FC<{
 
   return (
     <div className={className}>
+      {isBranchDeployment ? (
+        <aside
+          aria-label="Branch demo identity"
+          className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 border-b border-black bg-yellow px-4 py-3 text-center text-sm text-black"
+        >
+          <strong>Branch demo · Native Inertia Discover</strong>
+          <span>Staging data and committed synthetic media; not live Gumroad inventory or production delivery.</span>
+          <a href={Routes.rsc_executive_summary_path()} className="font-bold underline">
+            Read the A/B evidence
+          </a>
+          <a href={Routes.public_product_discover_rsc_demo_path()} className="font-bold underline">
+            Open the bounded RSC candidate
+          </a>
+        </aside>
+      ) : null}
       <header
         className="hero relative z-20 border-t-0 border-b border-border bg-body px-4 py-8 lg:ps-16 lg:pe-16"
         style={showTaxonomy && rootTaxonomy ? getRootTaxonomyCss(rootTaxonomy) : undefined}
