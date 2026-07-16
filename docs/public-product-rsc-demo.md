@@ -134,7 +134,7 @@ benchmark workload change is explicit.
 
 ## React on Rails Pro 17 / React 19.2 Notes
 
-This demo is pinned to React 19.2.7, React DOM 19.2.7, React on Rails Pro gem `17.0.0.rc.9`, React on Rails Pro npm `17.0.0-rc.9`, and `react-on-rails-rsc` `19.2.1-rc.1`. The final Pro `17.0.0` release does not yet exist.
+This demo is pinned to React 19.2.7, React DOM 19.2.7, React on Rails Pro gem `17.0.0.rc.12`, React on Rails Pro npm `17.0.0-rc.12`, and `react-on-rails-rsc` `19.2.1`. The final Pro `17.0.0` release does not yet exist.
 
 The public RSC routes opt into `rsc_stream_observability`, so the lab and external benchmark harnesses can inspect Pro stream attribution in `Server-Timing`, including streamed shell and Node renderer prepare timing when available. This replaces the older caveat that streamed RSC had no browser-visible renderer timing.
 
