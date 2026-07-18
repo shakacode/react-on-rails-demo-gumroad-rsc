@@ -70,7 +70,10 @@ jobs:
     permissions:
       contents: read
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
       - name: Install Control Plane CLI
         run: npm install -g @controlplane/cli@3.10.2
       - name: Prepare app database secrets
@@ -85,7 +88,7 @@ jobs:
       - validate-review-app-source
       - prepare-control-plane-db-secrets
     if: needs.validate-review-app-source.outputs.deployable == 'true'
-    uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-review-app.yml@v5.1.1
+    uses: shakacode/control-plane-flow/.github/workflows/cpflow-deploy-review-app.yml@v5.2.0
     secrets:
       CPLN_TOKEN_STAGING: ${{ secrets.CPLN_TOKEN_STAGING }}
       DOCKER_BUILD_SSH_KEY: ${{ secrets.DOCKER_BUILD_SSH_KEY }}

@@ -198,12 +198,24 @@ keep the normal internal-admin/2FA behavior documented in `docs/users.md`.
 
 ## Review app smoke test
 
-After `CPLN_TOKEN_STAGING` is configured, create or update a review app by
-commenting on a PR:
+The automatic pull-request workflow first validates whether the source is
+eligible for a review app. For a PR without an existing app, that initial run
+can intentionally finish as a no-op. A green validation/no-op proves only that
+the source and configuration gates passed; it does not prove that an image was
+built or an app was created.
+
+After the review-app configuration is in place, an authorized repository
+maintainer creates the first app by commenting on a trusted same-repository PR:
 
 ```text
 +review-app-deploy
 ```
+
+The requested deployment is complete only when the workflow evidence shows
+that it resolved the current PR head commit, built the image from that exact
+head, deployed that image, and passed the workload health check. If the PR head
+changes during the run, deploy again and require the same evidence for the new
+head; do not treat an earlier successful run as proof for later commits.
 
 The review app name follows:
 
@@ -211,7 +223,8 @@ The review app name follows:
 react-on-rails-demo-gumroad-rsc-review-pr-<PR number>
 ```
 
-Smoke these paths after the workflow comments with the review URL:
+After the exact-head deployment reports healthy, smoke these paths using the
+workflow-provided review URL without copying that URL into durable reports:
 
 ```sh
 curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/
@@ -221,7 +234,14 @@ curl -L -s -o /dev/null -w '%{http_code}\n' <review-url>/dashboard/rsc_demo
 
 The dashboard routes require a signed-in seller in a browser for full visual QA.
 Use `seller@gumroad.com / password` on review and staging; that public demo seed
-has no internal-admin access.
+has no internal-admin access. Confirm that sign-in persists, the Inertia and RSC
+comparison pages both render, and the expected navigation works; HTTP status
+checks alone are not behavioral proof.
+
+When validation is complete, close the PR or have an authorized maintainer post
+`+review-app-delete`. Confirm the cleanup workflow completed for the same PR and
+that the review app no longer exists; a successful deploy is not complete fleet
+evidence without its cleanup result.
 
 ## Validation
 
@@ -235,13 +255,13 @@ docker build -f .controlplane/Dockerfile -t gumroad-rsc-cpflow-smoke .
 The wrappers currently point at:
 
 ```yaml
-uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@v5.1.1
+uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@v5.2.0
 ```
 
 To update only the pinned reusable-workflow ref:
 
 ```sh
-bin/pin-cpflow-github-ref v5.1.1
+bin/pin-cpflow-github-ref v5.2.0
 ```
 
 If the renderer workload is changed, confirm it still exposes port `3800` as

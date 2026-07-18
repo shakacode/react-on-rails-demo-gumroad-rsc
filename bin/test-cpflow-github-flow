@@ -41,12 +41,88 @@ RUBY
 echo "==> check cpflow reusable workflow refs"
 ruby <<'RUBY'
 require "yaml"
+require "rubygems/version"
 
 CONTROL_PLANE_FLOW_WORKFLOW = %r{\Ashakacode/control-plane-flow/\.github/workflows/[^@\s]+@([^\s]+)\z}
 PROMOTE_WORKFLOW = %r{\Ashakacode/control-plane-flow/\.github/workflows/cpflow-promote-staging-to-production\.yml@([^\s]+)\z}
 EXPECTED_PROMOTE_WORKFLOW_REF_FORMAT = "shakacode/control-plane-flow/.github/workflows/cpflow-promote-staging-to-production.yml@vX.Y.Z"
-EXPECTED_CPFLOW_CHECKOUT_ACTION = "actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd"
+EXPECTED_CPFLOW_CHECKOUT_ACTION = "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
 EXPECTED_CPFLOW_CHECKOUT_REPOSITORY = "shakacode/control-plane-flow"
+EXPECTED_TRUSTED_DEFAULT_BRANCH_REF = "${{ github.event.repository.default_branch }}"
+TRUSTED_PREPARE_HELPER = "bin/prepare-control-plane-db-secrets"
+MINIMUM_HEALTH_AWARE_RELEASE = Gem::Version.new("5.2.0")
+STABLE_RELEASE_TAG = /\Av(?<version>\d+\.\d+\.\d+)\z/
+FULL_COMMIT_SHA = /\A[0-9a-f]{40}\z/i
+CPFLOW_REF_CLASSIFIER_CASES = {
+  "0123456789abcdef0123456789abcdef01234567" => :full_commit_sha,
+  "0123456789abcdef0123456789abcdef0123456" => :unsupported,
+  "0123456789abcdef0123456789abcdef012345678" => :unsupported,
+  "g123456789abcdef0123456789abcdef01234567" => :unsupported,
+  "v5.2.0" => :stable_release,
+  "main" => :unsupported,
+  "v5.1.9" => :unsupported,
+  "v5.2.0-rc.1" => :unsupported
+}.freeze
+
+def classify_cpflow_ref(ref)
+  return :full_commit_sha if ref.match?(FULL_COMMIT_SHA)
+
+  release_match = ref.match(STABLE_RELEASE_TAG)
+  return :stable_release if release_match && Gem::Version.new(release_match[:version]) >= MINIMUM_HEALTH_AWARE_RELEASE
+
+  :unsupported
+end
+
+CPFLOW_REF_CLASSIFIER_CASES.each do |ref, expected|
+  actual = classify_cpflow_ref(ref)
+  abort "cpflow ref classifier expected #{ref.inspect} to be #{expected}, got #{actual}" unless actual == expected
+end
+
+puts "cpflow ref classifier boundary cases passed"
+
+class WorkflowInvariantError < StandardError; end
+
+def validate_trusted_prepare_checkout!(path, job)
+  steps = Array(job["steps"])
+  checkout_indexes = steps.each_index.select do |index|
+    steps[index]["uses"].to_s.start_with?("actions/checkout@")
+  end
+
+  unless checkout_indexes.one?
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets must contain exactly one trusted checkout"
+  end
+
+  checkout_index = checkout_indexes.first
+  helper_index = steps.index { |step| step["run"].to_s.include?(TRUSTED_PREPARE_HELPER) }
+
+  unless helper_index
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets helper invocation is missing"
+  end
+
+  unless checkout_index < helper_index
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets trusted checkout must precede the helper invocation"
+  end
+
+  checkout = steps.fetch(checkout_index)
+  unless checkout["uses"] == EXPECTED_CPFLOW_CHECKOUT_ACTION
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets must use #{EXPECTED_CPFLOW_CHECKOUT_ACTION}"
+  end
+
+  checkout_with = checkout.fetch("with", {})
+  unless checkout_with["ref"] == EXPECTED_TRUSTED_DEFAULT_BRANCH_REF
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets must check out the repository default branch"
+  end
+
+  return if checkout_with["persist-credentials"] == false
+
+  raise WorkflowInvariantError,
+        "#{path}:prepare-control-plane-db-secrets must disable persisted checkout credentials"
+end
 
 refs = Hash.new { |hash, key| hash[key] = [] }
 
@@ -137,6 +213,53 @@ end
 
 refs[setup_match[1]] << "#{promote_path}:promote-to-production setup"
 
+review_deploy_path = ".github/workflows/cpflow-deploy-review-app.yml"
+review_deploy_doc = YAML.load_file(review_deploy_path, aliases: true)
+prepare_job = review_deploy_doc.fetch("jobs", {}).fetch("prepare-control-plane-db-secrets") do
+  abort "#{review_deploy_path}:prepare-control-plane-db-secrets job is missing"
+end
+
+begin
+  validate_trusted_prepare_checkout!(review_deploy_path, prepare_job)
+rescue WorkflowInvariantError => e
+  abort e.message
+end
+
+mutated_prepare_job = Marshal.load(Marshal.dump(prepare_job))
+mutated_steps = Array(mutated_prepare_job["steps"])
+helper_index = mutated_steps.index { |step| step["run"].to_s.include?(TRUSTED_PREPARE_HELPER) }
+abort "#{review_deploy_path}:prepare-control-plane-db-secrets helper invocation is missing" unless helper_index
+
+trusted_checkout = mutated_steps.find { |step| step["uses"].to_s.start_with?("actions/checkout@") }
+mutated_steps.insert(helper_index, Marshal.load(Marshal.dump(trusted_checkout)))
+
+begin
+  validate_trusted_prepare_checkout!(review_deploy_path, mutated_prepare_job)
+rescue WorkflowInvariantError => e
+  abort "later checkout mutation failed for the wrong reason: #{e.message}" unless e.message.include?("exactly one")
+
+  puts "later workspace-overwriting checkout mutation rejected"
+else
+  abort "trusted checkout guard accepted a later workspace-overwriting checkout"
+end
+
+reordered_prepare_job = Marshal.load(Marshal.dump(prepare_job))
+reordered_steps = Array(reordered_prepare_job["steps"])
+checkout_index = reordered_steps.index { |step| step["uses"].to_s.start_with?("actions/checkout@") }
+reordered_steps << reordered_steps.delete_at(checkout_index)
+
+begin
+  validate_trusted_prepare_checkout!(review_deploy_path, reordered_prepare_job)
+rescue WorkflowInvariantError => e
+  unless e.message.include?("must precede the helper invocation")
+    abort "checkout ordering mutation failed for the wrong reason: #{e.message}"
+  end
+
+  puts "checkout-after-helper mutation rejected"
+else
+  abort "trusted checkout guard accepted checkout after the helper invocation"
+end
+
 if refs.empty?
   puts "no upstream cpflow reusable workflow refs found"
 elsif refs.length > 1
@@ -145,7 +268,17 @@ elsif refs.length > 1
   end
   abort "cpflow workflow wrappers use multiple upstream refs: #{refs.keys.sort.join(', ')}"
 else
-  puts "cpflow refs: #{refs.keys.sort.join(', ')}"
+  ref = refs.keys.first
+
+  case classify_cpflow_ref(ref)
+  when :full_commit_sha
+    puts "cpflow refs: #{ref} (full commit SHA)"
+  when :stable_release
+    puts "cpflow refs: #{ref} (health-aware)"
+  else
+    abort "cpflow workflow wrappers must use stable health-aware release v#{MINIMUM_HEALTH_AWARE_RELEASE} or newer; " \
+          "or a full commit SHA for temporary upstream testing; found #{ref}"
+  end
 end
 RUBY
 
