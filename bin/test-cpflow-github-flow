@@ -52,6 +52,7 @@ EXPECTED_TRUSTED_DEFAULT_BRANCH_REF = "${{ github.event.repository.default_branc
 TRUSTED_PREPARE_HELPER = "bin/prepare-control-plane-db-secrets"
 MINIMUM_HEALTH_AWARE_RELEASE = Gem::Version.new("5.2.0")
 STABLE_RELEASE_TAG = /\Av(?<version>\d+\.\d+\.\d+)\z/
+FULL_COMMIT_SHA = /\A[0-9a-f]{40}\z/i
 
 class WorkflowInvariantError < StandardError; end
 
@@ -244,12 +245,14 @@ else
   ref = refs.keys.first
   release_match = ref.match(STABLE_RELEASE_TAG)
 
-  unless release_match && Gem::Version.new(release_match[:version]) >= MINIMUM_HEALTH_AWARE_RELEASE
+  if ref.match?(FULL_COMMIT_SHA)
+    puts "cpflow refs: #{ref} (full commit SHA)"
+  elsif release_match && Gem::Version.new(release_match[:version]) >= MINIMUM_HEALTH_AWARE_RELEASE
+    puts "cpflow refs: #{ref} (health-aware)"
+  else
     abort "cpflow workflow wrappers must use stable health-aware release v#{MINIMUM_HEALTH_AWARE_RELEASE} or newer; " \
-          "found #{ref}"
+          "or a full commit SHA for temporary upstream testing; found #{ref}"
   end
-
-  puts "cpflow refs: #{ref} (health-aware)"
 end
 RUBY
 
