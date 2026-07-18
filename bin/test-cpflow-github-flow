@@ -53,6 +53,32 @@ TRUSTED_PREPARE_HELPER = "bin/prepare-control-plane-db-secrets"
 MINIMUM_HEALTH_AWARE_RELEASE = Gem::Version.new("5.2.0")
 STABLE_RELEASE_TAG = /\Av(?<version>\d+\.\d+\.\d+)\z/
 FULL_COMMIT_SHA = /\A[0-9a-f]{40}\z/i
+CPFLOW_REF_CLASSIFIER_CASES = {
+  "0123456789abcdef0123456789abcdef01234567" => :full_commit_sha,
+  "0123456789abcdef0123456789abcdef0123456" => :unsupported,
+  "0123456789abcdef0123456789abcdef012345678" => :unsupported,
+  "g123456789abcdef0123456789abcdef01234567" => :unsupported,
+  "v5.2.0" => :stable_release,
+  "main" => :unsupported,
+  "v5.1.9" => :unsupported,
+  "v5.2.0-rc.1" => :unsupported
+}.freeze
+
+def classify_cpflow_ref(ref)
+  return :full_commit_sha if ref.match?(FULL_COMMIT_SHA)
+
+  release_match = ref.match(STABLE_RELEASE_TAG)
+  return :stable_release if release_match && Gem::Version.new(release_match[:version]) >= MINIMUM_HEALTH_AWARE_RELEASE
+
+  :unsupported
+end
+
+CPFLOW_REF_CLASSIFIER_CASES.each do |ref, expected|
+  actual = classify_cpflow_ref(ref)
+  abort "cpflow ref classifier expected #{ref.inspect} to be #{expected}, got #{actual}" unless actual == expected
+end
+
+puts "cpflow ref classifier boundary cases passed"
 
 class WorkflowInvariantError < StandardError; end
 
@@ -243,11 +269,11 @@ elsif refs.length > 1
   abort "cpflow workflow wrappers use multiple upstream refs: #{refs.keys.sort.join(', ')}"
 else
   ref = refs.keys.first
-  release_match = ref.match(STABLE_RELEASE_TAG)
 
-  if ref.match?(FULL_COMMIT_SHA)
+  case classify_cpflow_ref(ref)
+  when :full_commit_sha
     puts "cpflow refs: #{ref} (full commit SHA)"
-  elsif release_match && Gem::Version.new(release_match[:version]) >= MINIMUM_HEALTH_AWARE_RELEASE
+  when :stable_release
     puts "cpflow refs: #{ref} (health-aware)"
   else
     abort "cpflow workflow wrappers must use stable health-aware release v#{MINIMUM_HEALTH_AWARE_RELEASE} or newer; " \
