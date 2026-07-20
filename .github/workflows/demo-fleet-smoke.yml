@@ -1,0 +1,62 @@
+name: Demo fleet smoke
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gumroad_rsc:
+    name: Gumroad RSC
+    uses: shakacode/react_on_rails/.github/workflows/demo-fleet-smoke.yml@613c6c2a251a782328b26d68e7f23daa9b677497
+    with:
+      ruby-version: "3.4.3"
+      node-version: "20"
+      install-command: BUNDLE_FROZEN=true bundle install && npm ci && npm run setup
+      test-command: ""
+      build-command: RAILS_ENV=test NODE_ENV=test bin/shakapacker && npm run build:rsc-demo:test
+      smoke-command: |
+        set -euo pipefail
+        docker compose -f docker/docker-compose-local.yml up -d db redis mongo elasticsearch minio createbuckets copyfixturefiles
+        cleanup() {
+          docker compose -f docker/docker-compose-local.yml down -v
+        }
+        trap cleanup EXIT
+        for port in 3306 6379 27017 9200 9000; do
+          for attempt in $(seq 1 90); do
+            ruby -rsocket -e "TCPSocket.new('127.0.0.1', ${port}).close" && break
+            sleep 2
+          done
+          ruby -rsocket -e "TCPSocket.new('127.0.0.1', ${port}).close"
+        done
+        fixture_cid=""
+        for attempt in $(seq 1 60); do
+          fixture_cid=$(docker compose -f docker/docker-compose-local.yml ps -aq copyfixturefiles)
+          test -n "$fixture_cid" && break
+          sleep 2
+        done
+        test -n "$fixture_cid"
+        test "$(timeout 300 docker wait "$fixture_cid")" = "0"
+        DISABLE_SPRING=1 RAILS_ENV=test bundle exec rails db:create
+        DISABLE_SPRING=1 RAILS_ENV=test bundle exec rails db:schema:load
+        DISABLE_SPRING=1 RAILS_ENV=test bundle exec rails runner 'load Rails.root.join("db/seeds/010_stripe_merchant_account_seeds.rb"); load Rails.root.join("db/seeds/020_braintree_merchant_account_seeds.rb"); load Rails.root.join("db/seeds/030_paypal_merchant_account_seeds.rb")'
+        RENDERER_LOG_LEVEL=warn RENDERER_WORKERS_COUNT=0 node client/node-renderer.cjs > tmp/node-renderer.log 2>&1 &
+        renderer_pid=$!
+        trap 'kill "$renderer_pid" 2>/dev/null || true; cleanup' EXIT
+        for attempt in $(seq 1 60); do
+          ruby -rsocket -e 'TCPSocket.new("127.0.0.1", 3800).close' && break
+          if ! kill -0 "$renderer_pid" 2>/dev/null; then
+            cat tmp/node-renderer.log >&2
+            exit 1
+          fi
+          sleep 1
+        done
+        ruby -rsocket -e 'TCPSocket.new("127.0.0.1", 3800).close'
+        DISABLE_SPRING=1 IN_DOCKER=true RAILS_ENV=test RENDERER_LOG_LEVEL=warn RENDERER_WORKERS_COUNT=0 bundle exec rspec spec/requests/dashboard_demo_smoke_spec.rb spec/requests/public_product_demo_smoke_spec.rb
