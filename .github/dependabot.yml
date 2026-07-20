@@ -1,37 +1,56 @@
-# Grouped Dependabot updates: one PR per ecosystem (Ruby / JavaScript / GitHub Actions)
-# instead of one PR per dependency. Tracks npm so the shakapacker gem and npm
-# package move together. 3-day cooldown so a freshly published version can't be
-# yanked after the PR opens. Patterned on shakacode/react_on_rails.
+# Dependabot v1 standing-health policy: weekly root coverage for Ruby,
+# JavaScript, and GitHub Actions, with React on Rails packages grouped together.
 version: 2
 updates:
   - package-ecosystem: "bundler"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     open-pull-requests-limit: 5
     cooldown:
       default-days: 3
     groups:
+      react-on-rails:
+        patterns:
+          - "react_on_rails*"
       ruby:
         patterns:
           - "*"
+    # Product major upgrades require an explicit compatibility and lockfile pass.
+    ignore:
+      - dependency-name: "react_on_rails_pro"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     open-pull-requests-limit: 5
     cooldown:
       default-days: 3
     groups:
+      react-on-rails:
+        patterns:
+          - "react-on-rails*"
       javascript:
         patterns:
           - "*"
+    # Babel 8 remains incompatible with the current loader stack; product majors
+    # need an explicit compatibility and lockfile pass.
+    ignore:
+      - dependency-name: "@babel/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-on-rails-pro"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-on-rails-pro-node-renderer"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-on-rails-rsc"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
     open-pull-requests-limit: 5
     cooldown:
       default-days: 3
