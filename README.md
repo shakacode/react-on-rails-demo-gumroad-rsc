@@ -62,7 +62,7 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content, seller URLs, product URLs, or image URLs.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The current hosted review-app A/B report is favorable on browser navigation, `LCP`, route JavaScript request count, and serialized Inertia payload removal, while showing a real response-end and HTML-transfer tradeoff.
+- The current stable-deployment A/B report is favorable on browser navigation, route JavaScript transfer and request count, and serialized Inertia payload removal, with a modest Product `LCP` gain and a noisier Discover `LCP` gain, while showing a real response-end and HTML-transfer tradeoff.
 - The Lighthouse URL-pair fallback is favorable against comparable live Gumroad pages, but the final adoption claim still needs PageSpeed API or field-data corroboration, especially for `INP` and mobile score.
 
 ### July 2026 React on Rails Pro 17 / React 19.2 audit
@@ -99,16 +99,18 @@ To re-sample Discover shape only, run `scripts/perf/sample_public_gumroad_shapes
 
 Important limitation: the current "before" route is a custom Inertia benchmark surface that uses the same synthetic fixture as the RSC route. That makes the framework/rendering comparison clean, but it is not yet a port of Gumroad's production `Discover/Index` or `Products/Discover/Show` components. The stronger follow-up is to wire sanitized production-shaped props into those real public components where feasible, then compare the RSC equivalent.
 
-### Latest Hosted A/B Result
+### Current Stable A/B Result
 
-Captured on `2026-06-23 HST` / `2026-06-24 UTC` against `https://gumroad.reactonrails.com` with local headless Chrome `149`, `8` alternating cycles, and `2` warmup requests per measured run.
+Captured July 10, 2026 UTC against `https://gumroad.reactonrails.com` with headless Chrome `150.0.7871.49` / ChromeDriver `150.0.7871.115`, two independent batches of `8` alternating cycles per pair, and `2` server warmups per measured run.
 
-| Surface | Median nav duration | Median LCP start | JS requests | Inertia payload |
-| --- | ---: | ---: | ---: | ---: |
-| Product detail | `811.50ms` -> `272.25ms` (`-66.5%`) | `368.00ms` -> `304.00ms` (`-17.4%`) | `7` -> `1` (`-85.7%`) | `12,183 B` -> none |
-| Discover marketplace | `796.95ms` -> `283.75ms` (`-64.4%`) | `360.00ms` -> `322.00ms` (`-10.6%`) | `7` -> `1` (`-85.7%`) | `24,960 B` -> none |
+| Surface | Median nav duration | Median response end | Median LCP | JS transfer | Inertia payload |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Product detail | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
+| Discover marketplace | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
 
-The result is directionally strong enough to continue the Gumroad-facing pitch: React Server Components via React on Rails Pro remove the serialized Inertia payload and cut route JS work sharply. The tradeoff is larger HTML transfer (`+59.7%` product, `+83.4%` Discover) because more rendered content arrives in the document. See [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md).
+Full navigation is clearly faster for the RSC candidate on both surfaces, JavaScript transfer is roughly halved, and the duplicated Inertia `data-page` payload is gone. Product LCP improves modestly; Discover LCP is directionally better but noisy across batches. Response end is not an RSC win, and RSC sends 80-100% more HTML because rendered content arrives in the document. This is an end-to-end route comparison, not RSC in isolation: the Inertia control also loads legacy application JavaScript and third-party analytics that the RSC route omits. See [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md) and the immutable artifact in [docs/performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](docs/performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
+
+The June 24, 2026 hosted run (`-66.5%`/`-64.4%` median navigation on the pre-media fixture) predates the attributed product fixture and local synthetic media; it is retained as historical context in the results doc, not as the current headline.
 
 ### Live demo surface
 
