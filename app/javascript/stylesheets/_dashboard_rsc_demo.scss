@@ -128,6 +128,37 @@
   contain: paint;
 }
 
+.dd-mobile-nav {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .dd-performance .dd-side {
+    display: none;
+  }
+
+  .dd-mobile-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: spacer(2);
+    align-items: center;
+    padding: spacer(3) spacer(4);
+    border-bottom: $border-width solid $border-color;
+  }
+
+  .dd-mobile-nav span {
+    color: rgb(var(--color) / 0.65);
+    font-weight: 600;
+  }
+
+  .dd-mobile-nav a {
+    padding: spacer(1) spacer(2);
+    border: $border-width solid $border-color;
+    border-radius: border-radius(1);
+    text-decoration: none;
+  }
+}
+
 .dd-header {
   display: grid;
   gap: spacer(4);
