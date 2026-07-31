@@ -16,6 +16,19 @@ class PublicProductRscDemoPresenter
   GUMROAD_PRODUCT_REFERENCE_URL = "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"
   PAGE_SPEED_INSIGHTS_URL = "https://pagespeed.web.dev/analysis"
   DEMO_MEDIA_BASE_PATH = "/public-product-rsc-demo/media"
+  PRODUCT_FIXTURE_IDENTITY = "public-product-rsc-demo-v1"
+  PRODUCT_VARIANTS = {
+    lab_clean: {
+      name: "lab-clean",
+      analytics: "disabled",
+      legacy_application_javascript: false,
+    },
+    production_shaped: {
+      name: "production-shaped",
+      analytics: "enabled",
+      legacy_application_javascript: true,
+    },
+  }.freeze
 
   REPO_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc"
   REPO_SOURCE_BASE_URL = "#{REPO_URL}/blob/main"
@@ -546,12 +559,14 @@ class PublicProductRscDemoPresenter
     @request = request
   end
 
-  def product_props
-    shared_props.merge(
+  def product_props(variant: nil)
+    props = shared_props(variant:).merge(
       page_kind: "product",
       product_page: product_fixture,
       discover_page: nil
     )
+    props[:benchmark_variant] = product_variant_identity(variant) if variant
+    props
   end
 
   def discover_props
@@ -1077,7 +1092,7 @@ class PublicProductRscDemoPresenter
       rounded == rounded.to_i ? rounded.to_i.to_s : rounded.to_s
     end
 
-    def shared_props
+    def shared_props(variant: nil)
       {
         locale: I18n.locale.to_s,
         source_note: [
@@ -1085,19 +1100,20 @@ class PublicProductRscDemoPresenter
           "Long copy is rewritten for the demo. Discover shape still follows public Gumroad #{DISCOVER_REFERENCE_SHAPE} data:",
           "36-card grid, 8 tag/filetype buckets, taxonomy nav, and product seller/cover/rating/purchase fields.",
         ].join(" "),
-        comparison: comparison_links,
+        comparison: comparison_links(variant:),
       }
     end
 
-    def comparison_links
+    def comparison_links(variant: nil)
+      product_inertia_url, product_rsc_url = product_variant_paths(variant)
       {
         home_url: about_path,
         performance_url: public_product_performance_demo_path,
         deployed_performance_url: deployed_performance_demo_url,
-        inertia_url: public_product_inertia_demo_path,
-        rsc_url: public_product_rsc_demo_path,
-        product_inertia_url: public_product_inertia_demo_path,
-        product_rsc_url: public_product_rsc_demo_path,
+        inertia_url: product_inertia_url,
+        rsc_url: product_rsc_url,
+        product_inertia_url: product_inertia_url,
+        product_rsc_url: product_rsc_url,
         discover_inertia_url: public_product_discover_inertia_demo_path,
         discover_rsc_url: public_product_discover_rsc_demo_path,
         react_on_rails_url: REACT_ON_RAILS_URL,
@@ -1107,6 +1123,26 @@ class PublicProductRscDemoPresenter
         gumroad_product_reference_url: GUMROAD_PRODUCT_REFERENCE_URL,
         gumroad_discover_reference_url: GUMROAD_DISCOVER_REFERENCE_URL,
       }
+    end
+
+    def product_variant_identity(variant)
+      profile = PRODUCT_VARIANTS.fetch(variant)
+      profile.merge(
+        fixture_identity: PRODUCT_FIXTURE_IDENTITY,
+        inertia_path: product_variant_paths(variant).first,
+        rsc_path: product_variant_paths(variant).last,
+      )
+    end
+
+    def product_variant_paths(variant)
+      case variant
+      when :lab_clean
+        [public_product_lab_clean_inertia_demo_path, public_product_lab_clean_rsc_demo_path]
+      when :production_shaped
+        [public_product_production_shaped_inertia_demo_path, public_product_production_shaped_rsc_demo_path]
+      else
+        [public_product_inertia_demo_path, public_product_rsc_demo_path]
+      end
     end
 
     def product_fixture

@@ -6,15 +6,35 @@ class PublicProductRscDemoController < ApplicationController
   include LiveStreamingResponseHeaders
   include DashboardComparisonTiming
 
-  before_action :prepare_public_product_page, only: %i[inertia_demo rsc_demo]
+  LAB_CLEAN_ACTIONS = %i[lab_clean_inertia_demo lab_clean_rsc_demo].freeze
+  PRODUCT_VARIANT_ACTIONS = [
+    *LAB_CLEAN_ACTIONS,
+    :production_shaped_inertia_demo,
+    :production_shaped_rsc_demo,
+  ].freeze
+  PRODUCT_ACTIONS = (%i[inertia_demo rsc_demo] + PRODUCT_VARIANT_ACTIONS).freeze
+  RSC_ACTIONS = %i[rsc_demo lab_clean_rsc_demo production_shaped_rsc_demo].freeze
+  COMPARISON_ACTIONS = (PRODUCT_ACTIONS + %i[discover_inertia_demo discover_rsc_demo]).freeze
+
+  prepend_before_action :disable_third_party_analytics!, only: LAB_CLEAN_ACTIONS
+  before_action :prepare_public_product_page, only: PRODUCT_ACTIONS
   before_action :prepare_public_discover_page, only: %i[discover_inertia_demo discover_rsc_demo]
-  before_action :skip_legacy_application_javascript, only: %i[executive_summary performance_demo rsc_demo discover_rsc_demo]
-  before_action :prepare_live_streaming_response, only: %i[rsc_demo discover_rsc_demo]
-  prepend_around_action :clear_live_active_record_connections, only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
-  write_dashboard_comparison_server_timing_after_action only: %i[inertia_demo rsc_demo discover_inertia_demo discover_rsc_demo]
+  before_action :skip_legacy_application_javascript,
+                only: %i[executive_summary performance_demo rsc_demo discover_rsc_demo] + LAB_CLEAN_ACTIONS
+  before_action :prepare_live_streaming_response, only: RSC_ACTIONS + [:discover_rsc_demo]
+  prepend_around_action :clear_live_active_record_connections, only: COMPARISON_ACTIONS
+  write_dashboard_comparison_server_timing_after_action only: COMPARISON_ACTIONS
   helper_method :content_security_policy_nonce
 
-  layout "inertia", only: %i[inertia_demo discover_inertia_demo executive_summary performance_demo]
+  layout "inertia",
+         only: %i[
+           inertia_demo
+           discover_inertia_demo
+           executive_summary
+           performance_demo
+           lab_clean_inertia_demo
+           production_shaped_inertia_demo
+         ]
 
   def inertia_demo
     with_dashboard_comparison_timing("action_total") do
@@ -34,6 +54,14 @@ class PublicProductRscDemoController < ApplicationController
         render inertia: "PublicProduct/DiscoverInertiaDemo", props: public_discover_comparison_props
       end
     end
+  end
+
+  def lab_clean_inertia_demo
+    render_product_inertia_variant(:lab_clean)
+  end
+
+  def production_shaped_inertia_demo
+    render_product_inertia_variant(:production_shaped)
   end
 
   def performance_demo
@@ -101,6 +129,14 @@ class PublicProductRscDemoController < ApplicationController
     end
   end
 
+  def lab_clean_rsc_demo
+    render_product_rsc_variant(:lab_clean)
+  end
+
+  def production_shaped_rsc_demo
+    render_product_rsc_variant(:production_shaped)
+  end
+
   private
     def skip_legacy_application_javascript
       @skip_legacy_application_javascript = true
@@ -110,6 +146,43 @@ class PublicProductRscDemoController < ApplicationController
       with_dashboard_comparison_timing("compare_props") do
         with_dashboard_comparison_timing("compare_product") do
           public_product_rsc_demo_presenter.product_props
+        end
+      end
+    end
+
+    def public_product_variant_props(variant)
+      with_dashboard_comparison_timing("compare_props") do
+        with_dashboard_comparison_timing("compare_product") do
+          public_product_rsc_demo_presenter.product_props(variant:)
+        end
+      end
+    end
+
+    def render_product_inertia_variant(variant)
+      with_dashboard_comparison_timing("action_total") do
+        @hide_layouts = false
+        @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+
+        with_dashboard_comparison_timing("render_dispatch") do
+          render inertia: "PublicProduct/InertiaDemo", props: public_product_variant_props(variant)
+        end
+      end
+    end
+
+    def render_product_rsc_variant(variant)
+      with_dashboard_comparison_timing("action_total") do
+        @hide_layouts = false
+        @css_pack_name = "dashboard_rsc_demo_styles" unless Rails.env.test?
+        @public_product_rsc_demo_props = public_product_variant_props(variant)
+        @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
+        release_live_active_record_connections
+
+        with_dashboard_comparison_timing("render_dispatch") do
+          stream_view_containing_react_components(
+            template: "public_product_rsc_demo/#{variant}_rsc_demo",
+            layout: "inertia",
+            rsc_stream_observability: true
+          )
         end
       end
     end
@@ -131,9 +204,24 @@ class PublicProductRscDemoController < ApplicationController
       set_meta_tag(name: "description", content: public_product_rsc_demo_presenter.product_description)
       set_meta_tag(property: "og:title", content: public_product_rsc_demo_presenter.product_title)
       set_meta_tag(property: "og:description", content: public_product_rsc_demo_presenter.product_description)
-      set_public_demo_canonical_meta(
-        demo_url: action_name == "rsc_demo" ? public_product_rsc_demo_url : public_product_inertia_demo_url
-      )
+      set_public_demo_canonical_meta(demo_url: public_product_demo_url_for_action)
+    end
+
+    def public_product_demo_url_for_action
+      case action_name
+      when "rsc_demo"
+        public_product_rsc_demo_url
+      when "lab_clean_inertia_demo"
+        public_product_lab_clean_inertia_demo_url
+      when "lab_clean_rsc_demo"
+        public_product_lab_clean_rsc_demo_url
+      when "production_shaped_inertia_demo"
+        public_product_production_shaped_inertia_demo_url
+      when "production_shaped_rsc_demo"
+        public_product_production_shaped_rsc_demo_url
+      else
+        public_product_inertia_demo_url
+      end
     end
 
     def prepare_public_discover_page

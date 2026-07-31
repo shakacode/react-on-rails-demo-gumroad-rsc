@@ -56,6 +56,57 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
     end
   end
 
+  describe "GET lab_clean_inertia_demo" do
+    it "renders the named product fixture without analytics or the legacy application JavaScript" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
+
+      get :lab_clean_inertia_demo
+
+      expect(response).to be_successful
+      expect(response).not_to redirect_to(login_path)
+      expect(inertia).to render_component("PublicProduct/InertiaDemo")
+      expect(inertia.props.dig(:benchmark_variant, :name)).to eq("lab-clean")
+      expect(inertia.props.dig(:benchmark_variant, :fixture_identity))
+        .to eq(PublicProductRscDemoPresenter::PRODUCT_FIXTURE_IDENTITY)
+      expect(inertia.props.dig(:benchmark_variant, :analytics)).to eq("disabled")
+      expect(inertia.props.dig(:benchmark_variant, :legacy_application_javascript)).to be(false)
+      expect(inertia.props.dig(:comparison, :product_inertia_url)).to eq(public_product_lab_clean_inertia_demo_path)
+      expect(inertia.props.dig(:comparison, :product_rsc_url)).to eq(public_product_lab_clean_rsc_demo_path)
+      expect(inertia.props.dig(:product_page, :name)).to eq("Tendon Book")
+      expect(inertia_meta_property("gr:google_analytics:enabled")).to eq("false")
+      expect(inertia_meta_property("gr:facebook_sdk:enabled")).to eq("false")
+      expect(assigns(:skip_legacy_application_javascript)).to be(true)
+      expect(assigns(:hide_layouts)).to be(false)
+      expect(controller.send(:meta_tags).fetch("canonical")[:href]).to eq(public_product_lab_clean_inertia_demo_url)
+    end
+  end
+
+  describe "GET production_shaped_inertia_demo" do
+    it "renders the named product fixture with the production analytics and legacy bundle path enabled" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:once).and_call_original
+
+      get :production_shaped_inertia_demo
+
+      expect(response).to be_successful
+      expect(response).not_to redirect_to(login_path)
+      expect(inertia).to render_component("PublicProduct/InertiaDemo")
+      expect(inertia.props.dig(:benchmark_variant, :name)).to eq("production-shaped")
+      expect(inertia.props.dig(:benchmark_variant, :fixture_identity))
+        .to eq(PublicProductRscDemoPresenter::PRODUCT_FIXTURE_IDENTITY)
+      expect(inertia.props.dig(:benchmark_variant, :analytics)).to eq("enabled")
+      expect(inertia.props.dig(:benchmark_variant, :legacy_application_javascript)).to be(true)
+      expect(inertia.props.dig(:comparison, :product_inertia_url)).to eq(public_product_production_shaped_inertia_demo_path)
+      expect(inertia.props.dig(:comparison, :product_rsc_url)).to eq(public_product_production_shaped_rsc_demo_path)
+      expect(inertia_meta_property("gr:google_analytics:enabled")).to eq("true")
+      expect(inertia_meta_property("gr:facebook_sdk:enabled")).to eq("true")
+      expect(assigns(:skip_legacy_application_javascript)).to be_nil
+      expect(assigns(:hide_layouts)).to be(false)
+      expect(controller.send(:meta_tags).fetch("canonical")[:href]).to eq(public_product_production_shaped_inertia_demo_url)
+    end
+  end
+
   describe "GET discover_inertia_demo" do
     it "renders the production-shaped public Discover Inertia control without requiring login" do
       expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).and_call_original
@@ -282,6 +333,68 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
     end
   end
 
+  describe "GET lab_clean_rsc_demo" do
+    it "streams the same named fixture without analytics or the legacy application JavaScript" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:twice).and_call_original
+      allow(controller).to receive(:stream_view_containing_react_components) do |**|
+        controller.render plain: "streamed lab-clean public product rsc"
+      end
+
+      get :lab_clean_rsc_demo
+
+      expect(response).to be_successful
+      expect(controller).to have_received(:stream_view_containing_react_components).with(
+        template: "public_product_rsc_demo/lab_clean_rsc_demo",
+        layout: "inertia",
+        rsc_stream_observability: true
+      )
+      expect(assigns(:public_product_rsc_demo_props).dig(:benchmark_variant, :name)).to eq("lab-clean")
+      expect(assigns(:public_product_rsc_demo_props).dig(:benchmark_variant, :fixture_identity))
+        .to eq(PublicProductRscDemoPresenter::PRODUCT_FIXTURE_IDENTITY)
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :product_inertia_url))
+        .to eq(public_product_lab_clean_inertia_demo_path)
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :product_rsc_url))
+        .to eq(public_product_lab_clean_rsc_demo_path)
+      expect(assigns(:skip_legacy_application_javascript)).to be(true)
+      expect(assigns(:hide_layouts)).to be(false)
+      expect(controller_meta_property("gr:google_analytics:enabled")).to eq("false")
+      expect(controller_meta_property("gr:facebook_sdk:enabled")).to eq("false")
+      expect(controller.send(:meta_tags).fetch("canonical")[:href]).to eq(public_product_lab_clean_rsc_demo_url)
+    end
+  end
+
+  describe "GET production_shaped_rsc_demo" do
+    it "streams the same named fixture with the production analytics and legacy bundle path enabled" do
+      expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
+      expect(ActiveRecord::Base.connection_handler).to receive(:each_connection_pool).at_least(:twice).and_call_original
+      allow(controller).to receive(:stream_view_containing_react_components) do |**|
+        controller.render plain: "streamed production-shaped public product rsc"
+      end
+
+      get :production_shaped_rsc_demo
+
+      expect(response).to be_successful
+      expect(controller).to have_received(:stream_view_containing_react_components).with(
+        template: "public_product_rsc_demo/production_shaped_rsc_demo",
+        layout: "inertia",
+        rsc_stream_observability: true
+      )
+      expect(assigns(:public_product_rsc_demo_props).dig(:benchmark_variant, :name)).to eq("production-shaped")
+      expect(assigns(:public_product_rsc_demo_props).dig(:benchmark_variant, :fixture_identity))
+        .to eq(PublicProductRscDemoPresenter::PRODUCT_FIXTURE_IDENTITY)
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :product_inertia_url))
+        .to eq(public_product_production_shaped_inertia_demo_path)
+      expect(assigns(:public_product_rsc_demo_props).dig(:comparison, :product_rsc_url))
+        .to eq(public_product_production_shaped_rsc_demo_path)
+      expect(assigns(:skip_legacy_application_javascript)).to be_nil
+      expect(assigns(:hide_layouts)).to be(false)
+      expect(controller_meta_property("gr:google_analytics:enabled")).to eq("true")
+      expect(controller_meta_property("gr:facebook_sdk:enabled")).to eq("true")
+      expect(controller.send(:meta_tags).fetch("canonical")[:href]).to eq(public_product_production_shaped_rsc_demo_url)
+    end
+  end
+
   describe "GET discover_rsc_demo" do
     it "streams the public Discover RSC route without requiring login" do
       expect(ActiveRecord::Base.connection_handler).to receive(:clear_active_connections!).with(:all).twice.and_call_original
@@ -309,5 +422,13 @@ describe PublicProductRscDemoController, type: :controller, inertia: true do
       expect(response.headers["Server-Timing"]).to include("compare_discover")
       expect(response.headers["Server-Timing"]).to include("render_dispatch")
     end
+  end
+
+  def inertia_meta_property(property)
+    inertia.props.fetch(:_inertia_meta).find { |tag| tag[:property] == property }[:content]
+  end
+
+  def controller_meta_property(property)
+    controller.send(:meta_tags).each_value.find { |tag| tag[:property] == property }[:content]
   end
 end
