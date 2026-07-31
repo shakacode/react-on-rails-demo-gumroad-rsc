@@ -87,16 +87,20 @@
         <div class="dd-list">
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>The route-specific layer is thin once the shared RSC seams exist:</strong> both arms render the same
+              <strong>The full route-pair cost includes the matched shared surface:</strong> the
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::COMPARISON_UI_SOURCE_PATH}" %>" target="_blank" rel="noopener">~600-line shared page component</a>
-              from the same presenter props. Switching the product surface to RSC took a
+              from the same presenter and fixture wiring, the shared styles, and the matched 12-line Inertia wrapper.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>The incremental RSC second-arm cost is small once that matched shared surface exists:</strong> a
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::PRODUCT_RSC_COMPONENT_SOURCE_PATH}" %>" target="_blank" rel="noopener">7-line server-component wrapper</a>,
               a <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::PRODUCT_RSC_TEMPLATE_SOURCE_PATH}" %>" target="_blank" rel="noopener">12-line streamed template</a>,
               one streaming action in the
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">shared controller</a>,
               a <a href="<%= "#{repo_source_base_url}/config/routes.rb" %>" target="_blank" rel="noopener">route entry</a>,
-              server-component registration, and a 4-line client pack entry; the Inertia arm keeps its 12-line page
-              wrapper. Everything else in the app stays Inertia.
+              server-component registration, and a 4-line client pack entry. Everything else in the app stays Inertia.
             </p>
           </article>
           <article class="dd-row">
