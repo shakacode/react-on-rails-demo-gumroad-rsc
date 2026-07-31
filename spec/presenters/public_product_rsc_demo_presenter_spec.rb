@@ -151,6 +151,57 @@ describe PublicProductRscDemoPresenter do
       expect(product.to_json).not_to include("Creator Analytics Playbook")
       expect(product.to_json).not_to include("Northstar Studio")
     end
+
+    it "binds each named route pair to the same deterministic product fixture identity" do
+      lab_clean = presenter.product_props(variant: :lab_clean)
+      production_shaped = presenter.product_props(variant: :production_shaped)
+
+      expect(lab_clean.fetch(:product_page)).to eq(production_shaped.fetch(:product_page))
+      expect(lab_clean.dig(:benchmark_variant, :fixture_identity))
+        .to eq(PublicProductRscDemoPresenter::PRODUCT_FIXTURE_IDENTITY)
+      expect(production_shaped.dig(:benchmark_variant, :fixture_identity))
+        .to eq(PublicProductRscDemoPresenter::PRODUCT_FIXTURE_IDENTITY)
+      expect(lab_clean.fetch(:benchmark_variant)).to include(
+        name: "lab-clean",
+        analytics: "disabled",
+        legacy_application_javascript: false,
+        inertia_path: "/public_product/lab_clean_inertia_demo",
+        rsc_path: "/public_product/lab_clean_rsc_demo"
+      )
+      expect(production_shaped.fetch(:benchmark_variant)).to include(
+        name: "production-shaped",
+        analytics: "enabled",
+        legacy_application_javascript: true,
+        inertia_path: "/public_product/production_shaped_inertia_demo",
+        rsc_path: "/public_product/production_shaped_rsc_demo"
+      )
+    end
+
+    it "keeps pair navigation inside the selected named variant" do
+      lab_clean = presenter.product_props(variant: :lab_clean).fetch(:comparison)
+      production_shaped = presenter.product_props(variant: :production_shaped).fetch(:comparison)
+
+      expect(lab_clean).to include(
+        inertia_url: "/public_product/lab_clean_inertia_demo",
+        rsc_url: "/public_product/lab_clean_rsc_demo",
+        product_inertia_url: "/public_product/lab_clean_inertia_demo",
+        product_rsc_url: "/public_product/lab_clean_rsc_demo"
+      )
+      expect(production_shaped).to include(
+        inertia_url: "/public_product/production_shaped_inertia_demo",
+        rsc_url: "/public_product/production_shaped_rsc_demo",
+        product_inertia_url: "/public_product/production_shaped_inertia_demo",
+        product_rsc_url: "/public_product/production_shaped_rsc_demo"
+      )
+    end
+
+    it "does not relabel or rewire the historical v1 fixture" do
+      historical = presenter.product_props
+
+      expect(historical).not_to have_key(:benchmark_variant)
+      expect(historical.dig(:comparison, :product_inertia_url)).to eq("/public_product/inertia_demo")
+      expect(historical.dig(:comparison, :product_rsc_url)).to eq("/public_product/rsc_demo")
+    end
   end
 
   describe "#discover_props" do

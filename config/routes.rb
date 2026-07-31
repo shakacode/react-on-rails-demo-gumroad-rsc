@@ -761,6 +761,10 @@ Rails.application.routes.draw do
     get "/public_product/discover_rsc_demo" => "public_product_rsc_demo#discover_rsc_demo", as: :public_product_discover_rsc_demo
     get "/public_product/inertia_demo" => "public_product_rsc_demo#inertia_demo", as: :public_product_inertia_demo
     get "/public_product/rsc_demo" => "public_product_rsc_demo#rsc_demo", as: :public_product_rsc_demo
+    get "/public_product/lab_clean_inertia_demo" => "public_product_rsc_demo#lab_clean_inertia_demo", as: :public_product_lab_clean_inertia_demo
+    get "/public_product/lab_clean_rsc_demo" => "public_product_rsc_demo#lab_clean_rsc_demo", as: :public_product_lab_clean_rsc_demo
+    get "/public_product/production_shaped_inertia_demo" => "public_product_rsc_demo#production_shaped_inertia_demo", as: :public_product_production_shaped_inertia_demo
+    get "/public_product/production_shaped_rsc_demo" => "public_product_rsc_demo#production_shaped_rsc_demo", as: :public_product_production_shaped_rsc_demo
     get "/dashboard/customers_count" => "dashboard#customers_count", as: :dashboard_customers_count
     get "/dashboard/total_revenue" => "dashboard#total_revenue", as: :dashboard_total_revenue
     get "/dashboard/active_members_count" => "dashboard#active_members_count", as: :dashboard_active_members_count
