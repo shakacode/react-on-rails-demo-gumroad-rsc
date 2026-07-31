@@ -2,6 +2,7 @@
 <% react_on_rails_github_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_GITHUB_URL %>
 <% react_on_rails_pro_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_PRO_URL %>
 <% shakapacker_github_url = PublicProductRscDemoPresenter::SHAKAPACKER_GITHUB_URL %>
+<% repo_source_base_url = PublicProductRscDemoPresenter::REPO_SOURCE_BASE_URL %>
 
 <div class="dd dd-performance">
   <main class="dd-main">
@@ -72,6 +73,50 @@
           </article>
           <article class="dd-row"><p class="dd-copy"><strong>No demonstrated server-response win:</strong> Product is <%= @executive_summary.dig(:product, :response_end) %>; Discover is <%= @executive_summary.dig(:discover, :response_end) %>.</p></article>
           <article class="dd-row"><p class="dd-copy"><strong>Operational surface:</strong> React on Rails Pro, the Node renderer, isolated bundles, observability, and production fallback add ownership and deployment complexity.</p></article>
+        </div>
+      </section>
+
+      <section class="dd-section">
+        <header>
+          <h2>What one route actually costs to adopt</h2>
+          <p>
+            Engineers adopt what they can price. This is the real change surface for one public route pair in this
+            repo, linked to source.
+          </p>
+        </header>
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>The per-route diff is thin:</strong> both arms render the same
+              <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::COMPARISON_UI_SOURCE_PATH}" %>" target="_blank" rel="noopener">~600-line shared page component</a>
+              from the same presenter props. Switching the product surface to RSC took a
+              <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::PRODUCT_RSC_COMPONENT_SOURCE_PATH}" %>" target="_blank" rel="noopener">7-line server-component wrapper</a>,
+              a <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::PRODUCT_RSC_TEMPLATE_SOURCE_PATH}" %>" target="_blank" rel="noopener">12-line streamed template</a>,
+              one streaming action in the
+              <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">shared controller</a>,
+              and a 4-line client pack entry; the Inertia arm keeps its 12-line page wrapper. Everything else in the
+              app stays Inertia.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>The real cost is the infrastructure ring:</strong> a Node renderer as a second process
+              (<a href="<%= "#{repo_source_base_url}/client/node-renderer.cjs" %>" target="_blank" rel="noopener">35-line entry</a>,
+              deployed as its own
+              <a href="<%= "#{repo_source_base_url}/.controlplane/templates/renderer.yml" %>" target="_blank" rel="noopener">Control Plane workload</a>),
+              a standalone RSC bundle build step, and the
+              <a href="<%= "#{repo_source_base_url}/config/initializers/react_on_rails_pro.rb" %>" target="_blank" rel="noopener">Pro configuration</a>
+              with a 5-second SSR timeout and one retry.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Failure and rollback:</strong> if the renderer is down in production, the RSC routes error after
+              the timeout and retry &mdash; the ExecJS fallback is configured for development only. The matched Inertia
+              routes never touch the renderer, so rollback is re-pointing a route at its Inertia action: props,
+              fixtures, and the shared UI stay identical, and the commercial dependency goes away with it.
+            </p>
+          </article>
         </div>
       </section>
 
