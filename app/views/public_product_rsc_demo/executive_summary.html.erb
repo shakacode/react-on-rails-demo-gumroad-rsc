@@ -87,15 +87,25 @@
         <div class="dd-list">
           <article class="dd-row">
             <p class="dd-copy">
-              <strong>The per-route diff is thin:</strong> both arms render the same
+              <strong>The route-specific layer is thin once the shared RSC seams exist:</strong> both arms render the same
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::COMPARISON_UI_SOURCE_PATH}" %>" target="_blank" rel="noopener">~600-line shared page component</a>
               from the same presenter props. Switching the product surface to RSC took a
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::PRODUCT_RSC_COMPONENT_SOURCE_PATH}" %>" target="_blank" rel="noopener">7-line server-component wrapper</a>,
               a <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::PRODUCT_RSC_TEMPLATE_SOURCE_PATH}" %>" target="_blank" rel="noopener">12-line streamed template</a>,
               one streaming action in the
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">shared controller</a>,
-              and a 4-line client pack entry; the Inertia arm keeps its 12-line page wrapper. Everything else in the
-              app stays Inertia.
+              a <a href="<%= "#{repo_source_base_url}/config/routes.rb" %>" target="_blank" rel="noopener">route entry</a>,
+              server-component registration, and a 4-line client pack entry; the Inertia arm keeps its 12-line page
+              wrapper. Everything else in the app stays Inertia.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>The first RSC route must create the shared seams:</strong> the
+              <a href="<%= "#{repo_source_base_url}/app/javascript/packs/dashboard_rsc_demo_server_entry.tsx" %>" target="_blank" rel="noopener">server entry and registrations</a>,
+              client registration, client-reference directories, and
+              <a href="<%= "#{repo_source_base_url}/config/webpack/rsc_demo.config.cjs" %>" target="_blank" rel="noopener">RSC client/server build configuration</a>.
+              Later routes can reuse that infrastructure, but it remains part of the first-route adoption cost.
             </p>
           </article>
           <article class="dd-row">
@@ -114,7 +124,9 @@
               <strong>Failure and rollback:</strong> if the renderer is down in production, the RSC routes error after
               the timeout and retry &mdash; the ExecJS fallback is configured for development only. The matched Inertia
               routes never touch the renderer, so rollback is re-pointing a route at its Inertia action: props,
-              fixtures, and the shared UI stay identical, and the commercial dependency goes away with it.
+              fixtures, and the shared UI stay identical, and Pro leaves that route&rsquo;s rendering path. Removing the
+              commercial packages app-wide also requires controller mixin, initializer, client/server registration,
+              bundle/build configuration, and package-dependency cleanup.
             </p>
           </article>
         </div>
