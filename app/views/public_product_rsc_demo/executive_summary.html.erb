@@ -11,6 +11,15 @@
           navigation time and JavaScript while reducing total HTML plus JavaScript by 41&ndash;45%. They send more
           initial HTML, and server response completion is about the same.
         </p>
+        <p class="dd-note is-warning">
+          <strong>Known gaps, stated first:</strong> the Inertia control loads Gumroad&rsquo;s legacy application
+          JavaScript and third-party analytics (Google Tag Manager/Analytics and the Facebook SDK) that the RSC route
+          omits, so every number here is an end-to-end route result, not an RSC-alone effect. Both arms are this
+          repo&rsquo;s matched benchmark surfaces rather than Gumroad&rsquo;s production <code>Discover/Index</code> and
+          <code>Products/Discover/Show</code> components, and they render about 11&ndash;17 KB of synthetic SVG media,
+          not production-weight imagery. Separately named lab-clean and production-shaped pairs are the planned controls
+          for the third-party gap.
+        </p>
         <p class="dd-proof-line">
           <strong>Recommendation:</strong> continue to a production-parity pilot after React on Rails Pro 17 final.
           Keep Inertia as the control and rollback path, and gate rollout on mobile field Web Vitals, availability,
