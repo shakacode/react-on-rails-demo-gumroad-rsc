@@ -1,4 +1,7 @@
 <% consultation_url = PublicProductRscDemoPresenter::CONSULTATION_URL %>
+<% react_on_rails_github_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_GITHUB_URL %>
+<% react_on_rails_pro_url = PublicProductRscDemoPresenter::REACT_ON_RAILS_PRO_URL %>
+<% shakapacker_github_url = PublicProductRscDemoPresenter::SHAKAPACKER_GITHUB_URL %>
 
 <div class="dd dd-performance">
   <main class="dd-main">
@@ -78,6 +81,49 @@
           </article>
           <article class="dd-row"><p class="dd-copy"><strong>No demonstrated server-response win:</strong> Product is <%= @executive_summary.dig(:product, :response_end) %>; Discover is <%= @executive_summary.dig(:discover, :response_end) %>.</p></article>
           <article class="dd-row"><p class="dd-copy"><strong>Operational surface:</strong> React on Rails Pro, the Node renderer, isolated bundles, observability, and production fallback add ownership and deployment complexity.</p></article>
+        </div>
+      </section>
+
+      <section class="dd-section">
+        <header>
+          <h2>What is open source and what is commercial</h2>
+          <p>
+            An unanswered licensing question quietly kills adoption, so here is the exact split for this demo.
+          </p>
+        </header>
+        <div class="dd-list">
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>MIT open source:</strong> this Gumroad demo codebase, the
+              <a href="<%= react_on_rails_github_url %>" target="_blank" rel="noopener">react_on_rails</a> gem, and
+              <a href="<%= shakapacker_github_url %>" target="_blank" rel="noopener">Shakapacker</a>.
+              <code>inertia_rails</code>, which implements the matched Inertia control, is MIT. This checked-in demo
+              still loads React on Rails Pro app-wide, including on the shared controller, so the control is not an
+              example of removing the Pro packages from the application.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>Commercial:</strong> the RSC candidate routes additionally use
+              <a href="<%= react_on_rails_pro_url %>" target="_blank" rel="noopener">React on Rails Pro</a> &mdash;
+              the Pro gem and npm package, the Node renderer, and <code>react-on-rails-rsc</code> &mdash; under the
+              ShakaCode EULA. Production use requires a paid subscription or a complimentary open-source license.
+            </p>
+          </article>
+          <article class="dd-row">
+            <p class="dd-copy">
+              <strong>For this specific case:</strong> Gumroad is an MIT-licensed open-source application, and the Pro
+              EULA includes a complimentary one-year renewable license track for qualifying open-source organizations,
+              issued at ShakaCode&rsquo;s discretion, so a bounded pilot does not have to start with a purchase
+              decision. Re-pointing a route to the Inertia control removes Pro from that route&rsquo;s rendering path.
+              Removing Pro from the application requires a full inventory and cleanup of every Pro-backed surface,
+              including the <code>ReactOnRailsPro::Stream</code> mixins in
+              <code>PublicProductRscDemoController</code> and <code>DashboardRscDemoController</code>, retained public
+              and dashboard RSC routes, the Pro initializer, all client and server registrations, RSC bundle/build
+              configuration, and Pro package dependencies.
+              <a href="<%= consultation_url %>" target="_blank" rel="noopener">Ask ShakaCode</a> which track applies.
+            </p>
+          </article>
         </div>
       </section>
 
