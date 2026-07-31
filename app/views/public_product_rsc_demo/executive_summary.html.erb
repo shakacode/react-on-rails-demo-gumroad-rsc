@@ -107,8 +107,11 @@
               EULA includes a complimentary one-year renewable license track for qualifying open-source organizations,
               issued at ShakaCode&rsquo;s discretion, so a bounded pilot does not have to start with a purchase
               decision. Re-pointing a route to the Inertia control removes Pro from that route&rsquo;s rendering path.
-              Removing Pro from the application also requires cleaning up the shared controller mixin, initializer,
-              package dependencies, and RSC bundle/build wiring.
+              Removing Pro from the application requires a full inventory and cleanup of every Pro-backed surface,
+              including the <code>ReactOnRailsPro::Stream</code> mixins in
+              <code>PublicProductRscDemoController</code> and <code>DashboardRscDemoController</code>, retained public
+              and dashboard RSC routes, the Pro initializer, all client and server registrations, RSC bundle/build
+              configuration, and Pro package dependencies.
               <a href="<%= consultation_url %>" target="_blank" rel="noopener">Ask ShakaCode</a> which track applies.
             </p>
           </article>
