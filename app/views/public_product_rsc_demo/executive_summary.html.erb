@@ -109,7 +109,8 @@
               one streaming action in the
               <a href="<%= "#{repo_source_base_url}/#{PublicProductRscDemoPresenter::CONTROLLER_SOURCE_PATH}" %>" target="_blank" rel="noopener">shared controller</a>,
               a <a href="<%= "#{repo_source_base_url}/config/routes.rb" %>" target="_blank" rel="noopener">route entry</a>,
-              server-component registration, and a 4-line client pack entry. Everything else in the app stays Inertia.
+              server-component registration, and a 4-line client pack entry. Unrelated routes can remain on Inertia;
+              this Product migration does not require converting them.
             </p>
           </article>
           <article class="dd-row">
@@ -118,6 +119,13 @@
               <a href="<%= "#{repo_source_base_url}/app/javascript/packs/dashboard_rsc_demo_server_entry.tsx" %>" target="_blank" rel="noopener">server entry and registrations</a>,
               client registration, client-reference directories, and
               <a href="<%= "#{repo_source_base_url}/config/webpack/rsc_demo.config.cjs" %>" target="_blank" rel="noopener">RSC client/server build configuration</a>.
+              At the controller boundary, this repo also mixes in <code>ReactOnRailsPro::Stream</code>,
+              <code>LiveStreamingResponseHeaders</code>, and <code>LiveActiveRecordConnectionCleanup</code>. It wires
+              <code>before_action :prepare_live_streaming_response</code> and
+              <code>prepend_around_action :clear_live_active_record_connections</code>, plus an explicit connection
+              release immediately before streaming. <code>DashboardComparisonTiming</code> and its
+              <code>write_dashboard_comparison_server_timing_after_action</code> callback provide demo observability
+              for comparing both arms; neither is a universal RSC requirement.
               Later routes can reuse that infrastructure, but it remains part of the first-route adoption cost.
             </p>
           </article>
