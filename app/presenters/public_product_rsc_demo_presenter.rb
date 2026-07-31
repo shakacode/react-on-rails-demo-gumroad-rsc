@@ -9,6 +9,8 @@ class PublicProductRscDemoPresenter
   REACT_ON_RAILS_URL = "https://reactonrails.com/"
   REACT_ON_RAILS_GITHUB_URL = "https://github.com/shakacode/react_on_rails"
   SHAKACODE_URL = "https://www.shakacode.com/"
+  REACT_ON_RAILS_PRO_URL = "https://www.shakacode.com/react-on-rails-pro/"
+  SHAKAPACKER_GITHUB_URL = "https://github.com/shakacode/shakapacker"
   CONSULTATION_URL = "https://meetings.hubspot.com/justingordon/30-minute-consultation"
   GUMROAD_DISCOVER_REFERENCE_URL = "https://gumroad.com/discover"
   GUMROAD_PRODUCT_REFERENCE_URL = "https://jaketuura.gumroad.com/l/tendonbook?layout=discover&recommended_by=search"
