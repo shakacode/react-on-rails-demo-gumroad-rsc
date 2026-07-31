@@ -386,6 +386,14 @@
       </div>
     </header>
 
+    <p class="dd-note is-warning">
+      <strong>Fairness, stated first:</strong> the Inertia control loads the legacy application JavaScript and
+      third-party analytics (Google Tag Manager/Analytics and the Facebook SDK) that the RSC route omits. Bundle
+      isolation is part of the architecture under test; the third-party omission is an uncontrolled parity gap.
+      Read every result on this page as an end-to-end route comparison, not RSC in isolation, until the separately
+      named <a href="#react-on-rails-pro-17-audit">lab-clean and production-shaped pairs</a> exist.
+    </p>
+
     <% if evidence_cards.any? %>
       <section class="dd-evidence-strip" aria-label="Headline performance evidence">
         <% evidence_cards.each do |card| %>
