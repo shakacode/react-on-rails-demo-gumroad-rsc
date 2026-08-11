@@ -46,9 +46,13 @@ export default defineConfig({
     },
     browserConsole: {
       failOn: ['error'],
-      // Facebook Login rejects local plain-HTTP pages. This SDK message is
-      // expected in the Docker harness and is unrelated to either renderer.
-      allowList: ['FB.getLoginStatus can no longer be called from http pages'],
+      // These local-only dependencies are unrelated to product rendering:
+      // Facebook Login rejects plain HTTP, and the production-style absolute
+      // cart badge URL cannot address either localhost twin.
+      allowList: [
+        'FB.getLoginStatus can no longer be called from http pages',
+        '/cart_items_count',
+      ],
     },
   },
 
