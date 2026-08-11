@@ -1,10 +1,10 @@
 import { abTest, waitUntilPageSettled } from "shaka-shared";
 
 abTest(
-  "Microsoft 365 product: Inertia control vs React on Rails RSC",
+  "Residential Design product: Inertia control vs React on Rails RSC",
   {
-    startingPath: "/l/O365IT?layout=discover&recommended_by=search",
-    experimentPathOverride: "/l/O365IT?layout=discover&recommended_by=search&rsc=1",
+    startingPath: "/l/bgfjk?layout=discover&recommended_by=search",
+    experimentPathOverride: "/l/bgfjk?layout=discover&recommended_by=search&rsc=1",
     testTypes: ["visreg", "perf", "accessibility"],
     visregSelectors: ["article"],
   },
@@ -14,10 +14,12 @@ abTest(
       throw new Error(`Expected ${isControl ? "Inertia" : "React on Rails RSC"} renderer only`);
     }
     await page.locator("article").waitFor({ state: "visible" });
-    await page.getByRole("heading", { level: 1, name: /Microsoft 365 for IT Pros/ }).waitFor({ state: "visible" });
+    await page
+      .getByRole("heading", { level: 1, name: /Graphic Guide to Residential Design/ })
+      .waitFor({ state: "visible" });
     await page.getByLabel("Product preview").waitFor({ state: "visible" });
     await page.locator('article [itemprop="price"]:visible').first().waitFor({ state: "visible" });
     await waitUntilPageSettled(page);
-    await annotate(`${isControl ? "Inertia" : "React on Rails RSC"} Microsoft 365 product fully rendered`);
+    await annotate(`${isControl ? "Inertia" : "React on Rails RSC"} Residential Design product fully rendered`);
   },
 );

@@ -1,9 +1,5 @@
-import {
-  defineConfig,
-  installRequestBlocking,
-  DESKTOP_VIEWPORT,
-  PHONE_VIEWPORT,
-} from 'shaka-shared';
+import { defineConfig, installRequestBlocking, DESKTOP_VIEWPORT, PHONE_VIEWPORT } from "shaka-shared";
+import { join } from "node:path";
 
 const CONTROL_PORT = Number(process.env.SHAKAPERF_CONTROL_PORT || 3100);
 const EXPERIMENT_PORT = Number(process.env.SHAKAPERF_EXPERIMENT_PORT || 3200);
@@ -18,10 +14,10 @@ const LIGHTHOUSE_CONFIG = {
     uploadThroughputKbps: 675,
     cpuSlowdownMultiplier: 4,
   },
-  throttlingMethod: 'devtools' as const,
-  logLevel: 'error' as const,
-  output: 'html' as const,
-  onlyCategories: ['performance'],
+  throttlingMethod: "devtools" as const,
+  logLevel: "error" as const,
+  output: "html" as const,
+  onlyCategories: ["performance"],
   maxWaitForLoad: 60_000,
   networkQuietThresholdMs: 1_000,
   cpuQuietThresholdMs: 1_000,
@@ -32,44 +28,41 @@ export default defineConfig({
     controlURL: `http://localhost:${CONTROL_PORT}`,
     experimentURL: `http://localhost:${EXPERIMENT_PORT}`,
     viewportDefinitions: [DESKTOP_VIEWPORT, PHONE_VIEWPORT],
-    viewports: ['desktop', 'phone'],
+    viewports: ["desktop", "phone"],
     parallelism: 1,
     beforeNavigate: async ({ context }) => {
       // The cart badge is unrelated to product rendering and its absolute
       // production-style URL cannot target either localhost twin reliably.
-      await installRequestBlocking(context, ['/recaptcha/', '/cart_items_count']);
+      await installRequestBlocking(context, ["/recaptcha/", "/cart_items_count"]);
     },
     playwrightOptions: {
-      browser: 'chromium',
-      args: ['--no-sandbox'],
+      browser: "chromium",
+      args: ["--no-sandbox"],
       waitTimeout: 60_000,
     },
     browserConsole: {
-      failOn: ['error'],
+      failOn: ["error"],
       // These local-only dependencies are unrelated to product rendering:
       // Facebook Login rejects plain HTTP, and the production-style absolute
       // cart badge URL cannot address either localhost twin.
-      allowList: [
-        'FB.getLoginStatus can no longer be called from http pages',
-        '/cart_items_count',
-      ],
+      allowList: ["FB.getLoginStatus can no longer be called from http pages", "/cart_items_count"],
     },
   },
 
   visreg: {
-    viewports: ['desktop', 'phone'],
+    viewports: ["desktop", "phone"],
     mismatchThreshold: 0.1,
     maxNumDiffPixels: 50,
     comparePixelmatchThreshold: 0.1,
   },
 
   perf: {
-    viewports: ['phone'],
+    viewports: ["phone"],
     numberOfMeasurements: 10,
     regressionThreshold: 50,
     pValueThreshold: 0.05,
-    regressionThresholdStat: 'estimator',
-    samplingMode: 'simultaneous',
+    regressionThresholdStat: "estimator",
+    samplingMode: "simultaneous",
     lighthouseConfig: LIGHTHOUSE_CONFIG,
   },
 
@@ -78,15 +71,14 @@ export default defineConfig({
   },
 
   twinServers: {
-    // Both containers build this checkout. The test chooses the two existing
-    // implementations with experimentPathOverride, so branch clones are not
-    // needed for this route-level A/B test. Override either path for branch A/B.
-    controlDir: process.env.SHAKAPERF_CONTROL_DIR || projectDir,
+    // The control is a detached worktree pinned before the native RSC page work;
+    // the experiment is the current checkout containing that implementation.
+    controlDir: process.env.SHAKAPERF_CONTROL_DIR || join(projectDir, ".shakaperf-control"),
     experimentDir: process.env.SHAKAPERF_EXPERIMENT_DIR || projectDir,
-    dockerBuildDir: '.',
-    dockerfile: 'twin-servers/Dockerfile',
-    procfile: 'twin-servers/Procfile',
-    composeFile: 'twin-servers/docker-compose.yml',
+    dockerBuildDir: ".",
+    dockerfile: "twin-servers/Dockerfile",
+    procfile: "twin-servers/Procfile",
+    composeFile: "twin-servers/docker-compose.yml",
     ports: {
       control: CONTROL_PORT,
       experiment: EXPERIMENT_PORT,
@@ -94,19 +86,19 @@ export default defineConfig({
     setupCommands: [
       {
         command: `export STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')" && export STRONGBOX_GENERAL_PASSWORD=""`,
-        description: 'Generating the local runtime encryption key',
+        description: "Generating the local runtime encryption key",
       },
       {
-        command: 'memcached -d',
-        description: 'Starting the embedded Memcached server',
+        command: "memcached -d",
+        description: "Starting the embedded Memcached server",
       },
       {
-        command: 'bundle exec rails db:schema:load',
-        description: 'Loading a fresh schema into each isolated MySQL database',
+        command: "bundle exec rails db:schema:load",
+        description: "Loading a fresh schema into each isolated MySQL database",
       },
       {
-        command: 'bundle exec rails runner scripts/seed_native_product_page.rb',
-        description: 'Seeding the database-backed native product fixture',
+        command: "bundle exec rails runner scripts/seed_native_product_page.rb",
+        description: "Seeding the database-backed native product fixture",
       },
     ],
   },
