@@ -1,6 +1,6 @@
 control-rails: shaka-perf servers run-overmind-command control "PUMA_ROOT=. ./twin-servers/start-rails"
-control-renderer: shaka-perf servers run-overmind-command control "node client/node-renderer.cjs"
+control-renderer: shaka-perf servers run-overmind-command control "sh ./twin-servers/start-renderer"
 experiment-rails: shaka-perf servers run-overmind-command experiment "PUMA_ROOT=. ./twin-servers/start-rails"
-experiment-renderer: shaka-perf servers run-overmind-command experiment "node client/node-renderer.cjs"
+experiment-renderer: shaka-perf servers run-overmind-command experiment "sh ./twin-servers/start-renderer"
 notify-control-server-started: shaka-perf servers notify-server-started control
 notify-experiment-server-started: shaka-perf servers notify-server-started experiment
