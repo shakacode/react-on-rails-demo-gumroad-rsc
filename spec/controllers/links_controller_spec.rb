@@ -3546,6 +3546,28 @@ describe LinksController, :vcr, inertia: true do
           end
         end
 
+        context "when requested on the local twin-server domain" do
+          around do |example|
+            original_custom_domain = ENV["CUSTOM_DOMAIN"]
+            ENV["CUSTOM_DOMAIN"] = DOMAIN.split(":").first
+            example.run
+          ensure
+            original_custom_domain.nil? ? ENV.delete("CUSTOM_DOMAIN") : ENV["CUSTOM_DOMAIN"] = original_custom_domain
+          end
+
+          it "renders a custom permalink without redirecting to the creator subdomain" do
+            product = create(:product, user: @user, custom_permalink: "O365IT")
+            @request.host = DOMAIN
+            request.headers["X-Inertia"] = "true"
+
+            get :show, params: { id: product.custom_permalink, layout: "discover", recommended_by: "search" }
+
+            expect(response).to be_successful
+            expect(inertia.component).to eq("Products/Discover/Show")
+            expect(response.parsed_body.dig("props", "product", "name")).to eq(product.name)
+          end
+        end
+
         context "when requested with unique permalink" do
           context "when custom permalink is not present" do
             it "redirects to the subdomain product URL with original query params" do

@@ -98,6 +98,10 @@ export default defineConfig({
         command: 'bundle exec rails db:schema:load',
         description: 'Loading a fresh schema into each isolated MySQL database',
       },
+      {
+        command: 'bundle exec rails runner scripts/seed_native_product_page.rb',
+        description: 'Seeding the database-backed native product fixture',
+      },
     ],
   },
 });

@@ -237,7 +237,8 @@ class LinksController < ApplicationController
     # E.g., we want to redirect gumroad.com/l/id to username.gumroad.com/l/id
     creator_subdomain_with_protocol = @product.user.subdomain_with_protocol
     branch_request = GumroadDomainConstraint.control_plane_branch_host?(request.host)
-    target_host = if branch_request
+    local_custom_domain_request = ENV["CUSTOM_DOMAIN"].present? && request.host == ENV["CUSTOM_DOMAIN"]
+    target_host = if branch_request || local_custom_domain_request
       request.host
     elsif !@is_user_custom_domain && creator_subdomain_with_protocol.present?
       creator_subdomain_with_protocol
