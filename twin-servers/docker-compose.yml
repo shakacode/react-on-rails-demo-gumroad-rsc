@@ -6,10 +6,13 @@ services:
     environment:
       PERF_EXPERIMENT: "false"
       DATABASE_HOST: mysql-control
+      MONGO_DATABASE_URL: mongo-control:27017
     volumes:
       - control_volume:/home/${USER}/app
     depends_on:
       mysql-control:
+        condition: service_healthy
+      mongo-control:
         condition: service_healthy
     command: sleep infinity
 
@@ -20,10 +23,13 @@ services:
     environment:
       PERF_EXPERIMENT: "true"
       DATABASE_HOST: mysql-experiment
+      MONGO_DATABASE_URL: mongo-experiment:27017
     volumes:
       - experiment_volume:/home/${USER}/app
     depends_on:
       mysql-experiment:
+        condition: service_healthy
+      mongo-experiment:
         condition: service_healthy
     command: sleep infinity
 
@@ -54,6 +60,22 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --character-set-server=utf8mb4
     healthcheck: *mysql-healthcheck
+
+  mongo-control:
+    image: mongo:7.0.16
+    environment: &mongo-environment
+      MONGO_INITDB_ROOT_USERNAME: gumroad
+      MONGO_INITDB_ROOT_PASSWORD: gumroad
+    healthcheck: &mongo-healthcheck
+      test: ["CMD-SHELL", "mongosh --quiet --host 127.0.0.1 -u gumroad -p gumroad --authenticationDatabase admin --eval 'db.adminCommand(\"ping\")' >/dev/null"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  mongo-experiment:
+    image: mongo:7.0.16
+    environment: *mongo-environment
+    healthcheck: *mongo-healthcheck
 
 volumes:
   control_volume:
