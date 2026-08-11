@@ -20,7 +20,7 @@ In the test definition, `startingPath` selects the Inertia route for control
 and `experimentPathOverride` selects the RSC route for experiment. The test
 waits for the shared `.dd-product-hero` surface and its heading to render,
 captures that surface for visual regression, checks accessibility, and runs
-seven alternating mobile Lighthouse measurements per side.
+ten simultaneous mobile Lighthouse measurements per side.
 
 Both images intentionally build the same checkout because this is a route-level
 A/B test. `SHAKAPERF_CONTROL_DIR` and `SHAKAPERF_EXPERIMENT_DIR` can point at
@@ -55,8 +55,9 @@ Keep `start-servers` running, then use another terminal:
 shaka-perf compare --filter ab-tests/public-product-rsc.abtest.ts
 ```
 
-The generated report is `compare-results/report.html`. Stop and remove the
-twin containers when finished:
+The generated full report is `compare-results/full-report.html`; the compact,
+shareable report is `compare-results/self-contained-performance-report.html`.
+Stop and remove the twin containers when finished:
 
 ```shell
 shaka-perf servers stop-containers

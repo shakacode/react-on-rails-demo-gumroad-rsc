@@ -247,7 +247,7 @@
           inertia.inertiaPayloadBytes > 0
             ? ` The Inertia document also carried ${formatBytes(inertia.inertiaPayloadBytes)} of serialized page props; the RSC document carried none.`
             : "";
-        const completionCopy = ` Raw full-body download (Inertia ${formatMs(inertia.totalMs)}, RSC ${formatMs(rsc.totalMs)}) is not the verdict: it favors the smaller document and ignores the JavaScript execution and hydration the browser still does. The controlled comparison is the ShakaPerf navigation result above.`;
+        const completionCopy = ` Raw full-body download (Inertia ${formatMs(inertia.totalMs)}, RSC ${formatMs(rsc.totalMs)}) is not the verdict: it favors the smaller document and ignores the JavaScript execution and hydration the browser still does. The controlled comparison is the historical Selenium navigation result above.`;
 
         return `${label}: ${firstChunkCopy}${htmlCopy}${scriptCopy}${payloadCopy}${completionCopy}`;
       };
@@ -346,7 +346,7 @@
       <a href="<%= rsc_executive_summary_path %>">VP Engineering summary</a>
       <a href="#claim-status" aria-current="page">Claim status</a>
       <a href="#comparison-vocabulary">Vocabulary</a>
-      <a href="#current-shakaperf-result">ShakaPerf A/B</a>
+      <a href="#current-shakaperf-result">Historical A/B</a>
       <a href="#pagespeed-comparator-pairs">PageSpeed diagnostics</a>
       <a href="#reproduce-with-shakaperf">Reproduce</a>
 
@@ -411,7 +411,7 @@
     <nav class="dd-mobile-nav" aria-label="Performance evidence jumps">
       <span>Jump to</span>
       <a href="#claim-status">Claim status</a>
-      <a href="#current-shakaperf-result">ShakaPerf A/B</a>
+      <a href="#current-shakaperf-result">Historical A/B</a>
       <a href="#reproduce-with-shakaperf">Reproduce</a>
     </nav>
 
@@ -420,9 +420,9 @@
         <header>
           <h2>Read this evidence in order</h2>
           <p>
-            The demo has one defensible performance claim today: same-host, same-fixture ShakaPerf A/B results for the
+            The historical claim below comes from same-host, same-fixture Ruby/Selenium A/B results for the
             public product and Discover routes. PageSpeed links stay on the page to make the caution reproducible, not
-            to imply that the live Gumroad comparison is ready to cite.
+            to imply that the live Gumroad comparison is ready to cite. It was not produced by the ShakaPerf CLI.
           </p>
         </header>
 
@@ -485,7 +485,7 @@
 
       <section class="dd-section" id="current-shakaperf-result">
         <header>
-          <h2>Stable media-bearing same-fixture ShakaPerf A/B</h2>
+          <h2>Stable media-bearing same-fixture Selenium A/B</h2>
           <p><%= @presenter.deployed_benchmark_method_note %></p>
           <details class="dd-link-panel">
             <summary>Reproducibility artifacts and source</summary>
@@ -521,7 +521,7 @@
         <p class="dd-note is-info">
           <strong>How to read this:</strong> column A is the matched <strong>Inertia</strong> control inside this demo app,
           not the live Gumroad production site. Column B is the <strong>React on Rails Pro RSC</strong> candidate on the
-          same host, with the same fixture data and same ShakaPerf harness. Every metric is lower-is-better. The verdict
+          same host, with the same fixture data and same Ruby/Selenium harness. Every metric is lower-is-better. The verdict
           only names a winner when the gap exceeds
           &plusmn;<%= PublicProductRscDemoPresenter::BENCHMARK_TIE_BAND_PERCENT %>%; closer than that reads &ldquo;about the same.&rdquo;
         </p>
@@ -589,10 +589,10 @@
         <% end %>
 
         <p class="dd-note">
-          <strong>Supporting ShakaPerf runs:</strong>
+          <strong>Supporting legacy Selenium runs:</strong>
           the PR 69 review-app run, pre-media stable run, local branch run, and PR 63 review-app run remain linked above
           for chronology and reproducibility. The July 10 stable media-bearing run is the headline because it measures the
-          merged fixture on the durable public host. The ShakaPerf commands below still use the host you are viewing so
+          merged fixture on the durable public host. The legacy runner commands below still use the host you are viewing so
           review-app validation measures the candidate build rather than stable by accident.
           <br />
           <strong>Historical hosted run:</strong>
@@ -620,7 +620,7 @@
           <strong>Known invalid comparison:</strong> the earlier live-Gumroad-to-demo Lighthouse score table looked
           favorable, but it is not evidence because the compared pages did not load the same media surface. This lab keeps
           the PageSpeed links visible for reproducibility and review, while the headline claim stays on same-host
-          ShakaPerf A/B measurements.
+          same-host Selenium A/B measurements.
         </p>
 
         <div class="dd-list">
@@ -664,7 +664,7 @@
         <header>
           <h2>What this report is allowed to claim</h2>
           <p>
-            The current media-bearing ShakaPerf A/B run shows a meaningful browser-navigation and LCP win on the right public surfaces.
+            The July 10 media-bearing Selenium A/B run shows a meaningful browser-navigation and LCP win on the measured public surfaces.
             The PageSpeed URL pairs are useful for finding production gaps, but they are not part of the performance
             claim until image/media, production chrome, and third-party-service differences are comparable.
           </p>
@@ -760,7 +760,7 @@
             does not measure the JavaScript execution and hydration the browser still does after download. The RSC cards also
             show whether Pro stream observability exposed Rails shell and Node renderer prepare timing in <code>Server-Timing</code>.
             Raw full-response download time favors the smaller document, so for the load-time verdict trust the controlled
-            ShakaPerf navigation result above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
+            historical Selenium navigation result above. Column A is the Inertia control; column B is the React on Rails Pro RSC candidate.
           </p>
         </header>
       </section>
@@ -794,7 +794,7 @@
 
       <section class="dd-section" id="reproduce-with-shakaperf">
         <header>
-          <h2>Reproduce with ShakaPerf</h2>
+          <h2>Reproduce the historical Selenium benchmark</h2>
           <p>
             Use alternating cycles so route order is balanced. The public Gumroad pages are useful external references,
             but the defensible before/after comparison is same data, same host, matched Inertia versus RSC routes.
@@ -842,7 +842,7 @@
             <p class="dd-copy">
               <strong>Media parity gate:</strong>
               these public demo routes are presenter-backed fixtures, not database-seeded products. Before using PageSpeed
-              or a deployed ShakaPerf result, run
+              or a deployed legacy benchmark result, run
               <code>node scripts/perf/assert_public_demo_media_parity.mjs --base-url <%= request.base_url %></code>
               and confirm the RSC pages expose product and Discover images from the initial HTML. PR 69 is merged and the
               stable deployment passes this gate; historical PageSpeed reports from before the deployment remain

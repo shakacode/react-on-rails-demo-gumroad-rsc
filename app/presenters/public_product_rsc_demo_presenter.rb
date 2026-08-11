@@ -730,7 +730,7 @@ class PublicProductRscDemoPresenter
       {
         label: "Matched Inertia control",
         eyebrow: "Same-fixture A/B baseline",
-        description: "The before route inside this demo app. It uses the same fixture data, same host, and same ShakaPerf harness as the RSC candidate. It is not live gumroad.com production.",
+        description: "The before route inside this demo app. It uses the same fixture data, same host, and same Ruby/Selenium harness as the RSC candidate. It is not live gumroad.com production.",
         href: public_product_inertia_demo_path,
       },
       {
@@ -742,7 +742,7 @@ class PublicProductRscDemoPresenter
       {
         label: "Stable deployed RSC demo",
         eyebrow: HOSTED_DEMO_BASE_URL,
-        description: "The public demo deployment used for the headline hosted ShakaPerf artifacts. This is the stable URL to share when the review app is gone.",
+        description: "The public demo deployment used for the headline hosted Selenium artifacts. This is the stable URL to share when the review app is gone.",
         href: hosted_demo_url(public_product_rsc_demo_path),
       },
       {
@@ -793,10 +793,10 @@ class PublicProductRscDemoPresenter
       {
         step: "1",
         label: "Valid headline claim",
-        title: "Same-host ShakaPerf A/B",
-        body: "Matched Inertia control versus React on Rails Pro RSC on the stable host, with the same fixture data, committed local media, two independent batches, and alternating route order.",
+        title: "Same-host Selenium A/B",
+        body: "Matched Inertia control versus React on Rails Pro RSC on the stable host, with the same fixture data, committed local media, two independent Ruby/Selenium batches, and alternating route order.",
         href: "#current-shakaperf-result",
-        link_label: "Read the ShakaPerf table",
+        link_label: "Read the Selenium table",
       },
       {
         step: "2",
@@ -811,7 +811,7 @@ class PublicProductRscDemoPresenter
         step: "3",
         label: "Before a Gumroad issue",
         title: "Rerun after Pro 17.0.0 final",
-        body: "Wait for the final React on Rails Pro 17 release, then rerun ShakaPerf and only quote PageSpeed once media, chrome, and production-service differences are comparable.",
+        body: "Wait for the final React on Rails Pro 17 release, then rerun both the real ShakaPerf test and the legacy Selenium benchmark. Only quote PageSpeed once media, chrome, and production-service differences are comparable.",
         href: "#reproduce-with-shakaperf",
         link_label: "Copy reproduction commands",
       },
@@ -970,7 +970,7 @@ class PublicProductRscDemoPresenter
       return if navigation.blank?
 
       {
-        eyebrow: "Stable media-bearing ShakaPerf",
+        eyebrow: "Stable media-bearing Selenium A/B",
         label:,
         value: "#{format_metric(navigation[:inertia], :ms)} -> #{format_metric(navigation[:rsc], :ms)}",
         delta: format_delta_percent(navigation[:delta_percent]),
