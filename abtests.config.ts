@@ -87,6 +87,10 @@ export default defineConfig({
     },
     setupCommands: [
       {
+        command: `export STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')" && export STRONGBOX_GENERAL_PASSWORD=""`,
+        description: 'Generating the local runtime encryption key',
+      },
+      {
         command: 'redis-server --save "" --appendonly no --daemonize yes',
         description: 'Starting the embedded Redis server',
       },
