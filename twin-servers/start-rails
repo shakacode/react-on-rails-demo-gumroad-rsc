@@ -16,4 +16,6 @@ if [ -z "${STRONGBOX_GENERAL:-}" ]; then
 fi
 
 export STRONGBOX_GENERAL_PASSWORD="${STRONGBOX_GENERAL_PASSWORD:-}"
+export OBFUSCATE_IDS_CIPHER_KEY="${OBFUSCATE_IDS_CIPHER_KEY:-shakaperf-local-cipher-key}"
+export OBFUSCATE_IDS_NUMERIC_CIPHER_KEY="${OBFUSCATE_IDS_NUMERIC_CIPHER_KEY:-1234}"
 exec bundle exec rails server -b 0.0.0.0 -p 3000

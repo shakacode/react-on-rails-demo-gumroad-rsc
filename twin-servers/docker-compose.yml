@@ -11,6 +11,8 @@ services:
       SIDEKIQ_REDIS_HOST: redis-control:6379/1
       RPUSH_REDIS_HOST: redis-control:6379/2
       RACK_ATTACK_REDIS_HOST: redis-control:6379/3
+      OBFUSCATE_IDS_CIPHER_KEY: shakaperf-local-cipher-key
+      OBFUSCATE_IDS_NUMERIC_CIPHER_KEY: "1234"
     volumes:
       - control_volume:/home/${USER}/app
     depends_on:
@@ -34,6 +36,8 @@ services:
       SIDEKIQ_REDIS_HOST: redis-experiment:6379/1
       RPUSH_REDIS_HOST: redis-experiment:6379/2
       RACK_ATTACK_REDIS_HOST: redis-experiment:6379/3
+      OBFUSCATE_IDS_CIPHER_KEY: shakaperf-local-cipher-key
+      OBFUSCATE_IDS_NUMERIC_CIPHER_KEY: "1234"
     volumes:
       - experiment_volume:/home/${USER}/app
     depends_on:
