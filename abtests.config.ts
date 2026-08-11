@@ -35,7 +35,9 @@ export default defineConfig({
     viewports: ['desktop', 'phone'],
     parallelism: 1,
     beforeNavigate: async ({ context }) => {
-      await installRequestBlocking(context, ['/recaptcha/']);
+      // The cart badge is unrelated to product rendering and its absolute
+      // production-style URL cannot target either localhost twin reliably.
+      await installRequestBlocking(context, ['/recaptcha/', '/cart_items_count']);
     },
     playwrightOptions: {
       browser: 'chromium',
