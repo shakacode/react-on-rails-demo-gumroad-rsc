@@ -12,6 +12,6 @@ abTest(
     await page.locator('.dd-product-hero').waitFor({ state: 'visible' });
     await page.locator('h1').waitFor({ state: 'visible' });
     await waitUntilPageSettled(page);
-    annotate('Compared the fully rendered public product hero and page-load performance.');
+    annotate('Public product hero fully rendered');
   },
 );
