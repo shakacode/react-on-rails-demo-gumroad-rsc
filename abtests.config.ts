@@ -91,10 +91,6 @@ export default defineConfig({
         description: 'Generating the local runtime encryption key',
       },
       {
-        command: 'redis-server --save "" --appendonly no --daemonize yes',
-        description: 'Starting the embedded Redis server',
-      },
-      {
         command: 'memcached -d',
         description: 'Starting the embedded Memcached server',
       },

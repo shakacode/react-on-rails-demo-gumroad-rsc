@@ -7,12 +7,18 @@ services:
       PERF_EXPERIMENT: "false"
       DATABASE_HOST: mysql-control
       MONGO_DATABASE_URL: mongo-control:27017
+      REDIS_HOST: redis-control:6379/0
+      SIDEKIQ_REDIS_HOST: redis-control:6379/1
+      RPUSH_REDIS_HOST: redis-control:6379/2
+      RACK_ATTACK_REDIS_HOST: redis-control:6379/3
     volumes:
       - control_volume:/home/${USER}/app
     depends_on:
       mysql-control:
         condition: service_healthy
       mongo-control:
+        condition: service_healthy
+      redis-control:
         condition: service_healthy
     command: sleep infinity
 
@@ -24,12 +30,18 @@ services:
       PERF_EXPERIMENT: "true"
       DATABASE_HOST: mysql-experiment
       MONGO_DATABASE_URL: mongo-experiment:27017
+      REDIS_HOST: redis-experiment:6379/0
+      SIDEKIQ_REDIS_HOST: redis-experiment:6379/1
+      RPUSH_REDIS_HOST: redis-experiment:6379/2
+      RACK_ATTACK_REDIS_HOST: redis-experiment:6379/3
     volumes:
       - experiment_volume:/home/${USER}/app
     depends_on:
       mysql-experiment:
         condition: service_healthy
       mongo-experiment:
+        condition: service_healthy
+      redis-experiment:
         condition: service_healthy
     command: sleep infinity
 
@@ -76,6 +88,18 @@ services:
     image: mongo:7.0.16
     environment: *mongo-environment
     healthcheck: *mongo-healthcheck
+
+  redis-control:
+    image: redis:7.2.5-alpine
+    healthcheck: &redis-healthcheck
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  redis-experiment:
+    image: redis:7.2.5-alpine
+    healthcheck: *redis-healthcheck
 
 volumes:
   control_volume:
