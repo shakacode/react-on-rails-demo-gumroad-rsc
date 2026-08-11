@@ -3265,6 +3265,29 @@ describe LinksController, :vcr, inertia: true do
           expect(inertia.props[:product]).to be_present
         end
 
+        it "streams the database-backed discover product through React on Rails RSC" do
+          link = create(:product, user: @user)
+          allow(controller).to receive(:stream_view_containing_react_components) do |**|
+            controller.render plain: "streamed native product rsc"
+          end
+
+          get :show, params: { id: link.to_param, layout: "discover", rsc: "1" }
+
+          expect(response).to be_successful
+          expect(controller).to have_received(:stream_view_containing_react_components).with(
+            template: "links/rsc_show",
+            layout: "inertia",
+            rsc_stream_observability: true
+          )
+          expect(assigns(:hide_layouts)).to be(true)
+          expect(assigns(:skip_legacy_application_javascript)).to be(true)
+          expect(assigns(:native_product_rsc_props).dig(:product, :name)).to eq(link.name)
+          expect(assigns(:native_product_rsc_props)).to include(:taxonomy_path, :taxonomies_for_nav)
+          expect(assigns(:native_product_rsc_props).dig(:global, :href)).to include("rsc=1")
+          expect(response.headers["Last-Modified"]).to be_present
+          expect(response.headers["X-Accel-Buffering"]).to eq("no")
+        end
+
         it "renders Products/Iframe/Show with product props for embed param" do
           link = create(:product, user: @user)
           get :show, params: { id: link.to_param, embed: "true" }

@@ -6,6 +6,9 @@ class LinksController < ApplicationController
           CreateDiscoverSearch, DiscoverCuratedProducts, FetchProductByUniquePermalink
 
   include PageMeta::Favicon, PageMeta::Product
+  include ReactOnRailsPro::Stream
+  include LiveActiveRecordConnectionCleanup
+  include LiveStreamingResponseHeaders
 
   DEFAULT_PRICE = 500
 
@@ -29,6 +32,9 @@ class LinksController < ApplicationController
   before_action :check_if_needs_redirect, only: [:show]
   before_action :prepare_product_page, only: %i[show]
   before_action :ensure_domain_belongs_to_seller, only: [:show]
+  before_action :skip_legacy_application_javascript, only: :show, if: :native_product_rsc_request?
+  before_action :prepare_live_streaming_response, only: :show, if: :native_product_rsc_request?
+  prepend_around_action :clear_live_active_record_connections, only: :show, if: :native_product_rsc_request?
   before_action :fetch_product_and_enforce_ownership, only: %i[destroy]
   before_action :fetch_product_and_enforce_access, only: %i[update publish unpublish release_preorder update_sections]
 
@@ -162,7 +168,10 @@ class LinksController < ApplicationController
             }
           end
           discover_props = { taxonomy_path: @product.taxonomy&.ancestry_path&.join("/"), taxonomies_for_nav: }
-          render inertia: "Products/Discover/Show", props: presenter.discover_product_props(discover_props:, **presenter_props)
+          product_props = presenter.discover_product_props(discover_props:, **presenter_props)
+          return render_native_product_rsc(product_props) if native_product_rsc_request?
+
+          render inertia: "Products/Discover/Show", props: product_props
         else
           if params[:embed] || params[:overlay]
             render inertia: "Products/Iframe/Show", props: presenter.iframe_product_props(**presenter_props)
@@ -513,6 +522,29 @@ class LinksController < ApplicationController
   end
 
   private
+    def native_product_rsc_request?
+      params[:rsc] == "1" && params[:layout] == Product::Layout::DISCOVER
+    end
+
+    def skip_legacy_application_javascript
+      @skip_legacy_application_javascript = true
+    end
+
+    def render_native_product_rsc(product_props)
+      @hide_layouts = true
+      @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
+      @native_product_rsc_props = product_props.merge(
+        global: @precomputed_rendering_context.merge(href: request.original_url)
+      )
+      release_live_active_record_connections
+
+      stream_view_containing_react_components(
+        template: "links/rsc_show",
+        layout: "inertia",
+        rsc_stream_observability: true
+      )
+    end
+
     def product_seller_profile_url
       return seller_custom_domain_url unless GumroadDomainConstraint.control_plane_branch_host?(request.host)
       return if @product.user.username.blank?
