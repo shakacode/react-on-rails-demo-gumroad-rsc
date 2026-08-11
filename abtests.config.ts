@@ -78,6 +78,7 @@ export default defineConfig({
     dockerBuildDir: '.',
     dockerfile: 'twin-servers/Dockerfile',
     procfile: 'twin-servers/Procfile',
+    composeFile: 'twin-servers/docker-compose.yml',
     ports: {
       control: CONTROL_PORT,
       experiment: EXPERIMENT_PORT,
@@ -90,6 +91,10 @@ export default defineConfig({
       {
         command: 'memcached -d',
         description: 'Starting the embedded Memcached server',
+      },
+      {
+        command: 'bundle exec rails db:schema:load',
+        description: 'Loading a fresh schema into each isolated MySQL database',
       },
     ],
   },

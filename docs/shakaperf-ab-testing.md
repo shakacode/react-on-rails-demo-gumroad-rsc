@@ -34,8 +34,10 @@ The host ports are fixed in [`abtests.config.ts`](../abtests.config.ts):
 - experiment: `3200`
 
 Each Rails server listens on port `3000` inside its own Docker container. The
-bundled ShakaPerf Compose configuration maps the two internal `3000` ports to
-the host ports above. Nothing in this integration binds host port `3000`.
+ShakaPerf Compose configuration maps the two internal `3000` ports to the host
+ports above. Each side also gets a private, unexposed MySQL 8.0.32 database, so
+control and experiment cannot affect one another. Nothing in this integration
+binds host port `3000`.
 
 ## Run it
 

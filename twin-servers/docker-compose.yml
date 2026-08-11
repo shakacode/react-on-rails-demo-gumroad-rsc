@@ -1,0 +1,70 @@
+services:
+  control-server:
+    image: ${CONTROL_IMAGE_NAME}
+    ports:
+      - "${CONTROL_PORT}:3000"
+    environment:
+      PERF_EXPERIMENT: "false"
+      DATABASE_HOST: mysql-control
+    volumes:
+      - control_volume:/home/${USER}/app
+    depends_on:
+      mysql-control:
+        condition: service_healthy
+    command: sleep infinity
+
+  experiment-server:
+    image: ${EXPERIMENT_IMAGE_NAME}
+    ports:
+      - "${EXPERIMENT_PORT}:3000"
+    environment:
+      PERF_EXPERIMENT: "true"
+      DATABASE_HOST: mysql-experiment
+    volumes:
+      - experiment_volume:/home/${USER}/app
+    depends_on:
+      mysql-experiment:
+        condition: service_healthy
+    command: sleep infinity
+
+  mysql-control:
+    image: mysql:8.0.32
+    environment: &mysql-environment
+      MYSQL_DATABASE: gumroad_demo
+      MYSQL_USER: gumroad
+      MYSQL_PASSWORD: gumroad
+      MYSQL_ROOT_PASSWORD: password
+    command:
+      - mysqld
+      - --default-authentication-plugin=mysql_native_password
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-server=utf8mb4
+    healthcheck: &mysql-healthcheck
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -ppassword --silent"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  mysql-experiment:
+    image: mysql:8.0.32
+    environment: *mysql-environment
+    command:
+      - mysqld
+      - --default-authentication-plugin=mysql_native_password
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-server=utf8mb4
+    healthcheck: *mysql-healthcheck
+
+volumes:
+  control_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${CONTROL_VOLUME_DIR}
+  experiment_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${EXPERIMENT_VOLUME_DIR}
