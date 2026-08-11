@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+if [ -z "${STRONGBOX_GENERAL:-}" ]; then
+  STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')"
+  export STRONGBOX_GENERAL
+fi
+
+export STRONGBOX_GENERAL_PASSWORD="${STRONGBOX_GENERAL_PASSWORD:-}"
+exec bundle exec rails server -b 0.0.0.0 -p 3000
