@@ -39,6 +39,7 @@ RUN apt-get update -qq && \
       libyaml-dev \
       memcached \
       pkg-config \
+      procps \
       redis-server \
       zlib1g-dev && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives

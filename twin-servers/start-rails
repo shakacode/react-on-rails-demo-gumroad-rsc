@@ -1,6 +1,15 @@
 #!/bin/sh
 set -eu
 
+pidfile="tmp/pids/server.pid"
+if [ -f "${pidfile}" ]; then
+  old_pid="$(cat "${pidfile}")"
+  if kill -0 "${old_pid}" 2>/dev/null; then
+    kill "${old_pid}"
+  fi
+  rm -f "${pidfile}"
+fi
+
 if [ -z "${STRONGBOX_GENERAL:-}" ]; then
   STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')"
   export STRONGBOX_GENERAL
