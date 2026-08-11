@@ -44,7 +44,9 @@ export default defineConfig({
     },
     browserConsole: {
       failOn: ['error'],
-      allowList: [],
+      // Facebook Login rejects local plain-HTTP pages. This SDK message is
+      // expected in the Docker harness and is unrelated to either renderer.
+      allowList: ['FB.getLoginStatus can no longer be called from http pages'],
     },
   },
 
