@@ -5,9 +5,9 @@ This integration uses the globally installed `shaka-perf` CLI and its actual
 artifacts elsewhere in this repository; those older numbers were not produced
 by ShakaPerf.
 
-## Page pair
+## Page pairs
 
-The single test is
+The architecture comparison is
 [`ab-tests/public-product-rsc.abtest.ts`](../ab-tests/public-product-rsc.abtest.ts).
 It compares the two existing implementations directly:
 
@@ -21,6 +21,25 @@ and `experimentPathOverride` selects the RSC route for experiment. The test
 waits for the shared `.dd-product-hero` surface and its heading to render,
 captures that surface for visual regression, checks accessibility, and runs
 ten simultaneous mobile Lighthouse measurements per side.
+
+The database-backed branch comparison is
+[`ab-tests/native-product-page.abtest.ts`](../ab-tests/native-product-page.abtest.ts).
+It loads the same native Gumroad product route on both twins:
+
+| Side | Host URL | Data source |
+| --- | --- | --- |
+| Control | `http://localhost:3100/l/O365IT?layout=discover&recommended_by=search` | Isolated control database |
+| Experiment | `http://localhost:3200/l/O365IT?layout=discover&recommended_by=search` | Isolated experiment database |
+
+Before either server starts, ShakaPerf runs
+[`scripts/seed_native_product_page.rb`](../scripts/seed_native_product_page.rb)
+inside each container. The idempotent seed creates the creator, four products,
+the main product's 21 synthetic purchases and reviews, and local deterministic
+cover images. This test therefore exercises Gumroad's genuine
+`Products/Discover/Show` page rather than the presenter-backed RSC demo. With
+the default same-checkout configuration it is a zero-delta baseline; point
+`SHAKAPERF_CONTROL_DIR` and `SHAKAPERF_EXPERIMENT_DIR` at different checkouts
+to measure a branch change against the same seeded product.
 
 Both images intentionally build the same checkout because this is a route-level
 A/B test. `SHAKAPERF_CONTROL_DIR` and `SHAKAPERF_EXPERIMENT_DIR` can point at
@@ -53,6 +72,7 @@ Keep `start-servers` running, then use another terminal:
 
 ```shell
 shaka-perf compare --filter ab-tests/public-product-rsc.abtest.ts
+shaka-perf compare --filter ab-tests/native-product-page.abtest.ts
 ```
 
 The generated full report is `compare-results/full-report.html`; the compact,
@@ -63,8 +83,8 @@ Stop and remove the twin containers when finished:
 shaka-perf servers stop-containers
 ```
 
-To inspect the pages manually while the servers are running, open the two URLs
-in the table above. To verify the resolved port mapping without starting
+To inspect the pages manually while the servers are running, open the URLs in
+the tables above. To verify the resolved port mapping without starting
 anything:
 
 ```shell

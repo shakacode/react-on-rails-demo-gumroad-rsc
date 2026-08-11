@@ -473,13 +473,21 @@ The request smoke specs load the test Shakapacker output from `public/packs-test
 
 If a previous run started the renderer before `public/packs-test/react-client-manifest.json` existed, stop the renderer and remove `.node-renderer-bundles` before rerunning the hard gate so the renderer cache is rebuilt with the test client manifest.
 
-#### Run the ShakaPerf RSC A/B test
+#### Run the ShakaPerf A/B tests
 
-The repository has one real ShakaPerf comparison for the public product page:
+The repository has a real route-level RSC comparison:
 
 - control page: <http://localhost:3100/public_product/inertia_demo>
 - experiment page: <http://localhost:3200/public_product/rsc_demo>
 - test definition: [`ab-tests/public-product-rsc.abtest.ts`](ab-tests/public-product-rsc.abtest.ts)
+
+It also has a database-backed native product comparison that seeds the same
+representative product into each twin's isolated database:
+
+- control page: <http://localhost:3100/l/O365IT?layout=discover&recommended_by=search>
+- experiment page: <http://localhost:3200/l/O365IT?layout=discover&recommended_by=search>
+- test definition: [`ab-tests/native-product-page.abtest.ts`](ab-tests/native-product-page.abtest.ts)
+- seed: [`scripts/seed_native_product_page.rb`](scripts/seed_native_product_page.rb)
 
 The two Gumroad processes listen on port `3000` only inside their containers.
 ShakaPerf exposes them on host ports `3100` and `3200`; it does not claim host
