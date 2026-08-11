@@ -11,7 +11,7 @@ abTest(
     await page.locator('article').waitFor({ state: 'visible' });
     await page.getByRole('heading', { level: 1, name: /Microsoft 365 for IT Pros/ }).waitFor({ state: 'visible' });
     await page.getByLabel('Product preview').waitFor({ state: 'visible' });
-    await page.getByLabel('Price').waitFor({ state: 'visible' });
+    await page.getByText('$59.95', { exact: true }).waitFor({ state: 'visible' });
     await waitUntilPageSettled(page);
     annotate('Seeded native product fully rendered');
   },
