@@ -16,6 +16,8 @@ else
 end
 
 Rails.application.routes.draw do
+  get "/", to: redirect("/public_product/inertia_demo") if ENV["TWIN_SERVERS"] == "true"
+
   get "/healthcheck" => "healthcheck#index"
   get "/healthcheck/active_record_pool" => "healthcheck#active_record_pool"
   get "/healthcheck/sidekiq" => "healthcheck#sidekiq"
