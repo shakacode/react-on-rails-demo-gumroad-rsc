@@ -18,6 +18,7 @@ module NativeProductPageSeed
   SELLER_EMAIL = "office365-it-pros-benchmark@example.com"
   BUYER_COUNT = 21
   MEDIA_BASE_PATH = "/native-product-page-fixture"
+  CONTROL_PORT = ENV.fetch("SHAKAPERF_CONTROL_PORT", "3100")
   ReviewIdentity = Data.define(:id, :email, :name)
 
   PRODUCTS = [
@@ -206,8 +207,8 @@ module NativeProductPageSeed
       products << seed_product!(seller: furushio, buyers:, attributes: FURUSHIO_PRODUCT)
 
       puts "Seeded 2 creators: #{products.size} products and #{products.sum(&:reviews_count)} reviews."
-      puts "Open http://localhost:3300/l/O365IT?layout=discover&recommended_by=search"
-      puts "Open http://localhost:3300/l/bgfjk?layout=discover&recommended_by=search"
+      puts "Open http://localhost:#{CONTROL_PORT}/l/O365IT?layout=discover&recommended_by=search"
+      puts "Open http://localhost:#{CONTROL_PORT}/l/bgfjk?layout=discover&recommended_by=search"
     end
   end
 
