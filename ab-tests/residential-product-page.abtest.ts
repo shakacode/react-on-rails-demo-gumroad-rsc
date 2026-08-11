@@ -9,8 +9,10 @@ abTest(
     visregSelectors: ["article"],
   },
   async ({ page, annotate, isControl }) => {
-    await page.locator(isControl ? "#app[data-page]" : "#native-product-rsc-root").waitFor({ state: "attached" });
-    if (await page.locator(isControl ? "#native-product-rsc-root" : "#app[data-page]").count()) {
+    await page
+      .locator(isControl ? 'script[data-page="app"]' : "#native-product-rsc-root")
+      .waitFor({ state: "attached" });
+    if (await page.locator(isControl ? "#native-product-rsc-root" : 'script[data-page="app"]').count()) {
       throw new Error(`Expected ${isControl ? "Inertia" : "React on Rails RSC"} renderer only`);
     }
     await page.locator("article").waitFor({ state: "visible" });

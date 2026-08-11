@@ -85,6 +85,13 @@ const basePlugins = (ssr) => [
   new webpack.DefinePlugin({ SSR: JSON.stringify(ssr) }),
 ];
 
+const nodeWebApiPolyfills = () =>
+  new webpack.BannerPlugin({
+    banner: "globalThis.File ??= class File {};",
+    raw: true,
+    entryOnly: true,
+  });
+
 const rscWebpackPluginOptions = (isServer) => ({
   isServer,
   clientReferences: rscClientReferencesDirectories.map((directory) => ({
@@ -133,6 +140,7 @@ const serverConfig = {
   },
   plugins: [
     ...basePlugins(true),
+    nodeWebApiPolyfills(),
     new RSCWebpackPlugin(rscWebpackPluginOptions(true)),
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
   ],
@@ -167,7 +175,7 @@ const rscConfig = {
   optimization: {
     minimize: false,
   },
-  plugins: [...basePlugins(true), new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
+  plugins: [...basePlugins(true), nodeWebApiPolyfills(), new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
   output: {
     filename: "rsc-bundle.js",
     globalObject: "this",
