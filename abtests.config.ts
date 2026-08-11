@@ -59,7 +59,7 @@ export default defineConfig({
 
   perf: {
     viewports: ['phone'],
-    numberOfMeasurements: 7,
+    numberOfMeasurements: 10,
     regressionThreshold: 50,
     pValueThreshold: 0.05,
     regressionThresholdStat: 'estimator',
