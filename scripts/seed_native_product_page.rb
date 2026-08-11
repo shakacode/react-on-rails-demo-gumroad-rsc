@@ -13,11 +13,12 @@
 module NativeProductPageSeed
   OWNER = "native-product-page-benchmark"
   OWNER_KEY = "native_product_page_fixture_owner"
-  VERSION = 2
+  VERSION = 3
   VERSION_KEY = "native_product_page_fixture_version"
   SELLER_EMAIL = "office365-it-pros-benchmark@example.com"
   BUYER_COUNT = 21
   MEDIA_BASE_PATH = "/native-product-page-fixture"
+  ReviewIdentity = Data.define(:id, :email, :name)
 
   PRODUCTS = [
     {
@@ -97,6 +98,81 @@ module NativeProductPageSeed
     },
   ].freeze
 
+  FURUSHIO_PRODUCT = {
+    unique_permalink: "bgfjk",
+    permalink: "bgfjk",
+    name: "Graphic Guide to Residential Design (PDF Ebook)",
+    summary: "Graphic Guide to Residential Design",
+    price_cents: 4000,
+    thumbnail: "residential-guide-thumbnail.jpg",
+    preview_images: (1..5).map { |index| "residential-guide-preview-#{index}.jpg" },
+    native_type: Link::NATIVE_TYPE_EBOOK,
+    rating_counts: { 5 => 231, 4 => 5, 3 => 2 },
+    tags: ["residential design", "architecture"],
+    custom_attributes: [
+      { "name" => "Pages", "value" => "300" },
+      { "name" => "Format", "value" => "High Quality Print PDF" },
+      { "name" => "Dimensions", "value" => "Metric and Imperial Systems" },
+      { "name" => "Free Updates", "value" => "Included ✅" },
+    ],
+    variants: ["ENGLISH", "ESPAÑOL"],
+    source_snapshot: {
+      "url" => "https://luisfurushio.gumroad.com/l/bgfjk",
+      "captured_at" => "2026-08-12",
+      "sales_count" => 10_858,
+    },
+    review_message_offset: 3,
+    review_messages: [
+      "The diagrams make floor-plan decisions much easier to understand.",
+      "A practical visual reference that I keep returning to during design reviews.",
+      "Clear enough for homeowners and detailed enough to be useful on real projects.",
+      "The side-by-side examples explain residential design better than pages of theory.",
+      "Metric and Imperial dimensions make this genuinely useful across our whole team.",
+      "An excellent guide for learning how circulation, light, and proportion work together.",
+      "The illustrated explanations helped us ask much better questions during our remodel.",
+      "Dense with ideas but exceptionally easy to browse and absorb.",
+    ],
+    description: <<~HTML,
+      <p>A visual guide to understanding home design.</p>
+      <p>With over 1,000 colorful illustrations, this ebook explains the why behind residential design in a clear, simple, and engaging way.</p>
+      <p>Perfect for homeowners, architecture students, and contractors.</p>
+      <h3>👋 Welcome!</h3>
+      <p>I’m Luis, a residential designer and Peruvian architect with over 20 years of experience designing homes across California.</p>
+      <p>I created this ebook to answer the most common questions I get during the early stages of the design process. In architecture, every design decision has a reason. This guide explains those reasons through hundreds of easy-to-follow illustrations—without overwhelming jargon or long blocks of text.</p>
+      <h3>📘 What’s inside</h3>
+      <ul>
+        <li>1,000+ easy-to-understand drawings</li>
+        <li>Interior and exterior design tips</li>
+        <li>Real floor plan analysis</li>
+        <li>Common design mistakes to avoid</li>
+        <li>All dimensions in Imperial and Metric</li>
+        <li>Free future updates with new content</li>
+      </ul>
+      <h3>🙌 Who this is for</h3>
+      <ul>
+        <li>Homeowners remodeling or building a home</li>
+        <li>Architecture students tired of dry textbooks</li>
+        <li>Contractors wanting to sharpen their design eye</li>
+        <li>Curious design lovers who learn better visually</li>
+      </ul>
+      <h3>📩 What you’ll receive</h3>
+      <ul>
+        <li>A full-color digital PDF sized for phones, tablets, and computers</li>
+        <li>An immediate download link after purchase</li>
+        <li>Your name watermarked on the file</li>
+      </ul>
+      <figure><img src="#{MEDIA_BASE_PATH}/luis-furushio-profile.png" alt="Luis Furushio"></figure>
+      <figure><img src="#{MEDIA_BASE_PATH}/residential-guide-detail-1.jpg" alt="Residential design guide sample spread"></figure>
+      <figure><img src="#{MEDIA_BASE_PATH}/residential-guide-detail-2.jpg" alt="Residential design guide floor plan sample"></figure>
+      <figure><img src="#{MEDIA_BASE_PATH}/residential-guide-detail-3.jpg" alt="Residential design guide illustration sample"></figure>
+      <figure><img src="#{MEDIA_BASE_PATH}/residential-guide-detail-4.jpg" alt="Residential design guide interior sample"></figure>
+      <figure><img src="#{MEDIA_BASE_PATH}/residential-guide-detail-5.jpg" alt="Residential design guide exterior sample"></figure>
+      <figure><img src="#{MEDIA_BASE_PATH}/residential-guide-detail-6.jpg" alt="Residential design guide reference sample"></figure>
+      <h3>📌 License and Support</h3>
+      <p>This is a digital product. If you have technical issues, email <a href="mailto:hola@luisfurushio.com">hola@luisfurushio.com</a>.</p>
+    HTML
+  }.freeze
+
   REVIEW_MESSAGES = [
     "Clear, practical, and unusually thorough. I keep it open while administering our tenant.",
     "The monthly-update approach makes this far more useful than a conventional technical book.",
@@ -118,15 +194,24 @@ module NativeProductPageSeed
         username: "o365itpros",
         bio: "Independent technical ebooks for Microsoft 365 administrators, written and continuously updated by experienced IT professionals.",
       )
+      furushio = owned_user!(
+        email: "luis-furushio-benchmark@example.com",
+        name: "Luis Furushio",
+        username: "luisfurushio",
+        bio: "Architect and Digital Creator",
+        attributes: { twitter_handle: "Luis_Furushio" },
+      )
       buyers = seed_buyers!
       products = PRODUCTS.map { |attributes| seed_product!(seller:, buyers:, attributes:) }
+      products << seed_product!(seller: furushio, buyers:, attributes: FURUSHIO_PRODUCT)
 
-      puts "Seeded #{seller.name}: #{products.size} products and #{products.sum(&:reviews_count)} reviews."
+      puts "Seeded 2 creators: #{products.size} products and #{products.sum(&:reviews_count)} reviews."
       puts "Open http://localhost:3300/l/O365IT?layout=discover&recommended_by=search"
+      puts "Open http://localhost:3300/l/bgfjk?layout=discover&recommended_by=search"
     end
   end
 
-  def owned_user!(email:, name:, username:, bio: nil)
+  def owned_user!(email:, name:, username:, bio: nil, attributes: {})
     user = User.find_by(email:)
     if user && user.json_data[OWNER_KEY] != OWNER
       raise "Refusing to overwrite non-fixture user with email #{email.inspect}"
@@ -140,6 +225,7 @@ module NativeProductPageSeed
       user_risk_state: "compliant",
       confirmed_at: user.confirmed_at || Time.current,
       payment_address: email,
+      **attributes,
     )
     user.json_data[OWNER_KEY] = OWNER
     user.json_data[VERSION_KEY] = VERSION
@@ -174,7 +260,7 @@ module NativeProductPageSeed
     product ||= seller.links.build(unique_permalink:)
     product.assign_attributes(
       user: seller,
-      custom_permalink: permalink,
+      custom_permalink: permalink == unique_permalink ? nil : permalink,
       name: attributes.fetch(:name),
       description: attributes.fetch(:description),
       filetype: "pdf",
@@ -188,54 +274,90 @@ module NativeProductPageSeed
     product.json_data[OWNER_KEY] = OWNER
     product.json_data[VERSION_KEY] = VERSION
     product.json_data["custom_summary"] = attributes.fetch(:summary)
-    product.json_data["custom_attributes"] = [
+    product.json_data["custom_attributes"] = attributes[:custom_attributes] || [
       { "name" => "Pages", "value" => attributes.fetch(:pages).to_fs(:delimited) },
       { "name" => "Formats", "value" => "PDF and EPUB" },
       { "name" => "Edition", "value" => "2027" },
     ]
+    product.json_data["fixture_source_snapshot"] = attributes[:source_snapshot] if attributes[:source_snapshot]
     product.save!
     product.save_tags!(attributes.fetch(:tags))
 
     thumbnail = Thumbnail.find_or_initialize_by(product:)
     thumbnail.update!(
-      unsplash_url: "#{MEDIA_BASE_PATH}/#{attributes.fetch(:cover)}",
+      unsplash_url: "#{MEDIA_BASE_PATH}/#{attributes[:thumbnail] || attributes.fetch(:cover)}",
       deleted_at: nil,
     )
 
-    preview_guid = "native-page-#{attributes.fetch(:unique_permalink).downcase}"
-    preview = product.asset_previews.find_or_initialize_by(guid: preview_guid)
-    preview.update!(
-      unsplash_url: "#{MEDIA_BASE_PATH}/#{attributes.fetch(:cover)}",
-      deleted_at: nil,
-      position: 0,
-    )
+    seed_previews!(product:, images: attributes[:preview_images] || [attributes.fetch(:cover)])
+    seed_variants!(product:, names: attributes[:variants] || [])
 
-    buyers.first(attributes.fetch(:review_count)).each_with_index do |buyer, index|
+    ratings = attributes[:rating_counts]&.flat_map { |rating, count| Array.new(count, rating) } || Array.new(attributes.fetch(:review_count), 5)
+    reviewers = attributes[:rating_counts] ? guest_reviewers(product:, count: ratings.size) : buyers.first(ratings.size)
+    review_messages = attributes[:review_messages] || REVIEW_MESSAGES
+    reviewers.each_with_index do |buyer, index|
       seed_review!(
         product:,
         seller:,
         buyer:,
-        rating: 5,
-        message: REVIEW_MESSAGES.fetch((index + PRODUCTS.index(attributes)) % REVIEW_MESSAGES.size),
+        rating: ratings.fetch(index),
+        message: review_messages.fetch((index + attributes[:review_message_offset].to_i) % review_messages.size),
       )
     end
-    remove_surplus_reviews!(product:, buyers:, keep: attributes.fetch(:review_count))
+    remove_surplus_reviews!(product:, reviewers:)
     product.sync_review_stat
 
     product.reload
   end
 
-  def remove_surplus_reviews!(product:, buyers:, keep:)
-    surplus_buyer_ids = buyers.drop(keep).map(&:id)
-    return if surplus_buyer_ids.empty?
+  def seed_previews!(product:, images:)
+    desired_guids = images.each_with_index.map do |image, index|
+      guid = "native-page-#{product.unique_permalink.downcase}-#{index + 1}"
+      product.asset_previews.find_or_initialize_by(guid:).update!(
+        unsplash_url: "#{MEDIA_BASE_PATH}/#{image}",
+        deleted_at: nil,
+        position: index,
+      )
+      guid
+    end
+    product.asset_previews.where.not(guid: desired_guids).update_all(deleted_at: Time.current)
+  end
 
-    purchases = Purchase.where(link_id: product.id, purchaser_id: surplus_buyer_ids)
+  def seed_variants!(product:, names:)
+    if names.empty?
+      product.variant_categories.alive.update_all(deleted_at: Time.current)
+      return
+    end
+
+    category = product.variant_categories.find_or_initialize_by(title: "Language")
+    category.update!(deleted_at: nil)
+    names.each_with_index do |name, index|
+      variant = category.variants.find_or_initialize_by(name:)
+      variant.update!(price_difference_cents: 0, position_in_category: index, deleted_at: nil)
+    end
+    category.variants.alive.where.not(name: names).update_all(deleted_at: Time.current)
+    product.variant_categories.alive.where.not(id: category.id).update_all(deleted_at: Time.current)
+  end
+
+  def guest_reviewers(product:, count:)
+    count.times.map do |index|
+      ReviewIdentity.new(
+        id: nil,
+        email: "native-product-#{product.unique_permalink.downcase}-review-#{index + 1}@example.com",
+        name: "Benchmark Reader #{index + 1}",
+      )
+    end
+  end
+
+  def remove_surplus_reviews!(product:, reviewers:)
+    purchases = Purchase.where(link_id: product.id).where.not(email: reviewers.map(&:email))
     ProductReview.where(purchase_id: purchases.select(:id)).delete_all
     purchases.delete_all
   end
 
   def seed_review!(product:, seller:, buyer:, rating:, message:)
-    purchase = Purchase.find_or_initialize_by(link_id: product.id, purchaser_id: buyer.id)
+    identity = buyer.id ? { purchaser_id: buyer.id } : { email: buyer.email }
+    purchase = Purchase.find_or_initialize_by(link_id: product.id, **identity)
     if purchase.persisted? && purchase.seller_id != seller.id
       raise "Refusing to overwrite non-fixture purchase #{purchase.id}"
     end
@@ -249,8 +371,10 @@ module NativeProductPageSeed
         gumroad_tax_cents: 0,
         total_transaction_cents: 0,
         email: buyer.email,
+        purchaser_id: buyer.id,
+        full_name: buyer.name,
         card_country: "US",
-        ip_address: "192.0.2.#{buyer.id % 200 + 1}",
+        ip_address: "192.0.2.#{buyer.email.bytes.sum % 200 + 1}",
         offer_code: fixture_offer_code!(seller),
       )
       purchase.send(:calculate_fees)

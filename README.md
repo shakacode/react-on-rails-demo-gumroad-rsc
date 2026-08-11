@@ -489,6 +489,11 @@ representative product into each twin's isolated database:
 - test definition: [`ab-tests/native-product-page.abtest.ts`](ab-tests/native-product-page.abtest.ts)
 - seed: [`scripts/seed_native_product_page.rb`](scripts/seed_native_product_page.rb)
 
+The same twin databases also include the more media-heavy Residential Design
+fixture at `/l/bgfjk?layout=discover&recommended_by=search` (ports `3100` and
+`3200`). It has five product previews, two language options, 238 synthetic
+ratings, and locally snapshotted description imagery.
+
 The two Gumroad processes listen on port `3000` only inside their containers.
 ShakaPerf exposes them on host ports `3100` and `3200`; it does not claim host
 port `3000`. See [ShakaPerf A/B testing](docs/shakaperf-ab-testing.md) for the

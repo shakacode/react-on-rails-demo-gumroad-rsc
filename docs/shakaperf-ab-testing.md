@@ -33,9 +33,12 @@ It loads the same native Gumroad product route on both twins:
 
 Before either server starts, ShakaPerf runs
 [`scripts/seed_native_product_page.rb`](../scripts/seed_native_product_page.rb)
-inside each container. The idempotent seed creates the creator, four products,
-the main product's 21 synthetic purchases and reviews, and local deterministic
-cover images. This test therefore exercises Gumroad's genuine
+inside each container. The idempotent seed creates two creators, five products,
+259 synthetic purchases and reviews, and local deterministic cover and
+description images. The additional media-heavy fixture is available on both
+twins at `/l/bgfjk?layout=discover&recommended_by=search`; it includes five
+product previews, English and Spanish options, and the live listing's displayed
+rating distribution. This test therefore exercises Gumroad's genuine
 `Products/Discover/Show` page rather than the presenter-backed RSC demo. With
 the default same-checkout configuration it is a zero-delta baseline; point
 `SHAKAPERF_CONTROL_DIR` and `SHAKAPERF_EXPERIMENT_DIR` at different checkouts
