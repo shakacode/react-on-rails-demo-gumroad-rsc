@@ -39,6 +39,8 @@ class PublicProductRscDemoPresenter
   PRE_MEDIA_DEPLOYED_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json"
   MEDIA_REVIEW_BENCHMARK_ARTIFACT_PATH = "docs/performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json"
   LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH = "docs/performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json"
+  NATIVE_SHAKAPERF_ARTIFACT_PATH = "docs/performance-artifacts/native-product-rsc-shakaperf-2026-08-12/summary.json"
+  HISTORICAL_PERFORMANCE_PR_URL = "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/69"
   BENCHMARK_TIE_BAND_PERCENT = 5
 
   CONTROLLER_SOURCE_PATH = "app/controllers/public_product_rsc_demo_controller.rb"
@@ -613,6 +615,10 @@ class PublicProductRscDemoPresenter
     @lighthouse_comparator ||= read_benchmark(LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH)
   end
 
+  def self.native_shakaperf_benchmark
+    @native_shakaperf_benchmark ||= read_benchmark(NATIVE_SHAKAPERF_ARTIFACT_PATH)
+  end
+
   def route_source_links(page_kind)
     discover = page_kind.to_sym == :discover
     {
@@ -664,6 +670,14 @@ class PublicProductRscDemoPresenter
 
   def lighthouse_comparator_artifact_url
     "#{REPO_SOURCE_BASE_URL}/#{LIGHTHOUSE_COMPARATOR_ARTIFACT_PATH}"
+  end
+
+  def native_shakaperf_artifact_url
+    "#{current_repo_source_base_url}/#{NATIVE_SHAKAPERF_ARTIFACT_PATH}"
+  end
+
+  def native_shakaperf_benchmark
+    self.class.native_shakaperf_benchmark || {}
   end
 
   def media_review_benchmark_method_note
@@ -792,11 +806,11 @@ class PublicProductRscDemoPresenter
     [
       {
         step: "1",
-        label: "Valid headline claim",
-        title: "Same-host Selenium A/B",
-        body: "Matched Inertia control versus React on Rails Pro RSC on the stable host, with the same fixture data, committed local media, two independent Ruby/Selenium batches, and alternating route order.",
-        href: "#current-shakaperf-result",
-        link_label: "Read the Selenium table",
+        label: "Current measured status",
+        title: "Actual ShakaPerf CLI A/B",
+        body: "The native RSC product pages improve FCP, LCP, Lighthouse score, and request count, but regress TTFB and transferred bytes. The CLI therefore exits nonzero rather than declaring an overall win.",
+        href: "#native-shakaperf-result",
+        link_label: "Read the complete result",
       },
       {
         step: "2",
@@ -811,7 +825,7 @@ class PublicProductRscDemoPresenter
         step: "3",
         label: "Before a Gumroad issue",
         title: "Rerun after Pro 17.0.0 final",
-        body: "Wait for the final React on Rails Pro 17 release, then rerun both the real ShakaPerf test and the legacy Selenium benchmark. Only quote PageSpeed once media, chrome, and production-service differences are comparable.",
+        body: "Wait for the final React on Rails Pro 17 release, then rerun both the ShakaPerf test and the legacy Selenium benchmark. Only quote PageSpeed once media, chrome, and production-service differences are comparable.",
         href: "#reproduce-with-shakaperf",
         link_label: "Copy reproduction commands",
       },

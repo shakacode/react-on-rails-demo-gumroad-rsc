@@ -287,12 +287,12 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "#performance_claim_status_cards" do
-    it "keeps the valid claim, PageSpeed caveat, and next evidence gate explicit" do
+    it "keeps the current mixed result, PageSpeed caveat, and next evidence gate explicit" do
       cards = presenter.performance_claim_status_cards
 
       expect(cards.map { |card| card[:title] }).to eq(
         [
-          "Same-host ShakaPerf A/B",
+          "Actual ShakaPerf CLI A/B",
           "PageSpeed against live Gumroad",
           "Rerun after Pro 17.0.0 final",
         ]
@@ -300,7 +300,8 @@ describe PublicProductRscDemoPresenter do
       expect(cards.second).to include(tone: "warning")
       expect(cards.second[:body]).to include("not proof today")
       expect(cards.third[:body]).to include("Wait for the final React on Rails Pro 17 release")
-      expect(cards.map { |card| card[:href] }).to include("#current-shakaperf-result", "#pagespeed-comparator-pairs", "#reproduce-with-shakaperf")
+      expect(cards.first[:body]).to include("exits nonzero")
+      expect(cards.map { |card| card[:href] }).to include("#native-shakaperf-result", "#pagespeed-comparator-pairs", "#reproduce-with-shakaperf")
     end
   end
 

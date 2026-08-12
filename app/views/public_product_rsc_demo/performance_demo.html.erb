@@ -333,6 +333,7 @@
 <% evidence_cards = @presenter.performance_evidence_cards %>
 <% claim_status_cards = @presenter.performance_claim_status_cards %>
 <% comparison_terms = @presenter.comparison_terms %>
+<% native_shakaperf = @presenter.native_shakaperf_benchmark %>
 
 <div class="dd dd-performance" data-rsc-performance-lab>
   <aside class="dd-side">
@@ -346,6 +347,7 @@
       <a href="<%= rsc_executive_summary_path %>">VP Engineering summary</a>
       <a href="#claim-status" aria-current="page">Claim status</a>
       <a href="#comparison-vocabulary">Vocabulary</a>
+      <a href="#native-shakaperf-result">Native ShakaPerf A/B</a>
       <a href="#current-shakaperf-result">Historical A/B</a>
       <a href="#pagespeed-comparator-pairs">PageSpeed diagnostics</a>
       <a href="#reproduce-with-shakaperf">Reproduce</a>
@@ -411,6 +413,7 @@
     <nav class="dd-mobile-nav" aria-label="Performance evidence jumps">
       <span>Jump to</span>
       <a href="#claim-status">Claim status</a>
+      <a href="#native-shakaperf-result">Native ShakaPerf A/B</a>
       <a href="#current-shakaperf-result">Historical A/B</a>
       <a href="#reproduce-with-shakaperf">Reproduce</a>
     </nav>
@@ -420,9 +423,9 @@
         <header>
           <h2>Read this evidence in order</h2>
           <p>
-            The historical claim below comes from same-host, same-fixture Ruby/Selenium A/B results for the
-            public product and Discover routes. PageSpeed links stay on the page to make the caution reproducible, not
-            to imply that the live Gumroad comparison is ready to cite. It was not produced by the ShakaPerf CLI.
+            Start with the actual ShakaPerf CLI run against the native product pages: it records substantial paint and
+            request-count improvements alongside TTFB and transfer-size regressions, so it does not establish an
+            across-the-board RSC win. The older same-host tables are Ruby/Selenium evidence, not ShakaPerf CLI output.
           </p>
         </header>
 
@@ -482,6 +485,75 @@
         inertia_wins: ["Inertia wins", "dd-verdict--loss"],
         tie: ["About the same", "dd-verdict--tie"],
       } %>
+
+      <% if native_shakaperf.present? %>
+        <section class="dd-section" id="native-shakaperf-result">
+          <header>
+            <h2>Native product pages: actual ShakaPerf CLI A/B</h2>
+            <p><%= native_shakaperf[:method] %></p>
+            <p><strong>Command:</strong> <code><%= native_shakaperf[:command] %></code></p>
+            <p><strong>CLI result:</strong> <code><%= native_shakaperf[:exit_summary] %></code> (exit <%= native_shakaperf[:exit_status] %>)</p>
+            <p class="dd-source-links">
+              <span>Audit trail:</span>
+              <a href="<%= @presenter.native_shakaperf_artifact_url %>" target="_blank" rel="noopener">committed result summary</a>
+              <a href="<%= PublicProductRscDemoPresenter::HISTORICAL_PERFORMANCE_PR_URL %>" target="_blank" rel="noopener">historical PR 69 declaration</a>
+            </p>
+          </header>
+
+          <p class="dd-note is-info">
+            <strong>What was compared:</strong> control <code><%= native_shakaperf[:control_revision] %></code>
+            is pinned immediately before the native RSC implementation. Experiment
+            <code><%= native_shakaperf[:experiment_revision] %></code> streams the same seeded
+            <code>Products/Discover/Show</code> data through React on Rails RSC. Host ports are
+            <code>3100</code> and <code>3200</code>; <code>3000</code> exists only inside each container.
+          </p>
+
+          <% native_shakaperf.fetch(:results, []).each do |result| %>
+            <div class="dd-surface-block">
+              <header class="dd-surface-head">
+                <h3><%= result[:label] %></h3>
+                <p><strong>Control:</strong> <a href="<%= result[:control_url] %>"><%= result[:control_url] %></a></p>
+                <p><strong>Experiment:</strong> <a href="<%= result[:experiment_url] %>"><%= result[:experiment_url] %></a></p>
+              </header>
+              <div class="dd-table dd-table--responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">ShakaPerf estimator</th>
+                      <th scope="col">Inertia control</th>
+                      <th scope="col">RSC experiment</th>
+                      <th scope="col">Change</th>
+                      <th scope="col">p-value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% result.fetch(:metrics, []).each do |metric| %>
+                      <tr>
+                        <th scope="row" data-label="Metric"><%= metric[:label] %></th>
+                        <td data-label="Inertia control"><code><%= metric[:control] %></code></td>
+                        <td data-label="RSC experiment"><code><%= metric[:experiment] %></code></td>
+                        <td data-label="Change"><code><%= metric[:change] %></code></td>
+                        <td data-label="p-value"><code><%= metric[:p_value] %></code></td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+              <p class="dd-note"><%= result[:quality] %></p>
+            </div>
+          <% end %>
+
+          <p class="dd-note is-warning">
+            <strong>Bounded conclusion:</strong> <%= native_shakaperf[:conclusion] %>
+          </p>
+          <p>
+            The Docker response label <code>shakaperf</code> is a generic local image label, not a Git SHA.
+            The pinned revisions, test definitions, command, raw CLI artifacts, and summary above are the proof trail.
+            PR 69 made the earlier performance declaration, but its July tables came from the repository's
+            Ruby/Selenium runner—not the <code>shaka-perf</code> CLI used here.
+          </p>
+        </section>
+      <% end %>
 
       <section class="dd-section" id="current-shakaperf-result">
         <header>
