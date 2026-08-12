@@ -16,16 +16,16 @@ Filed:
 
 Shared evidence now has three layers:
 
-- Stable media-bearing ShakaPerf run (`2026-07-10 UTC`, headless Chrome 150,
-  two independent batches of 8 alternating cycles, see
-  [summary.json](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json)):
-  Product navigation `1123.50ms` -> `575.00ms` (`-48.8%`), response end
-  `504.85ms` -> `509.55ms` (`+0.9%`), LCP `662ms` -> `602ms` (`-9.1%`),
-  and JS requests `9` -> `1`; Discover navigation `1097.90ms` -> `630.45ms`
-  (`-42.6%`), response end `473.90ms` -> `492.80ms` (`+4.0%`), LCP
-  `768ms` -> `648ms` (`-15.6%`), and JS requests `9` -> `1`.
-- The PR 69 review app, stable pre-media, local, and PR 63 runs remain useful
-  historical chronology. They are not the current headline.
+- Current native-product ShakaPerf CLI run (`2026-08-12`, ten simultaneous
+  mobile Lighthouse measurements per side): FCP improves `76%` on both products,
+  LCP improves `74%/49%`, Lighthouse rises `35 -> 77` and `43 -> 71`, and
+  JavaScript requests fall `41 -> 3`. The cost is `TTFB +35%/+39%`, JavaScript
+  transfer `+206%`, downloads `+56%/+36%`, and Microsoft `TBT 0 -> 199ms`.
+  The command exits `1` with two performance regressions. See the
+  [artifact](./performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md).
+- The July Ruby/Selenium public-demo run, PR 69 review app, stable pre-media,
+  local, and PR 63 runs remain useful historical chronology. They are not the
+  current headline and must not be labeled ShakaPerf CLI output.
 - Deployed Lighthouse URL-pair diagnostic (`lighthouse@12.8.2`, 3 runs per URL
   and strategy, see
   [summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)):
@@ -34,9 +34,9 @@ Shared evidence now has three layers:
   the demo did not yet match.
 
 The remaining gaps below are what still make the final Gumroad-facing proof
-harder: the media-bearing run records strong browser navigation and JS
-request-count evidence, but only modest/noisy LCP improvements and no
-response-end win. The analytics/legacy-bundle asymmetry also limits causal attribution.
+harder: the native run records strong paint and request-count evidence, but the
+suite fails its transfer/TTFB gates. The analytics/legacy-bundle asymmetry also
+limits causal attribution.
 PageSpeed API or field-data scores after production-equivalent media parity,
 RSC payload timing, CDN-safe streaming timing, and hydration/interactivity marks
 still need first-class measurement.
@@ -102,7 +102,8 @@ this is not a blocker for its present headline. A future interactive variant's
 live in-browser A/B race can measure
 first-streamed-bytes and full-response download, but not the JavaScript execution
 and hydration cost — which is exactly where the Inertia control is heaviest
-(9 JS requests for Inertia vs 1 for RSC in the PR 69 media-bearing ShakaPerf run).
+(41 JavaScript requests for the control vs 3 for the experiment in the current
+native-product ShakaPerf run).
 
 - Emit opt-in hydration marks (per island and/or per page) that a client-side
   benchmark can read.
