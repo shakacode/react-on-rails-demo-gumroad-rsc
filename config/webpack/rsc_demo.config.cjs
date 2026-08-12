@@ -31,7 +31,12 @@ const baseResolve = {
   },
 };
 
-const createEsbuildUse = (loader, rscBundle = false) => [
+const tsSafeCastLoader = {
+  loader: path.join(__dirname, "loaders", "transformerLoader.js"),
+  options: { transformer: "ts-safe-cast" },
+};
+
+const createEsbuildUse = (loader, rscBundle = false, transformTypeScript = false) => [
   {
     loader: "esbuild-loader",
     options: {
@@ -40,18 +45,19 @@ const createEsbuildUse = (loader, rscBundle = false) => [
     },
   },
   ...(rscBundle ? [{ loader: "react-on-rails-rsc/WebpackLoader" }] : []),
+  ...(transformTypeScript ? [tsSafeCastLoader] : []),
 ];
 
 const createScriptRules = (rscBundle = false) => [
   {
     test: /\.tsx$/u,
     exclude: /node_modules\/(?!ts-safe-cast)/u,
-    use: createEsbuildUse("tsx", rscBundle),
+    use: createEsbuildUse("tsx", rscBundle, true),
   },
   {
     test: /\.ts$/u,
     exclude: /node_modules\/(?!ts-safe-cast)/u,
-    use: createEsbuildUse("ts", rscBundle),
+    use: createEsbuildUse("ts", rscBundle, true),
   },
   {
     test: /\.(js|mjs)$/u,

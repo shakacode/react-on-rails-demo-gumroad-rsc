@@ -3284,6 +3284,7 @@ describe LinksController, :vcr, inertia: true do
           expect(assigns(:native_product_rsc_props).dig(:product, :name)).to eq(link.name)
           expect(assigns(:native_product_rsc_props)).to include(:taxonomy_path, :taxonomies_for_nav)
           expect(assigns(:native_product_rsc_props).dig(:global, :href)).to include("rsc=1")
+          expect(assigns(:native_product_rsc_props).dig(:global, :csp_nonce)).to be_nil
           expect(response.headers["Last-Modified"]).to be_present
           expect(response.headers["X-Accel-Buffering"]).to eq("no")
         end

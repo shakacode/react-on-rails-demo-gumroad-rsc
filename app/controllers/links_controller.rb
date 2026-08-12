@@ -534,7 +534,7 @@ class LinksController < ApplicationController
       @hide_layouts = true
       @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
       @native_product_rsc_props = product_props.merge(
-        global: @precomputed_rendering_context.merge(href: request.original_url)
+        global: @precomputed_rendering_context.except(:csp_nonce).compact.merge(href: request.original_url)
       )
       release_live_active_record_connections
 
