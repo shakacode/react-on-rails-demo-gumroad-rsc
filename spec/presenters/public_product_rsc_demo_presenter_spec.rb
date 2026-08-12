@@ -305,6 +305,39 @@ describe PublicProductRscDemoPresenter do
     end
   end
 
+  describe "latest native ShakaPerf presentation data" do
+    it "derives the numbers-first cards from the latest CLI artifact" do
+      microsoft, residential = presenter.native_shakaperf_result_cards
+
+      expect(microsoft).to include(label: "Microsoft 365")
+      expect(microsoft[:wins].find { |metric| metric[:key] == "FCP" }).to include(
+        control: "7.71s",
+        experiment: "1.85s",
+        change: "-76%"
+      )
+      expect(residential[:costs].find { |metric| metric[:key] == "All downloads" }).to include(
+        control: "3425.7KB",
+        experiment: "4643.4KB",
+        change: "+36%"
+      )
+    end
+
+    it "summarizes shared and product-specific changes without hiding regressions" do
+      metrics = presenter.native_shakaperf_headline_metrics.index_by { |metric| metric[:label] }
+
+      expect(metrics.fetch("First paint")).to include(change: "-76%", tone: :win)
+      expect(metrics.fetch("Largest paint")).to include(change: "-74% / -49%", tone: :win)
+      expect(metrics.fetch("JS requests")).to include(change: "-93%", tone: :win)
+      expect(metrics.fetch("Transferred bytes")).to include(change: "+56% / +36%", tone: :cost)
+    end
+
+    it "keeps the causal explanation bounded to the measured architecture" do
+      expect(presenter.native_shakaperf_explanation_steps.map { |step| step[:title] }).to eq(
+        ["HTML arrives rendered", "41 requests become 3", "Paint moves forward"]
+      )
+    end
+  end
+
   describe "#shakaperf_reproduction_commands" do
     it "targets the current request host and reproduces both independent batches" do
       commands = presenter.shakaperf_reproduction_commands

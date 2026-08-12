@@ -680,6 +680,58 @@ class PublicProductRscDemoPresenter
     self.class.native_shakaperf_benchmark || {}
   end
 
+  def native_shakaperf_result_cards
+    native_shakaperf_benchmark.fetch(:results, []).map do |result|
+      {
+        label: result.fetch(:label).sub(" seeded product", ""),
+        control_url: result.fetch(:control_url),
+        experiment_url: result.fetch(:experiment_url),
+        wins: native_shakaperf_metrics(result, ["FCP", "LCP", "Lighthouse score", "JavaScript requests"]),
+        costs: native_shakaperf_metrics(result, ["TTFB", "JavaScript transfer", "All downloads", "TBT"]),
+        quality: result.fetch(:quality),
+      }
+    end
+  end
+
+  def native_shakaperf_headline_metrics
+    results = native_shakaperf_result_cards
+    return [] if results.empty?
+
+    [
+      native_shakaperf_cross_product_metric(results, "FCP", "First paint", :win),
+      native_shakaperf_cross_product_metric(results, "LCP", "Largest paint", :win),
+      native_shakaperf_cross_product_metric(results, "JavaScript requests", "JS requests", :win),
+      native_shakaperf_cross_product_metric(results, "All downloads", "Transferred bytes", :cost),
+    ]
+  end
+
+  def native_shakaperf_scorecards
+    native_shakaperf_result_cards.map do |result|
+      metric = result.fetch(:wins).find { |item| item[:key] == "Lighthouse score" }
+      result.slice(:label).merge(metric:)
+    end
+  end
+
+  def native_shakaperf_explanation_steps
+    [
+      {
+        number: "01",
+        title: "HTML arrives rendered",
+        detail: "RSC streams the real product DOM; Inertia sends props and waits for JavaScript to construct it.",
+      },
+      {
+        number: "02",
+        title: "41 requests become 3",
+        detail: "The dedicated RSC entry avoids the control's legacy pack request waterfall.",
+      },
+      {
+        number: "03",
+        title: "Paint moves forward",
+        detail: "Fewer round trips and stable server-rendered layout improve FCP, LCP, and CLS.",
+      },
+    ]
+  end
+
   def media_review_benchmark_method_note
     benchmark_method_note(self.class.media_review_benchmark)
   end
@@ -832,6 +884,10 @@ class PublicProductRscDemoPresenter
     ]
   end
 
+  def native_shakaperf_metric(result, key)
+    (result[:wins] + result[:costs]).find { |metric| metric[:key] == key }
+  end
+
   def shakaperf_reproduction_commands
     method = self.class.deployed_benchmark&.dig(:method) || {}
     batch_count = method[:independent_batches] || 1
@@ -884,6 +940,38 @@ class PublicProductRscDemoPresenter
   end
 
   private
+
+    def native_shakaperf_metrics(result, keys)
+      keys.filter_map do |key|
+        metric = result.fetch(:metrics).find { |candidate| candidate.fetch(:label).start_with?(key) }
+        next if metric.nil?
+
+        {
+          key:,
+          label: metric.fetch(:label).sub(/ \(.+\)\z/, ""),
+          control: metric.fetch(:control),
+          experiment: metric.fetch(:experiment),
+          change: metric.fetch(:change),
+          p_value: metric.fetch(:p_value),
+        }
+      end
+    end
+
+    def native_shakaperf_cross_product_metric(results, key, label, tone)
+      metrics = results.map { |result| native_shakaperf_metric(result, key) }
+      {
+        label:,
+        tone:,
+        change: compact_paired_value(metrics.map { |metric| metric.fetch(:change) }),
+        values: results.zip(metrics).map do |result, metric|
+          "#{result.fetch(:label)} #{metric.fetch(:control)} → #{metric.fetch(:experiment)}"
+        end,
+      }
+    end
+
+    def compact_paired_value(values)
+      values.uniq.one? ? values.first : values.join(" / ")
+    end
     def self.read_benchmark(path)
       JSON.parse(File.read(Rails.root.join(path)), symbolize_names: true)
     rescue StandardError
