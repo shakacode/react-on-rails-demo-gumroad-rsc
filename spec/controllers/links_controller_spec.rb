@@ -3267,6 +3267,7 @@ describe LinksController, :vcr, inertia: true do
 
         it "streams the database-backed discover product through React on Rails RSC" do
           link = create(:product, user: @user)
+          link.user.seller_profile.update!(font: "Roboto Mono")
           allow(controller).to receive(:stream_view_containing_react_components) do |**|
             controller.render plain: "streamed native product rsc"
           end
@@ -3285,6 +3286,10 @@ describe LinksController, :vcr, inertia: true do
           expect(assigns(:native_product_rsc_props)).to include(:taxonomy_path, :taxonomies_for_nav)
           expect(assigns(:native_product_rsc_props).dig(:global, :href)).to include("rsc=1")
           expect(assigns(:native_product_rsc_props).dig(:global, :csp_nonce)).to be_nil
+          expect(assigns(:native_product_custom_styles)).to include("Roboto Mono")
+          expect(controller.send(:content_security_policy_nonce)).to eq(
+            SecureHeaders.content_security_policy_script_nonce(request)
+          )
           expect(response.headers["Last-Modified"]).to be_present
           expect(response.headers["X-Accel-Buffering"]).to eq("no")
         end

@@ -10,6 +10,8 @@ class LinksController < ApplicationController
   include LiveActiveRecordConnectionCleanup
   include LiveStreamingResponseHeaders
 
+  helper_method :content_security_policy_nonce
+
   DEFAULT_PRICE = 500
 
   prepend_before_action :disable_third_party_analytics!, only: :cart_items_count
@@ -522,6 +524,10 @@ class LinksController < ApplicationController
   end
 
   private
+    def content_security_policy_nonce(_directive = nil)
+      SecureHeaders.content_security_policy_script_nonce(request)
+    end
+
     def native_product_rsc_request?
       params[:rsc] == "1" && params[:layout] == Product::Layout::DISCOVER
     end
@@ -533,6 +539,7 @@ class LinksController < ApplicationController
     def render_native_product_rsc(product_props)
       @hide_layouts = true
       @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
+      @native_product_custom_styles = @product.user.seller_profile.custom_styles.to_s
       @native_product_rsc_props = product_props.merge(
         global: @precomputed_rendering_context.except(:csp_nonce).compact.merge(href: request.original_url)
       )

@@ -55,7 +55,9 @@ export default function NativeProductRscPage({
                 taxonomiesForNav={taxonomiesForNav}
                 forceDomain
               >
-                <ProductLayout cart hasHero {...productProps} />
+                <main style={{ display: "contents" }}>
+                  <ProductLayout cart hasHero {...productProps} />
+                </main>
               </DiscoverLayout>
             </CurrentSellerProvider>
           </LoggedInUserProvider>

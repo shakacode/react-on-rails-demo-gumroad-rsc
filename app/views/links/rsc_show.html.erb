@@ -1,3 +1,6 @@
+<% content_for :style do %>
+  <style><%= @native_product_custom_styles.html_safe %></style>
+<% end %>
 <% content_for :script do %>
   <% rsc_asset_path = Rails.env.test? ? "/packs-test/public_product_rsc_demo.js" : "/packs/public_product_rsc_demo.js" %>
   <%= javascript_include_tag rsc_asset_path, defer: true, crossorigin: "anonymous" %>

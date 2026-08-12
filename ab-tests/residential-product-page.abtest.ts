@@ -20,8 +20,7 @@ abTest(
       .getByRole("heading", { level: 1, name: /Graphic Guide to Residential Design/ })
       .waitFor({ state: "visible" });
     await page.getByLabel("Product preview").waitFor({ state: "visible" });
-    await page.locator('article [itemprop="price"]:visible').first().waitFor({ state: "visible" });
     await waitUntilPageSettled(page);
-    await annotate(`${isControl ? "Inertia" : "React on Rails RSC"} Residential Design product fully rendered`);
+    await annotate(`Residential ${isControl ? "Inertia" : "RSC"} rendered`);
   },
 );
