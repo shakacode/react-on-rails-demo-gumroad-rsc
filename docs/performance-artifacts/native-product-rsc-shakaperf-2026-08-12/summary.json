@@ -34,6 +34,13 @@
           "p_value": "0.001953"
         },
         {
+          "label": "CLS (lower is better)",
+          "control": "48.7/100",
+          "experiment": "0.8/100",
+          "change": "-98%",
+          "p_value": "0.001953"
+        },
+        {
           "label": "Lighthouse score (higher is better)",
           "control": "35/100",
           "experiment": "77/100",
@@ -69,6 +76,13 @@
           "p_value": "0.001904"
         },
         {
+          "label": "All requests (lower is better)",
+          "control": "61",
+          "experiment": "19",
+          "change": "-69%",
+          "p_value": "0.001904"
+        },
+        {
           "label": "All downloads (lower is better)",
           "control": "2152.2KB",
           "experiment": "3361.7KB",
@@ -95,6 +109,13 @@
           "control": "16.88s",
           "experiment": "8.63s",
           "change": "-49%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "CLS (lower is better)",
+          "control": "25.3/100",
+          "experiment": "0.9/100",
+          "change": "-97%",
           "p_value": "0.001953"
         },
         {
@@ -130,6 +151,13 @@
           "control": "41",
           "experiment": "3",
           "change": "-93%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "All requests (lower is better)",
+          "control": "72",
+          "experiment": "30",
+          "change": "-58%",
           "p_value": "0.001904"
         },
         {

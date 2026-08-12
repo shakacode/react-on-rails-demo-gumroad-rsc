@@ -686,7 +686,7 @@ class PublicProductRscDemoPresenter
         label: result.fetch(:label).sub(" seeded product", ""),
         control_url: result.fetch(:control_url),
         experiment_url: result.fetch(:experiment_url),
-        wins: native_shakaperf_metrics(result, ["FCP", "LCP", "Lighthouse score", "JavaScript requests"]),
+        wins: native_shakaperf_metrics(result, ["FCP", "LCP", "CLS", "Lighthouse score", "JavaScript requests", "All requests"]),
         costs: native_shakaperf_metrics(result, ["TTFB", "JavaScript transfer", "All downloads", "TBT"]),
         quality: result.fetch(:quality),
       }
@@ -708,7 +708,11 @@ class PublicProductRscDemoPresenter
   def native_shakaperf_scorecards
     native_shakaperf_result_cards.map do |result|
       metric = result.fetch(:wins).find { |item| item[:key] == "Lighthouse score" }
-      result.slice(:label).merge(metric:)
+      result.slice(:label).merge(
+        metric:,
+        control_score: metric.fetch(:control).to_i,
+        experiment_score: metric.fetch(:experiment).to_i
+      )
     end
   end
 
@@ -875,11 +879,11 @@ class PublicProductRscDemoPresenter
       },
       {
         step: "3",
-        label: "Before a Gumroad issue",
-        title: "Rerun after Pro 17.0.0 final",
-        body: "Wait for the final React on Rails Pro 17 release, then rerun both the ShakaPerf test and the legacy Selenium benchmark. Only quote PageSpeed once media, chrome, and production-service differences are comparable.",
-        href: "#reproduce-with-shakaperf",
-        link_label: "Copy reproduction commands",
+        label: "Before rollout",
+        title: "Production parity + field data",
+        body: "The native CLI run exists. The remaining gate is equivalent production chrome and analytics, lower TTFB and bundle weight, then real-user LCP, INP, availability, and conversion.",
+        href: "#react-on-rails-pro-17-audit",
+        link_label: "Review rollout gates",
       },
     ]
   end
