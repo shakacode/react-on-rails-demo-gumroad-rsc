@@ -60,35 +60,22 @@ ENV RAILS_ENV=staging \
     RAILS_LOG_TO_STDOUT=true \
     RAILS_SERVE_STATIC_FILES=true \
     ASSET_HOST="" \
-    SECRET_KEY_BASE=build-placeholder-secret-key-base \
-    DEVISE_SECRET_KEY=build-placeholder-devise-secret-key \
-    RENDERER_PASSWORD=build-placeholder-renderer-password \
-    REACT_ON_RAILS_PRO_LICENSE="" \
-    DATABASE_HOST=127.0.0.1 \
-    DATABASE_PORT=3306 \
-    DATABASE_NAME=gumroad_demo \
-    DATABASE_USERNAME=gumroad \
-    DATABASE_PASSWORD=gumroad \
-    MONGO_DATABASE_URL=127.0.0.1:27017 \
-    MONGO_DATABASE_NAME=gumroad_log_demo \
-    MONGO_DATABASE_USERNAME=gumroad \
-    MONGO_DATABASE_PASSWORD=gumroad \
-    MONGO_AUTH_SOURCE=admin \
-    REDIS_HOST=127.0.0.1:6379/0 \
-    SIDEKIQ_REDIS_HOST=127.0.0.1:6379/1 \
-    RPUSH_REDIS_HOST=127.0.0.1:6379/2 \
-    RACK_ATTACK_REDIS_HOST=127.0.0.1:6379/3 \
-    MEMCACHE_SERVERS=127.0.0.1:11211 \
-    ELASTICSEARCH_HOST=http://127.0.0.1:9200 \
-    AWS_ACCESS_KEY_ID=demo-access-key \
-    AWS_SECRET_ACCESS_KEY=demo-secret-key \
-    AWS_DEFAULT_REGION=us-east-1 \
-    BRANCH_DEPLOYMENT=true \
-    BRANCH=control-plane-build \
-    REVISION=control-plane-build \
     GIT_COMMIT=${GIT_COMMIT}
 
-RUN export STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')" && \
+RUN export SECRET_KEY_BASE=build-placeholder-secret-key-base && \
+    export DEVISE_SECRET_KEY=build-placeholder-devise-secret-key && \
+    export RENDERER_PASSWORD=build-placeholder-renderer-password && \
+    export REACT_ON_RAILS_PRO_LICENSE="" && \
+    export DATABASE_HOST=127.0.0.1 DATABASE_PORT=3306 DATABASE_NAME=gumroad_demo && \
+    export DATABASE_USERNAME=gumroad DATABASE_PASSWORD=gumroad && \
+    export MONGO_DATABASE_URL=127.0.0.1:27017 MONGO_DATABASE_NAME=gumroad_log_demo && \
+    export MONGO_DATABASE_USERNAME=gumroad MONGO_DATABASE_PASSWORD=gumroad MONGO_AUTH_SOURCE=admin && \
+    export REDIS_HOST=127.0.0.1:6379/0 SIDEKIQ_REDIS_HOST=127.0.0.1:6379/1 && \
+    export RPUSH_REDIS_HOST=127.0.0.1:6379/2 RACK_ATTACK_REDIS_HOST=127.0.0.1:6379/3 && \
+    export MEMCACHE_SERVERS=127.0.0.1:11211 ELASTICSEARCH_HOST=http://127.0.0.1:9200 && \
+    export AWS_ACCESS_KEY_ID=demo-access-key AWS_SECRET_ACCESS_KEY=demo-secret-key AWS_DEFAULT_REGION=us-east-1 && \
+    export BRANCH_DEPLOYMENT=true BRANCH=control-plane-build REVISION=control-plane-build && \
+    export STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')" && \
     export STRONGBOX_GENERAL_PASSWORD="" && \
     export SKIP_BRANCH_APP_ES_INDEX_SETUP=true && \
     npm run setup && \
