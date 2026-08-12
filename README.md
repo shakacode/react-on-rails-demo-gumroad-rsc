@@ -28,6 +28,8 @@ The priority is consumer-facing performance: public product pages, Discover mark
 ### Start here
 
 - Hosted homepage with an explicit experiment callout: <https://gumroad.reactonrails.com>
+- Planned Legacy Gumroad control (pre-RSC application): `legacy.gumroad.reactonrails.com`
+- Planned Next Gumroad (same URLs/content, native RSC as routes reach parity): `next.gumroad.reactonrails.com`
 - VP Engineering summary: <https://gumroad.reactonrails.com/rsc-demo>
 - Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo/evidence>
 - Product before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
@@ -38,12 +40,16 @@ The priority is consumer-facing performance: public product pages, Discover mark
 - React on Rails source: <https://github.com/shakacode/react_on_rails>
 - ShakaCode: <https://www.shakacode.com/>
 - Book a ShakaCode consultation: <https://meetings.hubspot.com/justingordon/30-minute-consultation>
+
 - Performance evaluation notes: [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - Public product demo details: [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - Fixture sampling and sanitation notes: [docs/public-page-fixture-sampling.md](docs/public-page-fixture-sampling.md)
 - Hosted public buyer-page performance results: [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md)
 - Historical dashboard/bundler findings: [docs/performance-findings.md](docs/performance-findings.md)
 - Benchmark and positioning issue: [React on Rails issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
+
+The source, renderer, and deployment invariants for these independent surfaces
+are documented in [the three-surface topology](docs/three-surface-topology.md).
 
 ### Where TanStack Query fits
 

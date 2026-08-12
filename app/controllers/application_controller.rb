@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
   include InertiaRendering
   include PageMeta::Base, PageMeta::Analytics
 
+  before_action :expose_demo_rendering_surface
   before_action :set_default_page_title
   before_action :set_csrf_meta_tags
   before_action :set_default_meta_tags
@@ -146,6 +147,14 @@ class ApplicationController < ActionController::Base
     end
 
   private
+    def demo_rendering_surface
+      @demo_rendering_surface ||= DemoRenderingSurface.current(request:)
+    end
+
+    def expose_demo_rendering_surface
+      response.set_header("X-Gumroad-Rendering-Surface", demo_rendering_surface.to_s)
+    end
+
     def redirect_to_custom_subdomain
       redirect_url = SubdomainRedirectorService.new.redirect_url_for(request)
       redirect_to(redirect_url, allow_other_host: true) if redirect_url.present?

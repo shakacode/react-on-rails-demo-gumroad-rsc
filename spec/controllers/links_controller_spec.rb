@@ -3294,6 +3294,38 @@ describe LinksController, :vcr, inertia: true do
           expect(response.headers["X-Accel-Buffering"]).to eq("no")
         end
 
+        it "uses RSC at the unchanged product URL on the next surface" do
+          stub_const("ENV", ENV.to_hash.merge(
+            "GUMROAD_RENDERING_SURFACE" => "next",
+            "BRANCH" => "react-on-rails-demo-gumroad-next"
+          ))
+          link = create(:product, user: @user)
+          allow(controller).to receive(:stream_view_containing_react_components) do |**|
+            controller.render plain: "streamed native product rsc"
+          end
+
+          get :show, params: { id: link.to_param, layout: "discover" }
+
+          expect(response).to be_successful
+          expect(controller).to have_received(:stream_view_containing_react_components)
+          expect(assigns(:native_product_rsc_props).dig(:global, :href)).not_to include("rsc=1")
+          expect(response.headers["X-Gumroad-Rendering-Surface"]).to eq("next")
+        end
+
+        it "cannot opt the legacy surface into RSC with a query parameter" do
+          stub_const("ENV", ENV.to_hash.merge(
+            "GUMROAD_RENDERING_SURFACE" => "legacy",
+            "BRANCH" => "react-on-rails-demo-gumroad-legacy"
+          ))
+          link = create(:product, user: @user)
+
+          get :show, params: { id: link.to_param, layout: "discover", rsc: "1" }
+
+          expect(response).to be_successful
+          expect(inertia.component).to eq("Products/Discover/Show")
+          expect(response.headers["X-Gumroad-Rendering-Surface"]).to eq("legacy")
+        end
+
         it "renders Products/Iframe/Show with product props for embed param" do
           link = create(:product, user: @user)
           get :show, params: { id: link.to_param, embed: "true" }

@@ -529,7 +529,11 @@ class LinksController < ApplicationController
     end
 
     def native_product_rsc_request?
-      params[:rsc] == "1" && params[:layout] == Product::Layout::DISCOVER
+      return false unless params[:layout] == Product::Layout::DISCOVER
+      return true if demo_rendering_surface == :next
+      return false if demo_rendering_surface == :legacy
+
+      params[:rsc] == "1"
     end
 
     def skip_legacy_application_javascript
