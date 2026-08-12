@@ -15,11 +15,9 @@ const buildEnvironment = (() => {
 const publicOutputDirectory = buildEnvironment === "test" ? "public/packs-test" : "public/packs";
 const publicOutputPath = path.join(rootPath, publicOutputDirectory);
 const mode = buildEnvironment === "production" ? "production" : "development";
-const rscClientReferencesDirectories = [
-  "src/dashboard_rsc_demo/ror_components",
-  "src/next_rsc",
-  "src/public_product_rsc_demo/ror_components",
-].map((directory) => path.relative(packsPath, path.join(sourcePath, directory)));
+const rscClientReferencesDirectories = ["src/next_rsc"].map((directory) =>
+  path.relative(packsPath, path.join(sourcePath, directory)),
+);
 
 const baseResolve = {
   extensions: [".js", ".mjs", ".ts", ".tsx", ".json"],
@@ -127,9 +125,7 @@ const clientConfig = {
   devtool: mode === "production" ? "nosources-source-map" : "cheap-module-source-map",
   context: packsPath,
   entry: {
-    dashboard_rsc_demo: "./dashboard_rsc_demo.tsx",
     next_rsc_page: "./next_rsc_page.tsx",
-    public_product_rsc_demo: "./public_product_rsc_demo.tsx",
   },
   resolve: baseResolve,
   module: {

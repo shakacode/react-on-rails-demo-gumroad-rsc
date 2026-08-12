@@ -6,11 +6,6 @@ class LinksController < ApplicationController
           CreateDiscoverSearch, DiscoverCuratedProducts, FetchProductByUniquePermalink
 
   include PageMeta::Favicon, PageMeta::Product
-  include ReactOnRailsPro::Stream
-  include LiveActiveRecordConnectionCleanup
-  include LiveStreamingResponseHeaders
-
-  helper_method :content_security_policy_nonce
 
   DEFAULT_PRICE = 500
 
@@ -34,9 +29,6 @@ class LinksController < ApplicationController
   before_action :check_if_needs_redirect, only: [:show]
   before_action :prepare_product_page, only: %i[show]
   before_action :ensure_domain_belongs_to_seller, only: [:show]
-  before_action :skip_legacy_application_javascript, only: :show, if: :native_product_rsc_request?
-  before_action :prepare_live_streaming_response, only: :show, if: :native_product_rsc_request?
-  prepend_around_action :clear_live_active_record_connections, only: :show, if: :native_product_rsc_request?
   before_action :fetch_product_and_enforce_ownership, only: %i[destroy]
   before_action :fetch_product_and_enforce_access, only: %i[update publish unpublish release_preorder update_sections]
 
@@ -141,7 +133,7 @@ class LinksController < ApplicationController
                                   ChargeProcessor::DEFAULT_CURRENCY_CODE
     @pay_with_card_enabled = @product.user.pay_with_card_enabled?
     presenter = ProductPresenter.new(pundit_user:, product: @product, request:)
-    presenter_props = { recommended_by: params[:recommended_by], discount_code: params[:offer_code] || params[:code], quantity: (params[:quantity] || 1).to_i, layout: params[:layout], seller_custom_domain_url: product_seller_profile_url }
+    presenter_props = { recommended_by: params[:recommended_by], discount_code: params[:offer_code] || params[:code], quantity: (params[:quantity] || 1).to_i, layout: params[:layout], seller_custom_domain_url: }
     @body_class = "iframe" if params[:overlay] || params[:embed]
 
     if ["search", "discover"].include?(params[:recommended_by])
@@ -170,10 +162,7 @@ class LinksController < ApplicationController
             }
           end
           discover_props = { taxonomy_path: @product.taxonomy&.ancestry_path&.join("/"), taxonomies_for_nav: }
-          product_props = presenter.discover_product_props(discover_props:, **presenter_props)
-          return render_native_product_rsc(product_props) if native_product_rsc_request?
-
-          render inertia: "Products/Discover/Show", props: product_props
+          render inertia: "Products/Discover/Show", props: presenter.discover_product_props(discover_props:, **presenter_props)
         else
           if params[:embed] || params[:overlay]
             render inertia: "Products/Iframe/Show", props: presenter.iframe_product_props(**presenter_props)
@@ -247,16 +236,8 @@ class LinksController < ApplicationController
     # Else, redirect to the creator's subdomain, if it exists.
     # E.g., we want to redirect gumroad.com/l/id to username.gumroad.com/l/id
     creator_subdomain_with_protocol = @product.user.subdomain_with_protocol
-    branch_request = GumroadDomainConstraint.control_plane_branch_host?(request.host)
-    local_custom_domain_request = ENV["CUSTOM_DOMAIN"].present? && request.host == ENV["CUSTOM_DOMAIN"]
-    target_host = if branch_request || local_custom_domain_request
-      request.host
-    elsif !@is_user_custom_domain && creator_subdomain_with_protocol.present?
-      creator_subdomain_with_protocol
-    else
-      request.host
-    end
-    target_permalink = branch_request ? @product.unique_permalink : @product.general_permalink
+    target_host = !@is_user_custom_domain && creator_subdomain_with_protocol.present? ? creator_subdomain_with_protocol : request.host
+    target_permalink = @product.general_permalink
 
     searched_id = params[:id] || params[:link_id]
 
@@ -524,45 +505,6 @@ class LinksController < ApplicationController
   end
 
   private
-    def content_security_policy_nonce(_directive = nil)
-      SecureHeaders.content_security_policy_script_nonce(request)
-    end
-
-    def native_product_rsc_request?
-      return false unless params[:layout] == Product::Layout::DISCOVER
-      return true if demo_rendering_surface == :next
-      return false if demo_rendering_surface == :legacy
-
-      params[:rsc] == "1"
-    end
-
-    def skip_legacy_application_javascript
-      @skip_legacy_application_javascript = true
-    end
-
-    def render_native_product_rsc(product_props)
-      @hide_layouts = true
-      @precomputed_rendering_context = RenderingExtension.custom_context(view_context)
-      @native_product_custom_styles = @product.user.seller_profile.custom_styles.to_s
-      @native_product_rsc_props = product_props.merge(
-        global: @precomputed_rendering_context.except(:csp_nonce).compact.merge(href: request.original_url)
-      )
-      release_live_active_record_connections
-
-      stream_view_containing_react_components(
-        template: "links/rsc_show",
-        layout: "inertia",
-        rsc_stream_observability: true
-      )
-    end
-
-    def product_seller_profile_url
-      return seller_custom_domain_url unless GumroadDomainConstraint.control_plane_branch_host?(request.host)
-      return if @product.user.username.blank?
-
-      user_url(@product.user.username, host: request.host_with_port, protocol: request.protocol)
-    end
-
     def fetch_product_for_show
       fetch_product_by_custom_domain || fetch_product_by_general_permalink
     end
@@ -597,12 +539,7 @@ class LinksController < ApplicationController
       custom_or_unique_permalink = params[:id] || params[:link_id]
       e404 if custom_or_unique_permalink.blank?
 
-      @product = if GumroadDomainConstraint.control_plane_branch_host?(request.host)
-        Link.fetch(custom_or_unique_permalink)
-      else
-        Link.fetch_leniently(custom_or_unique_permalink, user: user_by_domain(request.host))
-      end
-      @product ||= e404
+      @product = Link.fetch_leniently(custom_or_unique_permalink, user: user_by_domain(request.host)) || e404
     end
 
     def preload_product

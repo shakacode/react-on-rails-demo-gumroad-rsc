@@ -16,10 +16,7 @@ else
 end
 
 Rails.application.routes.draw do
-  get "/", to: redirect("/public_product/inertia_demo") if ENV["TWIN_SERVERS"] == "true"
-
   get "/healthcheck" => "healthcheck#index"
-  get "/healthcheck/active_record_pool" => "healthcheck#active_record_pool"
   get "/healthcheck/sidekiq" => "healthcheck#sidekiq"
   get "/healthcheck/paypal_balance" => "healthcheck#paypal_balance"
 
@@ -751,22 +748,7 @@ Rails.application.routes.draw do
     post "/products/:id/release_preorder", to: "links#release_preorder", as: :release_preorder
 
 
-    rsc_payload_route path: "rsc_payload"
-
     get "/dashboard" => "dashboard#index", as: :dashboard
-    get "/dashboard/inertia_demo" => "dashboard#inertia_demo", as: :dashboard_inertia_demo
-    get "/dashboard/rsc_demo" => "dashboard_rsc_demo#index", as: :dashboard_rsc_demo
-    get "/rsc-demo" => "public_product_rsc_demo#executive_summary", as: :rsc_executive_summary
-    get "/rsc-demo/evidence" => "public_product_rsc_demo#performance_demo", as: :rsc_performance_demo
-    get "/public_product/performance_demo" => "public_product_rsc_demo#performance_demo", as: :public_product_performance_demo
-    get "/public_product/discover_inertia_demo" => "public_product_rsc_demo#discover_inertia_demo", as: :public_product_discover_inertia_demo
-    get "/public_product/discover_rsc_demo" => "public_product_rsc_demo#discover_rsc_demo", as: :public_product_discover_rsc_demo
-    get "/public_product/inertia_demo" => "public_product_rsc_demo#inertia_demo", as: :public_product_inertia_demo
-    get "/public_product/rsc_demo" => "public_product_rsc_demo#rsc_demo", as: :public_product_rsc_demo
-    get "/public_product/lab_clean_inertia_demo" => "public_product_rsc_demo#lab_clean_inertia_demo", as: :public_product_lab_clean_inertia_demo
-    get "/public_product/lab_clean_rsc_demo" => "public_product_rsc_demo#lab_clean_rsc_demo", as: :public_product_lab_clean_rsc_demo
-    get "/public_product/production_shaped_inertia_demo" => "public_product_rsc_demo#production_shaped_inertia_demo", as: :public_product_production_shaped_inertia_demo
-    get "/public_product/production_shaped_rsc_demo" => "public_product_rsc_demo#production_shaped_rsc_demo", as: :public_product_production_shaped_rsc_demo
     get "/dashboard/customers_count" => "dashboard#customers_count", as: :dashboard_customers_count
     get "/dashboard/total_revenue" => "dashboard#total_revenue", as: :dashboard_total_revenue
     get "/dashboard/active_members_count" => "dashboard#active_members_count", as: :dashboard_active_members_count
