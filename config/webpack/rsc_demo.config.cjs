@@ -17,6 +17,7 @@ const publicOutputPath = path.join(rootPath, publicOutputDirectory);
 const mode = buildEnvironment === "production" ? "production" : "development";
 const rscClientReferencesDirectories = [
   "src/dashboard_rsc_demo/ror_components",
+  "src/next_rsc",
   "src/public_product_rsc_demo/ror_components",
 ].map((directory) => path.relative(packsPath, path.join(sourcePath, directory)));
 
@@ -86,6 +87,11 @@ const assetRule = {
   generator: { filename: "static/[hash][ext][query]" },
 };
 
+const cssRule = {
+  test: /\.css$/u,
+  use: ["style-loader", "css-loader"],
+};
+
 const basePlugins = (ssr) => [
   new webpack.ProvidePlugin({ Routes: path.join(sourcePath, "utils/routes.js") }),
   new webpack.DefinePlugin({ SSR: JSON.stringify(ssr) }),
@@ -122,11 +128,12 @@ const clientConfig = {
   context: packsPath,
   entry: {
     dashboard_rsc_demo: "./dashboard_rsc_demo.tsx",
+    next_rsc_page: "./next_rsc_page.tsx",
     public_product_rsc_demo: "./public_product_rsc_demo.tsx",
   },
   resolve: baseResolve,
   module: {
-    rules: [assetRule, ...createScriptRules(false)],
+    rules: [assetRule, cssRule, ...createScriptRules(false)],
   },
   plugins: [...basePlugins(false), new RSCWebpackPlugin(rscWebpackPluginOptions(false))],
   output: {
@@ -147,7 +154,7 @@ const serverConfig = {
   resolve: serverResolve,
   target: "node",
   module: {
-    rules: [assetRule, ...createScriptRules(false)],
+    rules: [assetRule, cssRule, ...createScriptRules(false)],
   },
   optimization: {
     minimize: false,

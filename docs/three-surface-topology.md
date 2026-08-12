@@ -7,7 +7,7 @@ renderer used by the next site.
 | Surface | Canonical URL | Source contract | Rendering contract |
 | --- | --- | --- | --- |
 | Legacy | Target: `https://legacy.gumroad.reactonrails.com` | Pin the Gumroad application at `e2343f98db315198c4c898f9efcca5c26fa0e9ab`, the last commit before Justin Gordon's RSC work began on April 12, 2026. Backport deployment-only files without changing page code. | Existing Inertia/ERB behavior. Requests cannot opt into RSC. |
-| Next | Target: `https://next.gumroad.reactonrails.com` | Release the RSC migration branch. Page data, copy, assets, paths, query parameters, and interactions must remain matched to Legacy. | Use RSC only for routes with a native parity implementation. Unmigrated routes remain visibly tracked gaps, not rewritten demo content. |
+| Next | Target: `https://next.gumroad.reactonrails.com` | Fork from the same pre-Justin SHA as Legacy, then add only RSC runtime, deployment, and parity changes. Page data, copy, assets, paths, query parameters, and interactions must remain matched to Legacy. | Every existing Inertia page response is transported through the universal RSC page shell. Route-specific native RSC implementations may progressively replace the compatibility shell without changing URLs or content. |
 | Landing | `https://gumroad.reactonrails.com` | Release the independently evolving landing/evidence branch. | Marketing and evidence content may change without changing either comparison surface. |
 
 The corresponding Control Plane app names are:
@@ -39,10 +39,16 @@ to the existing renderer even if someone adds `rsc=1` manually.
 
 ## Current migration coverage
 
-The database-backed Discover-layout product detail route has a native RSC
-implementation. Every other Inertia route is still a migration gap. Those
-routes may be served on the Next app while migration continues, but they must
-not be described as RSC until they have all of the following:
+The Next renderer intercepts all existing `render inertia:` responses and
+streams the unchanged component name and fully resolved props through React on
+Rails RSC. The shell bundles the existing page registry, applies the same
+public, signed-in, or admin layout, and preserves the existing providers.
+Inertia-link requests receive HTML rather than Inertia JSON and fall back to a
+full navigation, ensuring each page response crosses the RSC transport.
+
+The database-backed Discover-layout product detail route also has a dedicated
+native RSC implementation. Route-specific conversions may progressively replace
+the universal compatibility shell, but they must have all of the following:
 
 1. A server component consuming the same presenter data.
 2. The unchanged public path on the Next host.
