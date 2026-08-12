@@ -11,8 +11,8 @@ ENV LANG=C.UTF-8
 
 WORKDIR $APP_DIR
 
-RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
+RUN apt-get -o Acquire::Retries=5 update -qq && \
+    apt-get -o Acquire::Retries=5 -o Acquire::http::Timeout=60 install --no-install-recommends -y \
       build-essential \
       ca-certificates \
       curl \
