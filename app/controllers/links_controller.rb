@@ -236,7 +236,11 @@ class LinksController < ApplicationController
     # Else, redirect to the creator's subdomain, if it exists.
     # E.g., we want to redirect gumroad.com/l/id to username.gumroad.com/l/id
     creator_subdomain_with_protocol = @product.user.subdomain_with_protocol
-    target_host = !@is_user_custom_domain && creator_subdomain_with_protocol.present? ? creator_subdomain_with_protocol : request.host
+    target_host = if GumroadDomainConstraint.control_plane_branch_host?(request.host)
+      request.host
+    else
+      !@is_user_custom_domain && creator_subdomain_with_protocol.present? ? creator_subdomain_with_protocol : request.host
+    end
     target_permalink = @product.general_permalink
 
     searched_id = params[:id] || params[:link_id]
