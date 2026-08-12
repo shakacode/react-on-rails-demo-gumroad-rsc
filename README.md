@@ -62,8 +62,8 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content, seller URLs, product URLs, or image URLs.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The current stable-deployment A/B report is favorable on browser navigation, route JavaScript transfer and request count, and serialized Inertia payload removal, with a modest Product `LCP` gain and a noisier Discover `LCP` gain, while showing a real response-end and HTML-transfer tradeoff.
-- The Lighthouse URL-pair fallback is favorable against comparable live Gumroad pages, but the final adoption claim still needs PageSpeed API or field-data corroboration, especially for `INP` and mobile score.
+- The current ShakaPerf CLI report shows much faster paint (`FCP -76%`; `LCP -74%/-49%`) and far fewer JavaScript requests (`41 -> 3`), but larger transfers, slower `TTFB`, and a Microsoft `TBT` regression. The suite exits `1` with `FAILED: 2 perf regressions`.
+- This is a bounded mobile Lighthouse result for the native Microsoft 365 and Residential Design product pages. It supports a pilot, not an overall-superiority or production-adoption claim; field data and production parity remain required.
 
 ### July 2026 React on Rails Pro 17 / React 19.2 audit
 
@@ -173,9 +173,9 @@ All four public comparison routes render production-shaped synthetic fixtures an
 
 ### Still Needed Before A Gumroad Adoption Proposal
 
-- Repeat the hosted A/B result as a mobile-throttled Lighthouse/ShakaPerf report for `/public_product/inertia_demo` vs `/public_product/rsc_demo` and `/public_product/discover_inertia_demo` vs `/public_product/discover_rsc_demo`.
-- Use the mobile report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
-- Profile renderer and streaming overhead if `responseEnd`, `TBT`, or tail latency weakens the RSC case.
+- Fix or explicitly accept the current ShakaPerf regressions: `TTFB +35%/+39%`, JavaScript transfer `+206%`, downloads `+56%/+36%`, and Microsoft `TBT 0 -> 199ms`.
+- Re-run the native product pairs with production-equivalent analytics, caching, media, and bundle delivery, then corroborate with field data.
+- Profile renderer, streaming, bundle, and hydration overhead before deciding whether the paint win justifies React Server Components via React on Rails Pro complexity.
 - Keep dashboard routes out of the headline story except as technical integration evidence.
 
 ### Dashboard technical proof
