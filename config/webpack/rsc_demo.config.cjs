@@ -92,6 +92,14 @@ const nodeWebApiPolyfills = () =>
     entryOnly: true,
   });
 
+const serverResolve = {
+  ...baseResolve,
+  alias: {
+    ...baseResolve.alias,
+    "@rails/activestorage$": path.join(__dirname, "activestorage_server.js"),
+  },
+};
+
 const rscWebpackPluginOptions = (isServer) => ({
   isServer,
   clientReferences: rscClientReferencesDirectories.map((directory) => ({
@@ -130,7 +138,7 @@ const serverConfig = {
   entry: {
     "server-bundle": "./dashboard_rsc_demo_server_entry.tsx",
   },
-  resolve: baseResolve,
+  resolve: serverResolve,
   target: "node",
   module: {
     rules: [assetRule, ...createScriptRules(false)],
@@ -161,10 +169,10 @@ const rscConfig = {
     "rsc-bundle": "./dashboard_rsc_demo_server_entry.tsx",
   },
   resolve: {
-    ...baseResolve,
+    ...serverResolve,
     conditionNames: ["react-server", "..."],
     alias: {
-      ...baseResolve.alias,
+      ...serverResolve.alias,
       "react-dom/server": false,
     },
   },
