@@ -6,33 +6,22 @@ describe HomeController do
   render_views
 
   describe "GET about" do
-    it "prioritizes the public buyer-page RSC performance experiment" do
+    it "keeps the independent landing content" do
       get :about
 
       expect(response).to be_successful
-      expect(response.body).to include("React on Rails Pro performance experiment")
-      expect(response.body).to include("Faster paint")
-      expect(response.body).to include("actual ShakaPerf CLI")
-      expect(response.body).to include("First contentful paint")
-      expect(response.body).to include("-76%")
-      expect(response.body).to include("Largest contentful paint")
-      expect(response.body).to include("-74% / -49%")
-      expect(response.body).to include("41 → 3")
-      expect(response.body).to include("+56% / +36%")
-      expect(response.body).to include("exits 1 with two test regressions")
-      expect(response.body).not_to include("-48.8%")
-      expect(response.body).not_to include("-42.6%")
-      expect(response.body).to include("Current ShakaPerf results")
-      expect(response.body).to include("Fixture provenance")
-      expect(response.body).to include("React on Rails")
-      expect(response.body).to include("https://reactonrails.com/")
-      expect(response.body).to include("https://www.shakacode.com/")
-      expect(response.body).to include("Read the VP Engineering summary")
-      expect(response.body).to include("href=\"#{rsc_executive_summary_path}\"")
-      expect(response.body).to include("href=\"#{rsc_performance_demo_path}#native-shakaperf-result\"")
-      expect(response.body).to include("href=\"#{rsc_performance_demo_path}#fixture-provenance\"")
-      expect(response.body).to include("docs/performance-evaluation.md")
-      expect(response.body).to include("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc")
+      expect(response.body).to include("Go from")
+      expect(response.body).to include("0 to $1")
+      expect(response.body).to include("Anyone can earn their first dollar online")
+      expect(response.body).to include("Sell anything")
+      expect(response.body).to include("Make your own road")
+      expect(response.body).to include("Sell to anyone")
+      expect(response.body).to include("Sell anywhere")
+      expect(response.body).to include("The Gumroad Way")
+      expect(response.body).to include("https://github.com/antiwork/gumroad")
+      expect(response.body).not_to include("React on Rails Pro performance experiment")
+      expect(response.body).not_to include("Current ShakaPerf results")
+      expect(response.body).not_to include("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc")
     end
   end
 
