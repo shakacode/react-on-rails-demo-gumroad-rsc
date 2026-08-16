@@ -22,21 +22,21 @@ module Subdomain
 
     def from_username(username)
       return unless username.present?
-      "#{username.tr("_", "-")}.#{ROOT_DOMAIN}"
+      "#{username.tr("_", "-")}.#{creator_root_domain}"
     end
 
     private
       def subdomain_request?(hostname)
-        # Strip port from ROOT_DOMAIN in development and test environments since request.host doesn't contain port.
-        domain = if Rails.env.development? || Rails.env.test?
-          URI("#{PROTOCOL}://#{ROOT_DOMAIN}").host
-        else
-          ROOT_DOMAIN
-        end
+        # request.host never includes a port, including for a local surface root override.
+        domain = URI("#{PROTOCOL}://#{creator_root_domain}").host
 
         # Allows lowercase letters, numbers and hyphens (to support usernames with underscores).
         # Subdomain should contain at least one letter.
         hostname =~ /\A#{USERNAME_REGEXP.source}.#{domain}\z/
+      end
+
+      def creator_root_domain
+        ENV["GUMROAD_CREATOR_ROOT_DOMAIN"].presence || ROOT_DOMAIN
       end
   end
 end

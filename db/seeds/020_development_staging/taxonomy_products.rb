@@ -83,4 +83,4 @@ DevelopmentStagingProductCatalog.taxonomy_products.each do |entry|
   create_recommendable_product_if_not_exists(find_or_create_recommendable_user(entry.category), entry)
 end
 
-DevTools.delete_all_indices_and_reindex_all
+DevTools.delete_all_indices_and_reindex_all unless ENV["SKIP_DEVELOPMENT_STAGING_PRODUCT_REINDEX"] == "true"

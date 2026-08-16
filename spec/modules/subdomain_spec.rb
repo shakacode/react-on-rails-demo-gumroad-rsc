@@ -87,4 +87,21 @@ describe Subdomain do
       expect(Subdomain.send(:subdomain_request?, domain).present?).to eq(false)
     end
   end
+
+  describe "surface-specific creator hosts" do
+    around do |example|
+      original = ENV["GUMROAD_CREATOR_ROOT_DOMAIN"]
+      ENV["GUMROAD_CREATOR_ROOT_DOMAIN"] = "legacy.gumroad.reactonrails.com"
+      example.run
+    ensure
+      original.nil? ? ENV.delete("GUMROAD_CREATOR_ROOT_DOMAIN") : ENV["GUMROAD_CREATOR_ROOT_DOMAIN"] = original
+    end
+
+    it "resolves a seller directly on a configured rendering surface" do
+      expect(described_class.from_username(@seller1.username))
+        .to eq("test-user.legacy.gumroad.reactonrails.com")
+      expect(described_class.find_seller_by_hostname("test-user.legacy.gumroad.reactonrails.com"))
+        .to eq(@seller1)
+    end
+  end
 end

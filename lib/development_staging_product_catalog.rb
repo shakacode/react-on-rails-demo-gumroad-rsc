@@ -14,6 +14,7 @@ module DevelopmentStagingProductCatalog
     :category,
     :taxonomy_slug,
     :seller_email,
+    :seller_username,
     :price_cents,
     :permalink,
     :legacy_path,

@@ -3607,25 +3607,29 @@ describe LinksController, :vcr, inertia: true do
           end
         end
 
-        context "when requested on the local twin-server domain" do
+        context "when requested on a local surface creator host" do
           around do |example|
-            original_custom_domain = ENV["CUSTOM_DOMAIN"]
-            ENV["CUSTOM_DOMAIN"] = DOMAIN.split(":").first
+            original_creator_root = ENV["GUMROAD_CREATOR_ROOT_DOMAIN"]
+            original_surface = ENV["GUMROAD_RENDERING_SURFACE"]
+            ENV["GUMROAD_CREATOR_ROOT_DOMAIN"] = "legacy.gumroad.reactonrails.com"
+            ENV["GUMROAD_RENDERING_SURFACE"] = "legacy"
             example.run
           ensure
-            original_custom_domain.nil? ? ENV.delete("CUSTOM_DOMAIN") : ENV["CUSTOM_DOMAIN"] = original_custom_domain
+            original_creator_root.nil? ? ENV.delete("GUMROAD_CREATOR_ROOT_DOMAIN") : ENV["GUMROAD_CREATOR_ROOT_DOMAIN"] = original_creator_root
+            original_surface.nil? ? ENV.delete("GUMROAD_RENDERING_SURFACE") : ENV["GUMROAD_RENDERING_SURFACE"] = original_surface
           end
 
-          it "renders a custom permalink without redirecting to the creator subdomain" do
+          it "renders a custom permalink directly without CUSTOM_DOMAIN or a redirect" do
             product = create(:product, user: @user, custom_permalink: "O365IT")
-            @request.host = DOMAIN
+            @request.host = "#{@user.username.tr("_", "-")}.legacy.gumroad.reactonrails.com"
             request.headers["X-Inertia"] = "true"
 
             get :show, params: { id: product.custom_permalink, layout: "discover", recommended_by: "search" }
 
             expect(response).to be_successful
             expect(inertia.component).to eq("Products/Discover/Show")
-            expect(response.parsed_body.dig("props", "product", "name")).to eq(product.name)
+            expect(JSON.parse(response.body).dig("props", "product", "name")).to eq(product.name)
+            expect(response.headers["X-Gumroad-Rendering-Surface"]).to eq("legacy")
           end
         end
 

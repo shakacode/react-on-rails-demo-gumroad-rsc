@@ -1,0 +1,6 @@
+control-rails: shaka-perf servers -c shakaperf-historical/abtests.config.ts run-overmind-command control "CUSTOM_DOMAIN=localhost PUMA_ROOT=. ./twin-servers/start-rails"
+control-renderer: shaka-perf servers -c shakaperf-historical/abtests.config.ts run-overmind-command control "sh ./twin-servers/start-renderer"
+experiment-rails: shaka-perf servers -c shakaperf-historical/abtests.config.ts run-overmind-command experiment "CUSTOM_DOMAIN=localhost PUMA_ROOT=. ./twin-servers/start-rails"
+experiment-renderer: shaka-perf servers -c shakaperf-historical/abtests.config.ts run-overmind-command experiment "sh ./twin-servers/start-renderer"
+notify-control-server-started: shaka-perf servers -c shakaperf-historical/abtests.config.ts notify-server-started control
+notify-experiment-server-started: shaka-perf servers -c shakaperf-historical/abtests.config.ts notify-server-started experiment

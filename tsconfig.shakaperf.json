@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": [
+    "abtests.config.ts",
+    "shakaperf-historical/abtests.config.ts",
+    "ab-tests/**/*.abtest.ts",
+    "config/shakaperf/**/*.ts",
+    "test/shakaperf/**/*.test.ts"
+  ],
+  "exclude": ["node_modules", "vendor", "public"]
+}

@@ -7,6 +7,7 @@ products:
     category: demo
     taxonomy_slug:
     seller_email: seller@gumroad.com
+    seller_username: seller
     price_cents: 0
     permalink: demo
     legacy_path: /l/demo
@@ -15,6 +16,7 @@ products:
     category: film
     taxonomy_slug: films
     seller_email: gumbo_film@gumroad.com
+    seller_username: gumbofilm
     price_cents: 500
     permalink: demo_films
     legacy_path: /l/demo_films
@@ -23,6 +25,7 @@ products:
     category: music
     taxonomy_slug: music-and-sound-design
     seller_email: gumbo_music@gumroad.com
+    seller_username: gumbomusic
     price_cents: 500
     permalink: demo_music_and_sound_design
     legacy_path: /l/demo_music_and_sound_design
@@ -31,6 +34,7 @@ products:
     category: writing
     taxonomy_slug: writing-and-publishing
     seller_email: gumbo_writing@gumroad.com
+    seller_username: gumbowriting
     price_cents: 500
     permalink: demo_writing_and_publishing
     legacy_path: /l/demo_writing_and_publishing
@@ -39,6 +43,7 @@ products:
     category: education
     taxonomy_slug: education
     seller_email: gumbo_education@gumroad.com
+    seller_username: gumboeducation
     price_cents: 500
     permalink: demo_education
     legacy_path: /l/demo_education
@@ -47,6 +52,7 @@ products:
     category: software
     taxonomy_slug: software-development
     seller_email: gumbo_software@gumroad.com
+    seller_username: gumbosoftware
     price_cents: 500
     permalink: demo_software_development
     legacy_path: /l/demo_software_development
@@ -55,6 +61,7 @@ products:
     category: comics
     taxonomy_slug: comics-and-graphic-novels
     seller_email: gumbo_comics@gumroad.com
+    seller_username: gumbocomics
     price_cents: 500
     permalink: demo_comics_and_graphic_novels
     legacy_path: /l/demo_comics_and_graphic_novels
@@ -63,6 +70,7 @@ products:
     category: drawing
     taxonomy_slug: drawing-and-painting
     seller_email: gumbo_drawing@gumroad.com
+    seller_username: gumbodrawing
     price_cents: 500
     permalink: demo_drawing_and_painting
     legacy_path: /l/demo_drawing_and_painting
@@ -71,6 +79,7 @@ products:
     category: animation
     taxonomy_slug: 3d
     seller_email: gumbo_animation@gumroad.com
+    seller_username: gumboanimation
     price_cents: 500
     permalink: demo_three_d
     legacy_path: /l/demo_three_d
@@ -79,6 +88,7 @@ products:
     category: audio
     taxonomy_slug: audio
     seller_email: gumbo_audio@gumroad.com
+    seller_username: gumboaudio
     price_cents: 500
     permalink: demo_audio
     legacy_path: /l/demo_audio
@@ -87,6 +97,7 @@ products:
     category: games
     taxonomy_slug: gaming
     seller_email: gumbo_games@gumroad.com
+    seller_username: gumbogames
     price_cents: 500
     permalink: demo_gaming
     legacy_path: /l/demo_gaming
@@ -95,6 +106,7 @@ products:
     category: photography
     taxonomy_slug: photography
     seller_email: gumbo_photography@gumroad.com
+    seller_username: gumbophotography
     price_cents: 500
     permalink: demo_photography
     legacy_path: /l/demo_photography
@@ -103,6 +115,7 @@ products:
     category: crafts
     taxonomy_slug: self-improvement
     seller_email: gumbo_crafts@gumroad.com
+    seller_username: gumbocrafts
     price_cents: 500
     permalink: demo_self_improvement
     legacy_path: /l/demo_self_improvement
@@ -111,6 +124,7 @@ products:
     category: design
     taxonomy_slug: design
     seller_email: gumbo_design@gumroad.com
+    seller_username: gumbodesign
     price_cents: 500
     permalink: demo_design
     legacy_path: /l/demo_design
@@ -119,6 +133,7 @@ products:
     category: sports
     taxonomy_slug: fitness-and-health
     seller_email: gumbo_sports@gumroad.com
+    seller_username: gumbosports
     price_cents: 500
     permalink: demo_fitness_and_health
     legacy_path: /l/demo_fitness_and_health
@@ -127,6 +142,7 @@ products:
     category: merchandise
     taxonomy_slug: fiction-books
     seller_email: gumbo_merchandise@gumroad.com
+    seller_username: gumbomerchandise
     price_cents: 500
     permalink: demo_fiction_books
     legacy_path: /l/demo_fiction_books

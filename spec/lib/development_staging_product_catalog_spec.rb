@@ -31,6 +31,13 @@ RSpec.describe DevelopmentStagingProductCatalog do
     expect(products.map(&:permalink).uniq.size).to eq(16)
     expect(products.map(&:legacy_path)).to eq(products.map(&:next_path))
     expect(products.map(&:legacy_path)).to eq(products.map { |product| "/l/#{product.permalink}" })
+    expect(products.map(&:seller_username)).to eq(
+      %w[
+        seller gumbofilm gumbomusic gumbowriting gumboeducation gumbosoftware
+        gumbocomics gumbodrawing gumboanimation gumboaudio gumbogames
+        gumbophotography gumbocrafts gumbodesign gumbosports gumbomerchandise
+      ],
+    )
     expect(described_class.surfaces).to eq(
       "legacy_host" => "legacy.gumroad.reactonrails.com",
       "next_host" => "next.gumroad.reactonrails.com",
