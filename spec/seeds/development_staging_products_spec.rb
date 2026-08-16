@@ -24,6 +24,7 @@ RSpec.describe "development/staging product seeds" do
     catalog_products = Link.where(unique_permalink: DevelopmentStagingProductCatalog.products.map(&:permalink))
     original_ids = catalog_products.order(:unique_permalink).pluck(:id)
     original_purchase_count = Purchase.where(link_id: catalog_products.select(:id)).count
+    original_review_count = ProductReview.where(link_id: catalog_products.select(:id)).count
 
     expect(catalog_products.pluck(:name, :unique_permalink)).to contain_exactly(
       *DevelopmentStagingProductCatalog.products.map { [_1.name, _1.permalink] }
@@ -32,6 +33,7 @@ RSpec.describe "development/staging product seeds" do
     expect { load_product_seeds }
       .to not_change(Link, :count)
       .and not_change { Purchase.where(link_id: original_ids).count }
+      .and not_change { ProductReview.where(link_id: original_ids).count }
 
     persisted_ids = Link
       .where(unique_permalink: DevelopmentStagingProductCatalog.products.map(&:permalink))
@@ -39,6 +41,7 @@ RSpec.describe "development/staging product seeds" do
       .pluck(:id)
     expect(persisted_ids).to eq(original_ids)
     expect(Purchase.where(link_id: original_ids).count).to eq(original_purchase_count)
+    expect(ProductReview.where(link_id: original_ids).count).to eq(original_review_count)
   end
 
   it "converges a legacy generated permalink without creating a duplicate" do
@@ -72,5 +75,28 @@ RSpec.describe "development/staging product seeds" do
     )
 
     expect(unrelated_product.reload.attributes.slice(*original_attributes.keys)).to eq(original_attributes)
+    expect(unrelated_product.sales).to be_empty
+    expect(unrelated_product.product_reviews).to be_empty
+  end
+
+  it "does not infer product ownership from the canonical seller email alone" do
+    entry = DevelopmentStagingProductCatalog.fetch(category: "film")
+    seller = create(:user, email: entry.seller_email)
+    unrelated_product = create(
+      :product,
+      user: seller,
+      name: "Manual product on a canonical seed seller",
+      unique_permalink: entry.permalink,
+    )
+    original_user_attributes = seller.attributes.slice("name", "username", "user_risk_state", "payment_address", "json_data")
+    original_product_attributes = unrelated_product.attributes.slice("name", "description", "price_cents", "json_data")
+
+    expect { load_product_seeds }.to raise_error(
+      DevelopmentStagingProductCatalog::OwnershipConflict,
+      /#{entry.permalink}.*already belongs to an unrelated product/,
+    )
+
+    expect(seller.reload.attributes.slice(*original_user_attributes.keys)).to eq(original_user_attributes)
+    expect(unrelated_product.reload.attributes.slice(*original_product_attributes.keys)).to eq(original_product_attributes)
   end
 end
