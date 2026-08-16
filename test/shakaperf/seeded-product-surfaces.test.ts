@@ -61,6 +61,13 @@ test("uses the same current checkout and canonical seed runner for both twins", 
   );
 });
 
+test("uses direct product URLs for twin readiness probes", () => {
+  const readinessComparison = seededProductComparisons[0];
+  assert.ok(readinessComparison);
+  assert.equal(config.shared.controlURL, readinessComparison.controlUrl);
+  assert.equal(config.shared.experimentURL, readinessComparison.experimentUrl);
+});
+
 test("discovers only the current seeded-surface definitions by default", async () => {
   clearRegistry();
   await import("../../ab-tests/seeded-product-surfaces.abtest");
