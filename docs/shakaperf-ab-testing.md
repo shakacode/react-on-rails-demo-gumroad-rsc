@@ -12,10 +12,10 @@ variable; routes, product identities, copy, and seed data are held constant.
 different checkout, but the single value still applies to both twins. The
 dedicated Compose file forces these runtime contracts:
 
-| Side       |   Port | Surface env                        | Creator root                                                  |
-| ---------- | -----: | ---------------------------------- | ------------------------------------------------------------- |
-| Control    | `3100` | `GUMROAD_RENDERING_SURFACE=legacy` | `GUMROAD_CREATOR_ROOT_DOMAIN=legacy.gumroad.reactonrails.com` |
-| Experiment | `3200` | `GUMROAD_RENDERING_SURFACE=next`   | `GUMROAD_CREATOR_ROOT_DOMAIN=next.gumroad.reactonrails.com`   |
+| Side       |   Port | Surface env                        | Creator root                                                                                   |
+| ---------- | -----: | ---------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Control    | `3100` | `GUMROAD_RENDERING_SURFACE=legacy` | `SHAKAPERF_TWIN_SERVERS=true`, `SHAKAPERF_CREATOR_ROOT_DOMAIN=legacy.gumroad.reactonrails.com` |
+| Experiment | `3200` | `GUMROAD_RENDERING_SURFACE=next`   | `SHAKAPERF_TWIN_SERVERS=true`, `SHAKAPERF_CREATOR_ROOT_DOMAIN=next.gumroad.reactonrails.com`   |
 
 The browser maps both wildcard creator-host domains to `127.0.0.1`. Tests use
 ShakaPerf's supported absolute `startingPath` and
@@ -37,7 +37,8 @@ The five default comparisons are derived programmatically from
 The TypeScript catalog reader consumes the YAML names, seller usernames,
 surface hosts, and Legacy/Next paths. Do not copy those identities into another
 test definition. Each runtime test verifies the
-`X-Gumroad-Rendering-Surface` response header, requires the Legacy
+`X-Gumroad-Rendering-Surface` response header through a same-origin browser
+`fetch` (so Chromium's wildcard resolver is honored), requires the Legacy
 `script[data-page="app"]` marker or Next `#next-rsc-page-root` marker as
 appropriate, refuses the opposite marker, and waits for the catalog product
 heading and product article.
@@ -52,6 +53,15 @@ seed files and their YAML catalog, verifies that all 16 canonical permalinks
 exist, and skips Elasticsearch work because the product comparison does not
 run an Elasticsearch service. The runner and underlying reconciliation are
 idempotent.
+
+The twin runner freezes time at `2026-08-12 12:00:00 UTC`; canonical products,
+purchases, reviews, sellers, profiles, and offer codes therefore have matching
+render-relevant snapshots in independently seeded databases. Taxonomy offer
+codes use stable `seed_<permalink>` values, and seller public IDs derive from
+catalog emails. BCrypt password hashes retain random salts by design, but
+authentication secrets never reach `ProductPresenter`. Opaque IDs derived from
+database primary keys are outside the content snapshot; the two clean twins use
+the same seed order and Compose cipher keys.
 
 ## Local commands
 
@@ -107,11 +117,24 @@ current source.
 Those definitions now live under [`ab-tests/historical`](../ab-tests/historical)
 and use the explicit
 [`shakaperf-historical/abtests.config.ts`](../shakaperf-historical/abtests.config.ts).
-They are
-excluded from normal discovery and retain the pinned control checkout and
-native fixture seeder used for the recorded artifacts. Run them only from a
-historically compatible experiment checkout and always pass the archival
-config explicitly:
+They are excluded from normal discovery and retain the pinned control checkout
+and native fixture seeder used for the recorded artifacts. Run them only from
+the exact revisions. Prepare the pinned worktrees first (the script refuses an
+existing path at the wrong SHA):
+
+```shell
+export SHAKAPERF_CONTROL_DIR="$PWD/.shakaperf-historical-control"
+export SHAKAPERF_EXPERIMENT_DIR="$PWD/.shakaperf-historical-experiment"
+./twin-servers/prepare-historical-checkouts
+git -C "$SHAKAPERF_CONTROL_DIR" rev-parse HEAD
+# e720df1b4f13781af1b1b14efd10fe8a31e76641
+git -C "$SHAKAPERF_EXPERIMENT_DIR" rev-parse HEAD
+# 0c16a6cd36a2e2c89a7090e21c838a013b4d2654
+```
+
+The historical config validates both SHAs while loading and fails before a
+build or measurement if either directory is missing or incompatible. Keep the
+two directory variables exported and pass the archival config explicitly:
 
 ```shell
 npx shaka-perf servers -c shakaperf-historical/abtests.config.ts build

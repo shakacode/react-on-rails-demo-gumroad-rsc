@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require Rails.root.join("lib/development_staging_product_catalog")
+require "active_support/testing/time_helpers"
 
 seed_files = %w[
   db/seeds/010_development_staging_test/taxonomy_create.rb
@@ -12,7 +13,10 @@ seed_files = %w[
 original_skip_reindex = ENV["SKIP_DEVELOPMENT_STAGING_PRODUCT_REINDEX"]
 begin
   ENV["SKIP_DEVELOPMENT_STAGING_PRODUCT_REINDEX"] = "true"
-  seed_files.each { |relative_path| load(Rails.root.join(relative_path), true) }
+  clock = Object.new.extend(ActiveSupport::Testing::TimeHelpers)
+  clock.travel_to(DevelopmentStagingProductCatalog::SEED_TIME) do
+    seed_files.each { |relative_path| load(Rails.root.join(relative_path), true) }
+  end
 
   catalog = DevelopmentStagingProductCatalog.products
   seeded_products = Link.where(unique_permalink: catalog.map(&:permalink))

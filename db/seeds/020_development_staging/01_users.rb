@@ -1,24 +1,28 @@
 # frozen_string_literal: true
 
+require Rails.root.join("lib/development_staging_product_catalog")
+
+demo_entry = DevelopmentStagingProductCatalog.fetch(category: "demo")
 seller = User.find_by(email: "seller@gumroad.com")
 if seller.blank?
   seller = User.new
   seller.email = "seller@gumroad.com"
+  seller.external_id = DevelopmentStagingProductCatalog.seller_external_id(demo_entry)
   seller.name = "Seller"
   seller.username = "seller"
-  seller.confirmed_at = Time.current
+  seller.confirmed_at = DevelopmentStagingProductCatalog::SEED_TIME
   seller.is_team_member = true
   seller.user_risk_state = "compliant"
-  seller.password = SecureRandom.hex(24)
+  seller.password = DevelopmentStagingProductCatalog::BOOTSTRAP_PASSWORD
 
   # Make seller eligible for service products
-  seller.created_at = 2.months.ago
+  seller.created_at = DevelopmentStagingProductCatalog::SEED_TIME - 2.months
   seller.payments.build(
     state: "completed",
     amount_cents: 1000,
     processor: "paypal",
     processor_fee_cents: 100,
-    payout_period_end_date: 1.day.ago
+    payout_period_end_date: DevelopmentStagingProductCatalog::SEED_TIME.to_date - 1.day
   )
 
   seller.save!
@@ -37,9 +41,9 @@ TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).each do |role|
     email:,
     name: "#{role.humanize}ForSeller",
     username: "#{role}forseller",
-    confirmed_at: Time.current,
+    confirmed_at: DevelopmentStagingProductCatalog::SEED_TIME,
     user_risk_state: "compliant",
-    password: SecureRandom.hex(24)
+    password: DevelopmentStagingProductCatalog::BOOTSTRAP_PASSWORD
   )
 
   # Skip validations to set a pwned but easy password

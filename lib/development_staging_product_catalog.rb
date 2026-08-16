@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "digest"
 require "yaml"
 
 module DevelopmentStagingProductCatalog
@@ -8,6 +9,8 @@ module DevelopmentStagingProductCatalog
   OWNER = "canonical-product-catalog-v1"
   PERMALINK_KEY = "development_staging_seed_permalink"
   DESCRIPTION = "Description for demo product"
+  SEED_TIME = Time.utc(2026, 8, 12, 12).freeze
+  BOOTSTRAP_PASSWORD = "development-staging-seed-bootstrap-2026"
 
   Product = Struct.new(
     :name,
@@ -42,6 +45,11 @@ module DevelopmentStagingProductCatalog
 
     def surfaces
       raw_catalog.fetch("surfaces").freeze
+    end
+
+    def seller_external_id(entry)
+      digest = Digest::SHA256.hexdigest("#{OWNER}:#{entry.seller_email}").to_i(16)
+      (1_000_000_000_000 + (digest % 9_000_000_000_000)).to_s
     end
 
     def reconcile_product!(seller:, entry:)

@@ -3609,13 +3609,16 @@ describe LinksController, :vcr, inertia: true do
 
         context "when requested on a local surface creator host" do
           around do |example|
-            original_creator_root = ENV["GUMROAD_CREATOR_ROOT_DOMAIN"]
+            original_twin = ENV["SHAKAPERF_TWIN_SERVERS"]
+            original_creator_root = ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"]
             original_surface = ENV["GUMROAD_RENDERING_SURFACE"]
-            ENV["GUMROAD_CREATOR_ROOT_DOMAIN"] = "legacy.gumroad.reactonrails.com"
+            ENV["SHAKAPERF_TWIN_SERVERS"] = "true"
+            ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = "legacy.gumroad.reactonrails.com"
             ENV["GUMROAD_RENDERING_SURFACE"] = "legacy"
             example.run
           ensure
-            original_creator_root.nil? ? ENV.delete("GUMROAD_CREATOR_ROOT_DOMAIN") : ENV["GUMROAD_CREATOR_ROOT_DOMAIN"] = original_creator_root
+            original_twin.nil? ? ENV.delete("SHAKAPERF_TWIN_SERVERS") : ENV["SHAKAPERF_TWIN_SERVERS"] = original_twin
+            original_creator_root.nil? ? ENV.delete("SHAKAPERF_CREATOR_ROOT_DOMAIN") : ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = original_creator_root
             original_surface.nil? ? ENV.delete("GUMROAD_RENDERING_SURFACE") : ENV["GUMROAD_RENDERING_SURFACE"] = original_surface
           end
 

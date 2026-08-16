@@ -69,3 +69,5 @@ ssr-generated/
 .playwright-cli/
 test-results/
 .shakaperf-control/
+.shakaperf-historical-control/
+.shakaperf-historical-experiment/

@@ -19,6 +19,14 @@ and changes its generated permalink in place. It does not create a duplicate.
 If a stable permalink or logical seed identity belongs to an unrelated record,
 the seed fails with an ownership conflict instead of overwriting it.
 
+The dedicated ShakaPerf seed runner freezes the catalog at
+`2026-08-12 12:00:00 UTC` and uses stable `seed_<permalink>` offer codes, so
+fresh isolated databases expose equal render-relevant product, seller, sale,
+and review snapshots. Canonical seller public IDs derive from their catalog
+emails. BCrypt salts remain intentionally random and never reach the product
+presenter. Opaque IDs derived from database primary keys are excluded from the
+content snapshot; clean twins use the same insertion order and cipher keys.
+
 ShakaPerf uses `seller_username` with the surface host and configured twin port
 to form a direct creator-host URL. For example, the film entry becomes
 `http://gumbofilm.legacy.gumroad.reactonrails.com:3100/l/demo_films` for the

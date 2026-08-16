@@ -78,6 +78,9 @@ test("discovers only the current seeded-surface definitions by default", async (
   for (const definition of definitions) {
     const body = definition.testFn.toString();
     assert.match(body, /x-gumroad-rendering-surface/u);
+    assert.match(body, /page\.evaluate/u);
+    assert.match(body, /fetch/u);
+    assert.doesNotMatch(body, /page\.request/u);
     assert.match(body, /script\[data-page="app"\]/u);
     assert.match(body, /#next-rsc-page-root/u);
   }

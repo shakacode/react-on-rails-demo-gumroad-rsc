@@ -13,8 +13,10 @@ for (const { product, controlUrl, experimentUrl } of seededProductComparisons) {
     },
     async ({ page, annotate, isControl }) => {
       const expectedSurface = isControl ? "legacy" : "next";
-      const response = await page.request.get(page.url());
-      const actualSurface = response.headers()["x-gumroad-rendering-surface"];
+      const actualSurface = await page.evaluate(async () => {
+        const response = await fetch(window.location.href, { cache: "no-store", credentials: "same-origin" });
+        return response.headers.get("x-gumroad-rendering-surface");
+      });
       if (actualSurface !== expectedSurface) {
         throw new Error(`Expected ${expectedSurface} surface, received ${actualSurface || "no surface header"}`);
       }

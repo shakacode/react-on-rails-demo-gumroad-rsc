@@ -36,7 +36,10 @@ module Subdomain
       end
 
       def creator_root_domain
-        ENV["GUMROAD_CREATOR_ROOT_DOMAIN"].presence || ROOT_DOMAIN
+        return ROOT_DOMAIN unless ENV["SHAKAPERF_TWIN_SERVERS"] == "true"
+        return ROOT_DOMAIN if Rails.env.production?
+
+        ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"].presence || ROOT_DOMAIN
       end
   end
 end

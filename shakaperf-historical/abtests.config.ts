@@ -3,6 +3,12 @@ import { join } from "node:path";
 import { defineConfig, installRequestBlocking, DESKTOP_VIEWPORT, PHONE_VIEWPORT } from "shaka-shared";
 import type { AbTestsConfigInput, SharedConfigInput } from "shaka-shared";
 
+import {
+  HISTORICAL_CONTROL_SHA,
+  HISTORICAL_EXPERIMENT_SHA,
+  verifiedHistoricalCheckout,
+} from "../config/shakaperf/historical-revisions";
+
 type ShakaPerfConfig = AbTestsConfigInput & {
   shared: SharedConfigInput & {
     browserConsole: { failOn: ("error" | "warn")[]; allowList: string[] };
@@ -12,6 +18,9 @@ type ShakaPerfConfig = AbTestsConfigInput & {
 const CONTROL_PORT = Number(process.env.SHAKAPERF_CONTROL_PORT || 3100);
 const EXPERIMENT_PORT = Number(process.env.SHAKAPERF_EXPERIMENT_PORT || 3200);
 const projectDir = process.cwd();
+const historicalControlDir = process.env.SHAKAPERF_CONTROL_DIR || join(projectDir, ".shakaperf-historical-control");
+const historicalExperimentDir =
+  process.env.SHAKAPERF_EXPERIMENT_DIR || join(projectDir, ".shakaperf-historical-experiment");
 
 const LIGHTHOUSE_CONFIG = {
   throttling: {
@@ -80,10 +89,10 @@ const config: ShakaPerfConfig = {
   },
 
   twinServers: {
-    // The control is a detached worktree pinned before the native RSC page work;
-    // the experiment is the current checkout containing that implementation.
-    controlDir: process.env.SHAKAPERF_CONTROL_DIR || join(projectDir, ".shakaperf-control"),
-    experimentDir: process.env.SHAKAPERF_EXPERIMENT_DIR || projectDir,
+    // Both archival sides must be detached worktrees at the revisions that
+    // produced the recorded historical comparison.
+    controlDir: verifiedHistoricalCheckout(historicalControlDir, HISTORICAL_CONTROL_SHA, "control"),
+    experimentDir: verifiedHistoricalCheckout(historicalExperimentDir, HISTORICAL_EXPERIMENT_SHA, "experiment"),
     dockerBuildDir: ".",
     dockerfile: "twin-servers/Dockerfile",
     procfile: "twin-servers/Procfile.historical",

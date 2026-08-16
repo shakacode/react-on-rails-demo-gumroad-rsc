@@ -5,7 +5,8 @@ services:
       - "${CONTROL_PORT}:3000"
     environment:
       GUMROAD_RENDERING_SURFACE: legacy
-      GUMROAD_CREATOR_ROOT_DOMAIN: legacy.gumroad.reactonrails.com
+      SHAKAPERF_TWIN_SERVERS: "true"
+      SHAKAPERF_CREATOR_ROOT_DOMAIN: legacy.gumroad.reactonrails.com
       DATABASE_HOST: mysql-control
       MONGO_DATABASE_URL: mongo-control:27017
       REDIS_HOST: redis-control:6379/0
@@ -31,7 +32,8 @@ services:
       - "${EXPERIMENT_PORT}:3000"
     environment:
       GUMROAD_RENDERING_SURFACE: next
-      GUMROAD_CREATOR_ROOT_DOMAIN: next.gumroad.reactonrails.com
+      SHAKAPERF_TWIN_SERVERS: "true"
+      SHAKAPERF_CREATOR_ROOT_DOMAIN: next.gumroad.reactonrails.com
       DATABASE_HOST: mysql-experiment
       MONGO_DATABASE_URL: mongo-experiment:27017
       REDIS_HOST: redis-experiment:6379/0
@@ -85,7 +87,11 @@ services:
       MONGO_INITDB_ROOT_USERNAME: gumroad
       MONGO_INITDB_ROOT_PASSWORD: gumroad
     healthcheck: &mongo-healthcheck
-      test: ["CMD-SHELL", "mongosh --quiet --host 127.0.0.1 -u gumroad -p gumroad --authenticationDatabase admin --eval 'db.adminCommand(\"ping\")' >/dev/null"]
+      test:
+        [
+          "CMD-SHELL",
+          'mongosh --quiet --host 127.0.0.1 -u gumroad -p gumroad --authenticationDatabase admin --eval ''db.adminCommand("ping")'' >/dev/null',
+        ]
       interval: 2s
       timeout: 5s
       retries: 30
