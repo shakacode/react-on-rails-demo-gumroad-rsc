@@ -501,34 +501,16 @@ If a previous run started the renderer before `public/packs-test/react-client-ma
 
 #### Run the ShakaPerf A/B tests
 
-The repository has a real route-level RSC comparison:
+The default suite compares five representative products from the canonical
+development/staging catalog. Both isolated twins build the same current
+checkout and seed the same 16 products. Absolute seller-host URLs select Legacy
+Inertia on port `3100` and Next RSC on port `3200`; renderer selection is the
+only experimental difference.
 
-- control page: <http://localhost:3100/public_product/inertia_demo>
-- experiment page: <http://localhost:3200/public_product/rsc_demo>
-- test definition: [`ab-tests/public-product-rsc.abtest.ts`](ab-tests/public-product-rsc.abtest.ts)
-
-It also has a database-backed native product comparison that seeds the same
-representative product into each twin's isolated database:
-
-- control page: <http://localhost:3100/l/O365IT?layout=discover&recommended_by=search>
-- experiment page: <http://localhost:3200/l/O365IT?layout=discover&recommended_by=search&rsc=1>
-- test definition: [`ab-tests/native-product-page.abtest.ts`](ab-tests/native-product-page.abtest.ts)
-- seed: [`scripts/seed_native_product_page.rb`](scripts/seed_native_product_page.rb)
-
-The same twin databases also include the more media-heavy Residential Design
-fixture:
-
-- control page: <http://localhost:3100/l/bgfjk?layout=discover&recommended_by=search>
-- experiment page: <http://localhost:3200/l/bgfjk?layout=discover&recommended_by=search&rsc=1>
-- test definition: [`ab-tests/residential-product-page.abtest.ts`](ab-tests/residential-product-page.abtest.ts)
-
-It has five product previews, two language options, 238 synthetic ratings, and
-locally snapshotted description imagery.
-
-The two Gumroad processes listen on port `3000` only inside their containers.
-ShakaPerf exposes them on host ports `3100` and `3200`; it does not claim host
-port `3000`. See [ShakaPerf A/B testing](docs/shakaperf-ab-testing.md) for the
-build, server, comparison, and results commands.
+Run `npm run test:shakaperf` for the URL/config/discovery contract, or see
+[ShakaPerf A/B testing](docs/shakaperf-ab-testing.md) for the exact URLs, twin
+commands, runtime environment, and separately archived August 2026 benchmark
+definitions.
 
 ## Development
 

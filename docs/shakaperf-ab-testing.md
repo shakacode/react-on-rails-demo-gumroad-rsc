@@ -1,131 +1,122 @@
 # ShakaPerf A/B testing
 
-This integration uses the globally installed `shaka-perf` CLI and its actual
-`abTest` API. It is separate from the historical Ruby/Selenium benchmark
-artifacts elsewhere in this repository; those older numbers were not produced
-by ShakaPerf.
+The default ShakaPerf suite compares the Legacy/Inertia and Next/RSC product
+surfaces at the same current source revision and with the same deterministic
+database catalog. The renderer selected by each twin is the experimental
+variable; routes, product identities, copy, and seed data are held constant.
 
-## Page pairs
+## Current seeded-product suite
 
-The architecture comparison is
-[`ab-tests/public-product-rsc.abtest.ts`](../ab-tests/public-product-rsc.abtest.ts).
-It compares the two existing implementations directly:
+[`abtests.config.ts`](../abtests.config.ts) points both `controlDir` and
+`experimentDir` at the current checkout. Set `SHAKAPERF_CURRENT_DIR` to use a
+different checkout, but the single value still applies to both twins. The
+dedicated Compose file forces these runtime contracts:
 
-| Side       | Host URL                                            | Implementation          |
-| ---------- | --------------------------------------------------- | ----------------------- |
-| Control    | `http://localhost:3100/public_product/inertia_demo` | Inertia                 |
-| Experiment | `http://localhost:3200/public_product/rsc_demo`     | React Server Components |
+| Side       |   Port | Surface env                        | Creator root                                                  |
+| ---------- | -----: | ---------------------------------- | ------------------------------------------------------------- |
+| Control    | `3100` | `GUMROAD_RENDERING_SURFACE=legacy` | `GUMROAD_CREATOR_ROOT_DOMAIN=legacy.gumroad.reactonrails.com` |
+| Experiment | `3200` | `GUMROAD_RENDERING_SURFACE=next`   | `GUMROAD_CREATOR_ROOT_DOMAIN=next.gumroad.reactonrails.com`   |
 
-In the test definition, `startingPath` selects the Inertia route for control
-and `experimentPathOverride` selects the RSC route for experiment. The test
-waits for the shared `.dd-product-hero` surface and its heading to render,
-captures that surface for visual regression, checks accessibility, and runs
-ten simultaneous mobile Lighthouse measurements per side.
+The browser maps both wildcard creator-host domains to `127.0.0.1`. Tests use
+ShakaPerf's supported absolute `startingPath` and
+`experimentPathOverride`, so navigation goes directly to the intended seller
+host and port. It does not rely on a root-host redirect, `CUSTOM_DOMAIN`, an
+`rsc=1` query parameter, or a hand-written comparison route.
 
-The database-backed branch comparison is
-[`ab-tests/native-product-page.abtest.ts`](../ab-tests/native-product-page.abtest.ts).
-It loads the same native Gumroad product route on both twins:
+The five default comparisons are derived programmatically from
+[`config/development_staging_products.yml`](../config/development_staging_products.yml):
 
-| Side       | Host URL                                                                     | Data source                                             |
-| ---------- | ---------------------------------------------------------------------------- | ------------------------------------------------------- |
-| Control    | `http://localhost:3100/l/O365IT?layout=discover&recommended_by=search`       | Isolated control database                               |
-| Experiment | `http://localhost:3200/l/O365IT?layout=discover&recommended_by=search&rsc=1` | Isolated experiment database, native React on Rails RSC |
+| Catalog category            | Control                                                                             | Experiment                                                                        |
+| --------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| demo                        | `http://seller.legacy.gumroad.reactonrails.com:3100/l/demo`                         | `http://seller.next.gumroad.reactonrails.com:3200/l/demo`                         |
+| film                        | `http://gumbofilm.legacy.gumroad.reactonrails.com:3100/l/demo_films`                | `http://gumbofilm.next.gumroad.reactonrails.com:3200/l/demo_films`                |
+| audio                       | `http://gumboaudio.legacy.gumroad.reactonrails.com:3100/l/demo_audio`               | `http://gumboaudio.next.gumroad.reactonrails.com:3200/l/demo_audio`               |
+| design                      | `http://gumbodesign.legacy.gumroad.reactonrails.com:3100/l/demo_design`             | `http://gumbodesign.next.gumroad.reactonrails.com:3200/l/demo_design`             |
+| merchandise / fiction-books | `http://gumbomerchandise.legacy.gumroad.reactonrails.com:3100/l/demo_fiction_books` | `http://gumbomerchandise.next.gumroad.reactonrails.com:3200/l/demo_fiction_books` |
 
-Before either server starts, ShakaPerf runs
-[`scripts/seed_native_product_page.rb`](../scripts/seed_native_product_page.rb)
-inside each container. The idempotent seed creates two creators, five products,
-259 synthetic purchases and reviews, and local deterministic cover and
-description images. The additional media-heavy fixture is tested by
-[`ab-tests/residential-product-page.abtest.ts`](../ab-tests/residential-product-page.abtest.ts):
+The TypeScript catalog reader consumes the YAML names, seller usernames,
+surface hosts, and Legacy/Next paths. Do not copy those identities into another
+test definition. Each runtime test verifies the
+`X-Gumroad-Rendering-Surface` response header, requires the Legacy
+`script[data-page="app"]` marker or Next `#next-rsc-page-root` marker as
+appropriate, refuses the opposite marker, and waits for the catalog product
+heading and product article.
 
-| Side       | Host URL                                                                    | Implementation                         |
-| ---------- | --------------------------------------------------------------------------- | -------------------------------------- |
-| Control    | `http://localhost:3100/l/bgfjk?layout=discover&recommended_by=search`       | Pinned Inertia product page            |
-| Experiment | `http://localhost:3200/l/bgfjk?layout=discover&recommended_by=search&rsc=1` | Native React on Rails RSC product page |
+## Identical isolated databases
 
-It includes five product previews, English and Spanish options, and the live
-listing's displayed rating distribution. Both tests exercise Gumroad's genuine
-`Products/Discover/Show` components rather than the presenter-backed RSC demo.
+Each side has private MySQL, MongoDB, and Redis services. ShakaPerf loads a
+fresh schema and runs
+[`scripts/seed_development_staging_products.rb`](../scripts/seed_development_staging_products.rb)
+inside both Rails containers. That runner uses the normal development/staging
+seed files and their YAML catalog, verifies that all 16 canonical permalinks
+exist, and skips Elasticsearch work because the product comparison does not
+run an Elasticsearch service. The runner and underlying reconciliation are
+idempotent.
 
-For the August 12, 2026 comparison, the control checkout is pinned to
-`e720df1b4f13781af1b1b14efd10fe8a31e76641`, immediately before the native RSC
-page implementation, while the experiment includes the native RSC commits
-through `0c16a6cd`. The `rsc=1` query parameter is intentionally present only on
-the experiment URLs; it selects the streamed RSC response while preserving the
-same product, layout, and recommendation context.
+## Local commands
 
-## Ports
-
-The host ports are fixed in [`abtests.config.ts`](../abtests.config.ts):
-
-- control: `3100`
-- experiment: `3200`
-
-Each Rails server listens on port `3000` inside its own Docker container. The
-ShakaPerf Compose configuration maps the two internal `3000` ports to the host
-ports above. Each side also gets a private, unexposed MySQL 8.0.32 database, so
-control and experiment cannot affect one another. Nothing in this integration
-binds host port `3000`.
-
-## Why the response says `shakaperf`
-
-The twin-server Docker image sets `BRANCH=shakaperf` and `REVISION=shakaperf`
-as local runtime labels. Those values identify the disposable benchmark image;
-they are not the Git revisions being compared and, by themselves, do not prove
-which benchmark runner was used. The reproducible identities are the pinned
-control commit above, the experiment commit, the two test definitions, and the
-generated CLI report. Historical July 2026 tables were produced by
-`scripts/perf/compare_dashboard_routes.rb` with Ruby/Selenium even though the UI
-called them “ShakaPerf.” The August native-product run uses the actual globally
-installed `shaka-perf@0.2.4` CLI.
-
-## Run it
-
-From the repository root:
+Install the repository dependencies, then run from the repository root:
 
 ```shell
-shaka-perf servers build
-shaka-perf servers start-containers
-shaka-perf servers start-servers
+npx shaka-perf servers build
+npx shaka-perf servers start-containers
+npx shaka-perf servers start-servers
 ```
 
-Keep `start-servers` running, then use another terminal:
+Keep `start-servers` running and use another terminal:
 
 ```shell
-shaka-perf compare --filter ab-tests/public-product-rsc.abtest.ts
-shaka-perf compare --filter ab-tests/native-product-page.abtest.ts
-shaka-perf compare --filter ab-tests/residential-product-page.abtest.ts
+npx shaka-perf compare
 ```
 
-The generated full report is `compare-results/full-report.html`; the compact,
-shareable report is `compare-results/self-contained-performance-report.html`.
-
-## August 12, 2026 result
-
-The recorded two-product run used:
+The default `shared.testPathPattern` discovers only
+[`ab-tests/seeded-product-surfaces.abtest.ts`](../ab-tests/seeded-product-surfaces.abtest.ts).
+To select one product, pass part of its test name, for example:
 
 ```shell
-shaka-perf compare --filter 'Microsoft 365 product,Residential Design product' --full-report-zip
+npx shaka-perf compare --filter 'Seeded film product'
 ```
 
-It completed all five stages and generated the reports, then exited `1` with
-`FAILED: 2 perf regressions`. RSC improved FCP, LCP, CLS, Lighthouse score, and
-request count on both products, but regressed TTFB and transferred bytes on both
-and TBT on Microsoft. The committed [result summary and raw JSON](performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md)
-contain the exact estimator values and p-values. This is evidence of specific
-RSC wins and costs, not proof of unconditional superiority.
-
-Stop and remove the twin containers when finished:
+Useful cheap checks that do not build or start the twins are:
 
 ```shell
-shaka-perf servers stop-containers
+npm run test:shakaperf
+npx shaka-perf servers get-config ports.control
+npx shaka-perf servers get-config ports.experiment
+npx shaka-perf servers get-config controlDir
 ```
 
-To inspect the pages manually while the servers are running, open the URLs in
-the tables above. To verify the resolved port mapping without starting
-anything:
+Stop and remove the containers when finished:
 
 ```shell
-shaka-perf servers get-config ports.control
-shaka-perf servers get-config ports.experiment
+npx shaka-perf servers stop-containers
 ```
+
+Override ports with `SHAKAPERF_CONTROL_PORT` and
+`SHAKAPERF_EXPERIMENT_PORT`; the absolute product URLs and Compose mappings
+derive from the same values.
+
+## Historical revision-pinned suite
+
+The August 12, 2026 tests and results remain available as historical evidence,
+but their `/public_product/*`, `O365IT`, and `bgfjk` workloads do not prove the
+current same-revision/same-catalog goal. Commit `2f00b1ac` removed the custom
+public-product routes and the query-selected native RSC implementation from the
+current source.
+
+Those definitions now live under [`ab-tests/historical`](../ab-tests/historical)
+and use the explicit
+[`shakaperf-historical/abtests.config.ts`](../shakaperf-historical/abtests.config.ts).
+They are
+excluded from normal discovery and retain the pinned control checkout and
+native fixture seeder used for the recorded artifacts. Run them only from a
+historically compatible experiment checkout and always pass the archival
+config explicitly:
+
+```shell
+npx shaka-perf servers -c shakaperf-historical/abtests.config.ts build
+npx shaka-perf compare -c shakaperf-historical/abtests.config.ts
+```
+
+The historical result summary and raw JSON remain in
+[`docs/performance-artifacts/native-product-rsc-shakaperf-2026-08-12`](performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md).
