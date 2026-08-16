@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require Rails.root.join("lib/development_staging_product_catalog")
+
 def find_or_create_recommendable_user(category_name)
   user = User.find_by(email: "gumbo_#{category_name}@gumroad.com")
   return user if user
@@ -58,40 +60,27 @@ def create_purchase(seller, buyer, product)
   purchase.post_review(rating: 3)
 end
 
-def create_recommendable_product_if_not_exists(user, taxonomy_slug)
-  product_name = "Beautiful #{taxonomy_slug} widget"
-  product = user.links.find_by(name: product_name)
+def create_recommendable_product_if_not_exists(user, entry)
+  product = DevelopmentStagingProductCatalog.reconcile_product!(seller: user, entry:)
+  return if product.persisted?
 
-  return if product.present?
-
-  product = user.links.create!(
-    name: product_name,
-    description: "Description for demo product",
+  product.assign_attributes(
+    name: entry.name,
+    description: DevelopmentStagingProductCatalog::DESCRIPTION,
     filetype: "link",
-    price_cents: 500,
-    taxonomy: Taxonomy.find_by(slug: taxonomy_slug),
+    price_cents: entry.price_cents,
+    taxonomy: Taxonomy.find_by!(slug: entry.taxonomy_slug),
     display_product_reviews: true
   )
-  product.tag!(taxonomy_slug[0..19])
+  product.save!
+  product.tag!(entry.taxonomy_slug[0..19])
 
   buyer = User.find_by(email: "seller@gumroad.com")
   create_purchase(user, buyer, product)
 end
 
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("film"), "films")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("music"), "music-and-sound-design")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("writing"), "writing-and-publishing")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("education"), "education")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("software"), "software-development")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("comics"), "comics-and-graphic-novels")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("drawing"), "drawing-and-painting")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("animation"), "3d")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("audio"), "audio")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("games"), "gaming")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("photography"), "photography")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("crafts"), "self-improvement")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("design"), "design")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("sports"), "fitness-and-health")
-create_recommendable_product_if_not_exists(find_or_create_recommendable_user("merchandise"), "fiction-books")
+DevelopmentStagingProductCatalog.taxonomy_products.each do |entry|
+  create_recommendable_product_if_not_exists(find_or_create_recommendable_user(entry.category), entry)
+end
 
 DevTools.delete_all_indices_and_reindex_all

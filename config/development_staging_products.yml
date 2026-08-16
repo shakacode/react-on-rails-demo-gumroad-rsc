@@ -1,0 +1,133 @@
+version: 1
+surfaces:
+  legacy_host: legacy.gumroad.reactonrails.com
+  next_host: next.gumroad.reactonrails.com
+products:
+  - name: Beautiful widget
+    category: demo
+    taxonomy_slug:
+    seller_email: seller@gumroad.com
+    price_cents: 0
+    permalink: demo
+    legacy_path: /l/demo
+    next_path: /l/demo
+  - name: Beautiful films widget
+    category: film
+    taxonomy_slug: films
+    seller_email: gumbo_film@gumroad.com
+    price_cents: 500
+    permalink: demo_films
+    legacy_path: /l/demo_films
+    next_path: /l/demo_films
+  - name: Beautiful music-and-sound-design widget
+    category: music
+    taxonomy_slug: music-and-sound-design
+    seller_email: gumbo_music@gumroad.com
+    price_cents: 500
+    permalink: demo_music_and_sound_design
+    legacy_path: /l/demo_music_and_sound_design
+    next_path: /l/demo_music_and_sound_design
+  - name: Beautiful writing-and-publishing widget
+    category: writing
+    taxonomy_slug: writing-and-publishing
+    seller_email: gumbo_writing@gumroad.com
+    price_cents: 500
+    permalink: demo_writing_and_publishing
+    legacy_path: /l/demo_writing_and_publishing
+    next_path: /l/demo_writing_and_publishing
+  - name: Beautiful education widget
+    category: education
+    taxonomy_slug: education
+    seller_email: gumbo_education@gumroad.com
+    price_cents: 500
+    permalink: demo_education
+    legacy_path: /l/demo_education
+    next_path: /l/demo_education
+  - name: Beautiful software-development widget
+    category: software
+    taxonomy_slug: software-development
+    seller_email: gumbo_software@gumroad.com
+    price_cents: 500
+    permalink: demo_software_development
+    legacy_path: /l/demo_software_development
+    next_path: /l/demo_software_development
+  - name: Beautiful comics-and-graphic-novels widget
+    category: comics
+    taxonomy_slug: comics-and-graphic-novels
+    seller_email: gumbo_comics@gumroad.com
+    price_cents: 500
+    permalink: demo_comics_and_graphic_novels
+    legacy_path: /l/demo_comics_and_graphic_novels
+    next_path: /l/demo_comics_and_graphic_novels
+  - name: Beautiful drawing-and-painting widget
+    category: drawing
+    taxonomy_slug: drawing-and-painting
+    seller_email: gumbo_drawing@gumroad.com
+    price_cents: 500
+    permalink: demo_drawing_and_painting
+    legacy_path: /l/demo_drawing_and_painting
+    next_path: /l/demo_drawing_and_painting
+  - name: Beautiful 3d widget
+    category: animation
+    taxonomy_slug: 3d
+    seller_email: gumbo_animation@gumroad.com
+    price_cents: 500
+    permalink: demo_three_d
+    legacy_path: /l/demo_three_d
+    next_path: /l/demo_three_d
+  - name: Beautiful audio widget
+    category: audio
+    taxonomy_slug: audio
+    seller_email: gumbo_audio@gumroad.com
+    price_cents: 500
+    permalink: demo_audio
+    legacy_path: /l/demo_audio
+    next_path: /l/demo_audio
+  - name: Beautiful gaming widget
+    category: games
+    taxonomy_slug: gaming
+    seller_email: gumbo_games@gumroad.com
+    price_cents: 500
+    permalink: demo_gaming
+    legacy_path: /l/demo_gaming
+    next_path: /l/demo_gaming
+  - name: Beautiful photography widget
+    category: photography
+    taxonomy_slug: photography
+    seller_email: gumbo_photography@gumroad.com
+    price_cents: 500
+    permalink: demo_photography
+    legacy_path: /l/demo_photography
+    next_path: /l/demo_photography
+  - name: Beautiful self-improvement widget
+    category: crafts
+    taxonomy_slug: self-improvement
+    seller_email: gumbo_crafts@gumroad.com
+    price_cents: 500
+    permalink: demo_self_improvement
+    legacy_path: /l/demo_self_improvement
+    next_path: /l/demo_self_improvement
+  - name: Beautiful design widget
+    category: design
+    taxonomy_slug: design
+    seller_email: gumbo_design@gumroad.com
+    price_cents: 500
+    permalink: demo_design
+    legacy_path: /l/demo_design
+    next_path: /l/demo_design
+  - name: Beautiful fitness-and-health widget
+    category: sports
+    taxonomy_slug: fitness-and-health
+    seller_email: gumbo_sports@gumroad.com
+    price_cents: 500
+    permalink: demo_fitness_and_health
+    legacy_path: /l/demo_fitness_and_health
+    next_path: /l/demo_fitness_and_health
+  - name: Beautiful fiction-books widget
+    category: merchandise
+    taxonomy_slug: fiction-books
+    seller_email: gumbo_merchandise@gumroad.com
+    price_cents: 500
+    permalink: demo_fiction_books
+    legacy_path: /l/demo_fiction_books
+    next_path: /l/demo_fiction_books

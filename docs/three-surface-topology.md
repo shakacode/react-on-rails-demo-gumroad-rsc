@@ -37,6 +37,12 @@ The Next host selects RSC at the server. It does not add `rsc=1`, change the
 fixture, or route to a hand-written comparison page. The Legacy host is locked
 to the existing renderer even if someone adds `rsc=1` manually.
 
+The canonical 16-product seed identities and equal Legacy/Next paths live in
+the machine-readable
+[`config/development_staging_products.yml`](../config/development_staging_products.yml)
+catalog. Seed code and comparison tooling consume that source rather than
+copying database-generated permalinks.
+
 ## Current migration coverage
 
 The Next renderer intercepts all existing `render inertia:` responses and
