@@ -16,5 +16,12 @@ export const verifiedHistoricalCheckout = (directory: string, expectedSha: strin
   if (actualSha !== expectedSha) {
     throw new Error(`Historical ${label} checkout is ${actualSha}; expected ${expectedSha}`);
   }
+
+  const status = execFileSync("git", ["-C", directory, "status", "--porcelain=v1", "--untracked-files=all"], {
+    encoding: "utf8",
+  }).trim();
+  if (status) {
+    throw new Error(`Historical ${label} checkout at ${directory} is dirty:\n${status}`);
+  }
   return directory;
 };

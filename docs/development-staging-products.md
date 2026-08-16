@@ -23,9 +23,21 @@ The dedicated ShakaPerf seed runner freezes the catalog at
 `2026-08-12 12:00:00 UTC` and uses stable `seed_<permalink>` offer codes, so
 fresh isolated databases expose equal render-relevant product, seller, sale,
 and review snapshots. Canonical seller public IDs derive from their catalog
-emails. BCrypt salts remain intentionally random and never reach the product
-presenter. Opaque IDs derived from database primary keys are excluded from the
-content snapshot; clean twins use the same insertion order and cipher keys.
+emails. Verify this contract locally with:
+
+```shell
+scripts/verify_development_staging_product_surfaces
+```
+
+The verifier creates two clean, uniquely named MySQL databases, starts separate
+Redis processes, uses distinct Mongo database names, and launches independent
+Rails seed and snapshot processes. It compares the actual
+`ProductPresenter#product_page_props` plus database/external IDs, seller and
+refund-policy state, purchases, reviews, tags, taxonomies, and offer codes for
+all 16 products, then removes the temporary services and databases. BCrypt
+digests and OTP secrets remain intentionally random and are the only excluded
+seller fields; both are authentication-only secrets that never reach the
+product presenter.
 
 ShakaPerf uses `seller_username` with the surface host and configured twin port
 to form a direct creator-host URL. For example, the film entry becomes

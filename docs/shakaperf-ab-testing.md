@@ -59,9 +59,15 @@ purchases, reviews, sellers, profiles, and offer codes therefore have matching
 render-relevant snapshots in independently seeded databases. Taxonomy offer
 codes use stable `seed_<permalink>` values, and seller public IDs derive from
 catalog emails. BCrypt password hashes retain random salts by design, but
-authentication secrets never reach `ProductPresenter`. Opaque IDs derived from
-database primary keys are outside the content snapshot; the two clean twins use
-the same seed order and Compose cipher keys.
+authentication secrets never reach `ProductPresenter`.
+
+Run `scripts/verify_development_staging_product_surfaces` for the independent
+database proof. It creates two clean MySQL databases and separate Redis/Rails
+processes, then compares the actual product-page presenter props and associated
+state for all 16 catalog products. Database and external IDs, seller refund
+policies, purchases, reviews, tags, taxonomies, and offer codes are included.
+Only the BCrypt digest and OTP secret are excluded as non-rendered
+authentication-only state.
 
 ## Local commands
 
@@ -132,9 +138,11 @@ git -C "$SHAKAPERF_EXPERIMENT_DIR" rev-parse HEAD
 # 0c16a6cd36a2e2c89a7090e21c838a013b4d2654
 ```
 
-The historical config validates both SHAs while loading and fails before a
-build or measurement if either directory is missing or incompatible. Keep the
-two directory variables exported and pass the archival config explicitly:
+The historical config validates both SHAs and requires both worktrees to have
+no tracked, staged, or untracked changes. It fails before a build or measurement
+if either directory is missing, incompatible, or dirty. The preparation script
+applies the same checks to an existing worktree. Keep the two directory
+variables exported and pass the archival config explicitly:
 
 ```shell
 npx shaka-perf servers -c shakaperf-historical/abtests.config.ts build
