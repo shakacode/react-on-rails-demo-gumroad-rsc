@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
   before_action :set_default_page_title
   before_action :set_csrf_meta_tags
   before_action :set_default_meta_tags
-  helper_method :erb_meta_tags, :page_title
+  helper_method :content_security_policy_nonce, :erb_meta_tags, :page_title
   before_action :set_analytics_meta_tags
   helper_method :analytics_enabled?
 
@@ -149,6 +149,14 @@ class ApplicationController < ActionController::Base
     end
 
   private
+    def content_security_policy_nonce(directive = :script)
+      if directive == :style
+        SecureHeaders.content_security_policy_style_nonce(request)
+      else
+        SecureHeaders.content_security_policy_script_nonce(request)
+      end
+    end
+
     def demo_rendering_surface
       @demo_rendering_surface ||= DemoRenderingSurface.current(request:)
     end

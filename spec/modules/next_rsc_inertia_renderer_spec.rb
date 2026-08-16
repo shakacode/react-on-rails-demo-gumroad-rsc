@@ -30,6 +30,12 @@ RSpec.describe NextRscInertiaRenderer, type: :controller do
 
   let(:rendering_surface) { "next" }
 
+  it "passes the SecureHeaders script nonce to React on Rails" do
+    allow(SecureHeaders).to receive(:content_security_policy_script_nonce).with(request).and_return("rsc-nonce")
+
+    expect(controller.view_context.rails_context[:cspNonce]).to eq("rsc-nonce")
+  end
+
   it "streams the unchanged Inertia page through RSC on the Next surface" do
     get :index
 
@@ -40,6 +46,7 @@ RSpec.describe NextRscInertiaRenderer, type: :controller do
     expect(controller).to have_received(:stream_view_containing_react_components).with(
       hash_including(template: "next_rsc/page", layout: true),
     )
+    expect(assigns(:hide_layouts)).to be(true)
     expect(response.headers["X-Inertia"]).to be_nil
   end
 
