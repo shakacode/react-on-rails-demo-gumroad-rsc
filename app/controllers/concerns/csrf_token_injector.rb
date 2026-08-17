@@ -17,10 +17,14 @@ module CsrfTokenInjector
   end
 
   def inject_csrf_token
-    token = form_authenticity_token
-    return if !protect_against_forgery?
+    return unless protect_against_forgery?
+    return unless response_body
 
-    rewritten_body = rewrite_csrf_token(response.body, token)
-    response.body = rewritten_body if rewritten_body != response.body
+    original_parts = response_body.is_a?(Array) ? response_body : [response_body]
+    rewritten_parts = original_parts.map { |part| rewrite_csrf_token(part, form_authenticity_token) }
+    return if rewritten_parts == original_parts
+
+    response.body = rewritten_parts
+    response.close
   end
 end
