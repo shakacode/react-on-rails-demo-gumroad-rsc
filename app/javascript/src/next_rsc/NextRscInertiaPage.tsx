@@ -27,6 +27,7 @@ router.on("invalid", (event) => {
 type Props = {
   page: Page<GlobalProps | AdminGlobalProps>;
   admin: boolean;
+  href: string;
 };
 
 const loadPage = (name: string): PageComponent => {
@@ -53,9 +54,9 @@ const assignLayout = (page: PageComponent, admin: boolean) => {
   return page;
 };
 
-export default function NextRscInertiaPage({ page, admin }: Props) {
+export default function NextRscInertiaPage({ page, admin, href }: Props) {
   const component = assignLayout(loadPage(page.component), admin);
-  const global = page.props;
+  const global = { ...page.props, href };
 
   useEffect(() => configureClientRoutes(global.domain_settings), [global.domain_settings]);
 

@@ -10,7 +10,11 @@ module NextRscInertiaRenderer
     @controller.stream_view_containing_react_components(
       template: "next_rsc/page",
       layout: layout,
-      locals: @view_data.merge(page:, admin: @controller.class.name.start_with?("Admin::")),
+      locals: @view_data.merge(
+        page:,
+        admin: @controller.class.name.start_with?("Admin::"),
+        href: @request.original_url,
+      ),
     )
   end
 end

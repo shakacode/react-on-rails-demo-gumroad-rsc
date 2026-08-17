@@ -51,6 +51,14 @@ RSpec.describe NextRscInertiaRenderer, type: :controller do
     expect(response.headers["X-Inertia"]).to be_nil
   end
 
+  it "passes the original request URL to the RSC wrapper for server rendering" do
+    get :index
+
+    expect(controller).to have_received(:stream_view_containing_react_components).with(
+      hash_including(locals: hash_including(href: request.original_url)),
+    )
+  end
+
   it "keeps the original Inertia response on the Legacy surface" do
     original = ENV[DemoRenderingSurface::ENV_NAME]
     ENV[DemoRenderingSurface::ENV_NAME] = "legacy"
