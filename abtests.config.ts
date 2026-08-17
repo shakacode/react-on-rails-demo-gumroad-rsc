@@ -1,8 +1,6 @@
 import { defineConfig, installRequestBlocking, DESKTOP_VIEWPORT, PHONE_VIEWPORT } from "shaka-shared";
 import type { AbTestsConfigInput, SharedConfigInput } from "shaka-shared";
 
-import { seededProductComparisons } from "./config/shakaperf/seeded-product-surfaces";
-
 type ShakaPerfConfig = AbTestsConfigInput & {
   shared: SharedConfigInput & {
     browserConsole: { failOn: ("error" | "warn")[]; allowList: string[] };
@@ -13,9 +11,6 @@ const CONTROL_PORT = Number(process.env.SHAKAPERF_CONTROL_PORT || 3100);
 const EXPERIMENT_PORT = Number(process.env.SHAKAPERF_EXPERIMENT_PORT || 3200);
 const projectDir = process.cwd();
 const currentRevisionDir = process.env.SHAKAPERF_CURRENT_DIR || projectDir;
-const readinessComparison = seededProductComparisons[0];
-
-if (!readinessComparison) throw new Error("The seeded product catalog must define a readiness comparison");
 
 const LIGHTHOUSE_CONFIG = {
   throttling: {
@@ -37,10 +32,11 @@ const LIGHTHOUSE_CONFIG = {
 
 const config: ShakaPerfConfig = {
   shared: {
-    // The app intentionally has no localhost root surface. These direct URLs
-    // let ShakaPerf's readiness helpers probe the same host topology as tests.
-    controlURL: readinessComparison.controlUrl,
-    experimentURL: readinessComparison.experimentUrl,
+    // The app intentionally has no localhost root surface, while the direct
+    // product domains are mapped inside Chromium only. Static assets provide
+    // host-resolvable readiness probes for ShakaPerf's host-side helper.
+    controlURL: `http://localhost:${CONTROL_PORT}/favicon.ico`,
+    experimentURL: `http://localhost:${EXPERIMENT_PORT}/favicon.ico`,
     testPathPattern: "ab-tests/seeded-product-surfaces\\.abtest\\.ts$",
     viewportDefinitions: [DESKTOP_VIEWPORT, PHONE_VIEWPORT],
     viewports: ["desktop", "phone"],

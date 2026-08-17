@@ -61,11 +61,9 @@ test("uses the same current checkout and canonical seed runner for both twins", 
   );
 });
 
-test("uses direct product URLs for twin readiness probes", () => {
-  const readinessComparison = seededProductComparisons[0];
-  assert.ok(readinessComparison);
-  assert.equal(config.shared.controlURL, readinessComparison.controlUrl);
-  assert.equal(config.shared.experimentURL, readinessComparison.experimentUrl);
+test("uses host-resolvable static assets for twin readiness probes", () => {
+  assert.equal(config.shared.controlURL, "http://localhost:3100/favicon.ico");
+  assert.equal(config.shared.experimentURL, "http://localhost:3200/favicon.ico");
 });
 
 test("discovers only the current seeded-surface definitions by default", async () => {
