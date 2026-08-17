@@ -246,3 +246,36 @@ test("discovers only the current seeded-surface definitions by default", async (
     assert.match(body, /#next-rsc-page-root/u);
   }
 });
+
+test("each representative callback rejects a final URL other than its own configured side URL", async () => {
+  const definitions = getRegisteredTests();
+  assert.equal(definitions.length, seededProductComparisons.length);
+
+  for (const [index, definition] of definitions.entries()) {
+    const comparison = seededProductComparisons[index];
+    assert.ok(comparison);
+
+    for (const [isControl, expectedUrl] of [
+      [true, comparison.controlUrl],
+      [false, comparison.experimentUrl],
+    ] as const) {
+      const actualUrl = isControl ? comparison.experimentUrl : comparison.controlUrl;
+      const callback = definition.testFn({
+        page: { url: () => actualUrl } as never,
+        browserContext: {} as never,
+        isControl,
+        scenario: definition,
+        viewport: { label: "test", width: 1, height: 1, formFactor: "desktop", deviceScaleFactor: 1 },
+        testType: "visreg",
+        annotate: async () => {},
+      });
+
+      await assert.rejects(
+        callback,
+        (error: unknown) =>
+          error instanceof Error &&
+          error.message === `Expected final URL ${expectedUrl}, received ${actualUrl}; redirects are not allowed`,
+      );
+    }
+  }
+});

@@ -12,6 +12,12 @@ for (const { product, controlUrl, experimentUrl } of seededProductComparisons) {
       visregSelectors: ["article"],
     },
     async ({ page, annotate, isControl }) => {
+      const expectedUrl = isControl ? controlUrl : experimentUrl;
+      const actualUrl = page.url();
+      if (actualUrl !== expectedUrl) {
+        throw new Error(`Expected final URL ${expectedUrl}, received ${actualUrl}; redirects are not allowed`);
+      }
+
       const expectedSurface = isControl ? "legacy" : "next";
       const actualSurface = await page.evaluate(async () => {
         const response = await fetch(window.location.href, { cache: "no-store", credentials: "same-origin" });
