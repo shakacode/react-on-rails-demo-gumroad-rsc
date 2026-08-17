@@ -32,11 +32,8 @@ const LIGHTHOUSE_CONFIG = {
 
 const config: ShakaPerfConfig = {
   shared: {
-    // The app intentionally has no localhost root surface, while the direct
-    // product domains are mapped inside Chromium only. Static assets provide
-    // host-resolvable readiness probes for ShakaPerf's host-side helper.
-    controlURL: `http://localhost:${CONTROL_PORT}/favicon.ico`,
-    experimentURL: `http://localhost:${EXPERIMENT_PORT}/favicon.ico`,
+    controlURL: `http://localhost:${CONTROL_PORT}`,
+    experimentURL: `http://localhost:${EXPERIMENT_PORT}`,
     testPathPattern: "ab-tests/seeded-product-surfaces\\.abtest\\.ts$",
     viewportDefinitions: [DESKTOP_VIEWPORT, PHONE_VIEWPORT],
     viewports: ["desktop", "phone"],

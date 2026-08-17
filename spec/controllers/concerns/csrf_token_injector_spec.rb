@@ -35,10 +35,32 @@ describe CsrfTokenInjector, type: :controller do
     expect(Nokogiri::HTML(response.body).at_xpath("//meta[@name='csrf-token']/@content").value).to be_present
   end
 
+  it "preserves the ordinary string response lifecycle while injecting the token" do
+    original_body = '<meta name="csrf-token" content="_CROSS_SITE_REQUEST_FORGERY_PROTECTION_TOKEN__">'
+    ordinary_response = instance_double(ActionDispatch::Response, body: original_body)
+    allow(controller).to receive(:response).and_return(ordinary_response)
+    allow(controller).to receive(:protect_against_forgery?).and_return(true)
+    allow(controller).to receive(:form_authenticity_token).and_return("ordinary-token")
+
+    expect(ordinary_response).to receive(:body=).with(
+      satisfy do |rewritten_body|
+        rewritten_body.is_a?(String) &&
+          rewritten_body.include?('content="ordinary-token"') &&
+          !rewritten_body.include?(CsrfTokenInjector::TOKEN_PLACEHOLDER)
+      end,
+    )
+    expect(ordinary_response).not_to receive(:close)
+
+    controller.inject_csrf_token
+  end
+
   it "does not consume a response marked for streaming" do
     controller.instance_variable_set("@skip_csrf_token_injection", true)
+    expect(controller).not_to receive(:form_authenticity_token)
+    expect(controller).not_to receive(:protect_against_forgery?)
     expect(controller).not_to receive(:response_body)
     expect(response).not_to receive(:body)
+    expect(response).not_to receive(:close)
 
     controller.inject_csrf_token
   end
