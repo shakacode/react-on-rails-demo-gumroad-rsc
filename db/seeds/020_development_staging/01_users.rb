@@ -3,33 +3,23 @@
 require Rails.root.join("lib/development_staging_product_catalog")
 
 demo_entry = DevelopmentStagingProductCatalog.fetch(category: "demo")
-seller = User.find_by(email: "seller@gumroad.com")
-if seller.blank?
-  seller = User.new
-  seller.email = "seller@gumroad.com"
-  seller.external_id = DevelopmentStagingProductCatalog.seller_external_id(demo_entry)
-  seller.name = "Seller"
-  seller.username = "seller"
-  seller.confirmed_at = DevelopmentStagingProductCatalog::SEED_TIME
-  seller.is_team_member = true
-  seller.user_risk_state = "compliant"
-  seller.password = DevelopmentStagingProductCatalog::BOOTSTRAP_PASSWORD
+seller = DevelopmentStagingProductCatalog.reconcile_seller!(entry: demo_entry)
 
-  # Make seller eligible for service products
-  seller.created_at = DevelopmentStagingProductCatalog::SEED_TIME - 2.months
-  seller.payments.build(
+# Make seller eligible for service products while keeping the original payment stable.
+unless seller.payments.exists?(
+  state: "completed",
+  amount_cents: 1000,
+  processor: "paypal",
+  processor_fee_cents: 100,
+  payout_period_end_date: DevelopmentStagingProductCatalog::SEED_TIME.to_date - 1.day,
+)
+  seller.payments.create!(
     state: "completed",
     amount_cents: 1000,
     processor: "paypal",
     processor_fee_cents: 100,
     payout_period_end_date: DevelopmentStagingProductCatalog::SEED_TIME.to_date - 1.day
   )
-
-  seller.save!
-
-  # Skip validations to set a pwned but easy password
-  seller.password = "password"
-  seller.save!(validate: false)
 end
 
 TeamMembership::ROLES.excluding(TeamMembership::ROLE_OWNER).each do |role|
