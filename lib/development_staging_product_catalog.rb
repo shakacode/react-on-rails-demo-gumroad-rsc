@@ -275,6 +275,8 @@ module DevelopmentStagingProductCatalog
       end
 
       def legacy_seed_offer_code?(offer_code)
+        return false unless offer_code
+
         offer_code.name.nil? && offer_code.universal? && offer_code.amount_percentage == 100 && offer_code.amount_cents.nil?
       end
 
@@ -295,6 +297,10 @@ module DevelopmentStagingProductCatalog
           purchase.total_transaction_cents.zero? &&
           purchase.card_country == "US" &&
           purchase.ip_address == "199.241.200.176" &&
+          purchase.purchase_state == "successful" &&
+          purchase.succeeded_at.present? &&
+          legacy_seed_offer_code?(purchase.offer_code) &&
+          purchase.offer_code.code.match?(/\Aseed-#{seller.id}-[0-9a-f]{6}\z/) &&
           purchase.product_review&.rating == 3
       end
   end

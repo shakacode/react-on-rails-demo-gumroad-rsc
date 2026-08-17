@@ -147,6 +147,52 @@ RSpec.describe "development/staging product seeds" do
     expect(unrelated_seller.links).to be_empty
   end
 
+  it "does not adopt a failed purchase that resembles the historical seed fixture" do
+    load_product_seeds
+    entry = DevelopmentStagingProductCatalog.fetch(category: "film")
+    product = Link.find_by!(unique_permalink: entry.permalink)
+    seller = product.user
+    buyer = User.find_by!(email: "seller@gumroad.com")
+    product.sales.sole.destroy!
+    legacy_offer = seller.offer_codes.create!(
+      universal: true,
+      amount_percentage: 100,
+      code: "seed-#{seller.id}-abcdef",
+    )
+    unrelated_purchase = Purchase.new(
+      link_id: product.id,
+      seller_id: seller.id,
+      price_cents: 0,
+      displayed_price_cents: 0,
+      tax_cents: 0,
+      gumroad_tax_cents: 0,
+      total_transaction_cents: 0,
+      purchaser_id: buyer.id,
+      email: buyer.email,
+      card_country: "US",
+      ip_address: "199.241.200.176",
+      offer_code: legacy_offer,
+    )
+    unrelated_purchase.send(:calculate_fees)
+    unrelated_purchase.save!
+    unrelated_purchase.update!(purchase_state: "successful", succeeded_at: DevelopmentStagingProductCatalog::SEED_TIME)
+    unrelated_purchase.post_review(rating: 3)
+    unrelated_purchase.update!(purchase_state: "failed", succeeded_at: nil)
+
+    expect { load_product_seeds }.to change { product.sales.count }.by(1)
+
+    expect(unrelated_purchase.reload).to have_attributes(
+      purchase_state: "failed",
+      succeeded_at: nil,
+      offer_code: legacy_offer,
+    )
+    expect(unrelated_purchase.json_data).not_to include(DevelopmentStagingProductCatalog::OWNER_KEY)
+    expect(product.sales.where.not(id: unrelated_purchase.id).sole).to have_attributes(
+      purchase_state: "successful",
+      succeeded_at: DevelopmentStagingProductCatalog::SEED_TIME,
+    )
+  end
+
   it "converges renderer-visible catalog and review state for owned records without changing identities" do
     load_product_seeds
     entry = DevelopmentStagingProductCatalog.fetch(category: "film")
