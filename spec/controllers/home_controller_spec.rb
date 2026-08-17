@@ -6,44 +6,22 @@ describe HomeController do
   render_views
 
   describe "GET about" do
-    it "prioritizes the public buyer-page RSC performance experiment" do
+    it "keeps the independent landing content" do
       get :about
 
       expect(response).to be_successful
-      expect(response.body).to include("React on Rails Pro performance experiment")
-      expect(response.body).to include("Consumer-facing pages are the value proof")
-      expect(response.body).to include("current media-bearing ShakaPerf run")
-      expect(response.body).to include("Discover LCP is directionally better but noisy")
-      expect(response.body).to include("the Inertia control loads analytics scripts the RSC route omits")
-      expect(response.body).not_to include("lower median LCP")
-      expect(response.body).to include("Product detail result")
-      expect(response.body).to include("-48.8%")
-      expect(response.body).to include("Discover result")
-      expect(response.body).to include("-42.6%")
-      expect(response.body).to include("Product: Inertia")
-      expect(response.body).to include("Product: RSC")
-      expect(response.body).to include("Discover: Inertia")
-      expect(response.body).to include("Discover: RSC")
-      expect(response.body).to include("9 -> 1")
-      expect(response.body).to include("External proof gate")
-      expect(response.body).to include("INP field data")
-      expect(response.body).to include("Current ShakaPerf results")
-      expect(response.body).to include("Fixture provenance")
-      expect(response.body).to include("React on Rails")
-      expect(response.body).to include("Book a ShakaCode consultation")
-      expect(response.body).to include("https://reactonrails.com/")
-      expect(response.body).to include("https://www.shakacode.com/")
-      expect(response.body).to include("https://meetings.hubspot.com/justingordon/30-minute-consultation")
-      expect(response.body).to include("Read the VP Engineering summary")
-      expect(response.body).to include("href=\"#{rsc_executive_summary_path}\"")
-      expect(response.body).to include("href=\"#{rsc_performance_demo_path}#current-shakaperf-result\"")
-      expect(response.body).to include("href=\"#{rsc_performance_demo_path}#fixture-provenance\"")
-      expect(response.body).to include(public_product_inertia_demo_path)
-      expect(response.body).to include(public_product_rsc_demo_path)
-      expect(response.body).to include(public_product_discover_inertia_demo_path)
-      expect(response.body).to include(public_product_discover_rsc_demo_path)
-      expect(response.body).to include("docs/performance-evaluation.md")
-      expect(response.body).to include("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc")
+      expect(response.body).to include("Go from")
+      expect(response.body).to include("0 to $1")
+      expect(response.body).to include("Anyone can earn their first dollar online")
+      expect(response.body).to include("Sell anything")
+      expect(response.body).to include("Make your own road")
+      expect(response.body).to include("Sell to anyone")
+      expect(response.body).to include("Sell anywhere")
+      expect(response.body).to include("The Gumroad Way")
+      expect(response.body).to include("https://github.com/antiwork/gumroad")
+      expect(response.body).not_to include("React on Rails Pro performance experiment")
+      expect(response.body).not_to include("Current ShakaPerf results")
+      expect(response.body).not_to include("https://github.com/shakacode/react-on-rails-demo-gumroad-rsc")
     end
   end
 

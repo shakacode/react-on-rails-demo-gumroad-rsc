@@ -45,6 +45,43 @@ aliases:
     upstream: react-on-rails-demo-gumroad-rsc-staging
 
 apps:
+  # Persistent, independently deployed surfaces. Their app-name suffix is part
+  # of the runtime contract used by DemoRenderingSurface.
+  react-on-rails-demo-gumroad-legacy:
+    <<: *common
+    setup_app_templates:
+      - surface_app
+      - mysql
+      - redis
+      - memcached
+      - mongo
+      - elasticsearch
+      - rails
+    app_workloads:
+      - rails
+    shared_secret_grants:
+      - name: demo_app
+        secret_name: react-on-rails-demo-gumroad-rsc-staging-secrets
+        policy_name: react-on-rails-demo-gumroad-rsc-staging-secrets-policy
+    release_script: ALLOW_DEMO_SEED=true .controlplane/release_script.sh
+
+  react-on-rails-demo-gumroad-next:
+    <<: *common
+    setup_app_templates:
+      - surface_app
+      - mysql
+      - redis
+      - memcached
+      - mongo
+      - elasticsearch
+      - rails
+      - renderer
+    shared_secret_grants:
+      - name: demo_app
+        secret_name: react-on-rails-demo-gumroad-rsc-staging-secrets
+        policy_name: react-on-rails-demo-gumroad-rsc-staging-secrets-policy
+    release_script: ALLOW_DEMO_SEED=true .controlplane/release_script.sh
+
   react-on-rails-demo-gumroad-rsc-staging:
     <<: *common
     release_script: ALLOW_DEMO_SEED=true .controlplane/release_script.sh

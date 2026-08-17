@@ -1,4 +1,5 @@
 import path from "path";
+import tsCast from "ts-safe-cast/transformer.js";
 import ts from "typescript";
 
 let service = undefined;
@@ -30,6 +31,7 @@ export default function (source) {
   const program = this._compilation.__transformerProgram;
   const sourceFile = program.getSourceFile(this.resourcePath);
   if (!sourceFile) return source;
-  const transformers = this.query.getTransformers(program);
+  const transformers =
+    this.query.transformer === "ts-safe-cast" ? [tsCast(program)] : this.query.getTransformers(program);
   return ts.createPrinter().printFile(ts.transform(sourceFile, transformers).transformed[0]);
 }

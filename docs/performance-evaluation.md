@@ -34,28 +34,20 @@ The goal is to measure whether a bounded RSC surface can produce a meaningful us
 - React on Rails hub issue: [react_on_rails#3128](https://github.com/shakacode/react_on_rails/issues/3128)
 - benchmark and positioning issue: [react_on_rails#3144](https://github.com/shakacode/react_on_rails/issues/3144)
 
-## Current Conclusion
+## Current conclusion
 
-The stable media-bearing result supports a bounded end-to-end RSC navigation
-win, but it is not yet a Gumroad adoption proof.
+The August 12 native-product ShakaPerf report is mixed. Microsoft 365 and
+Residential Design both improve `FCP` by `76%`; `LCP` improves `74%` and `49%`;
+Lighthouse rises `35 -> 77` and `43 -> 71`; JavaScript requests fall `41 -> 3`.
+At the same time, `TTFB` regresses `35%/39%`, JavaScript transfer grows `206%`,
+downloads grow `56%/36%`, and Microsoft `TBT` moves `0 -> 199ms`. The command
+exits `1` with `FAILED: 2 perf regressions`.
 
-What is independently verified:
-
-- PR 69 is merged and deployed; the stable media gate passes.
-- Both route pairs use the same deterministic presenter props and shared UI.
-- Two independent stable-deployment batches show clear full-navigation wins,
-  about half the JavaScript transfer, and one route script instead of nine.
-- Product LCP is modestly better. Discover LCP is directionally better but
-  noisy. Response end is a tie/inconclusive and must not be claimed as a win.
-- The live Gumroad PageSpeed comparison remains diagnostic because media,
-  chrome, caching/CDN behavior, fonts, and third-party requests differ sharply.
-
-The causal limit is important: the RSC route intentionally skips legacy
-application JavaScript and uses an isolated client bundle, while the Inertia
-route also loads analytics/tag-manager resources omitted from RSC. Bundle
-isolation is part of the candidate architecture; third-party omission is a
-parity gap. The result should be described as “these deployed routes” rather
-than “RSC alone.”
+That supports continued pilot work, not a claim that RSC is better overall.
+The result is end-to-end: server-rendered HTML, bundle isolation, and analytics
+omission changed together, so the report does not isolate RSC as the sole cause.
+Exact pages, revisions, commands, p-values, quality gates, and raw results are
+in the [native-product artifact](./performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md).
 
 Before measuring a deployment, run:
 
@@ -68,7 +60,7 @@ A first cold probe received a transient `503`, then the exact command passed
 after deployment warm-up. Record HTTP failures and keep the two explicit
 warmups in every measured run.
 
-## Current Stable Media-Bearing Public Buyer-Page Result
+## Historical July Ruby/Selenium public-demo result
 
 Captured July 10, 2026 UTC against `https://gumroad.reactonrails.com` at main
 commit `cc61125b02ec0282ec455c044240e97b6a33b741`. Environment: Chrome
@@ -77,10 +69,10 @@ Apple M5 Max, 128 GiB, macOS 26.5.1. Method: two independent batches, eight
 alternating cycles per batch, two warmups per measured run, public mode, and
 required Chrome/driver major-version match.
 
-| Surface | Median navigation | Median response end | Median LCP | JS transfer | Inertia payload |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Product | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
-| Discover | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
+| Surface  |                   Median navigation |                Median response end |                    Median LCP |                            JS transfer |    Inertia payload |
+| -------- | ----------------------------------: | ---------------------------------: | ----------------------------: | -------------------------------------: | -----------------: |
+| Product  |  `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) |  `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
+| Discover | `1097.9ms` -> `630.45ms` (`-42.6%`) |   `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) |   `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
 
 The combined-median encoded HTML body (compressed, headers excluded) is larger
 (`+80.4%` Product, `+100.2%` Discover), while combined-median decoded
@@ -91,9 +83,10 @@ The summary, four batch manifests, 64 underlying run files, and desktop/mobile
 resource audits are in
 [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
 
-The PR 69 review-app artifact, pre-media stable artifact, local run, PR 63 run,
-and June hosted run remain historical chronology. They are not the current
-headline and must not be mixed with the stable aggregate.
+This table and the PR 69 review-app, pre-media stable, local, PR 63, and June
+hosted runs are historical chronology. The July table came from the repository's
+Ruby/Selenium runner, not `shaka-perf`, and must not be mixed with the current
+native-product CLI result.
 
 ## Supporting PR 63 Review-App Public Buyer-Page Result
 
@@ -328,7 +321,7 @@ It does **not** yet prove the full upside of RSC as an architecture.
 If the next performance review should be high signal, focus here:
 
 1. Keep the review-app, deployed-demo, and live Gumroad PageSpeed URLs visible.
-   The July 10 stable media-bearing ShakaPerf run is the current headline evidence; the PR 69 review-app run, stable pre-media run, and Lighthouse URL-pair artifact are historical diagnostics. The lab generates current-host PageSpeed links for review apps plus stable deployed-demo links for `https://gumroad.reactonrails.com`.
+   The August 12 native-product ShakaPerf artifact is the current headline evidence. The July Ruby/Selenium public-demo run, PR 69 review-app run, stable pre-media run, and Lighthouse URL-pair artifact are historical diagnostics. The lab still exposes their links for auditability.
 
 2. Deepen React on Rails Pro renderer and streaming-path instrumentation.
    We now have route-scoped Rails timing plus renderer prepare and stream-shell timing, but not a full internal phase breakdown.

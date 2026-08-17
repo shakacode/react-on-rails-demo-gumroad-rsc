@@ -87,4 +87,42 @@ describe Subdomain do
       expect(Subdomain.send(:subdomain_request?, domain).present?).to eq(false)
     end
   end
+
+  describe "surface-specific creator hosts" do
+    around do |example|
+      original_twin = ENV["SHAKAPERF_TWIN_SERVERS"]
+      original_root = ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"]
+      example.run
+    ensure
+      original_twin.nil? ? ENV.delete("SHAKAPERF_TWIN_SERVERS") : ENV["SHAKAPERF_TWIN_SERVERS"] = original_twin
+      original_root.nil? ? ENV.delete("SHAKAPERF_CREATOR_ROOT_DOMAIN") : ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = original_root
+    end
+
+    it "resolves a seller directly only inside an explicit ShakaPerf twin" do
+      ENV["SHAKAPERF_TWIN_SERVERS"] = "true"
+      ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = "legacy.gumroad.reactonrails.com"
+
+      expect(described_class.from_username(@seller1.username))
+        .to eq("test-user.legacy.gumroad.reactonrails.com")
+      expect(described_class.find_seller_by_hostname("test-user.legacy.gumroad.reactonrails.com"))
+        .to eq(@seller1)
+    end
+
+    it "ignores the ShakaPerf root override outside a twin runtime" do
+      ENV.delete("SHAKAPERF_TWIN_SERVERS")
+      ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = "attacker.example.com"
+
+      expect(described_class.from_username(@seller1.username)).to eq("test-user.#{ROOT_DOMAIN}")
+      expect(described_class.find_seller_by_hostname("test-user.attacker.example.com")).to be_nil
+    end
+
+    it "ignores the ShakaPerf root override in production even if the flag is set" do
+      ENV["SHAKAPERF_TWIN_SERVERS"] = "true"
+      ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = "attacker.example.com"
+      allow(Rails).to receive(:env).and_return(ActiveSupport::EnvironmentInquirer.new("production"))
+
+      expect(described_class.from_username(@seller1.username)).to eq("test-user.#{ROOT_DOMAIN}")
+      expect(described_class.find_seller_by_hostname("test-user.attacker.example.com")).to be_nil
+    end
+  end
 end

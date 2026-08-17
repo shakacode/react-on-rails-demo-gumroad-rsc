@@ -4,7 +4,7 @@
   <% bclass = ["group/body"] %>
   <% bclass.push "mac" if request.headers["User-Agent"]&.include? "Macintosh" %>
   <% bclass.push(@body_class) if @body_class %>
-  <% custom_context = @precomputed_rendering_context || RenderingExtension.custom_context(self) %>
+  <% custom_context = RenderingExtension.custom_context(self) %>
   <body id="<%= @body_id %>" class="<%= bclass.join(" ") %>" style="<%= params[:as_embed] && "background: transparent" %>">
     <div id="design-settings" data-settings="<%= custom_context[:design_settings].to_json %>" style="display: none;"></div>
     <div id="user-agent-info" data-settings="<%= custom_context[:user_agent_info].to_json %>" style="display: none;"></div>
@@ -17,7 +17,7 @@
         </div>
       </footer>
     <% end %>
-    <%= javascript_include_tag "application" unless @skip_legacy_application_javascript %>
+    <%= javascript_include_tag "application" %>
     <%= load_pack("base") unless @hide_layouts %>
     <%= yield :script %>
   </body>

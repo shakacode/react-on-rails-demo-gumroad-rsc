@@ -1,0 +1,59 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+control_sha=e720df1b4f13781af1b1b14efd10fe8a31e76641
+experiment_sha=0c16a6cd36a2e2c89a7090e21c838a013b4d2654
+control_dir=${SHAKAPERF_CONTROL_DIR:-"$repo_root/.shakaperf-historical-control"}
+experiment_dir=${SHAKAPERF_EXPERIMENT_DIR:-"$repo_root/.shakaperf-historical-experiment"}
+
+verify_checkout() {
+  label=$1
+  directory=$2
+  expected_revision=$3
+  actual_revision=$(git -C "$directory" rev-parse HEAD)
+  if [ "$actual_revision" != "$expected_revision" ]; then
+    echo "Historical $label checkout is $actual_revision; expected $expected_revision" >&2
+    return 1
+  fi
+  status=$(git -C "$directory" status --porcelain=v1 --untracked-files=all)
+  if [ -n "$status" ]; then
+    echo "Historical $label checkout is dirty:" >&2
+    echo "$status" >&2
+    return 1
+  fi
+}
+
+if [ "${1:-}" = "--verify-checkout" ]; then
+  [ "$#" -eq 4 ] || {
+    echo "Usage: $0 --verify-checkout LABEL DIRECTORY EXPECTED_SHA" >&2
+    exit 2
+  }
+  verify_checkout "$2" "$3" "$4"
+  exit
+fi
+
+prepare_checkout() {
+  label=$1
+  directory=$2
+  revision=$3
+
+  expected_revision=$(git -C "$repo_root" rev-parse "$revision^{commit}")
+  if [ -e "$directory/.git" ]; then
+    verify_checkout "$label" "$directory" "$expected_revision"
+    echo "Historical $label checkout already pinned to $actual_revision at $directory"
+    return
+  fi
+
+  if [ -e "$directory" ]; then
+    echo "Refusing to overwrite existing non-worktree path: $directory" >&2
+    exit 1
+  fi
+
+  git -C "$repo_root" worktree add --detach "$directory" "$expected_revision"
+  verify_checkout "$label" "$directory" "$expected_revision"
+  echo "Prepared historical $label $expected_revision at $directory"
+}
+
+prepare_checkout control "$control_dir" "$control_sha"
+prepare_checkout experiment "$experiment_dir" "$experiment_sha"

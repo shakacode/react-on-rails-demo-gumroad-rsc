@@ -8,10 +8,9 @@ The right upstream goal is narrow:
 - avoid proposing a broad migration
 - ask whether Gumroad would review a focused experiment branch or PR if the public-page performance case becomes stronger
 
-Do not post this upstream yet. Hold until React on Rails Pro `17.0.0` is final,
-then upgrade and redeploy the demo, repeat the two-batch stable ShakaPerf run,
-resolve or frame the analytics/legacy-bundle asymmetry, refresh mobile diagnostics,
-and update package version references before opening the issue.
+Do not post this upstream yet. First fix or explicitly accept the two current
+ShakaPerf regressions, restore production-equivalent delivery, collect field
+corroboration, and update package version references.
 
 The current best candidates are the logged-out public product and Discover comparisons:
 
@@ -29,7 +28,7 @@ I put together a public experiment repo that tracks Gumroad and compares matched
 
 - Repo: https://github.com/shakacode/react-on-rails-demo-gumroad-rsc
 - VP Engineering summary: https://gumroad.reactonrails.com/rsc-demo
-- Detailed evidence lab: https://gumroad.reactonrails.com/rsc-demo/evidence#current-shakaperf-result
+- Detailed evidence lab: https://gumroad.reactonrails.com/rsc-demo/evidence#native-shakaperf-result
 - Product Inertia control: https://gumroad.reactonrails.com/public_product/inertia_demo
 - Product React Server Components route: https://gumroad.reactonrails.com/public_product/rsc_demo
 - Discover Inertia control: https://gumroad.reactonrails.com/public_product/discover_inertia_demo
@@ -51,7 +50,7 @@ The hosted lab now has production-shaped synthetic fixtures for the public pages
 - the fixture now uses local synthetic media so the demo pages load image elements without copying creator-owned images
 - the current control route is a custom Inertia benchmark surface, not yet the production `Discover/Index` or `Products/Discover/Show` component migrated one-for-one
 
-The current branch A/B result is favorable enough to keep testing on the page type that matters most for Gumroad:
+The current branch A/B result is mixed but useful enough to keep testing on the page type that matters most for Gumroad:
 
 - public product pages
 - public Discover pages
@@ -60,14 +59,14 @@ The current branch A/B result is favorable enough to keep testing on the page ty
 - browse-to-product discovery
 - client JavaScript reduction
 
-Current media-bearing ShakaPerf results from `2026-07-10 UTC` on the stable deployment (two independent 8-cycle batches):
+Current ShakaPerf CLI results from `2026-08-12` use ten simultaneous mobile Lighthouse measurements per side and native product:
 
-| Public surface       |                   Median nav duration |                 Median response end |                    Median LCP start |           JS requests |
-| -------------------- | ------------------------------------: | ----------------------------------: | ----------------------------------: | --------------------: |
-| Product detail       | `1123.50ms` -> `575.00ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662.00ms` -> `602.00ms` (`-9.1%`) | `9` -> `1` (`-88.9%`) |
-| Discover marketplace | `1097.90ms` -> `630.45ms` (`-42.6%`) | `473.90ms` -> `492.80ms` (`+4.0%`) | `768.00ms` -> `648.00ms` (`-15.6%`) | `9` -> `1` (`-88.9%`) |
+| Product            |                       FCP |                        LCP |         Lighthouse |        JS requests |                       Downloads |
+| ------------------ | ------------------------: | -------------------------: | -----------------: | -----------------: | ------------------------------: |
+| Microsoft 365      | `7.71s -> 1.85s` (`-76%`) | `13.92s -> 3.64s` (`-74%`) | `35 -> 77` (`+42`) | `41 -> 3` (`-93%`) | `2152.2KB -> 3361.7KB` (`+56%`) |
+| Residential Design | `7.81s -> 1.85s` (`-76%`) | `16.88s -> 8.63s` (`-49%`) | `43 -> 71` (`+28`) | `41 -> 3` (`-93%`) | `3425.7KB -> 4643.4KB` (`+36%`) |
 
-This result is useful because it compares both route pairs after the demo gained local media fixtures. It also narrows the claim: full navigation is clearly better, Product LCP is modestly better, Discover LCP is noisy, response end is not a win, and RSC sends more HTML while cutting JavaScript transfer roughly in half.
+The command exits `1` with `FAILED: 2 perf regressions`. `TTFB` regresses `35%/39%`, JavaScript transfer grows `206%`, and Microsoft `TBT` moves `0 -> 199ms`. This is evidence of faster paint and fewer requests, not overall superiority.
 
 This is an end-to-end route result, not an estimate of RSC alone. The RSC route intentionally skips legacy application JavaScript and uses an isolated bundle; the Inertia route also loads analytics/tag-manager scripts omitted by RSC. A clean pair and a production-shaped third-party-matched pair are still required before making a causal claim.
 
@@ -82,8 +81,8 @@ The dashboard comparison remains useful as a technical proof, but it should not 
 - the comparison uses logged-out public product and Discover routes rather than admin/dashboard routes
 - the RSC routes can be benchmarked against matched Inertia controls on the same data
 - the demo is real enough to discuss architecture tradeoffs with code and measurements, not just theory
-- the next measurement step is explicit: wait for Pro 17 final, upgrade and redeploy, control the third-party asymmetry, repeat stable ShakaPerf, then add mobile/field corroboration
-- the media-bearing same-fixture full-navigation result is large enough to justify that next step; the LCP result should be described as modest/noisy rather than uniformly large
+- the next measurement step is explicit: reduce payload and TTFB, restore production parity, rerun ShakaPerf, then add field corroboration
+- the paint result is large enough to justify that next step, while the failed-suite status and delivery regressions stay visible
 
 ## What I am not claiming
 

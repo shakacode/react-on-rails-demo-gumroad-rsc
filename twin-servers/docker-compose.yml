@@ -1,0 +1,120 @@
+services:
+  control-server:
+    image: ${CONTROL_IMAGE_NAME}
+    ports:
+      - "${CONTROL_PORT}:3000"
+    environment:
+      PERF_EXPERIMENT: "false"
+      DATABASE_HOST: mysql-control
+      MONGO_DATABASE_URL: mongo-control:27017
+      REDIS_HOST: redis-control:6379/0
+      SIDEKIQ_REDIS_HOST: redis-control:6379/1
+      RPUSH_REDIS_HOST: redis-control:6379/2
+      RACK_ATTACK_REDIS_HOST: redis-control:6379/3
+      OBFUSCATE_IDS_CIPHER_KEY: shakaperf-local-cipher-key
+      OBFUSCATE_IDS_NUMERIC_CIPHER_KEY: "1234"
+    volumes:
+      - control_volume:/home/${USER}/app
+    depends_on:
+      mysql-control:
+        condition: service_healthy
+      mongo-control:
+        condition: service_healthy
+      redis-control:
+        condition: service_healthy
+    command: sleep infinity
+
+  experiment-server:
+    image: ${EXPERIMENT_IMAGE_NAME}
+    ports:
+      - "${EXPERIMENT_PORT}:3000"
+    environment:
+      PERF_EXPERIMENT: "true"
+      DATABASE_HOST: mysql-experiment
+      MONGO_DATABASE_URL: mongo-experiment:27017
+      REDIS_HOST: redis-experiment:6379/0
+      SIDEKIQ_REDIS_HOST: redis-experiment:6379/1
+      RPUSH_REDIS_HOST: redis-experiment:6379/2
+      RACK_ATTACK_REDIS_HOST: redis-experiment:6379/3
+      OBFUSCATE_IDS_CIPHER_KEY: shakaperf-local-cipher-key
+      OBFUSCATE_IDS_NUMERIC_CIPHER_KEY: "1234"
+    volumes:
+      - experiment_volume:/home/${USER}/app
+    depends_on:
+      mysql-experiment:
+        condition: service_healthy
+      mongo-experiment:
+        condition: service_healthy
+      redis-experiment:
+        condition: service_healthy
+    command: sleep infinity
+
+  mysql-control:
+    image: mysql:8.0.32
+    environment: &mysql-environment
+      MYSQL_DATABASE: gumroad_demo
+      MYSQL_USER: gumroad
+      MYSQL_PASSWORD: gumroad
+      MYSQL_ROOT_PASSWORD: password
+    command:
+      - mysqld
+      - --default-authentication-plugin=mysql_native_password
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-server=utf8mb4
+    healthcheck: &mysql-healthcheck
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -ppassword --silent"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  mysql-experiment:
+    image: mysql:8.0.32
+    environment: *mysql-environment
+    command:
+      - mysqld
+      - --default-authentication-plugin=mysql_native_password
+      - --collation-server=utf8mb4_unicode_ci
+      - --character-set-server=utf8mb4
+    healthcheck: *mysql-healthcheck
+
+  mongo-control:
+    image: mongo:7.0.16
+    environment: &mongo-environment
+      MONGO_INITDB_ROOT_USERNAME: gumroad
+      MONGO_INITDB_ROOT_PASSWORD: gumroad
+    healthcheck: &mongo-healthcheck
+      test: ["CMD-SHELL", "mongosh --quiet --host 127.0.0.1 -u gumroad -p gumroad --authenticationDatabase admin --eval 'db.adminCommand(\"ping\")' >/dev/null"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  mongo-experiment:
+    image: mongo:7.0.16
+    environment: *mongo-environment
+    healthcheck: *mongo-healthcheck
+
+  redis-control:
+    image: redis:7.2.5-alpine
+    healthcheck: &redis-healthcheck
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+
+  redis-experiment:
+    image: redis:7.2.5-alpine
+    healthcheck: *redis-healthcheck
+
+volumes:
+  control_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${CONTROL_VOLUME_DIR}
+  experiment_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${EXPERIMENT_VOLUME_DIR}

@@ -68,3 +68,6 @@ ssr-generated/
 .node-renderer-bundles/
 .playwright-cli/
 test-results/
+.shakaperf-control/
+.shakaperf-historical-control/
+.shakaperf-historical-experiment/
