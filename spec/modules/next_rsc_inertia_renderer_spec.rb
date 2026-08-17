@@ -47,6 +47,7 @@ RSpec.describe NextRscInertiaRenderer, type: :controller do
       hash_including(template: "next_rsc/page", layout: true),
     )
     expect(assigns(:hide_layouts)).to be(true)
+    expect(controller.instance_variable_get("@skip_csrf_token_injection")).to be(true)
     expect(response.headers["X-Inertia"]).to be_nil
   end
 

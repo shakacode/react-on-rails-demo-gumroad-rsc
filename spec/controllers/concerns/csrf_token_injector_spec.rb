@@ -35,8 +35,9 @@ describe CsrfTokenInjector, type: :controller do
     expect(Nokogiri::HTML(response.body).at_xpath("//meta[@name='csrf-token']/@content").value).to be_present
   end
 
-  it "does not consume a streaming response without a controller response body" do
-    allow(controller).to receive(:response_body).and_return(nil)
+  it "does not consume a response marked for streaming" do
+    controller.instance_variable_set("@skip_csrf_token_injection", true)
+    expect(controller).not_to receive(:response_body)
     expect(response).not_to receive(:body)
 
     controller.inject_csrf_token

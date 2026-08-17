@@ -17,6 +17,7 @@ module CsrfTokenInjector
   end
 
   def inject_csrf_token
+    return if @skip_csrf_token_injection
     return unless protect_against_forgery?
     return unless response_body
 

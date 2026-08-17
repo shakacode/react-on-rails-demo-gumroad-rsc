@@ -6,6 +6,7 @@ module NextRscInertiaRenderer
 
     @controller.instance_variable_set("@_inertia_page", page)
     @controller.instance_variable_set("@hide_layouts", true)
+    @controller.instance_variable_set("@skip_csrf_token_injection", true)
     @controller.stream_view_containing_react_components(
       template: "next_rsc/page",
       layout: layout,
