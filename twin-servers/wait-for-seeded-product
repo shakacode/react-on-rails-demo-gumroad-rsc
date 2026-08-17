@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+case "${1:-}" in
+  control)
+    port="${SHAKAPERF_CONTROL_PORT:-3100}"
+    host="seller.legacy.gumroad.reactonrails.com"
+    ;;
+  experiment)
+    port="${SHAKAPERF_EXPERIMENT_PORT:-3200}"
+    host="seller.next.gumroad.reactonrails.com"
+    ;;
+  *)
+    echo "Usage: $0 <control|experiment>" >&2
+    exit 2
+    ;;
+esac
+
+url="http://${host}:${port}/l/demo"
+attempt=0
+echo "Waiting for seeded product: ${url}"
+until curl --fail --silent --output /dev/null --resolve "${host}:${port}:127.0.0.1" "${url}"; do
+  attempt=$((attempt + 1))
+  if [ "${attempt}" -ge 60 ]; then
+    echo "Timed out waiting for seeded product: ${url}" >&2
+    exit 1
+  fi
+  sleep 1
+done
+
+echo "Seeded product ready: ${url}"
+exec tail -f /dev/null

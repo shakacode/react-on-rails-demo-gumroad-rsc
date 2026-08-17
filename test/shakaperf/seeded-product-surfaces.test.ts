@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
 
 import { clearRegistry, getRegisteredTests } from "shaka-shared";
@@ -64,6 +65,18 @@ test("uses the same current checkout and canonical seed runner for both twins", 
 test("uses host-resolvable static assets for twin readiness probes", () => {
   assert.equal(config.shared.controlURL, "http://localhost:3100/favicon.ico");
   assert.equal(config.shared.experimentURL, "http://localhost:3200/favicon.ico");
+});
+
+test("waits for direct product hosts before announcing the twins", () => {
+  const procfile = readFileSync("twin-servers/seeded-products/Procfile", "utf8");
+  const readinessHelper = readFileSync("twin-servers/wait-for-seeded-product", "utf8");
+
+  assert.match(procfile, /wait-for-seeded-product control/u);
+  assert.match(procfile, /wait-for-seeded-product experiment/u);
+  assert.doesNotMatch(procfile, /notify-server-started/u);
+  assert.match(readinessHelper, /curl/u);
+  assert.match(readinessHelper, /--resolve/u);
+  assert.match(readinessHelper, /\/l\/demo/u);
 });
 
 test("discovers only the current seeded-surface definitions by default", async () => {

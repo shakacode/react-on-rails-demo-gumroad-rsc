@@ -2,5 +2,5 @@ control-rails: shaka-perf servers run-overmind-command control "PUMA_ROOT=. ./tw
 control-renderer: shaka-perf servers run-overmind-command control "sh ./twin-servers/start-renderer"
 experiment-rails: shaka-perf servers run-overmind-command experiment "PUMA_ROOT=. ./twin-servers/start-rails"
 experiment-renderer: shaka-perf servers run-overmind-command experiment "sh ./twin-servers/start-renderer"
-notify-control-server-started: shaka-perf servers notify-server-started control
-notify-experiment-server-started: shaka-perf servers notify-server-started experiment
+notify-control-server-started: ./twin-servers/wait-for-seeded-product control
+notify-experiment-server-started: ./twin-servers/wait-for-seeded-product experiment
