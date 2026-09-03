@@ -255,13 +255,13 @@ docker build -f .controlplane/Dockerfile -t gumroad-rsc-cpflow-smoke .
 The wrappers currently point at:
 
 ```yaml
-uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@v5.2.0
+uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@v5.3.0
 ```
 
 To update only the pinned reusable-workflow ref:
 
 ```sh
-bin/pin-cpflow-github-ref v5.2.0
+bin/pin-cpflow-github-ref v5.3.0
 ```
 
 If the renderer workload is changed, confirm it still exposes port `3800` as

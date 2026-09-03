@@ -82,6 +82,10 @@ jobs:
       - name: Install Control Plane CLI
         run: npm install -g @controlplane/cli@3.10.2
       - name: Prepare app database secrets
+        # Pull-request events only refresh an app created by an accepted comment
+        # or manual dispatch, so its database secrets already exist. Avoid
+        # creating credentials before the reusable workflow accepts first deploy.
+        if: github.event_name != 'pull_request'
         env:
           CPLN_TOKEN: ${{ secrets.CPLN_TOKEN_STAGING }}
           CPLN_ORG: shakacode-open-source-examples-staging
