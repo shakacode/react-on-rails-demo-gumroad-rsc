@@ -1,7 +1,7 @@
 ARG RUBY_VERSION=3.4.3
 
-FROM docker.io/library/node:20.19.0-bullseye-slim AS node
-FROM ruby:${RUBY_VERSION}-slim-bullseye
+FROM docker.io/library/node:20.19.0-bookworm-slim AS node
+FROM ruby:${RUBY_VERSION}-slim-bookworm
 
 ARG GIT_COMMIT
 
