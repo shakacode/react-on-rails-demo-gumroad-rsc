@@ -1,0 +1,12 @@
+.git
+.env
+.env.*
+.claude
+node_modules
+log/*
+tmp/*
+storage/*
+audit-results
+compare-results
+compare-bisect-results
+docs/performance-artifacts

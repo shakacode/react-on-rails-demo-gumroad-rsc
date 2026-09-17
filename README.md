@@ -28,6 +28,8 @@ The priority is consumer-facing performance: public product pages, Discover mark
 ### Start here
 
 - Hosted homepage with an explicit experiment callout: <https://gumroad.reactonrails.com>
+- Planned Legacy Gumroad control (pre-RSC application): `legacy.gumroad.reactonrails.com`
+- Planned Next Gumroad (same URLs/content, native RSC as routes reach parity): `next.gumroad.reactonrails.com`
 - VP Engineering summary: <https://gumroad.reactonrails.com/rsc-demo>
 - Live A/B performance lab: <https://gumroad.reactonrails.com/rsc-demo/evidence>
 - Product before, matched Inertia route: <https://gumroad.reactonrails.com/public_product/inertia_demo>
@@ -38,12 +40,16 @@ The priority is consumer-facing performance: public product pages, Discover mark
 - React on Rails source: <https://github.com/shakacode/react_on_rails>
 - ShakaCode: <https://www.shakacode.com/>
 - Book a ShakaCode consultation: <https://meetings.hubspot.com/justingordon/30-minute-consultation>
+
 - Performance evaluation notes: [docs/performance-evaluation.md](docs/performance-evaluation.md)
 - Public product demo details: [docs/public-product-rsc-demo.md](docs/public-product-rsc-demo.md)
 - Fixture sampling and sanitation notes: [docs/public-page-fixture-sampling.md](docs/public-page-fixture-sampling.md)
 - Hosted public buyer-page performance results: [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md)
 - Historical dashboard/bundler findings: [docs/performance-findings.md](docs/performance-findings.md)
 - Benchmark and positioning issue: [React on Rails issue #3144](https://github.com/shakacode/react_on_rails/issues/3144)
+
+The source, renderer, and deployment invariants for these independent surfaces
+are documented in [the three-surface topology](docs/three-surface-topology.md).
 
 ### Where TanStack Query fits
 
@@ -62,8 +68,8 @@ The demo only matters if it proves a meaningful buyer-page advantage.
 - Public product and Discover pages are the primary surfaces because they are logged out, SEO-sensitive, conversion-sensitive, and mobile-heavy.
 - The committed fixtures are production-shaped and synthetic. A small public-page sampler confirmed the public Gumroad `Discover/Index` and `Products/Discover/Show` data shape, but this repo does not commit copied creator content, seller URLs, product URLs, or image URLs.
 - The first supported implementation claim is architectural: the same fixture data can render as matched Inertia and React Server Components routes inside this Rails app.
-- The current stable-deployment A/B report is favorable on browser navigation, route JavaScript transfer and request count, and serialized Inertia payload removal, with a modest Product `LCP` gain and a noisier Discover `LCP` gain, while showing a real response-end and HTML-transfer tradeoff.
-- The Lighthouse URL-pair fallback is favorable against comparable live Gumroad pages, but the final adoption claim still needs PageSpeed API or field-data corroboration, especially for `INP` and mobile score.
+- The current ShakaPerf CLI report shows much faster paint (`FCP -76%`; `LCP -74%/-49%`) and far fewer JavaScript requests (`41 -> 3`), but larger transfers, slower `TTFB`, and a Microsoft `TBT` regression. The suite exits `1` with `FAILED: 2 perf regressions`.
+- This is a bounded mobile Lighthouse result for the native Microsoft 365 and Residential Design product pages. It supports a pilot, not an overall-superiority or production-adoption claim; field data and production parity remain required.
 
 ### July 2026 React on Rails Pro 17 / React 19.2 audit
 
@@ -99,14 +105,39 @@ To re-sample Discover shape only, run `scripts/perf/sample_public_gumroad_shapes
 
 Important limitation: the current "before" route is a custom Inertia benchmark surface that uses the same synthetic fixture as the RSC route. That makes the framework/rendering comparison clean, but it is not yet a port of Gumroad's production `Discover/Index` or `Products/Discover/Show` components. The stronger follow-up is to wire sanitized production-shaped props into those real public components where feasible, then compare the RSC equivalent.
 
-### Current Stable A/B Result
+### Native product result from the actual ShakaPerf CLI
+
+Captured August 12, 2026 with `shaka-perf v0.2.4`, Chrome
+`151.0.7922.109`, and 10 simultaneous mobile Lighthouse measurements per side
+and product. The control is pinned at `e720df1b4f13781af1b1b14efd10fe8a31e76641`
+before the native RSC implementation; the experiment is
+`0c16a6cd36a2e2c89a7090e21c838a013b4d2654`.
+
+| Product            |                         FCP |                          LCP |     Lighthouse score |              TBT |                        TTFB |               JavaScript transfer |
+| ------------------ | --------------------------: | ---------------------------: | -------------------: | ---------------: | --------------------------: | --------------------------------: |
+| Microsoft 365      | `7.71s` -> `1.85s` (`-76%`) | `13.92s` -> `3.64s` (`-74%`) | `35` -> `77` (`+42`) | `0ms` -> `199ms` | `229ms` -> `315ms` (`+35%`) | `724.3KB` -> `2219.7KB` (`+206%`) |
+| Residential Design | `7.81s` -> `1.85s` (`-76%`) | `16.88s` -> `8.63s` (`-49%`) | `43` -> `71` (`+28`) |   `0ms` -> `0ms` | `222ms` -> `341ms` (`+39%`) | `724.3KB` -> `2219.7KB` (`+206%`) |
+
+The paint, LCP, and score changes are statistically significant (`p <= 0.0052`),
+but this is not proof that RSC is better overall. TTFB and transferred bytes
+regress on both products, Microsoft TBT regresses, and the command exits `1`
+with `FAILED: 2 perf regressions`. See the exact pages, command, p-values,
+visual/accessibility results, and raw JSON in the [August 12 native ShakaPerf
+artifact](docs/performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md).
+
+### Historical stable Ruby/Selenium A/B result
 
 Captured July 10, 2026 UTC against `https://gumroad.reactonrails.com` with headless Chrome `150.0.7871.49` / ChromeDriver `150.0.7871.115`, two independent batches of `8` alternating cycles per pair, and `2` server warmups per measured run.
 
-| Surface | Median nav duration | Median response end | Median LCP | JS transfer | Inertia payload |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Product detail | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
-| Discover marketplace | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
+This historical table was produced by the repository's Ruby/Selenium runner,
+`scripts/perf/compare_dashboard_routes.rb`. It was previously labeled
+"ShakaPerf," but it was not generated by the `shaka-perf` CLI. The real
+ShakaPerf integration is documented separately below.
+
+| Surface              |                 Median nav duration |                Median response end |                    Median LCP |                            JS transfer |    Inertia payload |
+| -------------------- | ----------------------------------: | ---------------------------------: | ----------------------------: | -------------------------------------: | -----------------: |
+| Product detail       |  `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) |  `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
+| Discover marketplace | `1097.9ms` -> `630.45ms` (`-42.6%`) |   `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) |   `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
 
 Full navigation is clearly faster for the RSC candidate on both surfaces, JavaScript transfer is roughly halved, and the duplicated Inertia `data-page` payload is gone. Product LCP improves modestly; Discover LCP is directionally better but noisy across batches. Response end is not an RSC win, and RSC sends 80-100% more HTML because rendered content arrives in the document. This is an end-to-end route comparison, not RSC in isolation: the Inertia control also loads legacy application JavaScript and third-party analytics that the RSC route omits. See [docs/public-buyer-page-performance-results.md](docs/public-buyer-page-performance-results.md) and the immutable artifact in [docs/performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](docs/performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
 
@@ -148,9 +179,9 @@ All four public comparison routes render production-shaped synthetic fixtures an
 
 ### Still Needed Before A Gumroad Adoption Proposal
 
-- Repeat the hosted A/B result as a mobile-throttled Lighthouse/ShakaPerf report for `/public_product/inertia_demo` vs `/public_product/rsc_demo` and `/public_product/discover_inertia_demo` vs `/public_product/discover_rsc_demo`.
-- Use the mobile report to decide whether the performance win is large enough to justify React Server Components via React on Rails Pro complexity.
-- Profile renderer and streaming overhead if `responseEnd`, `TBT`, or tail latency weakens the RSC case.
+- Fix or explicitly accept the current ShakaPerf regressions: `TTFB +35%/+39%`, JavaScript transfer `+206%`, downloads `+56%/+36%`, and Microsoft `TBT 0 -> 199ms`.
+- Re-run the native product pairs with production-equivalent analytics, caching, media, and bundle delivery, then corroborate with field data.
+- Profile renderer, streaming, bundle, and hydration overhead before deciding whether the paint win justifies React Server Components via React on Rails Pro complexity.
 - Keep dashboard routes out of the headline story except as technical integration evidence.
 
 ### Dashboard technical proof
@@ -467,6 +498,19 @@ The request smoke specs load the test Shakapacker output from `public/packs-test
 ```
 
 If a previous run started the renderer before `public/packs-test/react-client-manifest.json` existed, stop the renderer and remove `.node-renderer-bundles` before rerunning the hard gate so the renderer cache is rebuilt with the test client manifest.
+
+#### Run the ShakaPerf A/B tests
+
+The default suite compares five representative products from the canonical
+development/staging catalog. Both isolated twins build the same current
+checkout and seed the same 16 products. Absolute seller-host URLs select Legacy
+Inertia on port `3100` and Next RSC on port `3200`; renderer selection is the
+only experimental difference.
+
+Run `npm run test:shakaperf` for the URL/config/discovery contract, or see
+[ShakaPerf A/B testing](docs/shakaperf-ab-testing.md) for the exact URLs, twin
+commands, runtime environment, and separately archived August 2026 benchmark
+definitions.
 
 ## Development
 

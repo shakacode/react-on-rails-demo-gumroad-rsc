@@ -277,6 +277,347 @@
   background: rgb(var(--warning) / 0.16);
 }
 
+.dd-native-proof {
+  display: grid;
+  gap: spacer(4);
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-latest-proof {
+  padding: spacer(4);
+  border-bottom: $border-width solid $border-color;
+  background: rgb(var(--filled));
+}
+
+.dd-native-proof__header,
+.dd-result-card > header,
+.dd-native-verdict {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: spacer(3);
+}
+
+.dd-native-proof__header h2 {
+  @include font-size(4);
+  font-weight: 600;
+}
+
+.dd-status-chip,
+.dd-result-links a {
+  border: $border-width solid $border-color;
+  border-radius: 9999px;
+  padding: spacer(1) spacer(2);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.dd-status-chip--mixed {
+  border-color: rgb(var(--warning) / 0.55);
+  background: rgb(var(--warning) / 0.14);
+}
+
+.dd-signal-grid,
+.dd-proof-grid,
+.dd-product-results,
+.dd-result-columns {
+  display: grid;
+  gap: spacer(3);
+}
+
+.dd-signal-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.dd-signal-card,
+.dd-score-panel,
+.dd-cause-panel,
+.dd-result-card {
+  border: $border-width solid $border-color;
+  border-radius: border-radius(1);
+  background: rgb(var(--filled));
+}
+
+.dd-signal-card {
+  display: grid;
+  gap: spacer(1);
+  min-width: 0;
+  padding: spacer(3);
+  border-top-width: 0.35rem;
+}
+
+.dd-signal-card--win {
+  border-top-color: rgb(var(--info));
+}
+
+.dd-signal-card--cost {
+  border-top-color: rgb(var(--danger));
+}
+
+.dd-signal-card p,
+.dd-signal-card span,
+.dd-metric-line small,
+.dd-result-quality p,
+.dd-native-verdict span {
+  color: rgb(var(--color) / 0.65);
+}
+
+.dd-signal-card strong {
+  @include font-size(4);
+  line-height: 1;
+}
+
+.dd-signal-card span {
+  font-size: 0.75rem;
+}
+
+.dd-proof-grid {
+  @include breakpoint-up(lg) {
+    grid-template-columns: minmax(18rem, 0.8fr) minmax(28rem, 1.2fr);
+  }
+}
+
+.dd-score-panel,
+.dd-cause-panel,
+.dd-result-card {
+  padding: spacer(4);
+}
+
+.dd-score-panel,
+.dd-cause-panel {
+  display: grid;
+  align-content: start;
+  gap: spacer(3);
+}
+
+.dd-score-panel h3,
+.dd-cause-panel h3,
+.dd-result-card h3 {
+  @include font-size(3);
+  font-weight: 600;
+}
+
+.dd-score-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: spacer(1);
+}
+
+.dd-score-track {
+  position: relative;
+  display: grid;
+  min-height: 1.75rem;
+  align-items: center;
+  overflow: hidden;
+  border-radius: border-radius(1);
+  background: rgb(var(--body-bg));
+}
+
+.dd-score-bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--score);
+  opacity: 0.28;
+}
+
+.dd-score-bar--control {
+  background: rgb(var(--color) / 0.5);
+}
+
+.dd-score-bar--rsc {
+  background: rgb(var(--info));
+}
+
+.dd-score-track small {
+  position: relative;
+  padding-inline: spacer(2);
+  font-weight: 600;
+}
+
+.dd-cause-flow {
+  display: grid;
+  gap: spacer(2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  @include breakpoint-up(sm) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dd-cause-flow li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: spacer(1);
+  border: $border-width solid $border-color;
+  border-radius: border-radius(1);
+  padding: spacer(3);
+  background: rgb(var(--body-bg));
+}
+
+.dd-cause-flow li > span {
+  color: rgb(var(--info));
+  font-weight: 700;
+}
+
+.dd-cause-flow p {
+  color: rgb(var(--color) / 0.65);
+  font-size: 0.8rem;
+}
+
+.dd-product-results {
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.dd-result-card {
+  display: grid;
+  gap: spacer(3);
+}
+
+.dd-result-links {
+  display: flex;
+  gap: spacer(1);
+}
+
+.dd-result-links a:last-child {
+  border-color: rgb(var(--info) / 0.55);
+  background: rgb(var(--info) / 0.12);
+}
+
+.dd-result-columns {
+  @include breakpoint-up(sm) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.dd-result-columns > section {
+  display: grid;
+  align-content: start;
+  gap: spacer(2);
+}
+
+.dd-result-columns h4 {
+  font-weight: 600;
+}
+
+.dd-metric-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0 spacer(2);
+  border-left: 0.3rem solid $border-color;
+  padding: spacer(2);
+  background: rgb(var(--body-bg));
+}
+
+.dd-metric-line--win {
+  border-left-color: rgb(var(--info));
+}
+
+.dd-metric-line--cost {
+  border-left-color: rgb(var(--danger));
+}
+
+.dd-metric-line--flat {
+  border-left-color: rgb(var(--warning));
+}
+
+.dd-metric-line small {
+  grid-column: 1 / -1;
+}
+
+.dd-result-quality {
+  border-top: $border-width solid $border-color;
+  padding-top: spacer(2);
+}
+
+.dd-result-quality summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dd-result-quality p {
+  margin-top: spacer(2);
+  font-size: 0.8rem;
+}
+
+.dd-native-verdict {
+  border: $border-width solid rgb(var(--warning) / 0.45);
+  border-radius: border-radius(1);
+  padding: spacer(3);
+  background: rgb(var(--warning) / 0.12);
+}
+
+.dd-native-proof--compact .dd-product-results {
+  display: none;
+}
+
+.dd-decision-grid,
+.dd-gate-flow,
+.dd-detail-grid {
+  display: grid;
+  gap: spacer(3);
+
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dd-decision-card,
+.dd-gate-flow article {
+  display: grid;
+  align-content: start;
+  gap: spacer(2);
+  border: $border-width solid $border-color;
+  border-radius: border-radius(1);
+  padding: spacer(4);
+  background: rgb(var(--filled));
+}
+
+.dd-decision-card {
+  border-top-width: 0.35rem;
+}
+
+.dd-decision-card--go {
+  border-top-color: rgb(var(--info));
+}
+
+.dd-decision-card--hold {
+  border-top-color: rgb(var(--danger));
+}
+
+.dd-decision-card strong,
+.dd-gate-flow strong {
+  @include font-size(3);
+}
+
+.dd-decision-card span,
+.dd-gate-flow small,
+.dd-detail-grid p {
+  color: rgb(var(--color) / 0.65);
+}
+
+.dd-gate-flow article > span {
+  color: rgb(var(--info));
+  font-weight: 700;
+}
+
+.dd-detail-grid {
+  padding: spacer(3);
+
+  @include breakpoint-up(lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .dd-term-grid {
   display: grid;
   gap: spacer(3);

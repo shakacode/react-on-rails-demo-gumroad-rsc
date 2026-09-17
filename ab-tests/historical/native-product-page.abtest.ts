@@ -1,0 +1,28 @@
+import { abTest, waitUntilPageSettled } from "shaka-shared";
+
+abTest(
+  "Microsoft 365 product: Inertia control vs React on Rails RSC",
+  {
+    startingPath: "/l/O365IT?layout=discover&recommended_by=search",
+    experimentPathOverride: "/l/O365IT?layout=discover&recommended_by=search&rsc=1",
+    testTypes: ["visreg", "perf", "accessibility"],
+    visregSelectors: ["article"],
+    // The high-contrast cover produces a one-row Chromium antialiasing delta
+    // (3,346 pixels / 0.42%) while the paired screenshots remain identical.
+    config: { visreg: { mismatchThreshold: 0.5, maxNumDiffPixels: 4_000 } },
+  },
+  async ({ page, annotate, isControl }) => {
+    await page
+      .locator(isControl ? 'script[data-page="app"]' : "#native-product-rsc-root")
+      .waitFor({ state: "attached" });
+    if (await page.locator(isControl ? "#native-product-rsc-root" : 'script[data-page="app"]').count()) {
+      throw new Error(`Expected ${isControl ? "Inertia" : "React on Rails RSC"} renderer only`);
+    }
+    await page.locator("article").waitFor({ state: "visible" });
+    await page.getByRole("heading", { level: 1, name: /Microsoft 365 for IT Pros/ }).waitFor({ state: "visible" });
+    await page.getByLabel("Product preview").waitFor({ state: "visible" });
+    await page.locator('article [itemprop="price"]:visible').first().waitFor({ state: "visible" });
+    await waitUntilPageSettled(page);
+    await annotate(`Microsoft ${isControl ? "Inertia" : "RSC"} rendered`);
+  },
+);

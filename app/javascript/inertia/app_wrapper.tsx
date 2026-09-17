@@ -6,7 +6,7 @@ import { FeatureFlags, FeatureFlagsProvider } from "$app/components/FeatureFlags
 import { SSRLocationProvider } from "$app/components/useOriginalLocation";
 import { UserAgentProvider } from "$app/components/UserAgent";
 
-type GlobalProps = {
+export type GlobalProps = {
   design_settings: DesignSettings;
   domain_settings: {
     scheme: string;

@@ -359,7 +359,9 @@ This rerun matters because it removes a false local failure mode from the story.
 - once that was corrected, the user-visible RSC advantage remained
 - the server-side tradeoff became more pronounced, which is exactly the kind of clarity this repo needs for positioning
 
-This is the better current headline than the earlier mixed-port local runs.
+Within this historical April dashboard investigation, this was the better local
+result than the earlier mixed-port runs. It is not the repository's current
+public-product headline.
 It keeps the “RSC can win on user-visible metrics” claim intact while making it harder to hide the cost behind a broken local environment.
 
 ## Corrected Clean-Port 8-Cycle Repeat
@@ -455,7 +457,8 @@ Artifacts:
 - `p95 responseEnd` is the clearest remaining caution
 - the RSC route currently streams its payload inline, so the benchmark's `/rsc_payload/` browser-resource fields are empty on this implementation
 
-This is now the best local headline benchmark for the repo.
+This was the best local dashboard benchmark in this April chronology. It is
+retained as technical integration evidence, not the current public-product claim.
 
 ## Interpretation Of The Alternating Follow-up
 

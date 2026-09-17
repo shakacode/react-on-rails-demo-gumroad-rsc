@@ -214,9 +214,14 @@ Before taking action on a real case, involve counsel and preserve evidence of wh
 - ShakaCode docs for React on Rails Pro and RSC
 - GitHub IP and DMCA policies
 
-## Current tactical implication
+## Historical dashboard tactical implication
 
-For now, the best path is:
+This section records the earlier dashboard experiment. Current positioning must
+lead with the mixed August 12 native-product ShakaPerf result: `FCP -76%`,
+`LCP -74%/-49%`, and JavaScript requests `-93%`, alongside downloads `+56%/+36%`,
+JavaScript transfer `+206%`, slower `TTFB`, and a failed-suite verdict.
+
+The historical path was:
 
 - build the comparison honestly
 - document where Inertia wins

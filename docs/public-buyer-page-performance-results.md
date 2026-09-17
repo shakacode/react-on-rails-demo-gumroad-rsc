@@ -1,6 +1,14 @@
 # Public Buyer-Page Performance Results
 
-## Current Stable Media-Bearing A/B Run
+## Current result
+
+The current headline is the August 12, 2026 native-product ShakaPerf CLI run:
+paint improves `49–76%` and JavaScript requests fall `93%`, while downloads grow
+`36–56%`, `TTFB` regresses `35–39%`, and the suite exits `1` with two performance
+regressions. See the exact products, tested URLs, revisions, and raw evidence in
+[the native-product artifact](./performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md).
+
+## Historical July Ruby/Selenium public-demo run
 
 Captured July 10, 2026 UTC from `https://gumroad.reactonrails.com` at main
 commit `cc61125b02ec0282ec455c044240e97b6a33b741`.
@@ -10,10 +18,10 @@ batch, two server warmups per measured run, public mode, and an enforced Chrome
 `150.0.7871.49` / ChromeDriver `150.0.7871.115` major-version match. The run is
 unthrottled desktop headless Chrome, not mobile field data.
 
-| Public surface | Median navigation | Median response end | Median LCP | JS transfer | Inertia payload |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Product detail | `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) | `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
-| Discover marketplace | `1097.9ms` -> `630.45ms` (`-42.6%`) | `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) | `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
+| Public surface       |                   Median navigation |                Median response end |                    Median LCP |                            JS transfer |    Inertia payload |
+| -------------------- | ----------------------------------: | ---------------------------------: | ----------------------------: | -------------------------------------: | -----------------: |
+| Product detail       |  `1123.5ms` -> `575.0ms` (`-48.8%`) | `504.85ms` -> `509.55ms` (`+0.9%`) |  `662ms` -> `602ms` (`-9.1%`) | `162,696 B` -> `82,228.5 B` (`-49.5%`) | `15,040 B` -> none |
+| Discover marketplace | `1097.9ms` -> `630.45ms` (`-42.6%`) |   `473.9ms` -> `492.8ms` (`+4.0%`) | `768ms` -> `648ms` (`-15.6%`) |   `162,696 B` -> `82,223 B` (`-49.5%`) | `33,966 B` -> none |
 
 Verdict: full navigation is clearly faster for the RSC candidate. Product LCP
 is modestly better; Discover LCP is directionally better but noisy. Response
@@ -29,6 +37,8 @@ the RSC route. Preserve that limitation when quoting the result.
 The summary, four comparison manifests, 64 underlying run files, and desktop/mobile
 resource audits are in
 [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md).
+This artifact was produced by the repository's Ruby/Selenium runner, not by the
+`shaka-perf` CLI.
 
 ## Historical Hosted A/B Run
 
@@ -40,9 +50,9 @@ Browser: local headless Chrome `149.0.7827.158` with ChromeDriver `149.0.7827.15
 
 Method: `8` alternating cycles per route pair, `2` server warmup requests per measured run, `--public`, and `--require-driver-match`.
 
-These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence for JavaScript request and transfer deltas, not the current headline same-fixture result. The current stable media-bearing artifact is [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json); the previous stable pre-media artifact remains historical at [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
+These results compare the same synthetic production-shaped fixture data on the same deployed host as of June 24, 2026. They predate the Tendon Book attributed fixture added on July 8, 2026, so treat them as historical hosted evidence only. The July media-bearing Selenium artifact is [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/summary.json); the earlier stable pre-media artifact remains historical at [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json).
 
-Note: this run predates the React on Rails Pro 17 stream observability toggle now enabled on the public RSC routes. The current stable media-bearing run preserves the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
+Note: this run predates the React on Rails Pro 17 stream observability toggle. The historical July media-bearing run preserves the same route pairs while capturing streamed shell and Node renderer prepare attribution in `Server-Timing`.
 
 Fixture provenance: [docs/public-page-fixture-sampling.md](public-page-fixture-sampling.md) documents the sanitized public Gumroad shape sampling used to build the synthetic Discover and product fixtures. The benchmark does not commit creator copy, seller URLs, product URLs, or real product names. Newer branches add local synthetic image fixtures; this historical run predates that media.
 

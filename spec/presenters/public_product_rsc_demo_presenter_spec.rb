@@ -287,20 +287,55 @@ describe PublicProductRscDemoPresenter do
   end
 
   describe "#performance_claim_status_cards" do
-    it "keeps the valid claim, PageSpeed caveat, and next evidence gate explicit" do
+    it "keeps the current mixed result, PageSpeed caveat, and next evidence gate explicit" do
       cards = presenter.performance_claim_status_cards
 
       expect(cards.map { |card| card[:title] }).to eq(
         [
-          "Same-host ShakaPerf A/B",
+          "Actual ShakaPerf CLI A/B",
           "PageSpeed against live Gumroad",
-          "Rerun after Pro 17.0.0 final",
+          "Production parity + field data",
         ]
       )
       expect(cards.second).to include(tone: "warning")
       expect(cards.second[:body]).to include("not proof today")
-      expect(cards.third[:body]).to include("Wait for the final React on Rails Pro 17 release")
-      expect(cards.map { |card| card[:href] }).to include("#current-shakaperf-result", "#pagespeed-comparator-pairs", "#reproduce-with-shakaperf")
+      expect(cards.third[:body]).to include("real-user LCP, INP")
+      expect(cards.first[:body]).to include("exits nonzero")
+      expect(cards.map { |card| card[:href] }).to include("#native-shakaperf-result", "#pagespeed-comparator-pairs", "#react-on-rails-pro-17-audit")
+    end
+  end
+
+  describe "latest native ShakaPerf presentation data" do
+    it "derives the numbers-first cards from the latest CLI artifact" do
+      microsoft, residential = presenter.native_shakaperf_result_cards
+
+      expect(microsoft).to include(label: "Microsoft 365")
+      expect(microsoft[:wins].find { |metric| metric[:key] == "FCP" }).to include(
+        control: "7.71s",
+        experiment: "1.85s",
+        change: "-76%"
+      )
+      expect(residential[:costs].find { |metric| metric[:key] == "All downloads" }).to include(
+        control: "3425.7KB",
+        experiment: "4643.4KB",
+        change: "+36%"
+      )
+    end
+
+    it "summarizes shared and product-specific changes without hiding regressions" do
+      metrics = presenter.native_shakaperf_headline_metrics.index_by { |metric| metric[:label] }
+
+      expect(metrics.fetch("First paint")).to include(change: "-76%", tone: :win)
+      expect(metrics.fetch("Largest paint")).to include(change: "-74% / -49%", tone: :win)
+      expect(metrics.fetch("JS requests")).to include(change: "-93%", tone: :win)
+      expect(metrics.fetch("Transferred bytes")).to include(change: "+56% / +36%", tone: :cost)
+      expect(presenter.native_shakaperf_scorecards.first).to include(control_score: 35, experiment_score: 77)
+    end
+
+    it "keeps the causal explanation bounded to the measured architecture" do
+      expect(presenter.native_shakaperf_explanation_steps.map { |step| step[:title] }).to eq(
+        ["HTML arrives rendered", "41 requests become 3", "Paint moves forward"]
+      )
     end
   end
 

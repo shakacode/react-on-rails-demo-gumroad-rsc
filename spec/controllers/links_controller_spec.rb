@@ -3265,6 +3265,67 @@ describe LinksController, :vcr, inertia: true do
           expect(inertia.props[:product]).to be_present
         end
 
+        it "streams the database-backed discover product through React on Rails RSC" do
+          link = create(:product, user: @user)
+          link.user.seller_profile.update!(font: "Roboto Mono")
+          allow(controller).to receive(:stream_view_containing_react_components) do |**|
+            controller.render plain: "streamed native product rsc"
+          end
+
+          get :show, params: { id: link.to_param, layout: "discover", rsc: "1" }
+
+          expect(response).to be_successful
+          expect(controller).to have_received(:stream_view_containing_react_components).with(
+            template: "links/rsc_show",
+            layout: "inertia",
+            rsc_stream_observability: true
+          )
+          expect(assigns(:hide_layouts)).to be(true)
+          expect(assigns(:skip_legacy_application_javascript)).to be(true)
+          expect(assigns(:native_product_rsc_props).dig(:product, :name)).to eq(link.name)
+          expect(assigns(:native_product_rsc_props)).to include(:taxonomy_path, :taxonomies_for_nav)
+          expect(assigns(:native_product_rsc_props).dig(:global, :href)).to include("rsc=1")
+          expect(assigns(:native_product_rsc_props).dig(:global, :csp_nonce)).to be_nil
+          expect(assigns(:native_product_custom_styles)).to include("Roboto Mono")
+          expect(controller.send(:content_security_policy_nonce)).to eq(
+            SecureHeaders.content_security_policy_script_nonce(request)
+          )
+          expect(response.headers["Last-Modified"]).to be_present
+          expect(response.headers["X-Accel-Buffering"]).to eq("no")
+        end
+
+        it "uses RSC at the unchanged product URL on the next surface" do
+          stub_const("ENV", ENV.to_hash.merge(
+            "GUMROAD_RENDERING_SURFACE" => "next",
+            "BRANCH" => "react-on-rails-demo-gumroad-next"
+          ))
+          link = create(:product, user: @user)
+          allow(controller).to receive(:stream_view_containing_react_components) do |**|
+            controller.render plain: "streamed native product rsc"
+          end
+
+          get :show, params: { id: link.to_param, layout: "discover" }
+
+          expect(response).to be_successful
+          expect(controller).to have_received(:stream_view_containing_react_components)
+          expect(assigns(:native_product_rsc_props).dig(:global, :href)).not_to include("rsc=1")
+          expect(response.headers["X-Gumroad-Rendering-Surface"]).to eq("next")
+        end
+
+        it "cannot opt the legacy surface into RSC with a query parameter" do
+          stub_const("ENV", ENV.to_hash.merge(
+            "GUMROAD_RENDERING_SURFACE" => "legacy",
+            "BRANCH" => "react-on-rails-demo-gumroad-legacy"
+          ))
+          link = create(:product, user: @user)
+
+          get :show, params: { id: link.to_param, layout: "discover", rsc: "1" }
+
+          expect(response).to be_successful
+          expect(inertia.component).to eq("Products/Discover/Show")
+          expect(response.headers["X-Gumroad-Rendering-Surface"]).to eq("legacy")
+        end
+
         it "renders Products/Iframe/Show with product props for embed param" do
           link = create(:product, user: @user)
           get :show, params: { id: link.to_param, embed: "true" }
@@ -3543,6 +3604,35 @@ describe LinksController, :vcr, inertia: true do
             expect(response.parsed_body.dig("props", "product", "seller", "profile_url")).to eq(
               "http://rails-d98bp9qhcc8be.cpln.app/#{@user.username}?recommended_by=search"
             )
+          end
+        end
+
+        context "when requested on a local surface creator host" do
+          around do |example|
+            original_twin = ENV["SHAKAPERF_TWIN_SERVERS"]
+            original_creator_root = ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"]
+            original_surface = ENV["GUMROAD_RENDERING_SURFACE"]
+            ENV["SHAKAPERF_TWIN_SERVERS"] = "true"
+            ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = "legacy.gumroad.reactonrails.com"
+            ENV["GUMROAD_RENDERING_SURFACE"] = "legacy"
+            example.run
+          ensure
+            original_twin.nil? ? ENV.delete("SHAKAPERF_TWIN_SERVERS") : ENV["SHAKAPERF_TWIN_SERVERS"] = original_twin
+            original_creator_root.nil? ? ENV.delete("SHAKAPERF_CREATOR_ROOT_DOMAIN") : ENV["SHAKAPERF_CREATOR_ROOT_DOMAIN"] = original_creator_root
+            original_surface.nil? ? ENV.delete("GUMROAD_RENDERING_SURFACE") : ENV["GUMROAD_RENDERING_SURFACE"] = original_surface
+          end
+
+          it "renders a custom permalink directly without CUSTOM_DOMAIN or a redirect" do
+            product = create(:product, user: @user, custom_permalink: "O365IT")
+            @request.host = "#{@user.username.tr("_", "-")}.legacy.gumroad.reactonrails.com"
+            request.headers["X-Inertia"] = "true"
+
+            get :show, params: { id: product.custom_permalink, layout: "discover", recommended_by: "search" }
+
+            expect(response).to be_successful
+            expect(inertia.component).to eq("Products/Discover/Show")
+            expect(JSON.parse(response.body).dig("props", "product", "name")).to eq(product.name)
+            expect(response.headers["X-Gumroad-Rendering-Surface"]).to eq("legacy")
           end
         end
 

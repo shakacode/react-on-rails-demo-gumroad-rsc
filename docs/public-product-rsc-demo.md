@@ -57,7 +57,7 @@ fixture contract currently lives in `PublicProductRscDemoPresenter` and committe
 local files under `public/public-product-rsc-demo/media/`. For this branch,
 "seeded correctly" means the deployed host is running the same presenter data
 and static media assets as the measured branch. Before quoting PageSpeed or a
-deployed ShakaPerf run, check the target host:
+deployed historical Selenium run, check the target host:
 
 ```bash
 node scripts/perf/assert_public_demo_media_parity.mjs \
@@ -96,7 +96,7 @@ Gumroad. Remaining production gaps include responsive image variants and formats
 CDN/cache headers, production fonts and global chrome, buyer-local currency,
 live inventory and recommendation services, and third-party scripts. Live
 Gumroad PageSpeed remains diagnostic only; the controlled claim continues to be
-the same-host, same-fixture ShakaPerf A/B.
+the same-host, same-fixture Ruby/Selenium A/B.
 
 ## Why this page matters
 
@@ -197,17 +197,23 @@ host and keeps separate stable-deployed links back to
 `https://gumroad.reactonrails.com`, so reviewers can compare the PR, deployed
 demo, and live Gumroad status quo without editing URLs by hand.
 
-Current artifacts:
+Current artifact:
 
-- Current stable media-bearing same-fixture ShakaPerf and resource audits:
+- Native-product ShakaPerf CLI report (`2026-08-12`), including tested URLs,
+  revisions, raw metrics, visual/accessibility gates, and failed-suite verdict:
+  [performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md](./performance-artifacts/native-product-rsc-shakaperf-2026-08-12/README.md)
+
+Historical public-demo artifacts (Ruby/Selenium unless explicitly Lighthouse):
+
+- Stable media-bearing same-fixture Selenium and resource audits:
   [performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md](./performance-artifacts/deployed-stable-media-public-buyer-pages-2026-07-10/README.md)
-- Historical PR 69 review-app media-bearing ShakaPerf:
+- PR 69 review-app media-bearing Selenium:
   [performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json](./performance-artifacts/hosted-review-pr69-media-public-buyer-pages-2026-07-09/summary.json)
-- Historical stable pre-media same-fixture ShakaPerf:
+- Stable pre-media same-fixture Selenium:
   [performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/deployed-public-buyer-pages-2026-07-08/summary.json)
-- Same-fixture local ShakaPerf:
+- Same-fixture local Selenium:
   [performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/local-public-buyer-pages-2026-07-08/summary.json)
-- Same-fixture supporting PR 63 review-app ShakaPerf:
+- Same-fixture supporting PR 63 review-app Selenium:
   [performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json](./performance-artifacts/hosted-review-pr63-public-buyer-pages-2026-07-08/summary.json)
 - Diagnostic deployed-demo-vs-live Lighthouse comparator, not valid claim evidence until media parity:
   [performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json](./performance-artifacts/lighthouse-public-comparator-deployed-2026-07-08/summary.json)

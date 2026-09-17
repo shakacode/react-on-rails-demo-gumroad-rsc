@@ -1,0 +1,4443 @@
+{
+  "control": {
+    "side": "control",
+    "url": "http://localhost:3100/l/O365IT?layout=discover&recommended_by=search",
+    "rawArtifactHref": "microsoft-365-product-inertia-control-vs-react-on-rails-rsc-phone-1773ffb9/artifacts/control-accessibility-report.json",
+    "screenshot": {
+      "width": 375,
+      "height": 4205,
+      "imageHref": "microsoft-365-product-inertia-control-vs-react-on-rails-rsc-phone-1773ffb9/artifacts/control-accessibility-screenshot.png"
+    },
+    "violations": [
+      {
+        "ruleId": "aria-roles",
+        "impact": "critical",
+        "help": "ARIA roles used must conform to valid values",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-roles?application=playwright",
+        "tags": [
+          "cat.aria",
+          "wcag2a",
+          "wcag412",
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAAv4",
+          "RGAA-7.1.1"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "div[role=\"nav\"]"
+            ],
+            "html": "<div role=\"nav\">",
+            "failureSummary": "Fix all of the following:\n  Role must be one of the valid ARIA roles: nav",
+            "bounds": {
+              "x": 311,
+              "y": 94.86,
+              "width": 48,
+              "height": 48
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "heading-order",
+        "impact": "moderate",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/heading-order?application=playwright",
+        "tags": [
+          "cat.semantics",
+          "best-practice"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".p-4.justify-between.gap-4:nth-child(2) > .font-bold.grow"
+            ],
+            "html": "<h5 class=\"grow font-bold\">Pages</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 58,
+              "y": 2196.23,
+              "width": 201.36,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 21</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 69,
+              "y": 2766.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "image-alt",
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "cat.text-alternatives",
+          "wcag2a",
+          "wcag111",
+          "section508",
+          "section508.22.a",
+          "TTv5",
+          "TT7.a",
+          "TT7.b",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "ACT",
+          "RGAAv4",
+          "RGAA-1.1.1"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "#native-page-oitpros-1 > img"
+            ],
+            "html": "<img src=\"/native-product-page-fixture/microsoft-365.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 17,
+              "y": 192.86,
+              "width": 341,
+              "height": 482.17
+            }
+          },
+          {
+            "target": [
+              "a[target=\"_blank\"] > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 175.05,
+              "y": 1089.03,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2765.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2904.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3065.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3226.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3387.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3548.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3687.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3826.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3965.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 4104.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "landmark-one-main",
+        "impact": "moderate",
+        "help": "Document should have one main landmark",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main?application=playwright",
+        "tags": [
+          "cat.semantics",
+          "best-practice"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "html"
+            ],
+            "html": "<html lang=\"en\">",
+            "failureSummary": "Fix all of the following:\n  Document does not have a main landmark",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 375,
+              "height": 667
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "region",
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "cat.keyboard",
+          "best-practice",
+          "RGAAv4",
+          "RGAA-9.2.1"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "figure"
+            ],
+            "html": "<figure class=\"group relative col-span-full overflow-hidden rounded-t border-b border-border bg-(image:--product-cover-placeholder) bg-cover\" aria-label=\"Product preview\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 17,
+              "y": 192.86,
+              "width": 341,
+              "height": 483.17
+            }
+          },
+          {
+            "target": [
+              ".lg\\:border-r > header"
+            ],
+            "html": "<header class=\"grid gap-4 p-6 not-first:border-t\"><h1 itemprop=\"name\">Microsoft 365 for IT Pros (2027 Edition). The Ultimate Guide to Managing Microsoft 365.</h1></header>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 17,
+              "y": 676.03,
+              "width": 341,
+              "height": 384
+            }
+          },
+          {
+            "target": [
+              "span[aria-describedby=\"_r_4_\"]"
+            ],
+            "html": "<span aria-describedby=\"_r_4_\" style=\"display: contents;\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+          },
+          {
+            "target": [
+              ".px-6.py-4.outline:nth-child(2)"
+            ],
+            "html": "<div class=\"flex flex-wrap items-center gap-2 px-6 py-4 outline outline-offset-0 outline-border\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 151.05,
+              "y": 1061.03,
+              "width": 206.95,
+              "height": 76
+            }
+          },
+          {
+            "target": [
+              ".shrink-0.flex.items-center > .rating-number.ml-1"
+            ],
+            "html": "<span class=\"rating-number ml-1\">21 ratings</span>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 145,
+              "y": 1154.03,
+              "width": 70,
+              "height": 22
+            }
+          },
+          {
+            "target": [
+              ".border-t.p-6.border-border"
+            ],
+            "html": "<section class=\"border-t border-border p-6\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 17,
+              "y": 1192.03,
+              "width": 341,
+              "height": 710.3
+            }
+          },
+          {
+            "target": [
+              ".not-first\\:border-t.p-6.gap-4:nth-child(1) > .text-base.leading-snug[target=\"_top\"]"
+            ],
+            "html": "<a href=\"https://localhost/ch...\" target=\"_top\" class=\"inline-flex items-ce...\" style=\"align-items: unset;\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 1926.33,
+              "width": 293,
+              "height": 48
+            }
+          },
+          {
+            "target": [
+              ".divide-y"
+            ],
+            "html": "<div class=\"grid divide-y divide-solid divide-border rounded border border-border bg-background\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 1990.33,
+              "width": 293,
+              "height": 353
+            }
+          },
+          {
+            "target": [
+              "div[aria-controls=\"_r_6_\"]"
+            ],
+            "html": "<div role=\"combobox\" aria-expanded=\"false\" aria-controls=\"_r_6_\" tabindex=\"0\" class=\"flex cursor-pointer items-center rounded border border-border bg-background px-4 py-3\" aria-label=\"Add to wishlist\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2359.33,
+              "width": 237,
+              "height": 48
+            }
+          },
+          {
+            "target": [
+              ".not-first\\:border-t.p-6.gap-4:nth-child(2) > header"
+            ],
+            "html": "<header class=\"flex items-center justify-between\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2456.33,
+              "width": 293,
+              "height": 25.3
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2679.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">The examples translate directly to real administration work.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2713.63,
+              "width": 293,
+              "height": 44
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2765.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 21</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 2766.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2818.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Saved our team hours of research during a tenant rollout.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2852.63,
+              "width": 293,
+              "height": 44
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2904.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 20</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 2905.53,
+              "width": 142.39,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2957.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Excellent operational detail and enough context to understand why each recommendation matters.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2991.63,
+              "width": 293,
+              "height": 66
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3065.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 19</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3066.53,
+              "width": 139.06,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3118.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">The monthly-update approach makes this far more useful than a conventional technical book.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3152.63,
+              "width": 293,
+              "height": 66
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3226.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 18</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3227.53,
+              "width": 138.47,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3279.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Clear, practical, and unusually thorough. I keep it open while administering our tenant.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3313.63,
+              "width": 293,
+              "height": 66
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3387.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 17</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3388.53,
+              "width": 137.95,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3440.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Useful for experienced admins without becoming inaccessible to newer team members.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3474.63,
+              "width": 293,
+              "height": 66
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3548.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 16</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3549.53,
+              "width": 139.06,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3601.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Dense in the best way: searchable, current, and grounded in experience.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3635.63,
+              "width": 293,
+              "height": 44
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3687.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 15</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3688.53,
+              "width": 138.53,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3740.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">A dependable reference for both planning and troubleshooting.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3774.63,
+              "width": 293,
+              "height": 44
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3826.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 14</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3827.53,
+              "width": 138.95,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3879.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">The examples translate directly to real administration work.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3913.63,
+              "width": 293,
+              "height": 44
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3965.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 13</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3966.53,
+              "width": 138.59,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 4018.63,
+              "width": 293,
+              "height": 26
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Saved our team hours of research during a tenant rollout.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 4052.63,
+              "width": 293,
+              "height": 44
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 4104.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 12</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 4105.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    ],
+    "blocked": false
+  },
+  "experiment": {
+    "side": "experiment",
+    "url": "http://localhost:3200/l/O365IT?layout=discover&recommended_by=search&rsc=1",
+    "rawArtifactHref": "microsoft-365-product-inertia-control-vs-react-on-rails-rsc-phone-1773ffb9/artifacts/experiment-accessibility-report.json",
+    "screenshot": {
+      "width": 375,
+      "height": 4205,
+      "imageHref": "microsoft-365-product-inertia-control-vs-react-on-rails-rsc-phone-1773ffb9/artifacts/experiment-accessibility-screenshot.png"
+    },
+    "violations": [
+      {
+        "ruleId": "aria-roles",
+        "impact": "critical",
+        "help": "ARIA roles used must conform to valid values",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-roles?application=playwright",
+        "tags": [
+          "cat.aria",
+          "wcag2a",
+          "wcag412",
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAAv4",
+          "RGAA-7.1.1"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "div[role=\"nav\"]"
+            ],
+            "html": "<div role=\"nav\">",
+            "failureSummary": "Fix all of the following:\n  Role must be one of the valid ARIA roles: nav",
+            "bounds": {
+              "x": 311,
+              "y": 94.86,
+              "width": 48,
+              "height": 48
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "heading-order",
+        "impact": "moderate",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/heading-order?application=playwright",
+        "tags": [
+          "cat.semantics",
+          "best-practice"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".p-4.justify-between.gap-4:nth-child(2) > .font-bold.grow"
+            ],
+            "html": "<h5 class=\"grow font-bold\">Pages</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 58,
+              "y": 2196.23,
+              "width": 201.36,
+              "height": 18.19
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 21</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 69,
+              "y": 2766.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      },
+      {
+        "ruleId": "image-alt",
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "cat.text-alternatives",
+          "wcag2a",
+          "wcag111",
+          "section508",
+          "section508.22.a",
+          "TTv5",
+          "TT7.a",
+          "TT7.b",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "ACT",
+          "RGAAv4",
+          "RGAA-1.1.1"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "#native-page-oitpros-1 > img"
+            ],
+            "html": "<img src=\"/native-product-page-fixture/microsoft-365.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 17,
+              "y": 192.86,
+              "width": 341,
+              "height": 482.17
+            }
+          },
+          {
+            "target": [
+              "a[target=\"_blank\"] > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 175.05,
+              "y": 1089.03,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2765.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2904.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3065.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3226.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3387.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3548.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3687.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3826.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3965.63,
+              "width": 20,
+              "height": 20
+            }
+          },
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 4104.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    ],
+    "blocked": false
+  },
+  "effectiveConfig": {
+    "tags": [
+      "wcag2a",
+      "wcag2aa",
+      "wcag21a",
+      "wcag21aa",
+      "wcag22a",
+      "wcag22aa",
+      "best-practice"
+    ],
+    "disableRules": [],
+    "includeRules": null
+  },
+  "failOnViolation": true,
+  "findings": [
+    {
+      "status": "unchanged",
+      "signature": "aria-roles|[\"div[role=\\\"nav\\\"]\"]",
+      "ruleId": "aria-roles",
+      "impact": "critical",
+      "tags": [
+        "EN-301-549",
+        "EN-9.4.1.2",
+        "RGAA-7.1.1",
+        "RGAAv4",
+        "cat.aria",
+        "wcag2a",
+        "wcag412"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "ARIA roles used must conform to valid values",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-roles?application=playwright",
+        "tags": [
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAA-7.1.1",
+          "RGAAv4",
+          "cat.aria",
+          "wcag2a",
+          "wcag412"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "div[role=\"nav\"]"
+            ],
+            "html": "<div role=\"nav\">",
+            "failureSummary": "Fix all of the following:\n  Role must be one of the valid ARIA roles: nav",
+            "bounds": {
+              "x": 311,
+              "y": 94.86,
+              "width": 48,
+              "height": 48
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "ARIA roles used must conform to valid values",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/aria-roles?application=playwright",
+        "tags": [
+          "EN-301-549",
+          "EN-9.4.1.2",
+          "RGAA-7.1.1",
+          "RGAAv4",
+          "cat.aria",
+          "wcag2a",
+          "wcag412"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "div[role=\"nav\"]"
+            ],
+            "html": "<div role=\"nav\">",
+            "failureSummary": "Fix all of the following:\n  Role must be one of the valid ARIA roles: nav",
+            "bounds": {
+              "x": 311,
+              "y": 94.86,
+              "width": 48,
+              "height": 48
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "heading-order|[\".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "heading-order",
+      "impact": "moderate",
+      "tags": [
+        "best-practice",
+        "cat.semantics"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/heading-order?application=playwright",
+        "tags": [
+          "best-practice",
+          "cat.semantics"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 21</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 69,
+              "y": 2766.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "moderate",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/heading-order?application=playwright",
+        "tags": [
+          "best-practice",
+          "cat.semantics"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 21</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 69,
+              "y": 2766.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "heading-order|[\".p-4.justify-between.gap-4:nth-child(2) > .font-bold.grow\"]",
+      "ruleId": "heading-order",
+      "impact": "moderate",
+      "tags": [
+        "best-practice",
+        "cat.semantics"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/heading-order?application=playwright",
+        "tags": [
+          "best-practice",
+          "cat.semantics"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".p-4.justify-between.gap-4:nth-child(2) > .font-bold.grow"
+            ],
+            "html": "<h5 class=\"grow font-bold\">Pages</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 58,
+              "y": 2196.23,
+              "width": 201.36,
+              "height": 18.19
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "moderate",
+        "help": "Heading levels should only increase by one",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/heading-order?application=playwright",
+        "tags": [
+          "best-practice",
+          "cat.semantics"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".p-4.justify-between.gap-4:nth-child(2) > .font-bold.grow"
+            ],
+            "html": "<h5 class=\"grow font-bold\">Pages</h5>",
+            "failureSummary": "Fix any of the following:\n  Heading order invalid",
+            "bounds": {
+              "x": 58,
+              "y": 2196.23,
+              "width": 201.36,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\"#native-page-oitpros-1 > img\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "#native-page-oitpros-1 > img"
+            ],
+            "html": "<img src=\"/native-product-page-fixture/microsoft-365.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 17,
+              "y": 192.86,
+              "width": 341,
+              "height": 482.17
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "#native-page-oitpros-1 > img"
+            ],
+            "html": "<img src=\"/native-product-page-fixture/microsoft-365.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 17,
+              "y": 192.86,
+              "width": 341,
+              "height": 482.17
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2765.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2765.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3548.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3548.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3687.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3687.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3826.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3826.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3965.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3965.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 4104.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 4104.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2904.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 2904.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3065.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3065.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3226.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3226.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3387.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 41,
+              "y": 3387.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "unchanged",
+      "signature": "image-alt|[\"a[target=\\\"_blank\\\"] > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "image-alt",
+      "impact": "critical",
+      "tags": [
+        "ACT",
+        "EN-301-549",
+        "EN-9.1.1.1",
+        "RGAA-1.1.1",
+        "RGAAv4",
+        "TT7.a",
+        "TT7.b",
+        "TTv5",
+        "cat.text-alternatives",
+        "section508",
+        "section508.22.a",
+        "wcag111",
+        "wcag2a"
+      ],
+      "control": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "a[target=\"_blank\"] > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 175.05,
+              "y": 1089.03,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      },
+      "experiment": {
+        "impact": "critical",
+        "help": "Images must have alternative text",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/image-alt?application=playwright",
+        "tags": [
+          "ACT",
+          "EN-301-549",
+          "EN-9.1.1.1",
+          "RGAA-1.1.1",
+          "RGAAv4",
+          "TT7.a",
+          "TT7.b",
+          "TTv5",
+          "cat.text-alternatives",
+          "section508",
+          "section508.22.a",
+          "wcag111",
+          "wcag2a"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "a[target=\"_blank\"] > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Element does not have an alt attribute\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\"",
+            "bounds": {
+              "x": 175.05,
+              "y": 1089.03,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "landmark-one-main|[\"html\"]",
+      "ruleId": "landmark-one-main",
+      "impact": "moderate",
+      "tags": [
+        "best-practice",
+        "cat.semantics"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "Document should have one main landmark",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/landmark-one-main?application=playwright",
+        "tags": [
+          "best-practice",
+          "cat.semantics"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "html"
+            ],
+            "html": "<html lang=\"en\">",
+            "failureSummary": "Fix all of the following:\n  Document does not have a main landmark",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 375,
+              "height": 667
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".border-t.p-6.border-border\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".border-t.p-6.border-border"
+            ],
+            "html": "<section class=\"border-t border-border p-6\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 17,
+              "y": 1192.03,
+              "width": 341,
+              "height": 710.3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".divide-y\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".divide-y"
+            ],
+            "html": "<div class=\"grid divide-y divide-solid divide-border rounded border border-border bg-background\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 1990.33,
+              "width": 293,
+              "height": 353
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2765.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 21</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 2766.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(1) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">The examples translate directly to real administration work.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2713.63,
+              "width": 293,
+              "height": 44
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(1) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(1) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2679.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3548.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 16</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3549.53,
+              "width": 139.06,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(11) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Useful for experienced admins without becoming inaccessible to newer team members.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3474.63,
+              "width": 293,
+              "height": 66
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(11) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(11) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3440.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3687.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 15</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3688.53,
+              "width": 138.53,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(13) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Dense in the best way: searchable, current, and grounded in experience.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3635.63,
+              "width": 293,
+              "height": 44
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(13) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(13) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3601.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3826.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 14</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3827.53,
+              "width": 138.95,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(15) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">A dependable reference for both planning and troubleshooting.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3774.63,
+              "width": 293,
+              "height": 44
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(15) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(15) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3740.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3965.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 13</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3966.53,
+              "width": 138.59,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(17) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">The examples translate directly to real administration work.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3913.63,
+              "width": 293,
+              "height": 44
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(17) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(17) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3879.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 4104.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 12</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 4105.53,
+              "width": 138.44,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(19) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Saved our team hours of research during a tenant rollout.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 4052.63,
+              "width": 293,
+              "height": 44
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(19) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(19) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 4018.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2904.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 20</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 2905.53,
+              "width": 142.39,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(3) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Saved our team hours of research during a tenant rollout.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2852.63,
+              "width": 293,
+              "height": 44
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(3) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(3) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2818.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3065.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 19</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3066.53,
+              "width": 139.06,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(5) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Excellent operational detail and enough context to understand why each recommendation matters.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2991.63,
+              "width": 293,
+              "height": 66
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(5) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(5) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2957.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3226.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 18</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3227.53,
+              "width": 138.47,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(7) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">The monthly-update approach makes this far more useful than a conventional technical book.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3152.63,
+              "width": 293,
+              "height": 66
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(7) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(7) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3118.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > .aspect-square.w-5.rounded-full"
+            ],
+            "html": "<img class=\"aspect-square w-5 shrink-0 rounded-full border border-border\" src=\"/assets/gumroad-default-avatar-5-623b6723477dd15920db554b0a4e9aac6a5e41159fd3d7bb4c9f9745a44e4f85.png\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3387.63,
+              "width": 20,
+              "height": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > h5\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .gap-1.flex-wrap > .gap-2 > h5"
+            ],
+            "html": "<h5>Benchmark Reader 17</h5>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 69,
+              "y": 3388.53,
+              "width": 137.95,
+              "height": 18.19
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(9) > .m-0\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .m-0"
+            ],
+            "html": "<p class=\"m-0\">Clear, practical, and unusually thorough. I keep it open while administering our tenant.</p>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3313.63,
+              "width": 293,
+              "height": 66
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".grid.gap-2:nth-child(9) > .shrink-0[aria-label=\\\"5 stars\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".grid.gap-2:nth-child(9) > .shrink-0[aria-label=\"5 stars\"]"
+            ],
+            "html": "<span class=\"flex shrink-0 items-center\" aria-label=\"5 stars\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 3279.63,
+              "width": 293,
+              "height": 26
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".lg\\\\:border-r > header\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".lg\\:border-r > header"
+            ],
+            "html": "<header class=\"grid gap-4 p-6 not-first:border-t\"><h1 itemprop=\"name\">Microsoft 365 for IT Pros (2027 Edition). The Ultimate Guide to Managing Microsoft 365.</h1></header>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 17,
+              "y": 676.03,
+              "width": 341,
+              "height": 384
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".not-first\\\\:border-t.p-6.gap-4:nth-child(1) > .text-base.leading-snug[target=\\\"_top\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".not-first\\:border-t.p-6.gap-4:nth-child(1) > .text-base.leading-snug[target=\"_top\"]"
+            ],
+            "html": "<a href=\"https://localhost/ch...\" target=\"_top\" class=\"inline-flex items-ce...\" style=\"align-items: unset;\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 1926.33,
+              "width": 293,
+              "height": 48
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".not-first\\\\:border-t.p-6.gap-4:nth-child(2) > header\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".not-first\\:border-t.p-6.gap-4:nth-child(2) > header"
+            ],
+            "html": "<header class=\"flex items-center justify-between\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2456.33,
+              "width": 293,
+              "height": 25.3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".px-6.py-4.outline:nth-child(2)\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".px-6.py-4.outline:nth-child(2)"
+            ],
+            "html": "<div class=\"flex flex-wrap items-center gap-2 px-6 py-4 outline outline-offset-0 outline-border\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 151.05,
+              "y": 1061.03,
+              "width": 206.95,
+              "height": 76
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\".shrink-0.flex.items-center > .rating-number.ml-1\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              ".shrink-0.flex.items-center > .rating-number.ml-1"
+            ],
+            "html": "<span class=\"rating-number ml-1\">21 ratings</span>",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 145,
+              "y": 1154.03,
+              "width": 70,
+              "height": 22
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\"div[aria-controls=\\\"_r_6_\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "div[aria-controls=\"_r_6_\"]"
+            ],
+            "html": "<div role=\"combobox\" aria-expanded=\"false\" aria-controls=\"_r_6_\" tabindex=\"0\" class=\"flex cursor-pointer items-center rounded border border-border bg-background px-4 py-3\" aria-label=\"Add to wishlist\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 41,
+              "y": 2359.33,
+              "width": 237,
+              "height": 48
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\"figure\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "figure"
+            ],
+            "html": "<figure class=\"group relative col-span-full overflow-hidden rounded-t border-b border-border bg-(image:--product-cover-placeholder) bg-cover\" aria-label=\"Product preview\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks",
+            "bounds": {
+              "x": 17,
+              "y": 192.86,
+              "width": 341,
+              "height": 483.17
+            }
+          }
+        ]
+      }
+    },
+    {
+      "status": "fixed",
+      "signature": "region|[\"span[aria-describedby=\\\"_r_4_\\\"]\"]",
+      "ruleId": "region",
+      "impact": "moderate",
+      "tags": [
+        "RGAA-9.2.1",
+        "RGAAv4",
+        "best-practice",
+        "cat.keyboard"
+      ],
+      "control": {
+        "impact": "moderate",
+        "help": "All page content should be contained by landmarks",
+        "helpUrl": "https://dequeuniversity.com/rules/axe/4.11/region?application=playwright",
+        "tags": [
+          "RGAA-9.2.1",
+          "RGAAv4",
+          "best-practice",
+          "cat.keyboard"
+        ],
+        "nodes": [
+          {
+            "target": [
+              "span[aria-describedby=\"_r_4_\"]"
+            ],
+            "html": "<span aria-describedby=\"_r_4_\" style=\"display: contents;\">",
+            "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+          }
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "new": 0,
+    "fixed": 51,
+    "changed": 0,
+    "unchanged": 15,
+    "errors": 0,
+    "blocked": 0,
+    "newByImpact": {},
+    "fixedByImpact": {
+      "moderate": 51
+    },
+    "changedByImpact": {}
+  }
+}
