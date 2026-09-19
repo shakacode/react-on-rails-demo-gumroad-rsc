@@ -199,4 +199,4 @@ group :development do
   gem "bullet"
 end
 
-gem "react_on_rails_pro", "= 17.1.0.rc.5"
+gem "react_on_rails_pro", "= 17.1.0"
