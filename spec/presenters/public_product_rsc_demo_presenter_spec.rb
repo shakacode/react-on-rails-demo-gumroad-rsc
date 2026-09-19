@@ -126,8 +126,8 @@ describe PublicProductRscDemoPresenter do
     it "reports the React on Rails Pro and React 19 RSC package line used by the demo" do
       versions = presenter.react_stack_versions
 
-      expect(versions[:react]).to eq("19.2.8")
-      expect(versions[:react_dom]).to eq("19.2.8")
+      expect(versions[:react]).to eq("19.3.0")
+      expect(versions[:react_dom]).to eq("19.3.0")
       expect(versions[:react_on_rails_pro_gem]).to eq("17.1.0")
       expect(versions[:react_on_rails_pro_npm]).to eq("17.1.0")
       expect(versions[:react_on_rails_rsc]).to eq("19.3.0")
