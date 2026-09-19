@@ -45,7 +45,7 @@ group :test do
   gem "rspec-sidekiq", "~> 5.0"
   gem "rails-controller-testing", "~> 1.0"
   gem "vcr", "~> 6.1"
-  gem "webmock", "~> 3.18", require: "webmock/rspec"
+  gem "webmock", "~> 3.26", require: "webmock/rspec"
   gem "json_matchers", "~> 0.11", require: "json_matchers/rspec"
   gem "capybara_accessible_selectors", github: "citizensadvice/capybara_accessible_selectors",
                                        ref: "161b8c5b1a0a5408af914d7544956372e9da2c9e"
@@ -199,4 +199,4 @@ group :development do
   gem "bullet"
 end
 
-gem "react_on_rails_pro", "= 17.1.0.rc.5"
+gem "react_on_rails_pro", "= 17.1.0"
