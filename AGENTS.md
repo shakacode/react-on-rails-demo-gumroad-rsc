@@ -18,3 +18,13 @@ report the blocker instead.
 Portable shared skills resolve this repo's commands and policy through:
 - **Commands** — run `.agents/bin/<name>` (`setup`, `validate`, `test`, ...); see `.agents/bin/README.md`. A missing script means that capability is n/a here.
 - **Policy / config** — `.agents/agent-workflow.yml`.
+
+## Review and Merge Gate
+
+AI reviewers are advisory unless they confirm a blocker. Before merging,
+require every entry in `gh pr checks` to pass, all review threads to be
+resolved, and GitHub to report clean mergeability. The seam grants no standing
+merge authority; follow the direct user or maintainer instruction. Existing
+readiness and review-app conditions above still apply.
+
+Prefix follow-up issue titles with `Follow-up:`.
