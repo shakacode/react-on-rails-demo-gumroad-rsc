@@ -1,6 +1,7 @@
 name: Demo fleet smoke
 
 on:
+  merge_group:
   push:
     branches: [main]
   pull_request:
@@ -29,6 +30,7 @@ jobs:
           docker compose -f docker/docker-compose-local.yml down -v
         }
         trap cleanup EXIT
+        docker compose -f docker/docker-compose-local.yml up -d --wait --wait-timeout 180 db
         for port in 3306 6379 27017 9200 9000; do
           for attempt in $(seq 1 90); do
             ruby -rsocket -e "TCPSocket.new('127.0.0.1', ${port}).close" && break
