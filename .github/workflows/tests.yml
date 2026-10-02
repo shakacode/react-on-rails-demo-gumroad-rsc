@@ -108,6 +108,7 @@ jobs:
 
       - name: Wait for local services
         run: |
+          docker compose -f docker/docker-compose-local.yml up -d --wait --wait-timeout 180 db
           for port in 3306 6379 27017 9200 9000; do
             echo "Waiting for port ${port}..."
             for attempt in $(seq 1 90); do
