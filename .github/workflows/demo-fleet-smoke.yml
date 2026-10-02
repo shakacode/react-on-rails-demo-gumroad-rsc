@@ -1,6 +1,7 @@
 name: Demo fleet smoke
 
 on:
+  merge_group:
   push:
     branches: [main]
   pull_request:
