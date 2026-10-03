@@ -36,7 +36,7 @@ Rails.application.configure do
   end
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  config.asset_host = "#{PROTOCOL}://#{ASSET_DOMAIN}"
+  config.asset_host = ENV.key?("ASSET_HOST") ? ENV["ASSET_HOST"].presence : "#{PROTOCOL}://#{ASSET_DOMAIN}"
   config.hosts = [
     *VALID_REQUEST_HOSTS,
     *VALID_API_REQUEST_HOSTS,

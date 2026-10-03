@@ -1,14 +1,8 @@
 # frozen_string_literal: true
 
-product = Link.fetch("demo")
-if product.blank?
-  # Demo product used on /widgets page for non-logged in users
-  seller = User.find_by(email: "seller@gumroad.com")
-  seller.products.create!(
-    name: "Beautiful widget",
-    unique_permalink: "demo",
-    description: "Description for demo product",
-    filetype: "link",
-    price_cents: 0,
-  )
-end
+require Rails.root.join("lib/development_staging_product_catalog")
+
+entry = DevelopmentStagingProductCatalog.fetch(category: "demo")
+seller = User.find_by!(email: entry.seller_email)
+# Demo product used on /widgets page for non-logged in users.
+DevelopmentStagingProductCatalog.reconcile_product!(seller:, entry:)

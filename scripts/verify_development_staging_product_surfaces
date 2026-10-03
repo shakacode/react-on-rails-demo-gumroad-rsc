@@ -1,0 +1,86 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+database_prefix=${SURFACE_SNAPSHOT_DATABASE_PREFIX:-gumroad_surface_snapshot_$$}
+
+case "$database_prefix" in
+  *[!A-Za-z0-9_]*)
+    echo "SURFACE_SNAPSHOT_DATABASE_PREFIX must contain only letters, digits, and underscores" >&2
+    exit 1
+    ;;
+esac
+
+left_database="${database_prefix}_control"
+right_database="${database_prefix}_experiment"
+workspace=$(mktemp -d)
+left_snapshot="$workspace/control.json"
+right_snapshot="$workspace/experiment.json"
+
+free_port() {
+  bundle exec ruby -rsocket -e 'server = TCPServer.new("127.0.0.1", 0); puts server.addr[1]; server.close'
+}
+
+left_redis_port=$(free_port)
+right_redis_port=$(free_port)
+while [ "$right_redis_port" = "$left_redis_port" ]; do
+  right_redis_port=$(free_port)
+done
+
+redis-server --bind 127.0.0.1 --port "$left_redis_port" --save "" --appendonly no \
+  --daemonize yes --pidfile "$workspace/redis-control.pid" --logfile "$workspace/redis-control.log" --dir "$workspace"
+redis-server --bind 127.0.0.1 --port "$right_redis_port" --save "" --appendonly no \
+  --daemonize yes --pidfile "$workspace/redis-experiment.pid" --logfile "$workspace/redis-experiment.log" --dir "$workspace"
+
+run_for_side() {
+  database=$1
+  redis_port=$2
+  shift 2
+  env \
+    RAILS_ENV=test \
+    DATABASE_NAME="$database" \
+    TEST_DATABASE_NAME="$database" \
+    MONGO_DATABASE_NAME="${database}_mongo" \
+    REDIS_HOST="127.0.0.1:${redis_port}/0" \
+    SIDEKIQ_REDIS_HOST="127.0.0.1:${redis_port}/1" \
+    RPUSH_REDIS_HOST="127.0.0.1:${redis_port}/2" \
+    RACK_ATTACK_REDIS_HOST="127.0.0.1:${redis_port}/3" \
+    RAILS_DISABLE_TEST_LOG=true \
+    DISABLE_SPRING=1 \
+    "$@"
+}
+
+cleanup() {
+  run_for_side "$left_database" "$left_redis_port" bundle exec rails db:drop >/dev/null 2>&1 || true
+  run_for_side "$right_database" "$right_redis_port" bundle exec rails db:drop >/dev/null 2>&1 || true
+  redis-cli -h 127.0.0.1 -p "$left_redis_port" shutdown nosave >/dev/null 2>&1 || true
+  redis-cli -h 127.0.0.1 -p "$right_redis_port" shutdown nosave >/dev/null 2>&1 || true
+  if [ "${SURFACE_SNAPSHOT_KEEP_WORKSPACE:-false}" = "true" ]; then
+    echo "Kept surface snapshots at $workspace" >&2
+    return
+  fi
+  find "$workspace" -type f -delete 2>/dev/null || true
+  rmdir "$workspace" 2>/dev/null || true
+}
+trap cleanup EXIT HUP INT TERM
+
+cd "$repo_root"
+
+create_snapshot() {
+  database=$1
+  redis_port=$2
+  output=$3
+  seed_log="$workspace/${database}.seed.log"
+  run_for_side "$database" "$redis_port" bundle exec rails db:create db:schema:load
+  if ! run_for_side "$database" "$redis_port" bundle exec rails runner \
+    scripts/seed_development_staging_products.rb >"$seed_log" 2>&1; then
+    cat "$seed_log" >&2
+    return 1
+  fi
+  run_for_side "$database" "$redis_port" bundle exec rails runner scripts/snapshot_development_staging_product_surfaces.rb "$output"
+}
+
+create_snapshot "$left_database" "$left_redis_port" "$left_snapshot"
+create_snapshot "$right_database" "$right_redis_port" "$right_snapshot"
+run_for_side "$left_database" "$left_redis_port" bundle exec rails runner \
+  scripts/compare_development_staging_product_surface_snapshots.rb "$left_snapshot" "$right_snapshot"

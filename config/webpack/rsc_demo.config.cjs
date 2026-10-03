@@ -15,10 +15,9 @@ const buildEnvironment = (() => {
 const publicOutputDirectory = buildEnvironment === "test" ? "public/packs-test" : "public/packs";
 const publicOutputPath = path.join(rootPath, publicOutputDirectory);
 const mode = buildEnvironment === "production" ? "production" : "development";
-const rscClientReferencesDirectories = [
-  "src/dashboard_rsc_demo/ror_components",
-  "src/public_product_rsc_demo/ror_components",
-].map((directory) => path.relative(packsPath, path.join(sourcePath, directory)));
+const rscClientReferencesDirectories = ["src/next_rsc"].map((directory) =>
+  path.relative(packsPath, path.join(sourcePath, directory)),
+);
 
 const baseResolve = {
   extensions: [".js", ".mjs", ".ts", ".tsx", ".json"],
@@ -31,7 +30,12 @@ const baseResolve = {
   },
 };
 
-const createEsbuildUse = (loader, rscBundle = false) => [
+const tsSafeCastLoader = {
+  loader: path.join(__dirname, "loaders", "transformerLoader.js"),
+  options: { transformer: "ts-safe-cast" },
+};
+
+const createEsbuildUse = (loader, rscBundle = false, transformTypeScript = false) => [
   {
     loader: "esbuild-loader",
     options: {
@@ -40,18 +44,19 @@ const createEsbuildUse = (loader, rscBundle = false) => [
     },
   },
   ...(rscBundle ? [{ loader: "react-on-rails-rsc/WebpackLoader" }] : []),
+  ...(transformTypeScript ? [tsSafeCastLoader] : []),
 ];
 
 const createScriptRules = (rscBundle = false) => [
   {
     test: /\.tsx$/u,
     exclude: /node_modules\/(?!ts-safe-cast)/u,
-    use: createEsbuildUse("tsx", rscBundle),
+    use: createEsbuildUse("tsx", rscBundle, true),
   },
   {
     test: /\.ts$/u,
     exclude: /node_modules\/(?!ts-safe-cast)/u,
-    use: createEsbuildUse("ts", rscBundle),
+    use: createEsbuildUse("ts", rscBundle, true),
   },
   {
     test: /\.(js|mjs)$/u,
@@ -80,10 +85,30 @@ const assetRule = {
   generator: { filename: "static/[hash][ext][query]" },
 };
 
+const cssRule = {
+  test: /\.css$/u,
+  use: ["style-loader", "css-loader"],
+};
+
 const basePlugins = (ssr) => [
   new webpack.ProvidePlugin({ Routes: path.join(sourcePath, "utils/routes.js") }),
   new webpack.DefinePlugin({ SSR: JSON.stringify(ssr) }),
 ];
+
+const nodeWebApiPolyfills = () =>
+  new webpack.BannerPlugin({
+    banner: "globalThis.File ??= class File {};",
+    raw: true,
+    entryOnly: true,
+  });
+
+const serverResolve = {
+  ...baseResolve,
+  alias: {
+    ...baseResolve.alias,
+    "@rails/activestorage$": path.join(__dirname, "activestorage_server.js"),
+  },
+};
 
 const rscWebpackPluginOptions = (isServer) => ({
   isServer,
@@ -100,12 +125,11 @@ const clientConfig = {
   devtool: mode === "production" ? "nosources-source-map" : "cheap-module-source-map",
   context: packsPath,
   entry: {
-    dashboard_rsc_demo: "./dashboard_rsc_demo.tsx",
-    public_product_rsc_demo: "./public_product_rsc_demo.tsx",
+    next_rsc_page: "./next_rsc_page.tsx",
   },
   resolve: baseResolve,
   module: {
-    rules: [assetRule, ...createScriptRules(false)],
+    rules: [assetRule, cssRule, ...createScriptRules(false)],
   },
   plugins: [...basePlugins(false), new RSCWebpackPlugin(rscWebpackPluginOptions(false))],
   output: {
@@ -123,16 +147,17 @@ const serverConfig = {
   entry: {
     "server-bundle": "./dashboard_rsc_demo_server_entry.tsx",
   },
-  resolve: baseResolve,
+  resolve: serverResolve,
   target: "node",
   module: {
-    rules: [assetRule, ...createScriptRules(false)],
+    rules: [assetRule, cssRule, ...createScriptRules(false)],
   },
   optimization: {
     minimize: false,
   },
   plugins: [
     ...basePlugins(true),
+    nodeWebApiPolyfills(),
     new RSCWebpackPlugin(rscWebpackPluginOptions(true)),
     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
   ],
@@ -153,10 +178,10 @@ const rscConfig = {
     "rsc-bundle": "./dashboard_rsc_demo_server_entry.tsx",
   },
   resolve: {
-    ...baseResolve,
+    ...serverResolve,
     conditionNames: ["react-server", "..."],
     alias: {
-      ...baseResolve.alias,
+      ...serverResolve.alias,
       "react-dom/server": false,
     },
   },
@@ -167,7 +192,7 @@ const rscConfig = {
   optimization: {
     minimize: false,
   },
-  plugins: [...basePlugins(true), new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
+  plugins: [...basePlugins(true), nodeWebApiPolyfills(), new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 })],
   output: {
     filename: "rsc-bundle.js",
     globalObject: "this",

@@ -133,7 +133,7 @@ class LinksController < ApplicationController
                                   ChargeProcessor::DEFAULT_CURRENCY_CODE
     @pay_with_card_enabled = @product.user.pay_with_card_enabled?
     presenter = ProductPresenter.new(pundit_user:, product: @product, request:)
-    presenter_props = { recommended_by: params[:recommended_by], discount_code: params[:offer_code] || params[:code], quantity: (params[:quantity] || 1).to_i, layout: params[:layout], seller_custom_domain_url: product_seller_profile_url }
+    presenter_props = { recommended_by: params[:recommended_by], discount_code: params[:offer_code] || params[:code], quantity: (params[:quantity] || 1).to_i, layout: params[:layout], seller_custom_domain_url: }
     @body_class = "iframe" if params[:overlay] || params[:embed]
 
     if ["search", "discover"].include?(params[:recommended_by])
@@ -236,15 +236,12 @@ class LinksController < ApplicationController
     # Else, redirect to the creator's subdomain, if it exists.
     # E.g., we want to redirect gumroad.com/l/id to username.gumroad.com/l/id
     creator_subdomain_with_protocol = @product.user.subdomain_with_protocol
-    branch_request = GumroadDomainConstraint.control_plane_branch_host?(request.host)
-    target_host = if branch_request
+    target_host = if GumroadDomainConstraint.control_plane_branch_host?(request.host)
       request.host
-    elsif !@is_user_custom_domain && creator_subdomain_with_protocol.present?
-      creator_subdomain_with_protocol
     else
-      request.host
+      !@is_user_custom_domain && creator_subdomain_with_protocol.present? ? creator_subdomain_with_protocol : request.host
     end
-    target_permalink = branch_request ? @product.unique_permalink : @product.general_permalink
+    target_permalink = @product.general_permalink
 
     searched_id = params[:id] || params[:link_id]
 
@@ -512,13 +509,6 @@ class LinksController < ApplicationController
   end
 
   private
-    def product_seller_profile_url
-      return seller_custom_domain_url unless GumroadDomainConstraint.control_plane_branch_host?(request.host)
-      return if @product.user.username.blank?
-
-      user_url(@product.user.username, host: request.host_with_port, protocol: request.protocol)
-    end
-
     def fetch_product_for_show
       fetch_product_by_custom_domain || fetch_product_by_general_permalink
     end
@@ -553,12 +543,7 @@ class LinksController < ApplicationController
       custom_or_unique_permalink = params[:id] || params[:link_id]
       e404 if custom_or_unique_permalink.blank?
 
-      @product = if GumroadDomainConstraint.control_plane_branch_host?(request.host)
-        Link.fetch(custom_or_unique_permalink)
-      else
-        Link.fetch_leniently(custom_or_unique_permalink, user: user_by_domain(request.host))
-      end
-      @product ||= e404
+      @product = Link.fetch_leniently(custom_or_unique_permalink, user: user_by_domain(request.host)) || e404
     end
 
     def preload_product

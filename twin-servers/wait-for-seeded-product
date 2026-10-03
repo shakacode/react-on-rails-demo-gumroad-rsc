@@ -1,0 +1,52 @@
+#!/bin/sh
+set -eu
+
+case "${1:-}" in
+  control)
+    port="${SHAKAPERF_CONTROL_PORT:-3100}"
+    host="seller.legacy.gumroad.reactonrails.com"
+    ;;
+  experiment)
+    port="${SHAKAPERF_EXPERIMENT_PORT:-3200}"
+    host="seller.next.gumroad.reactonrails.com"
+    ;;
+  *)
+    echo "Usage: $0 <control|experiment>" >&2
+    exit 2
+    ;;
+esac
+
+url="http://${host}:${port}/l/demo"
+max_attempts="${SHAKAPERF_READINESS_ATTEMPTS:-60}"
+connect_timeout="${SHAKAPERF_READINESS_CONNECT_TIMEOUT_SECONDS:-2}"
+request_timeout="${SHAKAPERF_READINESS_REQUEST_TIMEOUT_SECONDS:-5}"
+retry_delay="${SHAKAPERF_READINESS_RETRY_DELAY_SECONDS:-1}"
+attempt=0
+echo "Waiting for seeded product: ${url}"
+while true; do
+  status=""
+  if status="$(curl \
+    --silent \
+    --show-error \
+    --output /dev/null \
+    --write-out '%{http_code}' \
+    --noproxy '*' \
+    --connect-timeout "${connect_timeout}" \
+    --max-time "${request_timeout}" \
+    --location \
+    --max-redirs 0 \
+    --resolve "${host}:${port}:127.0.0.1" \
+    "${url}")" && [ "${status}" = "200" ]; then
+    break
+  fi
+
+  attempt=$((attempt + 1))
+  if [ "${attempt}" -ge "${max_attempts}" ]; then
+    echo "Timed out waiting for seeded product: ${url}" >&2
+    exit 1
+  fi
+  sleep "${retry_delay}"
+done
+
+echo "Seeded product ready: ${url}"
+exec tail -f /dev/null

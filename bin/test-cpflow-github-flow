@@ -342,11 +342,15 @@ end
 
 controlplane_config = YAML.load_file(".controlplane/controlplane.yml", aliases: true)
 apps = controlplane_config.fetch("apps")
+legacy_app = apps.fetch("react-on-rails-demo-gumroad-legacy")
+next_app = apps.fetch("react-on-rails-demo-gumroad-next")
 review_app = apps.fetch("react-on-rails-demo-gumroad-rsc-review-pr")
 staging_app = apps.fetch("react-on-rails-demo-gumroad-rsc-staging")
 production_app = apps.fetch("react-on-rails-demo-gumroad-rsc-production")
 
 {
+  "react-on-rails-demo-gumroad-legacy" => legacy_app,
+  "react-on-rails-demo-gumroad-next" => next_app,
   "react-on-rails-demo-gumroad-rsc-review-pr" => review_app,
   "react-on-rails-demo-gumroad-rsc-staging" => staging_app,
 }.each do |app_name, app_config|
@@ -354,6 +358,18 @@ production_app = apps.fetch("react-on-rails-demo-gumroad-rsc-production")
   next if release_script.include?("ALLOW_DEMO_SEED=true")
 
   abort "#{app_name} release_script must set ALLOW_DEMO_SEED=true for public demo seeds"
+end
+
+{
+  "react-on-rails-demo-gumroad-legacy" => legacy_app,
+  "react-on-rails-demo-gumroad-next" => next_app,
+}.each do |app_name, app_config|
+  unless Array(app_config["setup_app_templates"]).include?("surface_app")
+    abort "#{app_name} must use surface_app so its databases stay isolated from the landing app"
+  end
+
+  grant = Array(app_config["shared_secret_grants"]).find { |candidate| candidate["name"] == "demo_app" }
+  abort "#{app_name} must declare the demo_app shared-secret grant" unless grant
 end
 
 production_release_script = production_app["release_script"].to_s
