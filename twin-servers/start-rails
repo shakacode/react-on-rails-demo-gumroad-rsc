@@ -1,0 +1,23 @@
+#!/bin/sh
+set -eu
+
+pidfile="tmp/pids/server.pid"
+if [ -f "${pidfile}" ]; then
+  old_pid="$(cat "${pidfile}")"
+  if kill -0 "${old_pid}" 2>/dev/null; then
+    kill "${old_pid}"
+  fi
+  rm -f "${pidfile}"
+fi
+
+if [ -z "${STRONGBOX_GENERAL:-}" ]; then
+  STRONGBOX_GENERAL="$(ruby -ropenssl -e 'print OpenSSL::PKey::RSA.generate(2048).to_pem')"
+  export STRONGBOX_GENERAL
+fi
+
+export STRONGBOX_GENERAL_PASSWORD="${STRONGBOX_GENERAL_PASSWORD:-}"
+export OBFUSCATE_IDS_CIPHER_KEY="${OBFUSCATE_IDS_CIPHER_KEY:-shakaperf-local-cipher-key}"
+export OBFUSCATE_IDS_NUMERIC_CIPHER_KEY="${OBFUSCATE_IDS_NUMERIC_CIPHER_KEY:-1234}"
+mkdir -p public/images
+cp app/assets/images/pink-icon.png public/images/pink-icon.png
+exec bundle exec rails server -b 0.0.0.0 -p 3000

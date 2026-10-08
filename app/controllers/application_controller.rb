@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include ReactOnRailsPro::Stream
+
   protect_from_forgery
 
   include LoggedInUser
@@ -20,10 +22,11 @@ class ApplicationController < ActionController::Base
   include InertiaRendering
   include PageMeta::Base, PageMeta::Analytics
 
+  before_action :expose_demo_rendering_surface
   before_action :set_default_page_title
   before_action :set_csrf_meta_tags
   before_action :set_default_meta_tags
-  helper_method :erb_meta_tags, :page_title
+  helper_method :content_security_policy_nonce, :erb_meta_tags, :page_title
   before_action :set_analytics_meta_tags
   helper_method :analytics_enabled?
 
@@ -146,6 +149,22 @@ class ApplicationController < ActionController::Base
     end
 
   private
+    def content_security_policy_nonce(directive = :script)
+      if directive == :style
+        SecureHeaders.content_security_policy_style_nonce(request)
+      else
+        SecureHeaders.content_security_policy_script_nonce(request)
+      end
+    end
+
+    def demo_rendering_surface
+      @demo_rendering_surface ||= DemoRenderingSurface.current(request:)
+    end
+
+    def expose_demo_rendering_surface
+      response.set_header("X-Gumroad-Rendering-Surface", demo_rendering_surface.to_s)
+    end
+
     def redirect_to_custom_subdomain
       redirect_url = SubdomainRedirectorService.new.redirect_url_for(request)
       redirect_to(redirect_url, allow_other_host: true) if redirect_url.present?

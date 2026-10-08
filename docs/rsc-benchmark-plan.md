@@ -92,6 +92,14 @@ The first public `RSC` demo should be considered a meaningful performance win on
 
 If the page gets only marginally better while becoming much more complex, that is not a win.
 
+### Outcome against this bar (August 12, 2026)
+
+The native-product ShakaPerf run does **not** pass the full original success
+bar. FCP/LCP and JavaScript request count improve, but JavaScript transfer grows
+`206%`, downloads grow `36–56%`, `TTFB` regresses, and the suite exits failed
+with two performance regressions. Treat the paint result as a bounded pilot
+signal, not completion of this plan.
+
 ## Qualitative checks
 
 The performance result is not enough by itself. Also record:

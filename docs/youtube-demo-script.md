@@ -52,18 +52,17 @@ Same public marketplace data, different rendering model.
 ### State the measured result
 
 ```text
-On the current stable media-bearing ShakaPerf run, the Discover RSC route cuts combined-median navigation duration from about 1098ms to 630ms.
-The product detail route shows a larger win: about 1124ms to 575ms combined-median navigation duration.
-The same run keeps the direction honest: JavaScript requests drop from nine to one, while response-end is about the same on Product and inconclusive on Discover.
-The PageSpeed links are still useful, but the current live-versus-demo Lighthouse fallback is diagnostic only because the pages did not load equivalent media and production chrome.
-That is not a universal win, but it is a real buyer-page win on bounded public surfaces.
+The current ShakaPerf CLI run measures two native product pages under mobile Lighthouse.
+FCP falls from about 7.7 seconds to 1.85 seconds on both. LCP improves 74 percent on Microsoft 365 and 49 percent on Residential Design, while JavaScript requests fall from 41 to 3.
+The costs stay on screen: downloads grow 56 and 36 percent, JavaScript transfer grows 206 percent, TTFB regresses, and Microsoft TBT moves from zero to 199 milliseconds.
+The command exits failed with two performance regressions. This proves faster paint on these route pairs, not that RSC is better overall.
 ```
 
 ### Close
 
 ```text
 That makes this interesting for product positioning and for a narrow upstream discussion.
-The next honest proof gates are defining production parity, validating mobile-throttled behavior, and rerunning after React on Rails Pro 17.0.0 final. PageSpeed or field-data corroboration still requires documented media, chrome, CDN, cache, and third-party parity, especially for INP.
+The next honest proof gates are reducing payload and TTFB, restoring production parity, rerunning the exact product pairs, and collecting field data.
 ```
 
 ## Full version script
@@ -94,9 +93,9 @@ Both use the same production-shaped synthetic fixture, so we are measuring rende
 ### 4. Explain the actual result
 
 ```text
-Both public RSC routes win on combined-median navigation duration in the stable media-bearing run, and route JavaScript requests drop from nine to one.
-Product detail improves median LCP from 662ms to 602ms; Discover improves from 768ms to 648ms, with more run-to-run noise.
-The tradeoff is a larger encoded HTML body. Response-end is about the same on Product and inconclusive on Discover, not an RSC win.
+Both native product RSC routes paint materially faster in the current ShakaPerf run, and JavaScript requests drop from 41 to 3.
+Microsoft 365 LCP moves from 13.92 seconds to 3.64; Residential Design moves from 16.88 to 8.63.
+The tradeoff is heavier delivery and slower TTFB. The suite fails two performance gates, so the decision is pilot, not rollout.
 ```
 
 ### 5. Separate the two stories
@@ -118,7 +117,7 @@ It is meant to help decide what should be positioned, what should be optimized n
 ### 7. Close with the honest ask
 
 ```text
-If PageSpeed API or field data corroborates the media-bearing same-fixture result after production-equivalent media and CDN parity, especially for INP, this becomes a credible Gumroad-facing proposal.
+If field data corroborates the paint result after production-equivalent media, analytics, bundles, and CDN parity—and the payload regressions are fixed or accepted—this becomes a credible Gumroad-facing proposal.
 If not, it is still valuable because it tells us where the tradeoff actually lives.
 ```
 
@@ -126,7 +125,7 @@ If not, it is still valuable because it tells us where the tradeoff actually liv
 
 1. README top section with the hosted public result
 2. `/rsc-demo`
-3. `/rsc-demo/evidence#current-shakaperf-result`
+3. `/rsc-demo/evidence#native-shakaperf-result`
 4. `/public_product/discover_inertia_demo`
 5. `/public_product/discover_rsc_demo`
 6. `docs/public-buyer-page-performance-results.md` metrics table
@@ -137,9 +136,9 @@ If not, it is still valuable because it tells us where the tradeoff actually liv
 
 - `bounded comparison surface`
 - `matched Inertia control`
-- `public buyer-page win`
-- `reduced client JavaScript`
-- `mobile proof gate`
+- `faster paint, heavier payload`
+- `fewer JavaScript requests`
+- `failed suite, bounded pilot`
 - `promising, not universal`
 
 ## Phrases to avoid

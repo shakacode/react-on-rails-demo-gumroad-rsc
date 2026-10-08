@@ -1,0 +1,192 @@
+{
+  "captured_at_utc": "2026-08-12T00:47:40.752Z",
+  "runner": "shaka-perf v0.2.4",
+  "browser": "Google Chrome 151.0.7922.109",
+  "command": "shaka-perf compare --filter 'Microsoft 365 product,Residential Design product' --full-report-zip",
+  "method": "Actual ShakaPerf CLI run: 10 simultaneous mobile Lighthouse measurements per side and product, phone viewport 375 x 667, desktop and phone visual regression, a final serial low-noise capture, and axe accessibility comparisons.",
+  "control_revision": "e720df1b4f13781af1b1b14efd10fe8a31e76641",
+  "experiment_revision": "0c16a6cd36a2e2c89a7090e21c838a013b4d2654",
+  "host_ports": {
+    "control": 3100,
+    "experiment": 3200
+  },
+  "container_port": 3000,
+  "exit_status": 1,
+  "exit_summary": "FAILED: 2 perf regressions",
+  "results": [
+    {
+      "label": "Microsoft 365 seeded product",
+      "control_url": "http://localhost:3100/l/O365IT?layout=discover&recommended_by=search",
+      "experiment_url": "http://localhost:3200/l/O365IT?layout=discover&recommended_by=search&rsc=1",
+      "metrics": [
+        {
+          "label": "FCP (lower is better)",
+          "control": "7.71s",
+          "experiment": "1.85s",
+          "change": "-76%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "LCP (lower is better)",
+          "control": "13.92s",
+          "experiment": "3.64s",
+          "change": "-74%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "CLS (lower is better)",
+          "control": "48.7/100",
+          "experiment": "0.8/100",
+          "change": "-98%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "Lighthouse score (higher is better)",
+          "control": "35/100",
+          "experiment": "77/100",
+          "change": "+42 points",
+          "p_value": "0.005174"
+        },
+        {
+          "label": "TBT (lower is better)",
+          "control": "0ms",
+          "experiment": "199ms",
+          "change": "+198ms",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "TTFB (lower is better)",
+          "control": "229ms",
+          "experiment": "315ms",
+          "change": "+35%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "JavaScript transfer (lower is better)",
+          "control": "724.3KB",
+          "experiment": "2219.7KB",
+          "change": "+206%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "JavaScript requests (lower is better)",
+          "control": "41",
+          "experiment": "3",
+          "change": "-93%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "All requests (lower is better)",
+          "control": "61",
+          "experiment": "19",
+          "change": "-69%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "All downloads (lower is better)",
+          "control": "2152.2KB",
+          "experiment": "3361.7KB",
+          "change": "+56%",
+          "p_value": "0.001953"
+        }
+      ],
+      "quality": "10 control and 10 experiment measurements. Phone visual diff: 0%. Desktop visual diff: 0.42% Chromium cover antialiasing, accepted by the documented 0.5% test threshold. Axe found no new issues and 51 moderate findings fixed per viewport (102 across desktop and phone)."
+    },
+    {
+      "label": "Residential Design seeded product",
+      "control_url": "http://localhost:3100/l/bgfjk?layout=discover&recommended_by=search",
+      "experiment_url": "http://localhost:3200/l/bgfjk?layout=discover&recommended_by=search&rsc=1",
+      "metrics": [
+        {
+          "label": "FCP (lower is better)",
+          "control": "7.81s",
+          "experiment": "1.85s",
+          "change": "-76%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "LCP (lower is better)",
+          "control": "16.88s",
+          "experiment": "8.63s",
+          "change": "-49%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "CLS (lower is better)",
+          "control": "25.3/100",
+          "experiment": "0.9/100",
+          "change": "-97%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "Lighthouse score (higher is better)",
+          "control": "43/100",
+          "experiment": "71/100",
+          "change": "+28 points",
+          "p_value": "0.004237"
+        },
+        {
+          "label": "TBT (lower is better)",
+          "control": "0ms",
+          "experiment": "0ms",
+          "change": "no difference",
+          "p_value": "1"
+        },
+        {
+          "label": "TTFB (lower is better)",
+          "control": "222ms",
+          "experiment": "341ms",
+          "change": "+39%",
+          "p_value": "0.001953"
+        },
+        {
+          "label": "JavaScript transfer (lower is better)",
+          "control": "724.3KB",
+          "experiment": "2219.7KB",
+          "change": "+206%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "JavaScript requests (lower is better)",
+          "control": "41",
+          "experiment": "3",
+          "change": "-93%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "All requests (lower is better)",
+          "control": "72",
+          "experiment": "30",
+          "change": "-58%",
+          "p_value": "0.001904"
+        },
+        {
+          "label": "All downloads (lower is better)",
+          "control": "3425.7KB",
+          "experiment": "4643.4KB",
+          "change": "+36%",
+          "p_value": "0.005889"
+        }
+      ],
+      "quality": "10 control and 10 experiment measurements after ShakaPerf recovered one flaky attempt by retrying. Desktop and phone visual diffs: 0%. Axe found no new issues, 52 moderate findings fixed per viewport, and 7 existing critical image-alt findings changed DOM selectors per viewport."
+    }
+  ],
+  "conclusion": "This run proves statistically significant RSC wins for FCP, LCP, CLS, Lighthouse score, and request count on both products. It does not prove that RSC is better overall: TTFB and transferred bytes regress on both products, and Microsoft TBT regresses. The ShakaPerf command therefore exits nonzero with two performance regressions.",
+  "historical_pr": {
+    "number": 69,
+    "url": "https://github.com/shakacode/react-on-rails-demo-gumroad-rsc/pull/69",
+    "merge_commit": "cc61125b02ec0282ec455c044240e97b6a33b741",
+    "clarification": "PR 69 declared the earlier performance case, but its July 2026 tables were generated by scripts/perf/compare_dashboard_routes.rb using Ruby/Selenium, not by the shaka-perf CLI."
+  },
+  "raw_artifacts": [
+    "raw/report.json",
+    "raw/microsoft-perf.json",
+    "raw/residential-perf.json",
+    "raw/microsoft-desktop-visreg.json",
+    "raw/microsoft-phone-visreg.json",
+    "raw/residential-desktop-visreg.json",
+    "raw/residential-phone-visreg.json",
+    "raw/microsoft-phone-accessibility.json",
+    "raw/residential-phone-accessibility.json"
+  ]
+}
