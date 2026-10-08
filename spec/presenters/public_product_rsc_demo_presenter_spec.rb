@@ -128,8 +128,8 @@ describe PublicProductRscDemoPresenter do
 
       expect(versions[:react]).to eq("19.2.8")
       expect(versions[:react_dom]).to eq("19.2.8")
-      expect(versions[:react_on_rails_pro_gem]).to eq("17.2.0.rc.0")
-      expect(versions[:react_on_rails_pro_npm]).to eq("17.2.0-rc.0")
+      expect(versions[:react_on_rails_pro_gem]).to eq("17.2.0.rc.1")
+      expect(versions[:react_on_rails_pro_npm]).to eq("17.2.0-rc.1")
       expect(versions[:react_on_rails_rsc]).to eq("19.3.0")
     end
   end
