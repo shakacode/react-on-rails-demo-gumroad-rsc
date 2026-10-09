@@ -252,17 +252,21 @@ bin/test-cpflow-github-flow
 docker build -f .controlplane/Dockerfile -t gumroad-rsc-cpflow-smoke .
 ```
 
-The wrappers currently point at:
+The wrappers currently point at the commit of the `v6.0.0` release:
 
 ```yaml
-uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@v6.0.0
+uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@68b5d83152c02a70eb98ffdc7fd2072e28265fef # v6.0.0
 ```
 
-To update only the pinned reusable-workflow ref:
+To update only the pinned reusable-workflow ref, pass the release tag and its
+commit SHA:
 
 ```sh
-bin/pin-cpflow-github-ref v6.0.0
+bin/pin-cpflow-github-ref --version v6.0.0 68b5d83152c02a70eb98ffdc7fd2072e28265fef
 ```
+
+`bin/test-cpflow-github-flow-custom` rejects release tags older than `v5.2.0`
+because they predate health-aware completion.
 
 If the renderer workload is changed, confirm it still exposes port `3800` as
 `http2`; React on Rails Pro's Node renderer speaks cleartext HTTP/2.
