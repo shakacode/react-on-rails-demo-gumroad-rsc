@@ -252,17 +252,17 @@ bin/test-cpflow-github-flow
 docker build -f .controlplane/Dockerfile -t gumroad-rsc-cpflow-smoke .
 ```
 
-The wrappers currently point at the commit of the `v6.0.0` release:
+The wrappers currently point at the commit of the `v6.0.1` release:
 
 ```yaml
-uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@68b5d83152c02a70eb98ffdc7fd2072e28265fef # v6.0.0
+uses: shakacode/control-plane-flow/.github/workflows/<workflow>.yml@6aa575780f2d9175755881b79cbb3253adbc9c1f # v6.0.1
 ```
 
 To update only the pinned reusable-workflow ref, pass the release tag and its
 commit SHA:
 
 ```sh
-bin/pin-cpflow-github-ref --version v6.0.0 68b5d83152c02a70eb98ffdc7fd2072e28265fef
+bin/pin-cpflow-github-ref --version v6.0.1 6aa575780f2d9175755881b79cbb3253adbc9c1f
 ```
 
 `bin/test-cpflow-github-flow-custom` rejects release tags older than `v5.2.0`
