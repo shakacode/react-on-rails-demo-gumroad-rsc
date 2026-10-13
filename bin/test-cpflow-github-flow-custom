@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+echo "==> check cpflow refs are health-aware releases"
+ruby <<'RUBY'
+require "yaml"
+require "rubygems/version"
+
+CONTROL_PLANE_FLOW_WORKFLOW = %r{\Ashakacode/control-plane-flow/\.github/workflows/[^@\s]+@([^\s]+)\z}
+MINIMUM_HEALTH_AWARE_RELEASE = Gem::Version.new("5.2.0")
+STABLE_RELEASE_TAG = /\Av(?<version>\d+\.\d+\.\d+)\z/
+FULL_COMMIT_SHA = /\A[0-9a-f]{40}\z/i
+CPFLOW_REF_CLASSIFIER_CASES = {
+  "0123456789abcdef0123456789abcdef01234567" => :full_commit_sha,
+  "0123456789abcdef0123456789abcdef0123456" => :unsupported,
+  "0123456789abcdef0123456789abcdef012345678" => :unsupported,
+  "g123456789abcdef0123456789abcdef01234567" => :unsupported,
+  "v5.2.0" => :stable_release,
+  "v6.0.0" => :stable_release,
+  "main" => :unsupported,
+  "v5.1.9" => :unsupported,
+  "v5.2.0-rc.1" => :unsupported
+}.freeze
+
+def classify_cpflow_ref(ref)
+  return :full_commit_sha if ref.match?(FULL_COMMIT_SHA)
+
+  release_match = ref.match(STABLE_RELEASE_TAG)
+  return :stable_release if release_match && Gem::Version.new(release_match[:version]) >= MINIMUM_HEALTH_AWARE_RELEASE
+
+  :unsupported
+end
+
+CPFLOW_REF_CLASSIFIER_CASES.each do |ref, expected|
+  actual = classify_cpflow_ref(ref)
+  abort "cpflow ref classifier expected #{ref.inspect} to be #{expected}, got #{actual}" unless actual == expected
+end
+
+puts "cpflow ref classifier boundary cases passed"
+
+refs = Hash.new { |hash, key| hash[key] = [] }
+
+Dir[".github/workflows/cpflow-*.yml"].sort.each do |path|
+  doc = YAML.load_file(path, aliases: true)
+  doc.fetch("jobs", {}).each do |job_name, job|
+    next unless job.is_a?(Hash)
+
+    uses_match = job["uses"].to_s.match(CONTROL_PLANE_FLOW_WORKFLOW)
+    refs[uses_match[1]] << "#{path}:#{job_name}" if uses_match
+
+    Array(job["steps"]).each do |step|
+      step_with = step["with"].is_a?(Hash) ? step["with"] : {}
+
+      if step_with["repository"] == "shakacode/control-plane-flow"
+        refs[step_with["ref"].to_s] << "#{path}:#{job_name} checkout"
+      end
+
+      setup_match = step_with["control_plane_flow_ref"].to_s.match(CONTROL_PLANE_FLOW_WORKFLOW)
+      refs[setup_match[1]] << "#{path}:#{job_name} setup" if setup_match
+    end
+  end
+end
+
+abort "no upstream cpflow refs found in .github/workflows/cpflow-*.yml" if refs.empty?
+
+refs.each do |ref, locations|
+  case classify_cpflow_ref(ref)
+  when :full_commit_sha
+    puts "cpflow refs: #{ref} (full commit SHA)"
+  when :stable_release
+    puts "cpflow refs: #{ref} (health-aware)"
+  else
+    abort "cpflow workflow wrappers must use stable health-aware release v#{MINIMUM_HEALTH_AWARE_RELEASE} or newer; " \
+          "or a full commit SHA for temporary upstream testing; found #{ref.inspect} at #{locations.join(', ')}"
+  end
+end
+RUBY
+
+echo "==> check trusted database secret prep checkout"
+ruby <<'RUBY'
+require "yaml"
+
+EXPECTED_TRUSTED_PREPARE_CHECKOUT_ACTION = "actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0"
+EXPECTED_TRUSTED_DEFAULT_BRANCH_REF = "${{ github.event.repository.default_branch }}"
+TRUSTED_PREPARE_HELPER = "bin/prepare-control-plane-db-secrets"
+
+class WorkflowInvariantError < StandardError; end
+
+def validate_trusted_prepare_checkout!(path, job)
+  steps = Array(job["steps"])
+  checkout_indexes = steps.each_index.select do |index|
+    steps[index]["uses"].to_s.start_with?("actions/checkout@")
+  end
+
+  unless checkout_indexes.one?
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets must contain exactly one trusted checkout"
+  end
+
+  checkout_index = checkout_indexes.first
+  helper_index = steps.index { |step| step["run"].to_s.include?(TRUSTED_PREPARE_HELPER) }
+
+  unless helper_index
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets helper invocation is missing"
+  end
+
+  unless checkout_index < helper_index
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets trusted checkout must precede the helper invocation"
+  end
+
+  checkout = steps.fetch(checkout_index)
+  unless checkout["uses"] == EXPECTED_TRUSTED_PREPARE_CHECKOUT_ACTION
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets must use #{EXPECTED_TRUSTED_PREPARE_CHECKOUT_ACTION}"
+  end
+
+  checkout_with = checkout.fetch("with", {})
+  unless checkout_with["ref"] == EXPECTED_TRUSTED_DEFAULT_BRANCH_REF
+    raise WorkflowInvariantError,
+          "#{path}:prepare-control-plane-db-secrets must check out the repository default branch"
+  end
+
+  return if checkout_with["persist-credentials"] == false
+
+  raise WorkflowInvariantError,
+        "#{path}:prepare-control-plane-db-secrets must disable persisted checkout credentials"
+end
+
+review_deploy_path = ".github/workflows/cpflow-deploy-review-app.yml"
+review_deploy_doc = YAML.load_file(review_deploy_path, aliases: true)
+prepare_job = review_deploy_doc.fetch("jobs", {}).fetch("prepare-control-plane-db-secrets") do
+  abort "#{review_deploy_path}:prepare-control-plane-db-secrets job is missing"
+end
+
+begin
+  validate_trusted_prepare_checkout!(review_deploy_path, prepare_job)
+rescue WorkflowInvariantError => e
+  abort e.message
+end
+
+mutated_prepare_job = Marshal.load(Marshal.dump(prepare_job))
+mutated_steps = Array(mutated_prepare_job["steps"])
+helper_index = mutated_steps.index { |step| step["run"].to_s.include?(TRUSTED_PREPARE_HELPER) }
+abort "#{review_deploy_path}:prepare-control-plane-db-secrets helper invocation is missing" unless helper_index
+
+trusted_checkout = mutated_steps.find { |step| step["uses"].to_s.start_with?("actions/checkout@") }
+mutated_steps.insert(helper_index, Marshal.load(Marshal.dump(trusted_checkout)))
+
+begin
+  validate_trusted_prepare_checkout!(review_deploy_path, mutated_prepare_job)
+rescue WorkflowInvariantError => e
+  abort "later checkout mutation failed for the wrong reason: #{e.message}" unless e.message.include?("exactly one")
+
+  puts "later workspace-overwriting checkout mutation rejected"
+else
+  abort "trusted checkout guard accepted a later workspace-overwriting checkout"
+end
+
+reordered_prepare_job = Marshal.load(Marshal.dump(prepare_job))
+reordered_steps = Array(reordered_prepare_job["steps"])
+checkout_index = reordered_steps.index { |step| step["uses"].to_s.start_with?("actions/checkout@") }
+reordered_steps << reordered_steps.delete_at(checkout_index)
+
+begin
+  validate_trusted_prepare_checkout!(review_deploy_path, reordered_prepare_job)
+rescue WorkflowInvariantError => e
+  unless e.message.include?("must precede the helper invocation")
+    abort "checkout ordering mutation failed for the wrong reason: #{e.message}"
+  end
+
+  puts "checkout-after-helper mutation rejected"
+else
+  abort "trusted checkout guard accepted checkout after the helper invocation"
+end
+RUBY
+
+echo "==> check Gumroad database secret prep guards"
+ruby <<'RUBY'
+require "yaml"
+
+SCRIPT = "bin/prepare-control-plane-db-secrets"
+
+def workflow(path)
+  YAML.load_file(path, aliases: true)
+end
+
+def job(path, name)
+  workflow(path).fetch("jobs", {}).fetch(name) do
+    abort "#{path}:#{name} job is missing"
+  end
+end
+
+def require_job_run(path, job_name)
+  run = Array(job(path, job_name).fetch("steps", [])).map { |step| step["run"].to_s }.join("\n")
+  return if run.include?(SCRIPT)
+
+  abort "#{path}:#{job_name} must run #{SCRIPT} before deploying"
+end
+
+def require_step_run(path, job_name, step_name)
+  steps = Array(job(path, job_name).fetch("steps", []))
+  step = steps.find { |candidate| candidate["name"] == step_name }
+
+  unless step
+    abort "#{path}:#{job_name} must include a #{step_name.inspect} step"
+  end
+
+  return if step["run"].to_s.include?(SCRIPT)
+
+  abort "#{path}:#{job_name} #{step_name.inspect} step must run #{SCRIPT}"
+end
+
+require_job_run(".github/workflows/cpflow-deploy-staging.yml", "prepare-control-plane-db-secrets")
+require_job_run(".github/workflows/cpflow-deploy-review-app.yml", "prepare-control-plane-db-secrets")
+require_step_run(
+  ".github/workflows/cpflow-promote-staging-to-production.yml",
+  "promote-to-production",
+  "Prepare production database secrets",
+)
+
+puts "Gumroad database secret prep guards are present"
+RUBY
+
+echo "==> check Control Plane demo seed scoping"
+ruby <<'RUBY'
+require "yaml"
+
+app_template = YAML.load_file(".controlplane/templates/app.yml", aliases: true)
+template_env_names = Array(app_template.dig("spec", "env")).map { |env| env["name"] }
+
+if template_env_names.include?("ALLOW_DEMO_SEED")
+  abort ".controlplane/templates/app.yml must not set ALLOW_DEMO_SEED; the shared app template can be applied to production."
+end
+
+controlplane_config = YAML.load_file(".controlplane/controlplane.yml", aliases: true)
+apps = controlplane_config.fetch("apps")
+review_app = apps.fetch("react-on-rails-demo-gumroad-rsc-review-pr")
+staging_app = apps.fetch("react-on-rails-demo-gumroad-rsc-staging")
+production_app = apps.fetch("react-on-rails-demo-gumroad-rsc-production")
+
+{
+  "react-on-rails-demo-gumroad-rsc-review-pr" => review_app,
+  "react-on-rails-demo-gumroad-rsc-staging" => staging_app,
+}.each do |app_name, app_config|
+  release_script = app_config["release_script"].to_s
+  next if release_script.include?("ALLOW_DEMO_SEED=true")
+
+  abort "#{app_name} release_script must set ALLOW_DEMO_SEED=true for public demo seeds"
+end
+
+production_release_script = production_app["release_script"].to_s
+if production_release_script.include?("ALLOW_DEMO_SEED")
+  abort "production release_script must not set ALLOW_DEMO_SEED"
+end
+
+puts "Control Plane demo seed scoping is production-safe"
+RUBY
