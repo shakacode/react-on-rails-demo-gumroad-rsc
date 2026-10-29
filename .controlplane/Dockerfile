@@ -1,4 +1,4 @@
-ARG RUBY_VERSION=3.4.3
+ARG RUBY_VERSION=3.4.12
 
 FROM docker.io/library/node:20.19.0-bookworm-slim AS node
 FROM ruby:${RUBY_VERSION}-slim-bookworm
